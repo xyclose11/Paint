@@ -1,13 +1,11 @@
 package com.paint;
 
+import com.paint.controller.UtilityController;
+import com.paint.view.CanvasView;
 import com.paint.view.SharedLayout;
 import com.paint.view.UtilityMenu;
 import javafx.application.Application;
-import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -18,9 +16,12 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws IOException {
         SharedLayout sharedLayout = new SharedLayout();
-        VBox rootLayout = sharedLayout.Init();
+        VBox rootLayout = sharedLayout.getLayout();
+        UtilityMenu utilityMenu = sharedLayout.getUtilityMenu();
+        CanvasView canvasView = sharedLayout.getCanvasView();
+        new UtilityController(utilityMenu, canvasView);
 
-        Scene primaryScene = new Scene(rootLayout, 600, 450);
+        Scene primaryScene = new Scene(rootLayout, 725, 550);
         primaryStage.setScene(primaryScene);
         primaryStage.show();
     }

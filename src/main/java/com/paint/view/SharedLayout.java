@@ -3,22 +3,29 @@ package com.paint.view;
 import javafx.scene.layout.VBox;
 
 public class SharedLayout {
-	private VBox rootContainer;
+	private VBox layout;
 	private UtilityMenu utilityMenu;
 	private ToolMenu toolMenu;
 	private CanvasView canvasView;
 	private InfoBar infoBar;
 
 	public SharedLayout() {
-		rootContainer = new VBox();
+		layout = new VBox();
 		utilityMenu = new UtilityMenu();
 		toolMenu = new ToolMenu();
 		canvasView = new CanvasView();
 		infoBar = new InfoBar();
+		layout.getChildren().addAll(utilityMenu.getLayout(), toolMenu.getLayout(), canvasView.getLayout(), infoBar.getLayout());
 	}
 
-	public VBox Init() {
-		rootContainer.getChildren().addAll(utilityMenu.Init(), toolMenu.Init(), canvasView.Init(), infoBar.Init());
-		return rootContainer;
+	public VBox getLayout() {
+		return layout;
+	}
+
+	public CanvasView getCanvasView() {
+		return canvasView;
+	}
+	public UtilityMenu getUtilityMenu() {
+		return utilityMenu;
 	}
 }

@@ -7,7 +7,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.HBox;
 
 public class UtilityMenu {
-	private HBox rootContainer;
+	private HBox layout;
 	private MenuBar menuBar;
 	private MenuButton fileSettings;
 	private Menu menu;
@@ -17,27 +17,28 @@ public class UtilityMenu {
 	private MenuItem saveAs;
 
 	public UtilityMenu() {
-		rootContainer = new HBox();
+		layout = new HBox();
+		layout.setMinHeight(20);
+		layout.setPrefHeight(25);
 		open = new MenuItem("Open");
+		open.setId("OpenUtilityMenu");
 		save = new MenuItem("Save");
+		save.setId("SaveUtilityMenu");
 		saveAs = new MenuItem("Save As");
+		saveAs.setId("SaveAsUtilityMenu");
 		menu = new Menu("File");
 		menuBar = new MenuBar();
-	}
-
-	public HBox Init() {
 		menu.getItems().addAll(open,save,saveAs);
 		menuBar.getMenus().add(menu);
-		rootContainer.getChildren().addAll(menuBar);
-		return rootContainer;
+		layout.getChildren().addAll(menuBar);
+	}
+
+	public HBox getLayout() {
+		return layout;
 	}
 
 	public MenuBar getMenuBar() {
 		return menuBar;
-	}
-
-	public HBox getRootContainer() {
-		return rootContainer;
 	}
 
 	public MenuButton getFileSettings() {
@@ -52,7 +53,7 @@ public class UtilityMenu {
 		this.menuBar = menuBar;
 	}
 
-	public void setRootContainer(HBox rootContainer) {
-		this.rootContainer = rootContainer;
+	public void setLayout(HBox layout) {
+		this.layout = layout;
 	}
 }
