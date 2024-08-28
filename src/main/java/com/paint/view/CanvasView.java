@@ -40,6 +40,7 @@ public class CanvasView{
 		HBox hBox = new HBox(stackPane);
 
 		scrollPane.setContent(hBox);
+		scrollPane.setMinViewportWidth(450);
 		layout.getChildren().add(scrollPane);
 		layout.setFillHeight(false);
 		layout.setAlignment(Pos.CENTER);
@@ -95,5 +96,9 @@ public class CanvasView{
 
 	public WritableImage getWritableImage() {
 		return writableImage;
+	}
+
+	public Image getImageViewImage() {
+		return this.imageView.getImage();
 	}
 }
