@@ -6,6 +6,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -31,6 +32,8 @@ public class CanvasView{
 		GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
 		graphicsContext.setFill(Color.BLACK);
 
+		WritableImage writableImage = new WritableImage(300, 600);
+		imageView.setImage(writableImage);
 
 		stackPane.getChildren().addAll(canvas, imageView);
 		HBox hBox = new HBox(stackPane);

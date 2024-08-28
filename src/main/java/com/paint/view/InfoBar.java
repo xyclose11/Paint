@@ -9,9 +9,8 @@ public class InfoBar {
 
 	public InfoBar() {
 		layout = new HBox();
-		layout.setMinHeight(7.4);
-		layout.setMaxHeight(12);
-		layout.setPrefHeight(10);
+		layout.setMinHeight(12);
+		layout.setMaxHeight(15);
 		label = new Label();
 		label.setText("This is the info bar");
 		layout.getChildren().addAll(label);

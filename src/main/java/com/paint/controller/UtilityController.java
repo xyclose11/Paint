@@ -11,6 +11,8 @@ import javafx.scene.image.Image;
 import javafx.stage.FileChooser;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 public class UtilityController {
 	private UtilityMenu utilityMenu;
@@ -33,6 +35,8 @@ public class UtilityController {
 		// Index 0 is the first Menu which contains File settings
 		menuItemsFileSettings.get(0).setOnAction(this::handleFileOpen); // TODO convert this into a loop to add event listeners to each menuItem
 
+		menuItemsFileSettings.get(1).setOnAction(this::handleFileSave);
+		menuItemsFileSettings.get(2).setOnAction(this::handleFileSaveAs);
 	}
 
 	private void handleFileOpen(ActionEvent event) {
@@ -52,5 +56,39 @@ public class UtilityController {
 		Image image = new Image(selectedFile.getAbsolutePath());
 		canvasView.setImageViewImage(image);
 
+	}
+
+	private void handleFileSave(ActionEvent event) {
+//		try {
+//
+//		} catch (IOException e) {
+//			System.out.println(e);
+//		}
+	}
+
+	private void handleFileSaveAs(ActionEvent event) {
+		FileChooser fileChooser = new FileChooser();
+
+		fileChooser.getExtensionFilters().addAll(
+				new FileChooser.ExtensionFilter("PNG Files", "*.png")
+				,new FileChooser.ExtensionFilter("JPEG Files", "*.jpeg")
+		);
+
+		File file = fileChooser.showSaveDialog(null);
+
+		if (file != null) {
+			//saveImageToFile();
+		}
+	}
+
+	private void saveImageToFile(Image image, File file) {
+		try {
+			PrintWriter writer;
+			writer = new PrintWriter(file);
+			writer.println(image);
+			writer.close();
+		} catch (IOException e) {
+			System.out.println(e);
+		}
 	}
 }
