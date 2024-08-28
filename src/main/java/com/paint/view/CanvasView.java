@@ -17,6 +17,7 @@ public class CanvasView{
 	private Canvas canvas;
 	private StackPane stackPane;
 	private ImageView imageView;
+	private WritableImage writableImage;
 
 	public CanvasView() {
 //		super();
@@ -32,7 +33,7 @@ public class CanvasView{
 		GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
 		graphicsContext.setFill(Color.BLACK);
 
-		WritableImage writableImage = new WritableImage(300, 600);
+		writableImage = new WritableImage(300, 600);
 		imageView.setImage(writableImage);
 
 		stackPane.getChildren().addAll(canvas, imageView);
@@ -86,5 +87,13 @@ public class CanvasView{
 
 	public void setImageViewImage(Image image) {
 		this.imageView.setImage(image);
+	}
+
+	public void setWritableImage(WritableImage writableImage) {
+		this.writableImage = writableImage;
+	}
+
+	public WritableImage getWritableImage() {
+		return writableImage;
 	}
 }

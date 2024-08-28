@@ -8,11 +8,11 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 public class UtilityController {
 	private UtilityMenu utilityMenu;
@@ -53,8 +53,15 @@ public class UtilityController {
 		File selectedFile = fileChooser.showOpenDialog(null);
 
 		// Create new Image object and update the canvas imageView
-		Image image = new Image(selectedFile.getAbsolutePath());
-		canvasView.setImageViewImage(image);
+		try {
+			Double canvasWidth = canvasView.getLayout().getWidth();
+			Double canvasHeight = canvasView.getLayout().getHeight();
+
+			Image image = new Image(selectedFile.toURI().toURL().toExternalForm(), canvasWidth, canvasHeight, true,true);
+			canvasView.setImageViewImage(image);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 
@@ -75,20 +82,20 @@ public class UtilityController {
 		);
 
 		File file = fileChooser.showSaveDialog(null);
+		WritableImage writableImage = this.canvasView.getWritableImage();
+		this.canvasView.getCanvas().snapshot(null, writableImage);
 
 		if (file != null) {
-			//saveImageToFile();
+			saveImageToFile(writableImage, file);
 		}
+
 	}
 
-	private void saveImageToFile(Image image, File file) {
-		try {
-			PrintWriter writer;
-			writer = new PrintWriter(file);
-			writer.println(image);
-			writer.close();
-		} catch (IOException e) {
-			System.out.println(e);
-		}
+	private void saveImageToFile(WritableImage writableImage, File file) {
+//		try {
+//			ImageIO.write(writableImage, "png", file);
+//		} catch (IOException e) {
+//			System.out.println(e);
+//		}
 	}
 }
