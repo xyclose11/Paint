@@ -6,6 +6,7 @@ import com.paint.view.UtilityMenu;
 import javafx.collections.ObservableList;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
@@ -61,7 +62,9 @@ public class UtilityController {
 
 		File selectedFile = fileChooser.showOpenDialog(null);
 
-		if (selectedFile == null) { // TODO make this alert the user that the file had an error with importing
+		if (selectedFile == null) { // TODO create a corrupt image file to test
+			// Show an alert if the desired file had issues uploading
+			new Alert(Alert.AlertType.INFORMATION, "No File Selected");
 			return;
 		}
 
@@ -90,6 +93,7 @@ public class UtilityController {
 			});
 
 		} catch (IOException e) {
+			new Alert(Alert.AlertType.ERROR, "Unable to open the image at this time. Stack Trace: " + e.getMessage());
 			e.printStackTrace();
 		}
 
@@ -150,6 +154,7 @@ public class UtilityController {
 			// Create new file or overwrite file with same name, with designated fileExtension at the path file
 			ImageIO.write(bufferedImage, fileExtension, file);
 		} catch (IOException e) {
+			new Alert(Alert.AlertType.ERROR, "Unable to save the image at this time. Stack Trace: " + e.getMessage() );
 			e.printStackTrace();
 		}
 	}
