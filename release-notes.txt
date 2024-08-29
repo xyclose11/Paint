@@ -1,0 +1,19 @@
+Pain(t) Release Notes
+Version 1.0.0 (SemVer)
+
+New Features:
+    - Ability to open either a .png or a .jpeg file
+    - Ability to save (overwrite) a file in .png or .jpeg format
+    - Ability to save a file as a new file in .png or .jpeg format
+    - Autoscaling canvas adjusts its size when importing a file
+
+Known Issues:
+    - When a large image is imported a large portion may be off-screen due to the lack of scaling
+    - Scrollbar "sticks" to the canvas view instead of the bottom/right side
+    - When trying to "save as" a 2nd time the filename remains the same
+
+Upcoming Features:
+    - Image/Canvas scaling
+    - .bmp file format support
+    - Keyboard shortcuts (i.e. CTRL + s -> save, etc)
+    - Ability to make simple shapes on the canvas

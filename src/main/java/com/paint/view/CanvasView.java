@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 public class CanvasView{
 	private HBox hLayout;
 	public VBox vLayout;
-	private ScrollPane scrollPane;
+	private ScrollPane scrollPane; // TODO replace this with a regular scrollbar for vertical & horizontal to avoid current layout issues
 	private Canvas canvas;
 	private WritableImage writableImage;
 
@@ -77,5 +77,4 @@ public class CanvasView{
 	public void setVLayout(VBox vLayout) {
 		this.vLayout = vLayout;
 	}
-
 }

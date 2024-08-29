@@ -41,7 +41,6 @@ public class UtilityController {
 
 		// Index 0 is the first Menu which contains File settings
 		menuItemsFileSettings.get(0).setOnAction(this::handleFileOpen); // TODO convert this into a loop to add event listeners to each menuItem
-
 		menuItemsFileSettings.get(1).setOnAction(this::handleFileSave);
 		menuItemsFileSettings.get(2).setOnAction(this::handleFileSaveAs);
 	}
@@ -83,10 +82,9 @@ public class UtilityController {
 	}
 
 	private void waitForImageLoad(Image image) {
-		// Create new Image object and update the canvas imageView
 		// Wait for image to load
 		image.progressProperty().addListener((obs, oldProgress, newProgress) -> {
-			if (newProgress.doubleValue() == 1.0) { // SUCCESS -> Image is loaded
+			if (newProgress.doubleValue() == 1.0) { // -> Image is loaded
 				// Set canvas dimensions to match image dimensions
 				canvasView.getCanvas().setWidth(image.getWidth());
 				canvasView.getCanvas().setHeight(image.getHeight());
@@ -94,6 +92,8 @@ public class UtilityController {
 				// Get pixelReader to convert Image to a WritableImage to set the main canvas
 				PixelReader pixelReader = image.getPixelReader();
 				WritableImage writableImage = new WritableImage(pixelReader, (int) (image.getWidth()), (int)(image.getHeight()));
+
+				// Set canvas to the writableImage
 				canvasView.getCanvas().getGraphicsContext2D().drawImage(writableImage, 0, 0);
 
 			}
