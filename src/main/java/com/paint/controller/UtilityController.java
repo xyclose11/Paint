@@ -9,6 +9,8 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.WritableImage;
 import javafx.stage.FileChooser;
 
 import javax.imageio.ImageIO;
@@ -52,6 +54,10 @@ public class UtilityController {
 				,new FileChooser.ExtensionFilter("JPEG Files", "*.jpeg")
 		);
 
+		File paintFileDir = createFileChooserDir(null, null);
+
+		fileChooser.setInitialDirectory(paintFileDir);
+
 
 		File selectedFile = fileChooser.showOpenDialog(null);
 
@@ -61,13 +67,24 @@ public class UtilityController {
 
 		// Create new Image object and update the canvas imageView
 		try {
-			Double canvasWidth = canvasView.getLayout().getWidth();
-			Double canvasHeight = canvasView.getLayout().getHeight();
 
+			// Create base Image
 			Image image = new Image(selectedFile.toURI().toURL().toExternalForm(),true);
-			canvasView.getLayout().setMinSize(image.getWidth(), image.getHeight());
 
-			canvasView.setImageViewImage(image);
+			// Wait for image to load
+			image.progressProperty().addListener((obs, oldProgress, newProgress) -> {
+				if (newProgress.doubleValue() == 1.0) { // Image is loaded
+					// Get pixelReader to convert Image to a WritableImage to set the main canvas
+					PixelReader pixelReader = image.getPixelReader();
+					WritableImage writableImage = new WritableImage(pixelReader, (int) (image.getWidth()), (int)(image.getHeight()));
+					canvasView.getCanvas().getGraphicsContext2D().drawImage(writableImage, 0, 0);
+
+					// Set canvas dimensions to match image dimensions
+					canvasView.getCanvas().setWidth(image.getWidth());
+					canvasView.getCanvas().setHeight(image.getHeight());
+				}
+			});
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -77,9 +94,14 @@ public class UtilityController {
 	private void handleFileSave(ActionEvent event) {
 		Image imageToSave = canvasView.getImageViewImage();
 
-		if (imageToSave == null) {
-			return; // TODO remove this when the canvas is implemented and you can save WritableImages
+		// If there is no image to save create a blank image & save as
+		// TODO once canvas is setup to integrate images convert this to handle appropriate files
+		if (imageToSave == null || imageToSave.getUrl() == null) {
+			handleFileSaveAs(event);
+			return;
 		}
+
+
 
 		// Remove "file:" from the image's path
 		String splitFileName = imageToSave.getUrl().substring(6); // TODO find a better way to implement this
@@ -96,20 +118,17 @@ public class UtilityController {
 		FileChooser fileChooser = new FileChooser();
 
 		fileChooser.getExtensionFilters().addAll(
-				new FileChooser.ExtensionFilter("PNG Files", "*.png")
-				,new FileChooser.ExtensionFilter("JPEG Files", "*.jpeg")
+				new FileChooser.ExtensionFilter("PNG (*.png)", "*.png")
+				,new FileChooser.ExtensionFilter("JPEG (*.jpeg)", "*.jpeg")
 		);
 
-		File paintFileDir = new File(System.getProperty("user.home"), ".paint/projects");
-		if (!paintFileDir.exists()) {
-			paintFileDir.mkdirs();
-		}
+		File paintFileDir = createFileChooserDir(null, null);
+
+		fileChooser.setInitialDirectory(paintFileDir);
 
 		fileChooser.setTitle("Save Image");
 
-		fileChooser.setInitialFileName("image");
-
-		fileChooser.setInitialDirectory(paintFileDir);
+		fileChooser.setInitialFileName("image"); // TODO add incremental count if the filename already exists
 
 		File file = fileChooser.showSaveDialog(null);
 
@@ -117,7 +136,6 @@ public class UtilityController {
 //		writableImage = this.canvasView.getImageView().snapshot(null, writableImage);
 
 		Image imageToSave = this.canvasView.getImageViewImage(); // Temporary code to only display the image itself
-
 		// Get file extension
 		String fileExtension = file.getName().substring(file.getName().lastIndexOf("."));
 		if (file != null) {
@@ -133,5 +151,22 @@ public class UtilityController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private File createFileChooserDir(String rootName, String dirName) {
+		if (rootName == null) { // TODO adjust to catch empty strings
+			rootName = "user.home";
+		}
+
+		if (dirName == null) {
+			dirName = ".paint/projects";
+		}
+
+		File paintFileDir = new File(System.getProperty(rootName), dirName);
+		if (!paintFileDir.exists()) {
+			paintFileDir.mkdirs();
+		}
+
+		return paintFileDir;
 	}
 }

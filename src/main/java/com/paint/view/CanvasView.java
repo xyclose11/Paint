@@ -2,48 +2,40 @@ package com.paint.view;
 
 import javafx.geometry.Pos;
 import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
+import javafx.scene.layout.VBox;
 
 public class CanvasView{
-	private HBox layout;
+	private HBox hLayout;
+	public VBox vLayout;
 	private ScrollPane scrollPane;
 	private Canvas canvas;
-	private StackPane stackPane;
-	private ImageView imageView;
 	private WritableImage writableImage;
 
 	public CanvasView() {
-//		super();
 		canvas = new Canvas();
-		layout = new HBox();
+		hLayout = new HBox();
+		vLayout = new VBox();
 		scrollPane = new ScrollPane();
-		stackPane = new StackPane();
-		imageView = new ImageView();
 
-		canvas.setHeight(300);
+		// Set initial canvas dimensions
+		canvas.setHeight(800);
 		canvas.setWidth(600);
-		canvas.autosize();
-		GraphicsContext graphicsContext = canvas.getGraphicsContext2D();
-		graphicsContext.setFill(Color.BLACK);
 
-		writableImage = new WritableImage(300, 600);
-		imageView.setImage(writableImage);
+		scrollPane.setContent(canvas);
 
-		stackPane.getChildren().addAll(canvas, imageView);
-		HBox hBox = new HBox(stackPane);
+		vLayout.getChildren().add(scrollPane);
+		vLayout.setAlignment(Pos.CENTER);
+		vLayout.setFillWidth(true);
 
-		scrollPane.setContent(hBox);
-		scrollPane.setMinViewportWidth(450);
-		layout.getChildren().add(scrollPane);
-		layout.setFillHeight(false);
-		layout.setAlignment(Pos.CENTER);
+		// Bind vLayout's width to allow vLayout's children to adjust hLayouts size
+		hLayout.prefWidthProperty().bind(vLayout.widthProperty());
+		hLayout.getChildren().addAll(vLayout);
+		hLayout.setFillHeight(true);
+		hLayout.setAlignment(Pos.CENTER);
+		//layout.setPadding(new Insets(15, 300, 15, 20));
 	}
 
 	public Canvas getCanvas() {
@@ -55,39 +47,20 @@ public class CanvasView{
 	}
 
 	public HBox getLayout() {
-		return layout;
+		return hLayout;
 	}
 
 	public void setLayout(HBox layout) {
-		this.layout = layout;
+		this.hLayout = layout;
 	}
 
-	public ImageView getImageView() {
-		return imageView;
-	}
 
 	public ScrollPane getScrollPane() {
 		return scrollPane;
 	}
-
-	public StackPane getStackPane() {
-		return stackPane;
-	}
-
-	public void setImageView(ImageView imageView) {
-		this.imageView = imageView;
-	}
-
+	
 	public void setScrollPane(ScrollPane scrollPane) {
 		this.scrollPane = scrollPane;
-	}
-
-	public void setStackPane(StackPane stackPane) {
-		this.stackPane = stackPane;
-	}
-
-	public void setImageViewImage(Image image) {
-		this.imageView.setImage(image);
 	}
 
 	public void setWritableImage(WritableImage writableImage) {
@@ -98,7 +71,12 @@ public class CanvasView{
 		return writableImage;
 	}
 
-	public Image getImageViewImage() {
-		return this.imageView.getImage();
+	public VBox getVLayout() {
+		return vLayout;
 	}
+
+	public void setVLayout(VBox vLayout) {
+		this.vLayout = vLayout;
+	}
+
 }
