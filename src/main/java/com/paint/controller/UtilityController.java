@@ -14,19 +14,21 @@ import javafx.scene.image.WritableImage;
 import javafx.stage.FileChooser;
 
 import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
 
 public class UtilityController {
 	private UtilityMenu utilityMenu;
 	private CanvasView canvasView;
+	private File currentFile; // Used to manage state during runtime
 
 	public UtilityController (UtilityMenu utilityMenu, CanvasView canvasView) {
 
 		this.utilityMenu = utilityMenu;
 		this.canvasView = canvasView;
-		attachEventHandlers();
+		currentFile = null;   // Initialized as null currently since each app startup will be blank | TODO alter state management
+		attachEventHandlers();// when you are able to reconstruct a previous project on initialization
 	}
 
 	private void attachEventHandlers() {
@@ -55,15 +57,16 @@ public class UtilityController {
 		);
 
 		File paintFileDir = createFileChooserDir(null, null);
-
 		fileChooser.setInitialDirectory(paintFileDir);
-
 
 		File selectedFile = fileChooser.showOpenDialog(null);
 
 		if (selectedFile == null) { // TODO make this alert the user that the file had an error with importing
 			return;
 		}
+
+		// Adjust state of currentFile
+		currentFile = selectedFile;
 
 		// Create new Image object and update the canvas imageView
 		try {
@@ -73,7 +76,7 @@ public class UtilityController {
 
 			// Wait for image to load
 			image.progressProperty().addListener((obs, oldProgress, newProgress) -> {
-				if (newProgress.doubleValue() == 1.0) { // Image is loaded
+				if (newProgress.doubleValue() == 1.0) { // SUCCESS -> Image is loaded
 					// Get pixelReader to convert Image to a WritableImage to set the main canvas
 					PixelReader pixelReader = image.getPixelReader();
 					WritableImage writableImage = new WritableImage(pixelReader, (int) (image.getWidth()), (int)(image.getHeight()));
@@ -91,27 +94,26 @@ public class UtilityController {
 
 	}
 
-	private void handleFileSave(ActionEvent event) {
-		Image imageToSave = canvasView.getImageViewImage();
+	// Save image process
+	// 1. Create an empty WritableImage object with desired dimensions
+	// 2. Take a canvas snapshot (This will capture every pixel on the canvas)
+	// 3. Create a BufferedImage object using SwingFXUtils.fromFXImage(writableImage, null)
+	// 4. Create a File object that contains the desired save path
+	// 5. Call ImageIO.write()
 
-		// If there is no image to save create a blank image & save as
-		// TODO once canvas is setup to integrate images convert this to handle appropriate files
-		if (imageToSave == null || imageToSave.getUrl() == null) {
+	private void handleFileSave(ActionEvent event) {
+		// Check if there is a current file opened
+		if (currentFile == null) {
+			// Redirect request to handleFileSaveAs
 			handleFileSaveAs(event);
 			return;
 		}
 
+		String filePath = currentFile.getAbsolutePath();
+		String fileExt = getFileExt(filePath);
+		File file = new File(filePath); // Find the previously saved file
 
-
-		// Remove "file:" from the image's path
-		String splitFileName = imageToSave.getUrl().substring(6); // TODO find a better way to implement this
-		File file = new File(splitFileName);
-
-		// Sets the last updated date/time for the image/file
-		file.setLastModified(new Date().getTime());
-
-		String fileExtension = file.getName().substring(file.getName().lastIndexOf("."));
-		saveImageToFile(imageToSave, file, fileExtension);
+		saveImageToFile(file, fileExt);
 	}
 
 	private void handleFileSaveAs(ActionEvent event) {
@@ -123,34 +125,36 @@ public class UtilityController {
 		);
 
 		File paintFileDir = createFileChooserDir(null, null);
-
 		fileChooser.setInitialDirectory(paintFileDir);
-
 		fileChooser.setTitle("Save Image");
+		fileChooser.setInitialFileName("Untitled"); // Default filename // TODO use filenameFilter to check if the name already exists
 
-		fileChooser.setInitialFileName("image"); // TODO add incremental count if the filename already exists
 
 		File file = fileChooser.showSaveDialog(null);
+		String fileExt = getFileExt(file.getAbsolutePath());
 
-//		WritableImage writableImage = this.canvasView.getWritableImage(); // Code may be useful in the future when the image needs to be editable
-//		writableImage = this.canvasView.getImageView().snapshot(null, writableImage);
-
-		Image imageToSave = this.canvasView.getImageViewImage(); // Temporary code to only display the image itself
-		// Get file extension
-		String fileExtension = file.getName().substring(file.getName().lastIndexOf("."));
 		if (file != null) {
-			saveImageToFile(imageToSave, file, fileExtension);
+			saveImageToFile(file, fileExt);
 		}
 
 	}
 
-	private void saveImageToFile(Image image, File file, String fileExtension) {
+	// Takes a snapshot of the canvas & saves it to the designated file
+	private void saveImageToFile(File file, String fileExtension) {
+		WritableImage writableImage = new WritableImage((int)(canvasView.getCanvas().getWidth()), (int) (canvasView.getCanvas().getHeight()));
+		this.canvasView.getCanvas().snapshot(null, writableImage);
+
+		BufferedImage bufferedImage = SwingFXUtils.fromFXImage(writableImage, null);
 		try {
 			// Create new file or overwrite file with same name, with designated fileExtension at the path file
-			ImageIO.write(SwingFXUtils.fromFXImage(image, null), fileExtension, file);
+			ImageIO.write(bufferedImage, fileExtension, file);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	private String getFileExt(String filePath) {
+		return filePath.substring(filePath.lastIndexOf(".") + 1); // Get string val after the last '.'
 	}
 
 	private File createFileChooserDir(String rootName, String dirName) {

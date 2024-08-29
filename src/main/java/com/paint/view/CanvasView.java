@@ -58,7 +58,7 @@ public class CanvasView{
 	public ScrollPane getScrollPane() {
 		return scrollPane;
 	}
-	
+
 	public void setScrollPane(ScrollPane scrollPane) {
 		this.scrollPane = scrollPane;
 	}
