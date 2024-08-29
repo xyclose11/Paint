@@ -1,0 +1,6 @@
+.root {
+    -fx-font-size: 16pt;
+    -fx-font-family: "Comic Sans";
+    -fx-base: rgb(1, 145, 47);
+    -fx-background: rgb(133, 228, 203);
+}

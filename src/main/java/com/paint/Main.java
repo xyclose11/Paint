@@ -22,6 +22,9 @@ public class Main extends Application {
         new UtilityController(utilityMenu, canvasView);
 
         Scene primaryScene = new Scene(rootLayout, 1225, 735); // width, height
+
+
+        primaryStage.setTitle("Pain(t)");
         primaryStage.setScene(primaryScene);
         primaryStage.show();
     }
