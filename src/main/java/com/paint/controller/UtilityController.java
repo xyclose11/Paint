@@ -71,31 +71,33 @@ public class UtilityController {
 		// Adjust state of currentFile
 		currentFile = selectedFile;
 
-		// Create new Image object and update the canvas imageView
-		try {
-
+		try  {
 			// Create base Image
 			Image image = new Image(selectedFile.toURI().toURL().toExternalForm(),true);
-
-			// Wait for image to load
-			image.progressProperty().addListener((obs, oldProgress, newProgress) -> {
-				if (newProgress.doubleValue() == 1.0) { // SUCCESS -> Image is loaded
-					// Set canvas dimensions to match image dimensions
-					canvasView.getCanvas().setWidth(image.getWidth());
-					canvasView.getCanvas().setHeight(image.getHeight());
-
-					// Get pixelReader to convert Image to a WritableImage to set the main canvas
-					PixelReader pixelReader = image.getPixelReader();
-					WritableImage writableImage = new WritableImage(pixelReader, (int) (image.getWidth()), (int)(image.getHeight()));
-					canvasView.getCanvas().getGraphicsContext2D().drawImage(writableImage, 0, 0);
-
-				}
-			});
-
+			waitForImageLoad(image);
 		} catch (IOException e) {
-			new Alert(Alert.AlertType.ERROR, "Unable to open the image at this time. Stack Trace: " + e.getMessage());
+			new Alert(Alert.AlertType.ERROR, "Unable to create an image: ERROR: " + e.getMessage());
 			e.printStackTrace();
 		}
+
+	}
+
+	private void waitForImageLoad(Image image) {
+		// Create new Image object and update the canvas imageView
+		// Wait for image to load
+		image.progressProperty().addListener((obs, oldProgress, newProgress) -> {
+			if (newProgress.doubleValue() == 1.0) { // SUCCESS -> Image is loaded
+				// Set canvas dimensions to match image dimensions
+				canvasView.getCanvas().setWidth(image.getWidth());
+				canvasView.getCanvas().setHeight(image.getHeight());
+
+				// Get pixelReader to convert Image to a WritableImage to set the main canvas
+				PixelReader pixelReader = image.getPixelReader();
+				WritableImage writableImage = new WritableImage(pixelReader, (int) (image.getWidth()), (int)(image.getHeight()));
+				canvasView.getCanvas().getGraphicsContext2D().drawImage(writableImage, 0, 0);
+
+			}
+		});
 
 	}
 
