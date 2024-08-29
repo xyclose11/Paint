@@ -21,8 +21,8 @@ public class CanvasView{
 		scrollPane = new ScrollPane();
 
 		// Set initial canvas dimensions
-		canvas.setHeight(800);
-		canvas.setWidth(600);
+		canvas.setHeight(1170);
+		canvas.setWidth(1475);
 
 		scrollPane.setContent(canvas);
 
@@ -35,7 +35,6 @@ public class CanvasView{
 		hLayout.getChildren().addAll(vLayout);
 		hLayout.setFillHeight(true);
 		hLayout.setAlignment(Pos.CENTER);
-		//layout.setPadding(new Insets(15, 300, 15, 20));
 	}
 
 	public Canvas getCanvas() {

@@ -21,7 +21,7 @@ public class Main extends Application {
         CanvasView canvasView = sharedLayout.getCanvasView();
         new UtilityController(utilityMenu, canvasView);
 
-        Scene primaryScene = new Scene(rootLayout, 725, 550);
+        Scene primaryScene = new Scene(rootLayout, 1225, 735); // width, height
         primaryStage.setScene(primaryScene);
         primaryStage.show();
     }

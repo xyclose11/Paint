@@ -77,14 +77,15 @@ public class UtilityController {
 			// Wait for image to load
 			image.progressProperty().addListener((obs, oldProgress, newProgress) -> {
 				if (newProgress.doubleValue() == 1.0) { // SUCCESS -> Image is loaded
+					// Set canvas dimensions to match image dimensions
+					canvasView.getCanvas().setWidth(image.getWidth());
+					canvasView.getCanvas().setHeight(image.getHeight());
+
 					// Get pixelReader to convert Image to a WritableImage to set the main canvas
 					PixelReader pixelReader = image.getPixelReader();
 					WritableImage writableImage = new WritableImage(pixelReader, (int) (image.getWidth()), (int)(image.getHeight()));
 					canvasView.getCanvas().getGraphicsContext2D().drawImage(writableImage, 0, 0);
 
-					// Set canvas dimensions to match image dimensions
-					canvasView.getCanvas().setWidth(image.getWidth());
-					canvasView.getCanvas().setHeight(image.getHeight());
 				}
 			});
 

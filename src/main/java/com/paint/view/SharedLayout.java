@@ -16,6 +16,7 @@ public class SharedLayout {
 		toolMenu = new ToolMenu();
 		canvasView = new CanvasView();
 		infoBar = new InfoBar();
+
 		// Create a VBox wrapper for both utilityMenu & toolMenu
 		VBox topWrapper = new VBox();
 		topWrapper.getChildren().addAll(utilityMenu.getLayout(), toolMenu.getLayout());
