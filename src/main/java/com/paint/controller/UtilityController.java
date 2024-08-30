@@ -52,8 +52,8 @@ public class UtilityController {
 
 		// Dictates which file types are allowed
 		fileChooser.getExtensionFilters().addAll(
-				new FileChooser.ExtensionFilter("PNG Files", "*.png")
-				,new FileChooser.ExtensionFilter("JPEG Files", "*.jpeg")
+				new FileChooser.ExtensionFilter("PNG (*.png)", "*.png")
+				,new FileChooser.ExtensionFilter("JPEG (*.jpeg, *.jpg, *jpe)", "*.jpeg", "*.jpg", "*.jpe")
 		);
 
 		File paintFileDir = createFileChooserDir(null, null);
@@ -128,7 +128,7 @@ public class UtilityController {
 
 		fileChooser.getExtensionFilters().addAll(
 				new FileChooser.ExtensionFilter("PNG (*.png)", "*.png")
-				,new FileChooser.ExtensionFilter("JPEG (*.jpeg)", "*.jpeg")
+				,new FileChooser.ExtensionFilter("JPEG (*.jpg)", "*.jpg")
 		);
 
 		File paintFileDir = createFileChooserDir(null, null);
@@ -136,8 +136,12 @@ public class UtilityController {
 		fileChooser.setTitle("Save Image");
 		fileChooser.setInitialFileName("Untitled"); // Default filename // TODO use filenameFilter to check if the name already exists
 
-
 		File file = fileChooser.showSaveDialog(null);
+		// Error handling for if user cancels
+		if (file == null) {
+			new Alert(Alert.AlertType.NONE);
+		}
+
 		String fileExt = getFileExt(file.getAbsolutePath());
 
 		if (file != null) {
@@ -149,9 +153,18 @@ public class UtilityController {
 	// Takes a snapshot of the canvas & saves it to the designated file
 	private void saveImageToFile(File file, String fileExtension) {
 		WritableImage writableImage = new WritableImage((int)(canvasView.getCanvas().getWidth()), (int) (canvasView.getCanvas().getHeight()));
+		// Take a snapshot of the current canvas and save it to the writableImage
 		this.canvasView.getCanvas().snapshot(null, writableImage);
 
-		BufferedImage bufferedImage = SwingFXUtils.fromFXImage(writableImage, null);
+		// Create a BufferedImage obj to store image data since BufferedImage requires an alpha channel
+		BufferedImage imageData = new BufferedImage((int) writableImage.getWidth(), (int) writableImage.getHeight(), BufferedImage.TYPE_INT_RGB);
+		BufferedImage bufferedImage = SwingFXUtils.fromFXImage(writableImage, imageData);
+
+		if (bufferedImage == null) {
+			new Alert(Alert.AlertType.ERROR, "ERROR SAVING FILE");
+			return;
+		}
+
 		try {
 			// Create new file or overwrite file with same name, with designated fileExtension at the path file
 			ImageIO.write(bufferedImage, fileExtension, file);

@@ -8,6 +8,7 @@ New Features:
     - Autoscaling canvas adjusts its size when importing a file
 
 Known Issues:
+    - When saving JPEG file format, the image loses some amount of quality but not resolution
     - When a large image is imported a large portion may be off-screen due to the lack of scaling
     - Scrollbar "sticks" to the canvas view instead of the bottom/right side
     - When trying to "save as" a 2nd time the filename remains the same
