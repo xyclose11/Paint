@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.paint.controller.InfoController"
+            prefHeight="400.0" prefWidth="600.0"
+            minHeight="14" maxHeight="20"
+            spacing="200" padding="0, 20, 0, 20"
+            fx:id="RootInfoBarHBox">
+
+    <HBox spacing="20" fx:id="InfoBarLeftHBox">
+        <Label text="Mouse POS"></Label>
+        <Label text="Selection POS"></Label>
+        <Label text="Resolution"></Label>
+    </HBox>
+
+    <HBox spacing="20" fx:id="InfoBarRightHBox">
+        <Label text="Fit To Screen"></Label>
+        <Label text="Zoom ComboBox"></Label>
+        <Label text="Zoom Slider"></Label>
+    </HBox>
+
+</HBox>
