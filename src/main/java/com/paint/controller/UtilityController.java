@@ -54,6 +54,11 @@ public class UtilityController {
 		fileChooser.getExtensionFilters().addAll(
 				new FileChooser.ExtensionFilter("PNG (*.png)", "*.png")
 				,new FileChooser.ExtensionFilter("JPEG (*.jpeg, *.jpg, *jpe)", "*.jpeg", "*.jpg", "*.jpe")
+//				,new FileChooser.ExtensionFilter("Monochrome Bitmap (*.bmp, *.dib)", "*.bmp", "*.dib") // TODO Add variations to bitmap quality
+//				,new FileChooser.ExtensionFilter("16 Color Bitmap (*.bmp, *.dib)", "*.bmp", "*.dib")
+//				,new FileChooser.ExtensionFilter("256 Color Bitmap (*.bmp, *.dib)", "*.bmp", "*.dib")
+//				,new FileChooser.ExtensionFilter("24-Bit Bitmap (*.bmp, *.dib)", "*.bmp", "*.dib")
+				,new FileChooser.ExtensionFilter("Bitmap (*.bmp, *.dib)", "*.bmp", "*.dib")
 		);
 
 		File paintFileDir = createFileChooserDir(null, null);
@@ -128,7 +133,12 @@ public class UtilityController {
 
 		fileChooser.getExtensionFilters().addAll(
 				new FileChooser.ExtensionFilter("PNG (*.png)", "*.png")
-				,new FileChooser.ExtensionFilter("JPEG (*.jpg)", "*.jpg")
+				,new FileChooser.ExtensionFilter("JPEG (*.jpg)", "*.jpg") // TODO Add support for each variation of JPEG, JPG, JPE, etc
+//				,new FileChooser.ExtensionFilter("Monochrome Bitmap (*.bmp, *.dib)", "*.bmp", "*.dib") // TODO Add variations to bitmap quality Source (https://atlc.sourceforge.net/bmp.html)
+//				,new FileChooser.ExtensionFilter("16 Color Bitmap (*.bmp, *.dib)", "*.bmp", "*.dib")
+//				,new FileChooser.ExtensionFilter("256 Color Bitmap (*.bmp, *.dib)", "*.bmp", "*.dib")
+//				,new FileChooser.ExtensionFilter("24-Bit Bitmap (*.bmp, *.dib)", "*.bmp", "*.dib")
+				,new FileChooser.ExtensionFilter("Bitmap (*.bmp, *.dib)", "*.bmp", "*.dib")
 		);
 
 		File paintFileDir = createFileChooserDir(null, null);
@@ -156,6 +166,12 @@ public class UtilityController {
 
 	// Takes a snapshot of the canvas & saves it to the designated file
 	private void saveImageToFile(File file, String fileExtension) {
+		System.out.println(fileExtension);
+		if (fileExtension == "bmp" || fileExtension == "dib") {
+			saveBMPFormat(file, fileExtension);
+		}
+
+
 		WritableImage writableImage = new WritableImage((int)(canvasView.getCanvas().getWidth()), (int) (canvasView.getCanvas().getHeight()));
 		// Take a snapshot of the current canvas and save it to the writableImage
 		this.canvasView.getCanvas().snapshot(null, writableImage);
@@ -179,6 +195,9 @@ public class UtilityController {
 		}
 	}
 
+	private void saveBMPFormat(File file, String fileExtension) {
+
+	}
 	private String getFileExt(String filePath) {
 		return filePath.substring(filePath.lastIndexOf(".") + 1); // Get string val after the last '.'
 	}
