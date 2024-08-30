@@ -17,12 +17,13 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws IOException {
         SharedLayout sharedLayout = new SharedLayout();
         BorderPane rootLayout = sharedLayout.getLayout();
+
+        // Initialize UtilityController to handle events (save, save as, open, etc)
         UtilityMenu utilityMenu = sharedLayout.getUtilityMenu();
         CanvasView canvasView = sharedLayout.getCanvasView();
         new UtilityController(utilityMenu, canvasView);
 
         Scene primaryScene = new Scene(rootLayout, 1225, 735); // width, height
-
 
         primaryStage.setTitle("Pain(t)");
         primaryStage.setScene(primaryScene);

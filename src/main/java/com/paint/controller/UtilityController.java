@@ -137,9 +137,13 @@ public class UtilityController {
 		fileChooser.setInitialFileName("Untitled"); // Default filename // TODO use filenameFilter to check if the name already exists
 
 		File file = fileChooser.showSaveDialog(null);
+
+		// Update currentFile state
+		currentFile = file;
+
 		// Error handling for if user cancels
 		if (file == null) {
-			new Alert(Alert.AlertType.NONE);
+			return;
 		}
 
 		String fileExt = getFileExt(file.getAbsolutePath());
@@ -160,6 +164,7 @@ public class UtilityController {
 		BufferedImage imageData = new BufferedImage((int) writableImage.getWidth(), (int) writableImage.getHeight(), BufferedImage.TYPE_INT_RGB);
 		BufferedImage bufferedImage = SwingFXUtils.fromFXImage(writableImage, imageData);
 
+		// Check if the saved image is null
 		if (bufferedImage == null) {
 			new Alert(Alert.AlertType.ERROR, "ERROR SAVING FILE");
 			return;
