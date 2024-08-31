@@ -1,13 +1,18 @@
 package com.paint.controller;
 
 import com.paint.model.CanvasModel;
+import com.paint.model.PaintStateModel;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.shape.Line;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -16,32 +21,84 @@ import java.io.IOException;
 
 public class CanvasController {
     @FXML
-    Canvas myCanvas;
+    Canvas mainCanvas;
 
+    private GraphicsContext graphicsContext;
+
+    private PaintStateModel paintStateModel;
+    @FXML
+    private Group canvasGroup;
     private CanvasModel canvasModel;
 
     public void setCanvasModel(CanvasModel canvasModel) {
         this.canvasModel = canvasModel;
         updateCanvasSize();
     }
+    
+    public void setPaintStateModel(PaintStateModel paintStateModel) {
+        this.paintStateModel = paintStateModel;
+    }
 
     private void updateCanvasSize() {
         if (canvasModel != null) {
-            canvasModel.setCanvasWidth(myCanvas.getWidth());
-            canvasModel.setCanvasHeight(myCanvas.getHeight());
+            canvasModel.setCanvasWidth(mainCanvas.getWidth());
+            canvasModel.setCanvasHeight(mainCanvas.getHeight());
         }
+    }
+    
+    // DRAWING SECTION START
+
+
+
+
+    double startX = 0;
+    double startY = 0;
+    private Line line;
+
+    @FXML
+    private void handleMousePressed(MouseEvent mouseEvent) {
+        line = new Line();
+        startX = mouseEvent.getX();
+        startY = mouseEvent.getY();
+        line.setStartX(startX);
+        line.setStartY(startY);
+
+        canvasGroup.getChildren().add(line);
+        line.setMouseTransparent(true);
+
+    }
+
+
+    @FXML
+    private void handleMouseDragged(MouseEvent mouseEvent) {
+        line.setEndX(mouseEvent.getX());
+        line.setEndY(mouseEvent.getY());
     }
 
     @FXML
+    private void handleMouseReleased(MouseEvent mouseEvent) {
+        line.setMouseTransparent(false);
+    }
+
+   
+    // DRAWING SECTION END
+
+    @FXML
     private void initialize() {
-        myCanvas.widthProperty().addListener((obs, oldVal, newVal) -> updateCanvasSize());
-        myCanvas.heightProperty().addListener((obs, oldVal, newVal) -> updateCanvasSize());
+        // Initialize canvas sizing
+        mainCanvas.widthProperty().addListener((obs, oldVal, newVal) -> updateCanvasSize());
+        mainCanvas.heightProperty().addListener((obs, oldVal, newVal) -> updateCanvasSize());
+
+        // Initialize graphics context to enable drawing
+        graphicsContext = mainCanvas.getGraphicsContext2D();
+
+
     }
 
     public void setCanvas(Image image) {
         // Set canvas dimensions to match image dimensions
-        myCanvas.setWidth(image.getWidth());
-        myCanvas.setHeight(image.getHeight());
+        mainCanvas.setWidth(image.getWidth());
+        mainCanvas.setHeight(image.getHeight());
 
         // Update
 
@@ -50,7 +107,7 @@ public class CanvasController {
         WritableImage writableImage = new WritableImage(pixelReader, (int) (image.getWidth()), (int)(image.getHeight()));
 
         // Set canvas to the writableImage
-        myCanvas.getGraphicsContext2D().drawImage(writableImage, 0, 0);
+        mainCanvas.getGraphicsContext2D().drawImage(writableImage, 0, 0);
     }
 
     // Takes a snapshot of the canvas & saves it to the designated file
@@ -61,9 +118,10 @@ public class CanvasController {
 //        }
 
 
-        WritableImage writableImage = new WritableImage((int)(myCanvas.getWidth()), (int) (myCanvas.getHeight()));
+        WritableImage writableImage = new WritableImage((int)(mainCanvas.getWidth()), (int) (mainCanvas.getHeight()));
         // Take a snapshot of the current canvas and save it to the writableImage
-        this.myCanvas.snapshot(null, writableImage);
+        //this.mainCanvas.snapshot(null, writableImage);
+        this.canvasGroup.snapshot(null, writableImage);
 
         // Create a BufferedImage obj to store image data since BufferedImage requires an alpha channel
         BufferedImage imageData = new BufferedImage((int) writableImage.getWidth(), (int) writableImage.getHeight(), BufferedImage.TYPE_INT_RGB);

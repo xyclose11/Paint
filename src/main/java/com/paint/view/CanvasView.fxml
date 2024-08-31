@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
 <?import javafx.scene.*?>
+<?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.scene.canvas.Canvas?>
-
-<HBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      alignment="CENTER"
-      fx:controller="com.paint.controller.CanvasController"
->
+<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.CanvasController">
 
 
     <VBox alignment="CENTER" fillWidth="true">
         <ScrollPane>
-            <Canvas width="1170" height="1475" fx:id="myCanvas">
+         <content>
+            <Group fx:id="canvasGroup">
+               <children>
+                     <Canvas fx:id="mainCanvas" height="1475" onMouseDragged="#handleMouseDragged" onMousePressed="#handleMousePressed" onMouseReleased="#handleMouseReleased" width="1170">
 
             </Canvas>
-        </ScrollPane>
+               </children>
+            </Group>
+         </content></ScrollPane>
 
     </VBox>
 </HBox>

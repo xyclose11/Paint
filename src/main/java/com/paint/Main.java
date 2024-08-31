@@ -29,6 +29,7 @@ public class Main extends Application {
         rootLayout.setCenter(canvasLoader.load());
         CanvasController canvasController = canvasLoader.getController();
         canvasController.setCanvasModel(canvasModel);
+        canvasController.setPaintStateModel(paintStateModel);
 
         // Wrap topper, and set top
         FXMLLoader utilityMenuLoader = new FXMLLoader(getClass().getResource("/view/UtilityMenu.fxml"));
