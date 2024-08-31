@@ -2,8 +2,10 @@ package com.paint;
 
 import com.paint.controller.CanvasController;
 import com.paint.controller.InfoController;
+import com.paint.controller.ToolMenuController;
 import com.paint.controller.UtilityController;
 import com.paint.model.CanvasModel;
+import com.paint.model.PaintStateModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -14,7 +16,9 @@ import javafx.stage.Stage;
 
 public class Main extends Application {
 
-    private CanvasModel canvasModel = new CanvasModel();
+    // Instantiate models for future use
+    private final CanvasModel canvasModel = new CanvasModel();
+    private final PaintStateModel paintStateModel = new PaintStateModel();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -34,6 +38,10 @@ public class Main extends Application {
         HBox temp = utilityMenuLoader.load();
         topWrapper.getChildren().addAll(temp, toolMenuLoader.load());
         rootLayout.setTop(topWrapper);
+
+        // Load ToolMenuController after load
+        ToolMenuController toolMenuController = toolMenuLoader.getController();
+        toolMenuController.setPaintStateModel(paintStateModel);
 
         UtilityController utilityController = utilityMenuLoader.getController();
 

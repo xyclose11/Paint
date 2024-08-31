@@ -1,11 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox minHeight="60.0" prefHeight="80.0" prefWidth="398.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
-    <Label text="TOOL SECTION">
+<HBox minHeight="60.0" prefHeight="80.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.ToolMenuController">
+   <VBox id="SelectionVBoxTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+      <children>
+         <RadioButton ellipsisString="" mnemonicParsing="false" selected="true" />
+         <MenuButton mnemonicParsing="false" prefHeight="23.0" prefWidth="50.0" text="MenuButton">
+           <items>
+             <MenuItem mnemonicParsing="false" text="Action 1" />
+             <MenuItem mnemonicParsing="false" text="Action 2" />
+           </items>
+         </MenuButton>
+         <Label text="Selection" />
 
-    </Label>
+      </children></VBox>
+   <HBox prefHeight="80.0" prefWidth="136.0">
+      <children>
+         <Separator orientation="VERTICAL" prefHeight="200.0" />
+         <VBox id="ImageSectionTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <children>
+               <Label text="Image" />
+            </children>
+         </VBox>
+      </children>
+   </HBox>
+   <HBox prefHeight="80.0" prefWidth="112.0">
+      <children>
+         <Separator orientation="VERTICAL" prefHeight="200.0" />
+         <VBox id="ToolsSectionTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <children>
+               <Label text="Tools" />
+            </children>
+         </VBox>
+      </children>
+   </HBox>
+   <HBox prefHeight="80.0" prefWidth="116.0">
+      <children>
+         <Separator orientation="VERTICAL" prefHeight="200.0" />
+         <VBox id="BrushesSectionTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <children>
+               <RadioButton ellipsisString="" mnemonicParsing="false" selected="true" />
+               <MenuButton mnemonicParsing="false" text="BrushSelectMenu">
+                 <items>
+                     <MenuItem mnemonicParsing="false" text="Brush" />
+                     <MenuItem mnemonicParsing="false" text="Calligraphy Brush" />
+                     <MenuItem mnemonicParsing="false" text="Calligraphy Pen" />
+                   <MenuItem mnemonicParsing="false" text="Airbrush" />
+                   <MenuItem mnemonicParsing="false" text="Oil Brush" />
+                     <MenuItem mnemonicParsing="false" text="Crayon" />
+                     <MenuItem mnemonicParsing="false" text="Marker" />
+                     <MenuItem mnemonicParsing="false" text="Natural Pencil" />
+                     <MenuItem mnemonicParsing="false" text="Watercolor Brush" />
+                 </items>
+               </MenuButton>
+               <Label fx:id="BrushSectionId" text="Brushes" />
+            </children>
+         </VBox>
+      </children>
+   </HBox>
+   <HBox prefHeight="100.0" prefWidth="200.0">
+      <children>
+         <Separator orientation="VERTICAL" prefHeight="200.0" />
+         <VBox id="ShapesSectionTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <children>
+               <GridPane id="ShapeSelectionGrid" alignment="CENTER_LEFT">
+                 <columnConstraints>
+                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                   <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                 </columnConstraints>
+                 <rowConstraints>
+                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                 </rowConstraints>
+                  <VBox.margin>
+                     <Insets bottom="15.0" left="5.0" right="20.0" top="5.0" />
+                  </VBox.margin>
+                  <children>
+                     <RadioButton fx:id="StLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updatePaintShapeState" selected="true">
+                        <toggleGroup>
+                           <ToggleGroup fx:id="ShapeSelect" />
+                        </toggleGroup>
+                     </RadioButton>
+                     <RadioButton fx:id="CurveLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updatePaintShapeState" toggleGroup="$ShapeSelect" GridPane.columnIndex="1" />
+                     <RadioButton fx:id="Oval" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updatePaintShapeState" toggleGroup="$ShapeSelect" GridPane.columnIndex="2" />
+                     <RadioButton fx:id="Rectangle" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updatePaintShapeState" toggleGroup="$ShapeSelect" GridPane.columnIndex="3" />
+                  </children>
+
+               </GridPane>
+               <Label fx:id="ShapeSectionId" text="Shapes" />
+            </children>
+         </VBox>
+      </children>
+   </HBox>
+   <HBox prefHeight="100.0" prefWidth="200.0">
+      <children>
+         <Separator orientation="VERTICAL" prefHeight="200.0" />
+         <VBox id="ColorsSectionTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <children>
+               <Label text="Colors" />
+            </children>
+         </VBox>
+         <ColorPicker />
+      </children>
+   </HBox>
+   <HBox prefHeight="80.0" prefWidth="134.0">
+      <children>
+         <Separator orientation="VERTICAL" prefHeight="200.0" />
+         <VBox id="LayersSectionTB" prefHeight="200.0" prefWidth="100.0">
+            <children>
+               <Label text="Layers" />
+            </children>
+         </VBox>
+      </children>
+   </HBox>
 
 </HBox>
