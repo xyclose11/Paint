@@ -6,8 +6,21 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.canvas.Canvas?>
 
-</AnchorPane>
+<HBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      alignment="CENTER"
+      fx:controller="com.paint.controller.CanvasController"
+>
+
+
+    <VBox alignment="CENTER" fillWidth="true">
+        <ScrollPane>
+            <Canvas width="1170" height="1475" fx:id="myCanvas">
+
+            </Canvas>
+        </ScrollPane>
+
+    </VBox>
+</HBox>

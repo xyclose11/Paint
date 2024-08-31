@@ -1,32 +1,55 @@
 package com.paint;
 
+import com.paint.controller.CanvasController;
+import com.paint.controller.InfoController;
 import com.paint.controller.UtilityController;
-import com.paint.view.CanvasView;
-import com.paint.view.SharedLayout;
-import com.paint.view.UtilityMenu;
+import com.paint.model.CanvasModel;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class Main extends Application {
 
+    private CanvasModel canvasModel = new CanvasModel();
+
     @Override
-    public void start(Stage primaryStage) throws IOException {
-        SharedLayout sharedLayout = new SharedLayout();
-        BorderPane rootLayout = sharedLayout.getLayout();
+    public void start(Stage primaryStage) throws Exception {
+        BorderPane rootLayout = new BorderPane();
 
-        // Initialize UtilityController to handle events (save, save as, open, etc)
-        UtilityMenu utilityMenu = sharedLayout.getUtilityMenu();
-        CanvasView canvasView = sharedLayout.getCanvasView();
-        new UtilityController(utilityMenu, canvasView);
+        // Set Center
+        FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/view/CanvasView.fxml"));
+        rootLayout.setCenter(canvasLoader.load());
+        CanvasController canvasController = canvasLoader.getController();
+        canvasController.setCanvasModel(canvasModel);
 
-        Scene primaryScene = new Scene(rootLayout, 1225, 735); // width, height
+        // Wrap topper, and set top
+        FXMLLoader utilityMenuLoader = new FXMLLoader(getClass().getResource("/view/UtilityMenu.fxml"));
+        FXMLLoader toolMenuLoader = new FXMLLoader(getClass().getResource("/view/ToolMenu.fxml"));
 
-        primaryStage.setTitle("Pain(t)");
-        primaryStage.setScene(primaryScene);
+        VBox topWrapper = new VBox();
+        HBox temp = utilityMenuLoader.load();
+        topWrapper.getChildren().addAll(temp, toolMenuLoader.load());
+        rootLayout.setTop(topWrapper);
+
+        UtilityController utilityController = utilityMenuLoader.getController();
+
+        // Instantiate the CanvasController inside utilityController
+        utilityController.setCanvasController(canvasController);
+
+        // Set bottom
+        FXMLLoader infoBarLoader = new FXMLLoader(getClass().getResource("/view/InfoBar.fxml"));
+
+        rootLayout.setBottom(infoBarLoader.load());
+        InfoController infoController = infoBarLoader.getController();
+        infoController.setCanvasModel(canvasModel);
+
+        Scene scene = new Scene(rootLayout, 1225, 735);
+
+        primaryStage.setScene(scene);
         primaryStage.show();
     }
 
