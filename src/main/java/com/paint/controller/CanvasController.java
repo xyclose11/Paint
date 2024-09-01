@@ -33,6 +33,8 @@ public class CanvasController {
     private Group canvasGroup;
     private CanvasModel canvasModel;
 
+    @FXML
+    // Used to house all Shape objects that are drawn
     private Pane drawingPane;
 
     public void setCanvasModel(CanvasModel canvasModel) {
@@ -74,50 +76,34 @@ public class CanvasController {
 
         if (currentShape != null) {
             currentShape.setStroke(Color.BLACK);
-            currentShape.setStrokeWidth(1);
+            currentShape.setStrokeWidth(.5);
+            currentShape.setFill(Color.BLACK);
+            currentShape.setMouseTransparent(true);
             drawingPane.getChildren().add(currentShape);
             //TODO error handling
         }
 
-
-//        line = new Line();
-//        startX = mouseEvent.getX();
-//        startY = mouseEvent.getY();
-//        line.setStartX(startX);
-//        line.setStartY(startY);
-//
-//        canvasGroup.getChildren().add(line);
-//        line.setMouseTransparent(true);
-
     }
-
 
     @FXML
     private void handleShapeMouseDragged(MouseEvent mouseEvent) {
-//        line.setEndX(mouseEvent.getX());
-//        line.setEndY(mouseEvent.getY());
         if (currentShape != null) {
             double x = mouseEvent.getX();
             double y = mouseEvent.getY();
 
-            if (currentShape instanceof Line) {
-                Line line = (Line) currentShape;
+            if (currentShape instanceof Line line) {
                 line.setEndX(x);
                 line.setEndY(y);
             }
             //TODO add error handling
         }
-
-
     }
 
     @FXML
     private void handleShapeMouseReleased(MouseEvent mouseEvent) {
-        //line.setMouseTransparent(false);
+        currentShape.setMouseTransparent(false);
         currentShape = null;
     }
-
-   
     // DRAWING SECTION END
 
     @FXML
@@ -128,12 +114,6 @@ public class CanvasController {
 
         // Initialize graphics context to enable drawing
         graphicsContext = mainCanvas.getGraphicsContext2D();
-
-        // Used to house all Shape objects that are drawn
-        drawingPane = new Pane(); // TODO you may need to wrap the drawingPane & the canvas in a stackPane
-
-        canvasGroup.getChildren().add(drawingPane);
-
     }
 
     public void setCanvas(Image image) {
