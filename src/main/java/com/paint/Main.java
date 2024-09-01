@@ -58,6 +58,15 @@ public class Main extends Application {
 
         Scene scene = new Scene(rootLayout, 1225, 735);
 
+        // Add style sheets
+        try {
+            scene.getStylesheets().add(getClass().getResource("/styles/styles.css").toString());
+        } catch (Exception e) {
+            // TODO MORE THOROUGH ERROR HANDLING
+            System.out.println(e.getMessage());
+            e.printStackTrace();
+        }
+
         primaryStage.setScene(scene);
         primaryStage.show();
     }
