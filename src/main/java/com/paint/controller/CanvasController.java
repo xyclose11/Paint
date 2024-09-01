@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.shape.StrokeType;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -40,8 +41,11 @@ public class CanvasController {
 
     public void setCanvasModel(CanvasModel canvasModel) {
         this.canvasModel = canvasModel;
+//        this.drawingPane.prefHeightProperty().bind(this.canvasModel.canvasHeightProperty());
         updateCanvasSize();
     }
+
+    // TODO FIX ISSUE WITH INABILITY TO DRAW ON TOP OF IMAGE
     
     public void setPaintStateModel(PaintStateModel paintStateModel) {
         this.paintStateModel = paintStateModel;
@@ -72,33 +76,61 @@ public class CanvasController {
                 currentShape = new Line(startX, startY, startX, startY);
                 break;
             case "Rectangle":
-                // x, y, width, height
+                // x, y, width, height, Paint fill
                 currentShape = new Rectangle(startX, startY, 0, 0);
                 break;
         }
 
         if (currentShape != null) {
             currentShape.setStroke(Color.BLACK);
-            currentShape.setStrokeWidth(.5);
+//            currentShape.setStrokeWidth(.5);
             currentShape.setMouseTransparent(true);
+            currentShape.setStrokeType(StrokeType.CENTERED);
             drawingPane.getChildren().add(currentShape);
             //TODO error handling
         }
 
+        // TODO Add functionality so that when the scroll pane scrolls the canvas and drawing pane resize (BIND)
+        // TODO Remove scroll pane & just add 2 separate scroll bars
     }
 
+    // TODO MOVE MOUSE EVENT HANDLERS TO NEW PaneController AND CONVERT THESE INTO BRUSH CONTROLLERS ITF
     @FXML
     private void handleShapeMouseDragged(MouseEvent mouseEvent) {
         if (currentShape != null) {
-            double x = mouseEvent.getX();
-            double y = mouseEvent.getY();
+            double curX = mouseEvent.getX();
+            double curY = mouseEvent.getY();
 
             if (currentShape instanceof Line line) {
-                line.setEndX(x);
-                line.setEndY(y);
+                line.setEndX(curX);
+                line.setEndY(curY);
             } else if (currentShape instanceof Rectangle rect) {
-                rect.setWidth(x - startX);
-                rect.setHeight(y - startY);
+                // Check if cursor is going in Quadrant 4 (Meaning that it doesn't require any calculation swaps)
+                if (curX >= startX && curY >= startY) {
+                    rect.setWidth((curX - startX));
+                    rect.setHeight((curY - startY));
+                    return;
+                }
+
+                // Check if cursor is in Quadrants 2 OR 3
+                if (curX < startX) {
+                    // Swap calculation setters
+                    rect.setX(curX);
+                    rect.setWidth(Math.abs(startX - curX));
+                    rect.setHeight(Math.abs(curY - startY));
+                }
+
+                // Check if cursor is in Quadrants 2 OR 1
+                if (curY < startY) {
+                    // Swap calculation setters
+                    rect.setY(curY);
+                    rect.setWidth(Math.abs(curX - startX));
+                    rect.setHeight(Math.abs(startY - curY));
+                }
+
+
+                // TODO SETUP BOUNDS FOR PANE. CAN INFINITELY DRAW RECTANGLES, ETC.
+
                 // Used for rounded corners
 //                rect.setArcHeight(20);
 //                rect.setArcWidth(20);

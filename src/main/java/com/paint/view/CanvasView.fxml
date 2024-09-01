@@ -9,7 +9,7 @@
 
 
     <VBox alignment="CENTER" fillWidth="true">
-        <ScrollPane>
+        <ScrollPane maxHeight="1500.0">
          <content>
             <Group fx:id="canvasGroup">
                <children>
@@ -19,7 +19,10 @@
             </Canvas>
                </children>
             </Group>
-         </content></ScrollPane>
+         </content>
+         <cursor>
+            <Cursor fx:constant="CROSSHAIR" />
+         </cursor></ScrollPane>
 
     </VBox>
 </HBox>
