@@ -28,10 +28,20 @@ public class PaintStateModel {
     private Color currentPaintColor;
 
     private final BrushObj currentBrush;
+    private String currentTool = "Selection";
+    private String currentToolType = "Select";
 
     public PaintStateModel() {
         this.currentBrush = new BrushObj();
         this.currentPaintColor = Color.BLACK; // Default color
+    }
+
+    public String getCurrentTool() {
+        return this.currentTool;
+    }
+
+    public void setCurrentTool(String currentTool) {
+        this.currentTool = currentTool;
     }
 
     public String getCurrentBrush() {
@@ -49,5 +59,13 @@ public class PaintStateModel {
 
     public void setCurrentPaintColor(Color color) {
         this.currentPaintColor = color;
+    }
+
+    public String getCurrentToolType() {
+        return currentToolType;
+    }
+
+    public void setCurrentToolType(String currentToolType) {
+        this.currentToolType = currentToolType;
     }
 }

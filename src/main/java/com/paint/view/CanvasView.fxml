@@ -13,7 +13,7 @@
          <content>
             <Group fx:id="canvasGroup">
                <children>
-                     <Canvas fx:id="mainCanvas" height="1475" onMouseDragged="#handleMouseDragged" onMousePressed="#handleMousePressed" onMouseReleased="#handleMouseReleased" width="1170">
+                     <Canvas fx:id="mainCanvas" height="1475" onMouseDragged="#handleShapeMouseDragged" onMousePressed="#handleShapeMousePressed" onMouseReleased="#handleShapeMouseReleased" width="1170">
 
             </Canvas>
                </children>

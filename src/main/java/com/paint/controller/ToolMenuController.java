@@ -21,8 +21,9 @@ public class ToolMenuController {
             // Impl error handling here
         }
 
-        // Update paintStateModel
-        this.paintStateModel.setCurrentBrush(sourceId);
+        // Update paintStateModel current tool when a new tool is selected
+
+        this.paintStateModel.setCurrentTool(sourceId);
 
     }
 }

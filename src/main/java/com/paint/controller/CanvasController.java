@@ -12,7 +12,10 @@ import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Shape;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -29,6 +32,8 @@ public class CanvasController {
     @FXML
     private Group canvasGroup;
     private CanvasModel canvasModel;
+
+    private Pane drawingPane;
 
     public void setCanvasModel(CanvasModel canvasModel) {
         this.canvasModel = canvasModel;
@@ -48,36 +53,68 @@ public class CanvasController {
     
     // DRAWING SECTION START
 
-
-
-
+    // stores the mouse starting POS
     double startX = 0;
     double startY = 0;
-    private Line line;
 
+    // Maintain the state of the current shape being drawn
+    Shape currentShape;
     @FXML
-    private void handleMousePressed(MouseEvent mouseEvent) {
-        line = new Line();
+    private void handleShapeMousePressed(MouseEvent mouseEvent) {
         startX = mouseEvent.getX();
         startY = mouseEvent.getY();
-        line.setStartX(startX);
-        line.setStartY(startY);
 
-        canvasGroup.getChildren().add(line);
-        line.setMouseTransparent(true);
+        switch (this.paintStateModel.getCurrentTool()) {
+            case "StLine":
+                currentShape = new Line(startX, startY, startX, startY);
+                break;
+            case "Rectangle":
+                break;
+        }
+
+        if (currentShape != null) {
+            currentShape.setStroke(Color.BLACK);
+            currentShape.setStrokeWidth(1);
+            drawingPane.getChildren().add(currentShape);
+            //TODO error handling
+        }
+
+
+//        line = new Line();
+//        startX = mouseEvent.getX();
+//        startY = mouseEvent.getY();
+//        line.setStartX(startX);
+//        line.setStartY(startY);
+//
+//        canvasGroup.getChildren().add(line);
+//        line.setMouseTransparent(true);
 
     }
 
 
     @FXML
-    private void handleMouseDragged(MouseEvent mouseEvent) {
-        line.setEndX(mouseEvent.getX());
-        line.setEndY(mouseEvent.getY());
+    private void handleShapeMouseDragged(MouseEvent mouseEvent) {
+//        line.setEndX(mouseEvent.getX());
+//        line.setEndY(mouseEvent.getY());
+        if (currentShape != null) {
+            double x = mouseEvent.getX();
+            double y = mouseEvent.getY();
+
+            if (currentShape instanceof Line) {
+                Line line = (Line) currentShape;
+                line.setEndX(x);
+                line.setEndY(y);
+            }
+            //TODO add error handling
+        }
+
+
     }
 
     @FXML
-    private void handleMouseReleased(MouseEvent mouseEvent) {
-        line.setMouseTransparent(false);
+    private void handleShapeMouseReleased(MouseEvent mouseEvent) {
+        //line.setMouseTransparent(false);
+        currentShape = null;
     }
 
    
@@ -92,6 +129,10 @@ public class CanvasController {
         // Initialize graphics context to enable drawing
         graphicsContext = mainCanvas.getGraphicsContext2D();
 
+        // Used to house all Shape objects that are drawn
+        drawingPane = new Pane(); // TODO you may need to wrap the drawingPane & the canvas in a stackPane
+
+        canvasGroup.getChildren().add(drawingPane);
 
     }
 
