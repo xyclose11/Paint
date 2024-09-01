@@ -15,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 
 import javax.imageio.ImageIO;
@@ -71,13 +72,14 @@ public class CanvasController {
                 currentShape = new Line(startX, startY, startX, startY);
                 break;
             case "Rectangle":
+                // x, y, width, height
+                currentShape = new Rectangle(startX, startY, 0, 0);
                 break;
         }
 
         if (currentShape != null) {
             currentShape.setStroke(Color.BLACK);
             currentShape.setStrokeWidth(.5);
-            currentShape.setFill(Color.BLACK);
             currentShape.setMouseTransparent(true);
             drawingPane.getChildren().add(currentShape);
             //TODO error handling
@@ -94,6 +96,12 @@ public class CanvasController {
             if (currentShape instanceof Line line) {
                 line.setEndX(x);
                 line.setEndY(y);
+            } else if (currentShape instanceof Rectangle rect) {
+                rect.setWidth(x - startX);
+                rect.setHeight(y - startY);
+                // Used for rounded corners
+//                rect.setArcHeight(20);
+//                rect.setArcWidth(20);
             }
             //TODO add error handling
         }
