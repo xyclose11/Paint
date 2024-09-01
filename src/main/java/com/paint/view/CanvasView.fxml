@@ -13,12 +13,17 @@
          <content>
             <Group fx:id="canvasGroup">
                <children>
-                  <Pane id="drawingPane" fx:id="drawingPane" prefHeight="1211.0" />
-                     <Canvas fx:id="mainCanvas" height="1475" onMouseDragged="#handleShapeMouseDragged" onMousePressed="#handleShapeMousePressed" onMouseReleased="#handleShapeMouseReleased" width="1170">
+                   <!-- Shape Event Handlers added to the StackPane to avoid overlap issues with canvas and drawingPane -->
+                  <StackPane fx:id="canvasDrawingStackPane" onMouseDragged="#handleShapeMouseDragged" onMousePressed="#handleShapeMousePressed" onMouseReleased="#handleShapeMouseReleased" prefHeight="111.0" prefWidth="200.0">
+                     <children>
+                           <Canvas fx:id="mainCanvas" height="1475"  width="1170">
 
             </Canvas>
-               </children>
-            </Group>
+                         <Pane id="drawingPane" fx:id="drawingPane"  prefHeight="1211.0" />
+
+                     </children>
+                  </StackPane>
+               </children></Group>
          </content>
          <cursor>
             <Cursor fx:constant="CROSSHAIR" />

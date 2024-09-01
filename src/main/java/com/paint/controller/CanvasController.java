@@ -13,6 +13,7 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -38,6 +39,9 @@ public class CanvasController {
     @FXML
     // Used to house all Shape objects that are drawn
     private Pane drawingPane;
+
+    @FXML
+    private StackPane canvasDrawingStackPane;
 
     public void setCanvasModel(CanvasModel canvasModel) {
         this.canvasModel = canvasModel;
@@ -87,6 +91,9 @@ public class CanvasController {
             currentShape.setMouseTransparent(true);
             currentShape.setStrokeType(StrokeType.CENTERED);
             drawingPane.getChildren().add(currentShape);
+            System.out.println(canvasDrawingStackPane.getChildren());
+            System.out.println(canvasGroup.getChildren());
+
             //TODO error handling
         }
 
