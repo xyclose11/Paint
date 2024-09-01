@@ -45,12 +45,9 @@ public class CanvasController {
 
     public void setCanvasModel(CanvasModel canvasModel) {
         this.canvasModel = canvasModel;
-//        this.drawingPane.prefHeightProperty().bind(this.canvasModel.canvasHeightProperty());
         updateCanvasSize();
     }
 
-    // TODO FIX ISSUE WITH INABILITY TO DRAW ON TOP OF IMAGE
-    
     public void setPaintStateModel(PaintStateModel paintStateModel) {
         this.paintStateModel = paintStateModel;
     }
@@ -63,7 +60,6 @@ public class CanvasController {
     }
     
     // DRAWING SECTION START
-
     // stores the mouse starting POS
     double startX = 0;
     double startY = 0;
@@ -91,10 +87,14 @@ public class CanvasController {
             currentShape.setMouseTransparent(true);
             currentShape.setStrokeType(StrokeType.CENTERED);
             drawingPane.getChildren().add(currentShape);
-            System.out.println(canvasDrawingStackPane.getChildren());
-            System.out.println(canvasGroup.getChildren());
 
-            //TODO error handling
+
+        } else {
+            // Error for if the currentShape is null (Ideally there should always be a tool selected)
+            Alert noToolSelectedAlert = new Alert(Alert.AlertType.ERROR, "NO TOOL SELECTED. Please select a tool in the tool bar above.");
+            noToolSelectedAlert.setTitle("No Tool Selected");
+            noToolSelectedAlert.setHeaderText("");
+            noToolSelectedAlert.showAndWait();
         }
 
         // TODO Add functionality so that when the scroll pane scrolls the canvas and drawing pane resize (BIND)
@@ -136,13 +136,16 @@ public class CanvasController {
                 }
 
 
-                // TODO SETUP BOUNDS FOR PANE. CAN INFINITELY DRAW RECTANGLES, ETC.
-
                 // Used for rounded corners
 //                rect.setArcHeight(20);
 //                rect.setArcWidth(20);
             }
-            //TODO add error handling
+        } else {
+            // Error for if the currentShape is null (Ideally there should always be a tool selected)
+            Alert noToolSelectedAlert = new Alert(Alert.AlertType.ERROR, "NO TOOL SELECTED. Please select a tool in the tool bar above.");
+            noToolSelectedAlert.setTitle("No Tool Selected");
+            noToolSelectedAlert.setHeaderText("");
+            noToolSelectedAlert.showAndWait();
         }
     }
 
