@@ -6,6 +6,7 @@ import com.paint.controller.ToolMenuController;
 import com.paint.controller.UtilityController;
 import com.paint.model.CanvasModel;
 import com.paint.model.PaintStateModel;
+import com.paint.model.SceneStateModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -19,10 +20,11 @@ public class Main extends Application {
     // Instantiate models for future use
     private final CanvasModel canvasModel = new CanvasModel();
     private final PaintStateModel paintStateModel = new PaintStateModel();
+    private SceneStateModel sceneStateModel = null;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        BorderPane rootLayout = new BorderPane();
+        BorderPane rootLayout = new BorderPane(); // Contains the main scene/content
 
         // Set Center
         FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/view/CanvasView.fxml"));
@@ -53,10 +55,12 @@ public class Main extends Application {
         FXMLLoader infoBarLoader = new FXMLLoader(getClass().getResource("/view/InfoBar.fxml"));
 
         rootLayout.setBottom(infoBarLoader.load());
+
         InfoController infoController = infoBarLoader.getController();
         infoController.setCanvasModel(canvasModel);
 
         Scene scene = new Scene(rootLayout, 1225, 735);
+        sceneStateModel = new SceneStateModel(scene);
 
         // Add style sheets
         try {

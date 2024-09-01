@@ -28,8 +28,8 @@ public class PaintStateModel {
     private Color currentPaintColor;
 
     private final BrushObj currentBrush;
-    private String currentTool = "Selection";
-    private String currentToolType = "Select";
+    private String currentTool = "StLine"; // Holds the currentTool that the user has selected. // TODO Change to selection tool when impl
+    private String currentToolType = "Select"; // Differentiates the differing tool types. i.e. (Select, brush, shape, etc.)
 
     public PaintStateModel() {
         this.currentBrush = new BrushObj();

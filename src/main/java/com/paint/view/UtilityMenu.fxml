@@ -1,27 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import com.sun.javafx.scene.control.ContextMenuContent.ArrowMenuItem?>
-<HBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.paint.controller.UtilityController"
-      minHeight="20" prefHeight="25">
+<HBox minHeight="20" prefHeight="25" prefWidth="928.0" spacing="5.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.UtilityController">
     <MenuBar>
         <Menu text="File">
-            <MenuItem fx:id="OpenUtilityMenu" text="Open" onAction="#handleFileOpen">
+            <MenuItem fx:id="OpenUtilityMenu" onAction="#handleFileOpen" text="Open">
             </MenuItem>
-            <MenuItem fx:id="SaveUtilityMenu" text="Save" onAction="#handleFileSave">
+            <MenuItem fx:id="SaveUtilityMenu" onAction="#handleFileSave" text="Save">
             </MenuItem>
-            <MenuItem fx:id="SaveAsUtilityMenu" text="Save As" onAction="#handleFileSaveAs">
+            <MenuItem fx:id="SaveAsUtilityMenu" onAction="#handleFileSaveAs" text="Save As">
             </MenuItem>
         </Menu>
+      <Menu mnemonicParsing="false" text="Edit">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Action 1" />
+        </items>
+      </Menu>
+      <Menu mnemonicParsing="false" text="View">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Action 1" />
+        </items>
+      </Menu>
+      <padding>
+         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+      </padding>
     </MenuBar>
-
+   <HBox disable="true" prefHeight="27.0" prefWidth="72.0">
+      <children>
+         <Separator orientation="VERTICAL" prefHeight="200.0" />
+         <Button mnemonicParsing="false" text="SAVE" />
+      </children>
+   </HBox>
+   <HBox disable="true" prefHeight="100.0" prefWidth="200.0">
+      <children>
+         <Separator orientation="VERTICAL" prefHeight="200.0" />
+         <Button mnemonicParsing="false" text="UNDO" />
+         <Button mnemonicParsing="false" text="REDO" />
+      </children>
+   </HBox>
+   <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+      <children>
+          <!-- Separate view to separate utilityMenu's concern -->
+          <fx:include source="OptionsPartialMenu.fxml"/>
+      </children>
+   </HBox>
 
 
 </HBox>
