@@ -17,10 +17,12 @@
     <content>
         <AnchorPane>
             <children>
-                <Label alignment="CENTER" layoutX="102.0" layoutY="32.0" prefHeight="42.0" prefWidth="318.0" text="Pain(t) Version 1.1.0" textAlignment="CENTER">
+                <Label alignment="CENTER" layoutX="102.0" layoutY="11.0" prefHeight="42.0" prefWidth="318.0" text="Pain(t) Version 1.1.0" textAlignment="CENTER">
                <font>
                   <Font size="14.0" />
                </font></Label>
+            <Label alignment="CENTER" layoutX="8.0" layoutY="56.0" prefHeight="19.0" prefWidth="308.0" text="GitHub Repo: " />
+            <Hyperlink layoutX="203.0" layoutY="53.0" text="https://github.com/xyclose11/Paint" />
             </children>
         </AnchorPane>
     </content>

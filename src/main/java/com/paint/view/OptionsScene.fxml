@@ -1,14 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import org.kordamp.ikonli.javafx.*?>
 
-<AnchorPane prefHeight="637.0" prefWidth="715.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.HelpMenuController">
-    <Button layoutX="7.0" layoutY="6.0" mnemonicParsing="false" onAction="#switchToMainScene">
-        <graphic>
-            <FontIcon id="backArrowHelpMenu" fontSmoothingType="LCD" iconLiteral="fltral-arrow-left-20" iconSize="20" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
-        </graphic>
-    </Button>
-   <Button layoutX="320.0" layoutY="292.0" mnemonicParsing="false" onAction="#loadAboutDialog" text="Button" />
-</AnchorPane>
+<BorderPane prefHeight="459.0" prefWidth="671.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.HelpMenuController">
+   <top>
+      <HBox prefHeight="40.0" prefWidth="671.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="230.0" HBox.hgrow="NEVER">
+               <children>
+                   <Button mnemonicParsing="false" onAction="#switchToMainScene">
+                       <graphic>
+                           <FontIcon id="backArrowHelpMenu" fontSmoothingType="LCD" iconLiteral="fltral-arrow-left-20" iconSize="20" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                       </graphic>
+                   </Button>
+                  <Label alignment="CENTER" prefHeight="27.0" prefWidth="82.0" text="Settings">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children></HBox>
+            <HBox prefHeight="30.0" prefWidth="384.0" HBox.hgrow="ALWAYS" />
+            <HBox prefHeight="30.0" prefWidth="111.0" HBox.hgrow="NEVER">
+               <children>
+                   <Button contentDisplay="RIGHT" mnemonicParsing="false" onAction="#loadAboutDialog" prefWidth="82.0" text="Help">
+                       <graphic>
+                           <FontIcon id="aboutBtnQuestionMark" fontSmoothingType="LCD" iconLiteral="fltrmz-question-circle-20" iconSize="20" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                       </graphic>
+                   </Button>
+               </children></HBox>
+         </children>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+      </HBox>
+   </top>
+   <center>
+       <Accordion BorderPane.alignment="CENTER">
+           <panes>
+               <TitledPane alignment="CENTER" prefHeight="345.0" prefWidth="324.0" text="Settings Placeholder 1">
+                   <content>
+                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="211.0" prefWidth="319.0" />
+                   </content>
+               <font>
+                  <Font size="14.0" />
+               </font>
+               </TitledPane>
+               <TitledPane alignment="CENTER" animated="false" text="Settings Placeholder 2">
+                   <content>
+                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                   </content>
+               <font>
+                  <Font size="14.0" />
+               </font>
+               </TitledPane>
+               <TitledPane alignment="CENTER" animated="false" text="Settings Placeholder 3">
+                   <content>
+                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                   </content>
+               <font>
+                  <Font size="14.0" />
+               </font>
+               </TitledPane>
+           </panes>
+         <BorderPane.margin>
+            <Insets left="50.0" right="300.0" top="20.0" />
+         </BorderPane.margin>
+       </Accordion>
+   </center>
+   <left>
+        <HBox>
+
+        </HBox>
+   </left>
+    <right>
+        <HBox>
+
+        </HBox>
+    </right>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+</BorderPane>
