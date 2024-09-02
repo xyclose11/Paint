@@ -14,37 +14,9 @@
     -fx-stroke-line-cap: butt;
 }
 
-/*******************************************************************************
- *                                                                             *
- * MenuButton                                                                  *
- *                                                                             *
- ******************************************************************************/
-/*.menu {*/
-/*    -fx-background-color: white, white;*/
-/*    -fx-background-insets: 0 0 -1 0, 2;*/
-/*    -fx-background-radius: 2;*/
-/*    -fx-padding: 0, 5, 0, 0;*/
-/*    -fx-text-fill: black;*/
-/*}*/
 
-/*.menu-item {*/
-/*    -fx-background-radius: 2;*/
-/*    -fx-text-fill: black;*/
-/*}*/
 
-/*.menu-item:hover {*/
-/*    -fx-background-color: rgba(255, 255, 255, 0.62);*/
-/*    -fx-text-fill: black;*/
-/*}*/
 
-/*.menu-button:focused {*/
-/*    -fx-color: -fx-focused-base;*/
-/*    -fx-background-color: -fx-focus-color, -fx-outer-border, -fx-inner-border, -fx-body-color;*/
-/*    -fx-background-insets: -1.4, 0, 1, 2;*/
-/*    -fx-background-radius: 6.4, 4, 5, 3;*/
-/*}*/
-
-/* VARIABLE DEFINITIONS: Only these 4 variables have to be adjusted, the rest is copy-paste */
 * {
     -fx-my-menu-color: white;
     -fx-my-menu-color-highlighted: rgba(229, 229, 229, 0.24);
@@ -123,4 +95,12 @@
 /*** The context menu that contains a menu's menu items ***/
 .context-menu {
     -fx-background-color: -fx-my-menu-color;
+}
+
+.button {
+    -fx-background-color: white;
+}
+
+.button:hover {
+    -fx-background-color: -fx-my-menu-color-highlighted;
 }

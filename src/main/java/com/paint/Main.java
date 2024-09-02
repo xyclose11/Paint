@@ -11,7 +11,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -39,7 +38,7 @@ public class Main extends Application {
         FXMLLoader toolMenuLoader = new FXMLLoader(getClass().getResource("/view/ToolMenu.fxml"));
 
         VBox topWrapper = new VBox();
-        HBox temp = utilityMenuLoader.load();
+        VBox temp = utilityMenuLoader.load();
         topWrapper.getChildren().addAll(temp, toolMenuLoader.load());
         rootLayout.setTop(topWrapper);
 

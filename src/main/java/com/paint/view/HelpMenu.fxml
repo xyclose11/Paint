@@ -2,15 +2,31 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<DialogPane fx:id="helpMenuDialog" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<DialogPane fx:id="helpMenuDialog" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="205.0" prefWidth="521.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
     <header>
-      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
+      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="51.0" prefWidth="880.0">
+         <children>
+            <Label layoutX="216.0" layoutY="16.0" text="About Pain(t)">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font></Label>
+         </children></AnchorPane>
     </header>
     <content>
-      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
+        <AnchorPane>
+            <children>
+                <Label alignment="CENTER" layoutX="102.0" layoutY="32.0" prefHeight="42.0" prefWidth="318.0" text="Pain(t) Version 1.1.0" textAlignment="CENTER">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            </children>
+        </AnchorPane>
     </content>
-    <expandableContent>
-      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="320.0" />
-    </expandableContent>
+   <buttonTypes>
+      <ButtonType fx:constant="CLOSE" />
+   </buttonTypes>
+
+
 </DialogPane>
