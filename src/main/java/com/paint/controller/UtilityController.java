@@ -127,15 +127,18 @@ public class UtilityController {
 
 		File file = fileChooser.showSaveDialog(null);
 
+		// Error handling
+		if (file == null) {
+			Alert alert = new Alert(Alert.AlertType.INFORMATION, "No File Selected");
+			alert.show();
+			return;
+		}
 		// Update currentFile state
 		currentFile = file;
 
 		String fileExt = getFileExt(file.getAbsolutePath());
 
-		// Error handling for if user cancels
-		if (file != null) {
-			canvasController.saveImageFromCanvas(file, fileExt);
-		}
+		canvasController.saveImageFromCanvas(file, fileExt);
 
 	}
 
@@ -160,6 +163,7 @@ public class UtilityController {
 
 		return paintFileDir;
 	}
+
 
 
 

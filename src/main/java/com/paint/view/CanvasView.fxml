@@ -1,26 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
 <?import javafx.scene.*?>
+<?import javafx.scene.canvas.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<?import javafx.scene.canvas.Canvas?>
-
-<HBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      alignment="CENTER"
-      fx:controller="com.paint.controller.CanvasController"
->
+<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.CanvasController">
 
 
     <VBox alignment="CENTER" fillWidth="true">
-        <ScrollPane>
-            <Canvas width="1170" height="1475" fx:id="myCanvas">
+        <ScrollPane maxHeight="1500.0">
+         <content>
+            <Group fx:id="canvasGroup">
+               <children>
+                   <!-- Shape Event Handlers added to the StackPane to avoid overlap issues with canvas and drawingPane -->
+                  <StackPane fx:id="canvasDrawingStackPane" onMouseDragged="#handleShapeMouseDragged" onMousePressed="#handleShapeMousePressed" onMouseReleased="#handleShapeMouseReleased" prefHeight="111.0" prefWidth="200.0">
+                     <children>
+                           <Canvas fx:id="mainCanvas" height="1475"  width="1170">
 
             </Canvas>
-        </ScrollPane>
+                         <Pane id="drawingPane" fx:id="drawingPane"  prefHeight="1211.0" />
+
+                     </children>
+                  </StackPane>
+               </children></Group>
+         </content>
+         <cursor>
+            <Cursor fx:constant="CROSSHAIR" />
+         </cursor></ScrollPane>
 
     </VBox>
 </HBox>

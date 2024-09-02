@@ -1,27 +1,85 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.input.*?>
 <?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.*?>
 
-<?import com.sun.javafx.scene.control.ContextMenuContent.ArrowMenuItem?>
-<HBox xmlns="http://javafx.com/javafx"
-      xmlns:fx="http://javafx.com/fxml"
-      fx:controller="com.paint.controller.UtilityController"
-      minHeight="20" prefHeight="25">
-    <MenuBar>
-        <Menu text="File">
-            <MenuItem fx:id="OpenUtilityMenu" text="Open" onAction="#handleFileOpen">
+<VBox id="utilityMenuBarContainer" minHeight="20" prefHeight="32.0" prefWidth="1192.0" spacing="5.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.UtilityController">
+   <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="NEVER">
+      <children>
+          <MenuBar id="utilityMenuBar" fx:id="utilityMenuBarFX" cache="true" prefHeight="22.0" prefWidth="139.0" style="-fx-padding: -5 -5 -5 -5; -fx-background-color: transparent;" styleClass="utilityMenuBar" HBox.hgrow="SOMETIMES">
+              <Menu id="fileMenuBar" fx:id="fileMenuBarFX" text="File">
+                  <MenuItem id="OpenUtilityMenu" fx:id="OpenUtilityMenu" onAction="#handleFileOpen" text="Open">
+                  <accelerator>
+                     <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                  </accelerator>
+               </MenuItem>
+                  <MenuItem fx:id="SaveUtilityMenu" onAction="#handleFileSave" text="Save">
+                  <accelerator>
+                     <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                  </accelerator>
+               </MenuItem>
+                  <MenuItem fx:id="SaveAsUtilityMenu" onAction="#handleFileSaveAs" text="Save As">
             </MenuItem>
-            <MenuItem fx:id="SaveUtilityMenu" text="Save" onAction="#handleFileSave">
-            </MenuItem>
-            <MenuItem fx:id="SaveAsUtilityMenu" text="Save As" onAction="#handleFileSaveAs">
-            </MenuItem>
-        </Menu>
-    </MenuBar>
+              </Menu>
+            <Menu disable="true" mnemonicParsing="false" text="Edit">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+              </items>
+            </Menu>
+            <Menu disable="true" mnemonicParsing="false" text="View">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Action 1" />
+              </items>
+            </Menu>
+            <cursor>
+               <Cursor fx:constant="HAND" />
+            </cursor>
+            <opaqueInsets>
+               <Insets />
+            </opaqueInsets>
+            <HBox.margin>
+               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+            </HBox.margin>
+          </MenuBar>
+         <HBox prefHeight="32.0" prefWidth="50.0" HBox.hgrow="SOMETIMES">
+            <children>
+               <Separator orientation="VERTICAL" prefHeight="200.0" prefWidth="58.0" />
+                <Button id="utilityBarIconBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false">
+                    <graphic>
+                        <FontIcon id="utilityBarIconBtn" fontSmoothingType="LCD" iconLiteral="fltrmz-save-20" iconSize="22" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                    </graphic>
+                </Button>
+
+                  </children>
+         </HBox>
+         <HBox disable="true" prefHeight="32.0" prefWidth="514.0" HBox.hgrow="SOMETIMES">
+            <children>
+               <Separator orientation="VERTICAL" prefHeight="200.0" />
+                <Button mnemonicParsing="false">
+                    <graphic>
+                        <FontIcon id="utilityBarIconBtn" fontSmoothingType="LCD" iconLiteral="fltral-arrow-undo-20" iconSize="22" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                    </graphic>
+                </Button>
+                <Button mnemonicParsing="false">
+                    <graphic>
+                        <FontIcon id="utilityBarIconBtn" fontSmoothingType="LCD" iconLiteral="fltral-arrow-redo-20" iconSize="22" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                    </graphic>
+                </Button>
+            </children>
+         </HBox>
+         <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+         <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
+            <children>
+                <!-- Separate view to separate utilityMenu's concern -->
+                <fx:include source="OptionsPartialMenu.fxml" />
+            </children>
+         </HBox>
+      </children>
+   </HBox>
 
 
-
-</HBox>
+</VBox>

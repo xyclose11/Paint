@@ -10,17 +10,15 @@
             xmlns:fx="http://javafx.com/fxml"
             minHeight="14" maxHeight="20"
             spacing="200"
-            fx:id="RootInfoBarHBox" fx:controller="com.paint.controller.InfoController">
+            fx:controller="com.paint.controller.InfoController">
 
-    <HBox spacing="20" fx:id="InfoBarLeftHBox">
-
+    <HBox spacing="20">
         <Label text="Mouse POS" fx:id="resolutionLbl"></Label>
         <Label text="Selection POS"></Label>
         <Label text="Resolution"></Label>
-
     </HBox>
 
-    <HBox spacing="20" fx:id="InfoBarRightHBox">
+    <HBox spacing="20">
         <Label text="Fit To Screen"></Label>
         <Label text="Zoom ComboBox"></Label>
         <Label text="Zoom Slider"></Label>

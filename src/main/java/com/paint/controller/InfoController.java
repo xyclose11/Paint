@@ -26,12 +26,4 @@ public class InfoController {
 			);
 		}
 	}
-
-//	public InfoController() {
-//
-//	}
-//
-//	public void attachEventHandlers() {
-//
-//	}
 }

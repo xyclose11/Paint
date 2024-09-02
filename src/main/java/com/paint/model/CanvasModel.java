@@ -3,6 +3,7 @@ package com.paint.model;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
+// Model to hold canvas information
 public class CanvasModel {
     private final DoubleProperty canvasWidth = new SimpleDoubleProperty();
     private final DoubleProperty canvasHeight = new SimpleDoubleProperty();
