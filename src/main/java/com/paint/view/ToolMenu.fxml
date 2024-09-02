@@ -3,17 +3,44 @@
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import org.kordamp.ikonli.javafx.*?>
 
-<HBox minHeight="60.0" prefHeight="80.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.ToolMenuController">
+<HBox id="toolbarMainWrapper" minHeight="60.0" prefHeight="80.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.ToolMenuController">
    <VBox id="SelectionVBoxTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
       <children>
-         <RadioButton ellipsisString="" mnemonicParsing="false" selected="true" />
-         <MenuButton mnemonicParsing="false" prefHeight="23.0" prefWidth="50.0" text="MenuButton">
-           <items>
-             <MenuItem mnemonicParsing="false" text="Action 1" />
-             <MenuItem mnemonicParsing="false" text="Action 2" />
-           </items>
-         </MenuButton>
+         <VBox prefHeight="200.0" prefWidth="100.0">
+            <children>
+                <ToggleButton ellipsisString="" mnemonicParsing="false">
+                    <graphic>
+                        <FontIcon id="toolBarSelectionRadio" fontSmoothingType="LCD" iconLiteral="mdi2s-selection" iconSize="22" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                    </graphic>
+                  <toggleGroup>
+                     <ToggleGroup fx:id="ShapeSelect" />
+                  </toggleGroup>
+                </ToggleButton>
+      <!--          <RadioButton id="toolBarSelectionRadio" ellipsisString="" mnemonicParsing="false" selected="true">-->
+      <!--            <toggleGroup>-->
+      <!--               <ToggleGroup fx:id="ShapeSelect" />-->
+      <!--            </toggleGroup>-->
+      
+      <!--          </RadioButton>-->
+               <MenuButton id="menuButtonSelector" alignment="CENTER" contentDisplay="RIGHT" ellipsisString="" mnemonicParsing="false" prefHeight="8.0" prefWidth="40.0" VBox.vgrow="ALWAYS">
+                 <items>
+                   <MenuItem mnemonicParsing="false" text="Action 1" />
+                   <MenuItem mnemonicParsing="false" text="Action 2" />
+                 </items>
+                  <VBox.margin>
+                     <Insets top="1.0" />
+                  </VBox.margin>
+                  <padding>
+                     <Insets bottom="-4.0" top="-4.0" />
+                  </padding>
+               </MenuButton>
+            </children>
+            <padding>
+               <Insets left="5.0" right="5.0" />
+            </padding>
+         </VBox>
          <Label text="Selection" />
 
       </children></VBox>
@@ -82,11 +109,7 @@
                      <Insets bottom="15.0" left="5.0" right="20.0" top="5.0" />
                   </VBox.margin>
                   <children>
-                     <RadioButton fx:id="StLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updatePaintShapeState" selected="true">
-                        <toggleGroup>
-                           <ToggleGroup fx:id="ShapeSelect" />
-                        </toggleGroup>
-                     </RadioButton>
+                     <RadioButton fx:id="StLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updatePaintShapeState" selected="true" toggleGroup="$ShapeSelect" />
                      <RadioButton fx:id="CurveLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updatePaintShapeState" toggleGroup="$ShapeSelect" GridPane.columnIndex="1" />
                      <RadioButton fx:id="Oval" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updatePaintShapeState" toggleGroup="$ShapeSelect" GridPane.columnIndex="2" />
                      <RadioButton fx:id="Rectangle" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updatePaintShapeState" toggleGroup="$ShapeSelect" GridPane.columnIndex="3" />

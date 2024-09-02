@@ -9,6 +9,7 @@ import com.paint.model.PaintStateModel;
 import com.paint.model.SceneStateModel;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -38,8 +39,10 @@ public class Main extends Application {
         FXMLLoader toolMenuLoader = new FXMLLoader(getClass().getResource("/view/ToolMenu.fxml"));
 
         VBox topWrapper = new VBox();
-        VBox temp = utilityMenuLoader.load();
-        topWrapper.getChildren().addAll(temp, toolMenuLoader.load());
+        topWrapper.setPadding(new Insets(0, 5, 0, 0)); // Set spacing for top in borderPane
+
+        VBox utilityMenu = utilityMenuLoader.load();
+        topWrapper.getChildren().addAll(utilityMenu, toolMenuLoader.load());
         rootLayout.setTop(topWrapper);
 
         // Load ToolMenuController after load

@@ -1,6 +1,6 @@
 .root {
     -fx-font-size: 14px;
-    -fx-background-color: white;
+    -fx-background-color: rgb(250, 253, 255);
     /*-fx-background: rgb(32, 32, 32);*/
     /*-fx-base: rgb(39, 39, 39);*/
 }
@@ -14,14 +14,12 @@
     -fx-stroke-line-cap: butt;
 }
 
-
-
-
 * {
-    -fx-my-menu-color: white;
-    -fx-my-menu-color-highlighted: rgba(229, 229, 229, 0.24);
+    -fx-my-menu-color: rgb(250, 253, 255);
+    -fx-my-menu-color-highlighted: rgba(229, 229, 229, 0.45);
     -fx-my-menu-font-color: #000000;
     -fx-my-menu-font-color-highlighted: #000000;
+    -fx-toolbar-background-color: white;
 }
 
 /* MENU BAR + Top-level MENU BUTTONS */
@@ -101,6 +99,22 @@
     -fx-background-color: white;
 }
 
+.toggle-button {
+    -fx-background-color: white;
+}
+
 .button:hover {
     -fx-background-color: -fx-my-menu-color-highlighted;
+}
+
+.toggle-button:hover {
+    -fx-background-color: -fx-my-menu-color-highlighted;
+}
+
+.toggle-button:selected {
+    -fx-background-color: -fx-my-menu-color-highlighted;
+}
+
+#toolbarMainWrapper {
+    -fx-background-color: -fx-toolbar-background-color;
 }
