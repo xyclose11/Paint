@@ -1,32 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.input.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox minHeight="20" prefHeight="25" prefWidth="928.0" spacing="5.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.UtilityController">
-    <MenuBar>
-        <Menu text="File">
-            <MenuItem fx:id="OpenUtilityMenu" onAction="#handleFileOpen" text="Open">
-            </MenuItem>
+<HBox id="utilityMenuBarContainer" minHeight="20" prefHeight="32.0" prefWidth="928.0" spacing="5.0" style="-fx-fill-height: true;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.UtilityController">
+    <MenuBar id="utilityMenuBar" fx:id="utilityMenuBarFX" cache="true" prefHeight="22.0" prefWidth="139.0" style="-fx-padding: -5 -5 -5 -5; -fx-background-color: transparent;" styleClass="utilityMenuBar">
+        <Menu id="fileMenuBar" fx:id="fileMenuBarFX" text="File">
+            <MenuItem id="OpenUtilityMenu" fx:id="OpenUtilityMenu" onAction="#handleFileOpen" text="Open">
+            <accelerator>
+               <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+            </accelerator></MenuItem>
             <MenuItem fx:id="SaveUtilityMenu" onAction="#handleFileSave" text="Save">
-            </MenuItem>
+            <accelerator>
+               <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+            </accelerator></MenuItem>
             <MenuItem fx:id="SaveAsUtilityMenu" onAction="#handleFileSaveAs" text="Save As">
             </MenuItem>
         </Menu>
-      <Menu mnemonicParsing="false" text="Edit">
+      <Menu disable="true" mnemonicParsing="false" text="Edit">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
         </items>
       </Menu>
-      <Menu mnemonicParsing="false" text="View">
+      <Menu disable="true" mnemonicParsing="false" text="View">
         <items>
           <MenuItem mnemonicParsing="false" text="Action 1" />
         </items>
       </Menu>
-      <padding>
-         <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-      </padding>
+      <cursor>
+         <Cursor fx:constant="HAND" />
+      </cursor>
+      <opaqueInsets>
+         <Insets />
+      </opaqueInsets>
+      <HBox.margin>
+         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+      </HBox.margin>
     </MenuBar>
    <HBox disable="true" prefHeight="27.0" prefWidth="72.0">
       <children>
@@ -44,7 +56,7 @@
    <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
       <children>
           <!-- Separate view to separate utilityMenu's concern -->
-          <fx:include source="OptionsPartialMenu.fxml"/>
+          <fx:include source="OptionsPartialMenu.fxml" />
       </children>
    </HBox>
 

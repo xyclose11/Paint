@@ -29,6 +29,7 @@ public class Main extends Application {
         // Set Center
         FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/view/CanvasView.fxml"));
         rootLayout.setCenter(canvasLoader.load());
+
         CanvasController canvasController = canvasLoader.getController();
         canvasController.setCanvasModel(canvasModel);
         canvasController.setPaintStateModel(paintStateModel);

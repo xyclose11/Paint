@@ -5,6 +5,8 @@ New Features:
     - Ability to draw a Line
     - Ability to draw a Rectangle (In all 4 directions)
     - BMP Format support
+    - Updated Styling
+    - Keyboard & Mouse Shortcuts
 
 
 ------------------------------------------------------------------------------

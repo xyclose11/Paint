@@ -1,6 +1,98 @@
 .root {
-    -fx-font-size: 16pt;
-    -fx-font-family: "Comic Sans";
-    -fx-base: rgb(1, 145, 47);
-    -fx-background: rgb(133, 228, 203);
+    -fx-font-size: 14px;
+    /*-fx-background: rgb(32, 32, 32);*/
+    /*-fx-base: rgb(39, 39, 39);*/
 }
+
+.my-rect {
+    -fx-fill: #202020;
+    -fx-stroke: green;
+    -fx-stroke-width: 5;
+    -fx-stroke-dash-array: 12 2 4 2;
+    -fx-stroke-dash-offset: 6;
+    -fx-stroke-line-cap: butt;
+}
+
+#fileMenuBar {
+    -fx-background-color: transparent;
+    -fx-text-fill: black;
+}
+
+#fileMenuBar:hover {
+    -fx-background-color: rgba(255, 255, 255, 0.16);
+    -fx-background-radius: 2;
+    -fx-text-fill: #ec0000;
+}
+
+#utilityMenuBar {
+    /*-fx-font-size: 12px;*/
+    -fx-text-alignment: bottom;
+    /* Top Right Bottom Left*/
+}
+
+#utilityMenuBarContainer {
+}
+
+
+#OpenUtilityMenu {
+    -fx-background-color: grey;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * MenuButton                                                                  *
+ *                                                                             *
+ ******************************************************************************/
+.menu-button {
+    -fx-background-color: #eeeeee, -fx-body-color;
+    -fx-background-insets: 0 0 -1 0, 2;
+    -fx-background-radius: 2;
+    -fx-padding: 0, 5, 0, 0;
+    -fx-text-fill: -fx-text-base-color;
+}
+
+.menu-button > .label {
+    -fx-text-fill: -fx-text-base-color;
+    -fx-padding: 0.166667em 0.667em 0.25em 0.833333em; /* 2 8 3 10 */
+}
+
+.menu-button:focused {
+    -fx-color: -fx-focused-base;
+    -fx-background-color: -fx-focus-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: -1.4, 0, 1, 2;
+    -fx-background-radius: 6.4, 4, 5, 3;
+}
+
+.menu-button:hover {
+    -fx-color: -fx-hover-base;
+}
+
+.menu-button:armed {
+    -fx-color: -fx-pressed-base;
+}
+
+/*.menu-button > .arrow-button {*/
+/*    -fx-background-insets: 0;*/
+/*    -fx-background-radius: 0;*/
+/*    -fx-padding: 0.5em 0.667em 0.5em 0.0em; !* 6 8 6 0 *!*/
+/*}*/
+
+/*.menu-button > .arrow-button > .arrow {*/
+/*    -fx-background-insets: 1 0 -1 0, 0;*/
+/*    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;*/
+/*    -fx-padding: 0.25em; !* 3 *!*/
+/*    -fx-shape: "M 0 -3.5 v 7 l 4 -3.5 z";*/
+/*}*/
+
+/*.menu-button:openvertically > .arrow-button > .arrow {*/
+/*    -fx-padding: 0.166667em 0.333333em 0.166667em 0.333333em; !* 2 4 2 4 *!*/
+/*    -fx-shape: "M 0 0 h 7 l -3.5 4 z";*/
+/*}*/
+
+/*.menu-button:disabled {*/
+/*    -fx-opacity: -fx-disabled-opacity;*/
+/*}*/
+
+/*.menu-button:show-mnemonics > .mnemonic-underline {*/
+/*    -fx-stroke: -fx-text-fill;*/
+/*}*/
