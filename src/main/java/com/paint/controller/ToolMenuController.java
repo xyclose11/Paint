@@ -5,7 +5,6 @@ import com.paint.model.SceneStateModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -65,11 +64,16 @@ public class ToolMenuController {
 
     private void showLWSlider(RadioMenuItem radioItem) throws IOException {
         // Set left 'Choose Line Width' slider
-        Parent root = FXMLLoader.load(getClass().getResource("/view/LineWidthSideView.fxml"));
+        FXMLLoader lWLoader = new FXMLLoader(getClass().getResource("/view/LineWidthSideView.fxml"));
         Stage stage = (Stage)radioItem.getParentPopup().getOwnerWindow(); // Get primary stage
 
+        // Set LWSlider to left side of the main BorderPane
         BorderPane bp = (BorderPane) stage.getScene().getRoot();
-        bp.setLeft(root);
+        bp.setLeft(lWLoader.load());
+
+        // Add PaintStateModel to controller to alter Line Width
+        LineWidthController lineWidthController = lWLoader.getController();
+        lineWidthController.setPaintStateModel(this.paintStateModel);
     }
 
     private void hideLWSlider(Toggle toggle) {
@@ -81,6 +85,7 @@ public class ToolMenuController {
 
     @FXML
     public void initialize() {
+        // Add event listener to check if a tool that has the line width property is selected
         ToolSelect.selectedToggleProperty().addListener(((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 if (newValue instanceof RadioMenuItem) {

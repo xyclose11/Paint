@@ -32,11 +32,21 @@ public class PaintStateModel {
     private String currentTool = "StLine"; // Holds the currentTool that the user has selected. // TODO Change to selection tool when impl
     private String currentToolType = "shape"; // Differentiates the differing tool types. i.e. (Select, brush, shape, etc.)
     private Shape currentShape;
+    private double currentLineWidth;
 
     public PaintStateModel() {
         this.currentBrush = new BrushObj();
         this.currentPaintColor = Color.BLACK; // Default color
         this.currentShape = null;
+        this.currentLineWidth = .5;
+    }
+
+    public double getCurrentLineWidth() {
+        return currentLineWidth;
+    }
+
+    public void setCurrentLineWidth(double currentLineWidth) {
+        this.currentLineWidth = currentLineWidth;
     }
 
     public Shape getCurrentShape() {
