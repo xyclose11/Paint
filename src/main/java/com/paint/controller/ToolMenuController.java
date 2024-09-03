@@ -3,6 +3,7 @@ package com.paint.controller;
 import com.paint.model.PaintStateModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Control;
 import javafx.scene.control.RadioMenuItem;
 import javafx.scene.input.MouseEvent;
@@ -20,7 +21,7 @@ public class ToolMenuController {
         String sourceId = ((Control)mouseEvent.getSource()).getId();
 
         if (sourceId == null) {
-            // Impl error handling here
+            showToolIsNullAlert();
         }
         // Update paintStateModel current tool when a new tool is selected
         this.paintStateModel.setCurrentTool(sourceId);
@@ -33,10 +34,18 @@ public class ToolMenuController {
         String sourceId = ((RadioMenuItem)actionEvent.getSource()).getId();
 
         if (sourceId == null) {
-            // Impl error handling here
+            showToolIsNullAlert();
         }
         // Update paintStateModel current tool when a new tool is selected
         this.paintStateModel.setCurrentTool(sourceId);
         this.paintStateModel.setCurrentToolType("brush");
+    }
+
+    private void showToolIsNullAlert() {
+        // Show alert if selected tool does not respond properly
+        Alert noToolSelectedAlert = new Alert(Alert.AlertType.ERROR, "DESIRED TOOL SELECT IS NULL. PLEASE USE A DIFFERENT TOOL.");
+        noToolSelectedAlert.setTitle("ERROR: TOOL SELECTION IS NULL");
+        noToolSelectedAlert.setHeaderText("");
+        noToolSelectedAlert.showAndWait();
     }
 }

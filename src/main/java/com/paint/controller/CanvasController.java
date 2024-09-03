@@ -13,9 +13,11 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
+import javafx.scene.shape.StrokeType;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -26,21 +28,16 @@ public class CanvasController {
     @FXML
     Canvas mainCanvas;
 
-    private GraphicsContext graphicsContext;
-
-    private BrushController brushController;
-
-    private PaintStateModel paintStateModel;
     @FXML
     private Group canvasGroup;
-    private CanvasModel canvasModel;
 
     @FXML
     // Used to house all Shape objects that are drawn
     private Pane drawingPane;
 
-    @FXML
-    private StackPane canvasDrawingStackPane;
+    private GraphicsContext graphicsContext;
+    private PaintStateModel paintStateModel;
+    private CanvasModel canvasModel;
 
     public void setCanvasModel(CanvasModel canvasModel) {
         this.canvasModel = canvasModel;
@@ -58,48 +55,11 @@ public class CanvasController {
         }
     }
 
-    // DRAWING SECTION START
+    // DRAWING EVENT HANDLERS SECTION START
     // stores the mouse starting POS
     double startX = 0;
     double startY = 0;
 
-    // BRUSH EVENT HANDLER START
-    // TODO move these to BrushController after testing
-    @FXML
-    private void onMouseDownBrush(MouseEvent event) {
-        // TODO verify that the selected tool is a brush
-        System.out.println(this.paintStateModel.getCurrentBrush());
-        switch (this.paintStateModel.getCurrentBrush()) {
-            case ("regular"):
-                GraphicsContext gc = mainCanvas.getGraphicsContext2D();
-
-                  gc.setStroke(Color.BLACK);
-                  gc.beginPath();
-                break;
-        }
-    }
-
-    @FXML
-    private void onMouseDraggedBrush(MouseEvent event) {
-        double x = event.getX();
-        double y = event.getY();
-
-//        mainCanvas.getGraphicsContext2D().moveTo(x, y);
-//        mainCanvas.getGraphicsContext2D().stroke();
-//        mainCanvas.getGraphicsContext2D().setLineWidth(2);
-//        currentShape.setC
-
-    }
-
-    @FXML
-    private void onMouseReleaseBrush(MouseEvent event) {
-//        mainCanvas.getGraphicsContext2D().closePath();
-        // TODO set it so that after the path is done being created it gets "saved"
-    }
-    // BRUSH EVENT HANDLER END
-
-    // Maintain the state of the current shape being drawn
-//    Shape currentShape;
     @FXML
     private void handleMousePressed(MouseEvent mouseEvent) {
         startX = mouseEvent.getX();
@@ -116,7 +76,6 @@ public class CanvasController {
                 handleToolBrushOnPress();
                 break;
         }
-        // TODO Add functionality so that when the scroll pane scrolls the canvas and drawing pane resize (BIND)
         // TODO Remove scroll pane & just add 2 separate scroll bars
     }
 
@@ -152,14 +111,12 @@ public class CanvasController {
         switch (this.paintStateModel.getCurrentBrush()) {
             case "regular":
                 GraphicsContext gc = mainCanvas.getGraphicsContext2D();
-
                 gc.setStroke(Color.BLACK);
                 gc.beginPath();
                 break;
         }
     }
 
-    // TODO MOVE MOUSE EVENT HANDLERS TO NEW PaneController AND CONVERT THESE INTO BRUSH CONTROLLERS ITF
     @FXML
     private void handleMouseDragged(MouseEvent mouseEvent) {
         Shape currentShape = this.paintStateModel.getCurrentShape();
@@ -176,8 +133,6 @@ public class CanvasController {
                 handleToolBrushOnDragged(curX, curY);
                 break;
         }
-
-
 
         // Set currentShape in model
         this.paintStateModel.setCurrentShape(currentShape);
@@ -275,7 +230,6 @@ public class CanvasController {
 
         // Initialize graphics context to enable drawing
         graphicsContext = mainCanvas.getGraphicsContext2D();
-        brushController = new BrushController(graphicsContext);
 
         // Set default background color -> white
         graphicsContext.setFill(Color.WHITE);
@@ -299,12 +253,6 @@ public class CanvasController {
 
     // Takes a snapshot of the canvas & saves it to the designated file
     public void saveImageFromCanvas(File file, String fileExtension) {
-        System.out.println(fileExtension);
-//        if (fileExtension == "bmp" || fileExtension == "dib") {
-//            saveBMPFormat(file, fileExtension);
-//        }
-
-
         WritableImage writableImage = new WritableImage((int)(mainCanvas.getWidth()), (int) (mainCanvas.getHeight()));
         // Take a snapshot of the current canvas and save it to the writableImage
         //this.mainCanvas.snapshot(null, writableImage);
