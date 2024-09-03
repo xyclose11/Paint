@@ -186,11 +186,18 @@ public class CanvasController {
     private void handleToolShapeOnDragged(Shape currentShape, double curX, double curY) {
 
         if (currentShape != null) {
+            // Check if shape is off the canvas
+            // TODO alter this so that it will auto scroll when going off the current viewport
+            if (curX >= mainCanvas.getWidth() || curY >= mainCanvas.getHeight() || curX < 0 || curY < 0) {
+                return;
+            }
             if (currentShape instanceof Line line) {
                 line.setEndX(curX);
                 line.setEndY(curY);
             } else if (currentShape instanceof Rectangle rect) {
-//                rect.getStyleClass().add("my-rect");
+                // Check if cursor is out of canvas/pane bounds
+
+
                 // Check if cursor is going in Quadrant 4 (Meaning that it doesn't require any calculation swaps)
                 if (curX >= startX && curY >= startY) {
                     rect.setWidth((curX - startX));
