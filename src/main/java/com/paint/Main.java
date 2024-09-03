@@ -31,8 +31,7 @@ public class Main extends Application {
         rootLayout.setCenter(canvasLoader.load());
 
         CanvasController canvasController = canvasLoader.getController();
-        canvasController.setCanvasModel(canvasModel);
-        canvasController.setPaintStateModel(paintStateModel);
+
 
         // Wrap topper, and set top
         FXMLLoader utilityMenuLoader = new FXMLLoader(getClass().getResource("/view/UtilityMenu.fxml"));
@@ -47,7 +46,6 @@ public class Main extends Application {
 
         // Load ToolMenuController after load
         ToolMenuController toolMenuController = toolMenuLoader.getController();
-        toolMenuController.setPaintStateModel(paintStateModel);
 
         UtilityController utilityController = utilityMenuLoader.getController();
 
@@ -60,10 +58,19 @@ public class Main extends Application {
         rootLayout.setBottom(infoBarLoader.load());
 
         InfoController infoController = infoBarLoader.getController();
-        infoController.setCanvasModel(canvasModel);
 
         Scene scene = new Scene(rootLayout, 1225, 735);
         sceneStateModel = new SceneStateModel(scene);
+
+        // Set controller models
+        toolMenuController.setPaintStateModel(paintStateModel);
+        toolMenuController.setSceneStateModel(sceneStateModel);
+
+        canvasController.setCanvasModel(canvasModel);
+        canvasController.setPaintStateModel(paintStateModel);
+
+        infoController.setCanvasModel(canvasModel);
+
 
         // Add style sheets
         try {
