@@ -15,7 +15,7 @@
                         <FontIcon id="toolBarSelectionRadio" fontSmoothingType="LCD" iconLiteral="mdi2s-selection" iconSize="22" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                     </graphic>
                   <toggleGroup>
-                     <ToggleGroup fx:id="ShapeSelect" />
+                     <ToggleGroup fx:id="ToolSelect" />
                   </toggleGroup>
                 </ToggleButton>
       <!--          <RadioButton id="toolBarSelectionRadio" ellipsisString="" mnemonicParsing="false" selected="true">-->
@@ -72,7 +72,8 @@
                <RadioButton ellipsisString="" mnemonicParsing="false" selected="true" />
                <MenuButton mnemonicParsing="false" text="BrushSelectMenu">
                  <items>
-                     <MenuItem mnemonicParsing="false" text="Brush" />
+                     <RadioMenuItem mnemonicParsing="false" text="Brush" fx:id="regular" onAction="#updateMenuItemToolState" toggleGroup="$ToolSelect">
+                     </RadioMenuItem>
                      <MenuItem mnemonicParsing="false" text="Calligraphy Brush" />
                      <MenuItem mnemonicParsing="false" text="Calligraphy Pen" />
                    <MenuItem mnemonicParsing="false" text="Airbrush" />
@@ -109,10 +110,10 @@
                      <Insets bottom="15.0" left="5.0" right="20.0" top="5.0" />
                   </VBox.margin>
                   <children>
-                     <RadioButton fx:id="StLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updatePaintShapeState" selected="true" toggleGroup="$ShapeSelect" />
-                     <RadioButton fx:id="CurveLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updatePaintShapeState" toggleGroup="$ShapeSelect" GridPane.columnIndex="1" />
-                     <RadioButton fx:id="Oval" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updatePaintShapeState" toggleGroup="$ShapeSelect" GridPane.columnIndex="2" />
-                     <RadioButton fx:id="Rectangle" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updatePaintShapeState" toggleGroup="$ShapeSelect" GridPane.columnIndex="3" />
+                     <RadioButton fx:id="StLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" selected="true" toggleGroup="$ToolSelect" />
+                     <RadioButton fx:id="CurveLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="1" />
+                     <RadioButton fx:id="Oval" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="2" />
+                     <RadioButton fx:id="Rectangle" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="3" />
                   </children>
 
                </GridPane>

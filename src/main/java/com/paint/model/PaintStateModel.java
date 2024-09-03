@@ -1,6 +1,7 @@
 package com.paint.model;
 
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 
 // Hold info about currently selected brush, image, color, shape, etc. settings.
 public class PaintStateModel {
@@ -9,7 +10,7 @@ public class PaintStateModel {
         private String brushType;
 
         public BrushObj() {
-            this.brushType = "StLine";
+            this.brushType = "regular";
         }
 
         public BrushObj(String brushType) {
@@ -29,11 +30,21 @@ public class PaintStateModel {
 
     private final BrushObj currentBrush;
     private String currentTool = "StLine"; // Holds the currentTool that the user has selected. // TODO Change to selection tool when impl
-    private String currentToolType = "Select"; // Differentiates the differing tool types. i.e. (Select, brush, shape, etc.)
+    private String currentToolType = "shape"; // Differentiates the differing tool types. i.e. (Select, brush, shape, etc.)
+    private Shape currentShape;
 
     public PaintStateModel() {
         this.currentBrush = new BrushObj();
         this.currentPaintColor = Color.BLACK; // Default color
+        this.currentShape = null;
+    }
+
+    public Shape getCurrentShape() {
+        return this.currentShape;
+    }
+
+    public void setCurrentShape(Shape currentShape) {
+        this.currentShape = currentShape;
     }
 
     public String getCurrentTool() {
@@ -68,4 +79,6 @@ public class PaintStateModel {
     public void setCurrentToolType(String currentToolType) {
         this.currentToolType = currentToolType;
     }
+
+
 }

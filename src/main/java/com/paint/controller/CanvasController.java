@@ -15,10 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
-import javafx.scene.shape.StrokeType;
+import javafx.scene.shape.*;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -30,6 +27,8 @@ public class CanvasController {
     Canvas mainCanvas;
 
     private GraphicsContext graphicsContext;
+
+    private BrushController brushController;
 
     private PaintStateModel paintStateModel;
     @FXML
@@ -64,14 +63,65 @@ public class CanvasController {
     double startX = 0;
     double startY = 0;
 
-    // Maintain the state of the current shape being drawn
-    Shape currentShape;
+    // BRUSH EVENT HANDLER START
+    // TODO move these to BrushController after testing
     @FXML
-    private void handleShapeMousePressed(MouseEvent mouseEvent) {
+    private void onMouseDownBrush(MouseEvent event) {
+        // TODO verify that the selected tool is a brush
+        System.out.println(this.paintStateModel.getCurrentBrush());
+        switch (this.paintStateModel.getCurrentBrush()) {
+            case ("regular"):
+                GraphicsContext gc = mainCanvas.getGraphicsContext2D();
+
+                  gc.setStroke(Color.BLACK);
+                  gc.beginPath();
+                break;
+        }
+    }
+
+    @FXML
+    private void onMouseDraggedBrush(MouseEvent event) {
+        double x = event.getX();
+        double y = event.getY();
+
+//        mainCanvas.getGraphicsContext2D().moveTo(x, y);
+//        mainCanvas.getGraphicsContext2D().stroke();
+//        mainCanvas.getGraphicsContext2D().setLineWidth(2);
+//        currentShape.setC
+
+    }
+
+    @FXML
+    private void onMouseReleaseBrush(MouseEvent event) {
+//        mainCanvas.getGraphicsContext2D().closePath();
+        // TODO set it so that after the path is done being created it gets "saved"
+    }
+    // BRUSH EVENT HANDLER END
+
+    // Maintain the state of the current shape being drawn
+//    Shape currentShape;
+    @FXML
+    private void handleMousePressed(MouseEvent mouseEvent) {
         startX = mouseEvent.getX();
         startY = mouseEvent.getY();
+        String currentTool = this.paintStateModel.getCurrentTool();
+        String currentToolType = this.paintStateModel.getCurrentToolType();
+        Shape currentShape = this.paintStateModel.getCurrentShape();
 
-        switch (this.paintStateModel.getCurrentTool()) {
+        switch (currentToolType) {
+            case "shape":
+                handleToolShapeOnPress(currentShape, currentTool);
+                break;
+            case "brush":
+                handleToolBrushOnPress();
+                break;
+        }
+        // TODO Add functionality so that when the scroll pane scrolls the canvas and drawing pane resize (BIND)
+        // TODO Remove scroll pane & just add 2 separate scroll bars
+    }
+
+    private void handleToolShapeOnPress(Shape currentShape, String currentTool) {
+        switch (currentTool) {
             case "StLine":
                 currentShape = new Line(startX, startY, startX, startY);
                 break;
@@ -83,12 +133,12 @@ public class CanvasController {
 
         if (currentShape != null) {
             currentShape.setStroke(Color.BLACK);
-//            currentShape.setStrokeWidth(.5);
             currentShape.setMouseTransparent(true);
             currentShape.setStrokeType(StrokeType.CENTERED);
             drawingPane.getChildren().add(currentShape);
 
-
+            // Set current shape in model
+            this.paintStateModel.setCurrentShape(currentShape);
         } else {
             // Error for if the currentShape is null (Ideally there should always be a tool selected)
             Alert noToolSelectedAlert = new Alert(Alert.AlertType.ERROR, "NO TOOL SELECTED. Please select a tool in the tool bar above.");
@@ -96,18 +146,46 @@ public class CanvasController {
             noToolSelectedAlert.setHeaderText("");
             noToolSelectedAlert.showAndWait();
         }
+    }
 
-        // TODO Add functionality so that when the scroll pane scrolls the canvas and drawing pane resize (BIND)
-        // TODO Remove scroll pane & just add 2 separate scroll bars
+    private void handleToolBrushOnPress() {
+        switch (this.paintStateModel.getCurrentBrush()) {
+            case "regular":
+                GraphicsContext gc = mainCanvas.getGraphicsContext2D();
+
+                gc.setStroke(Color.BLACK);
+                gc.beginPath();
+                break;
+        }
     }
 
     // TODO MOVE MOUSE EVENT HANDLERS TO NEW PaneController AND CONVERT THESE INTO BRUSH CONTROLLERS ITF
     @FXML
-    private void handleShapeMouseDragged(MouseEvent mouseEvent) {
-        if (currentShape != null) {
-            double curX = mouseEvent.getX();
-            double curY = mouseEvent.getY();
+    private void handleMouseDragged(MouseEvent mouseEvent) {
+        Shape currentShape = this.paintStateModel.getCurrentShape();
+        String currentToolType = this.paintStateModel.getCurrentToolType();
 
+        double curX = mouseEvent.getX();
+        double curY = mouseEvent.getY();
+
+        switch (currentToolType) {
+            case "shape":
+                handleToolShapeOnDragged(currentShape, curX, curY);
+                break;
+            case "brush":
+                handleToolBrushOnDragged(curX, curY);
+                break;
+        }
+
+
+
+        // Set currentShape in model
+        this.paintStateModel.setCurrentShape(currentShape);
+    }
+
+    private void handleToolShapeOnDragged(Shape currentShape, double curX, double curY) {
+
+        if (currentShape != null) {
             if (currentShape instanceof Line line) {
                 line.setEndX(curX);
                 line.setEndY(curY);
@@ -136,24 +214,49 @@ public class CanvasController {
                     rect.setHeight(Math.abs(startY - curY));
                 }
 
-
-                // Used for rounded corners
-//                rect.setArcHeight(20);
-//                rect.setArcWidth(20);
             }
+
         } else {
             // Error for if the currentShape is null (Ideally there should always be a tool selected)
             Alert noToolSelectedAlert = new Alert(Alert.AlertType.ERROR, "NO TOOL SELECTED. Please select a tool in the tool bar above.");
-            noToolSelectedAlert.setTitle("No Tool Selected");
+            noToolSelectedAlert.setTitle("No Tool Selected: DRAGGED");
             noToolSelectedAlert.setHeaderText("");
             noToolSelectedAlert.showAndWait();
         }
+
+    }
+
+    private void handleToolBrushOnDragged(double curX, double curY) {
+        GraphicsContext gc = mainCanvas.getGraphicsContext2D();
+        gc.lineTo(curX, curY);
+        gc.stroke();
     }
 
     @FXML
-    private void handleShapeMouseReleased(MouseEvent mouseEvent) {
+    private void handleMouseReleased(MouseEvent mouseEvent) {
+        String currentToolType = this.paintStateModel.getCurrentToolType();
+        switch (currentToolType) {
+            case ("shape"):
+                handleToolShapeReleased(this.paintStateModel.getCurrentShape());
+                break;
+            case ("brush"):
+                // TBD
+                break;
+        }
+
+
+    }
+
+    private void handleToolShapeReleased(Shape currentShape) {
         currentShape.setMouseTransparent(false);
-        currentShape = null;
+        this.paintStateModel.setCurrentShape(null);
+
+        // TODO translate the shape into a canvas obj
+        GraphicsContext gc = mainCanvas.getGraphicsContext2D();
+
+        if (currentShape instanceof Rectangle rect) {
+            gc.fillRect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+        }
     }
     // DRAWING SECTION END
 
@@ -165,6 +268,11 @@ public class CanvasController {
 
         // Initialize graphics context to enable drawing
         graphicsContext = mainCanvas.getGraphicsContext2D();
+        brushController = new BrushController(graphicsContext);
+
+        // Set default background color -> white
+        graphicsContext.setFill(Color.WHITE);
+        graphicsContext.fillRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
     }
 
     public void setCanvas(Image image) {

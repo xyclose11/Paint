@@ -5,13 +5,12 @@
     /*-fx-base: rgb(39, 39, 39);*/
 }
 
-.my-rect {
-    -fx-fill: #202020;
-    -fx-stroke: green;
-    -fx-stroke-width: 5;
-    -fx-stroke-dash-array: 12 2 4 2;
-    -fx-stroke-dash-offset: 6;
-    -fx-stroke-line-cap: butt;
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.stack-pane {
+    -fx-background-color: transparent;
 }
 
 * {
