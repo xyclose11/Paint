@@ -8,22 +8,27 @@ public class InfoController {
 	@FXML
 	private Label resolutionLbl;
 
+	@FXML
+	private Label selectionResLbl;
+
+	@FXML
+	private Label mousePosLbl;
+
 	private CanvasModel canvasModel;
 
 	public void setCanvasModel(CanvasModel canvasModel) {
 		this.canvasModel = canvasModel;
-
-		bindCanvasResToLbl();
 	}
 
-	// Binds the canvas resolution to the label so that it updates when the img size changes
-	private void bindCanvasResToLbl() {
-		if (canvasModel != null) {
-			resolutionLbl.textProperty().bind(
-					canvasModel.canvasWidthProperty().asString()
-							.concat(" x ")
-							.concat(canvasModel.canvasHeightProperty().asString())
-			);
-		}
+	@FXML
+	private void onCanvasDimChange() {
+
 	}
+
+	@FXML
+	private void initialize(){
+
+	}
+
+
 }

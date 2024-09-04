@@ -29,7 +29,8 @@
          </content>
          <cursor>
             <Cursor fx:constant="CROSSHAIR" />
-         </cursor></ScrollPane>
+         </cursor>
+        </ScrollPane>
 
     </VBox>
 </HBox>

@@ -1,27 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <HBox xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            minHeight="14" maxHeight="20"
-            spacing="200"
-            fx:controller="com.paint.controller.InfoController">
+      xmlns:fx="http://javafx.com/fxml"
+      minHeight="14" maxHeight="20"
+      spacing="200"
+      fx:controller="com.paint.controller.InfoController">
 
     <HBox spacing="20">
-        <Label text="Mouse POS" fx:id="resolutionLbl"></Label>
-        <Label text="Selection POS"></Label>
-        <Label text="Resolution"></Label>
+        <Label text="Mouse POS" fx:id="mousePosLbl">
+            <tooltip>
+                <Tooltip text="Current XY location of the mouse"></Tooltip>
+            </tooltip>
+        </Label>
+        <Separator orientation="VERTICAL"></Separator>
+        <Label text="Selection POS" fx:id="selectionResLbl">
+            <tooltip>
+                <Tooltip text="Current XY Dimensions of selection being made"></Tooltip>
+            </tooltip>
+        </Label>
+        <Separator orientation="VERTICAL"></Separator>
+        <Label text="Resolution" fx:id="resolutionLbl">
+            <tooltip>
+                <Tooltip text="Current Resolution of Canvas"></Tooltip>
+            </tooltip>
+        </Label>
+        <HBox.margin>
+            <Insets bottom="0.0" left="5.0" right="0.0" top="0.0" />
+        </HBox.margin>
+    </HBox>
+    <HBox HBox.hgrow="ALWAYS">
+        <!-- Used to space out the content to the sides -->
     </HBox>
 
     <HBox spacing="20">
         <Label text="Fit To Screen"></Label>
         <Label text="Zoom ComboBox"></Label>
         <Label text="Zoom Slider"></Label>
+        <HBox.margin>
+            <Insets bottom="0.0" left="0.0" right="5.0" top="0.0" />
+        </HBox.margin>
     </HBox>
 
 </HBox>

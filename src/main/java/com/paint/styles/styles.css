@@ -28,6 +28,25 @@
     -fx-max-width: 0px;
 }
 
+/** Scroll Pane **/
+/* Scrollbar Track */
+.scroll-pane .scroll-bar:horizontal .track,
+.scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+}
+
+/* Scrollbar Thumb */
+.scroll-pane .scroll-bar:horizontal .thumb,
+.scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: rgba(171, 171, 171, 0.42);
+    -fx-background-radius: 5;
+}
+
+/* Scrollbar Thumb when Hovered */
+.scroll-pane .scroll-bar:horizontal .thumb:hover,
+.scroll-pane .scroll-bar:vertical .thumb:hover {
+    -fx-background-color: rgba(162, 162, 162, 0.44);
+}
 
 * {
     -fx-my-menu-color: rgb(250, 253, 255);

@@ -115,7 +115,7 @@ public class CanvasController {
                 GraphicsContext gc = mainCanvas.getGraphicsContext2D(); // TODO move graphicsContext, setStroke, setLineWidth -> PaintStateModel
                 gc.setStroke(this.paintStateModel.getCurrentPaintColor());
                 gc.setLineWidth(this.paintStateModel.getCurrentLineWidth());
-                gc.setLineCap(this.paintStateModel.getCurrentStrokeLineCap());
+                gc.setLineCap(this.paintStateModel.getCurrentStrokeLineCap()); // Sets the line cap so that the brush appears 'circular' instead of 'square'
                 gc.beginPath();
                 break;
         }
@@ -279,5 +279,11 @@ public class CanvasController {
             new Alert(Alert.AlertType.ERROR, "Unable to save the image at this time. Stack Trace: " + e.getMessage() );
             e.printStackTrace();
         }
+    }
+
+    // Mouse POS Handler
+    @FXML
+    private void onMouseMoveCanvas(MouseEvent mouseEvent) {
+
     }
 }
