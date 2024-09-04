@@ -4,7 +4,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import org.kordamp.ikonli.javafx.*?>
-<HBox id="toolbarMainWrapper" minHeight="60.0" prefHeight="80.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.ToolMenuController">
+
+<HBox id="toolbarMainWrapper" minHeight="60.0" prefHeight="80.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.ToolMenuController">
    <VBox id="SelectionVBoxTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
       <children>
          <VBox prefHeight="200.0" prefWidth="100.0">
@@ -97,7 +98,7 @@
          <Separator orientation="VERTICAL" prefHeight="200.0" />
          <VBox id="ShapesSectionTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
             <children>
-               <GridPane id="ShapeSelectionGrid" alignment="TOP_CENTER" style="-fx-border-color: black;">
+               <GridPane id="ShapeSelectionGrid" alignment="TOP_CENTER" style="-fx-border-color: grey;">
                  <columnConstraints>
                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -110,7 +111,7 @@
                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                  </rowConstraints>
                   <VBox.margin>
-                     <Insets bottom="15.0" left="5.0" right="20.0" top="5.0" />
+                     <Insets bottom="15.0" left="5.0" right="5.0" top="5.0" />
                   </VBox.margin>
                   <children>
                       <ToggleButton fx:id="StLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" prefHeight="14.0" prefWidth="16.0" selected="true" style="-fx-background-radius: 3;" toggleGroup="$ToolSelect" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
@@ -137,6 +138,9 @@
                           </graphic>
                       </ToggleButton>
                   </children>
+                  <padding>
+                     <Insets bottom="5.0" top="5.0" />
+                  </padding>
 
                </GridPane>
                <Label fx:id="ShapeSectionId" text="Shapes" />

@@ -135,6 +135,8 @@
 
 .toggle-button {
     -fx-background-color: white;
+    -fx-padding: 1px 1px;
+    -fx-alignment: center;
 }
 
 .button:hover {
@@ -147,6 +149,11 @@
 
 .toggle-button:selected {
     -fx-background-color: -fx-my-menu-color-highlighted;
+}
+
+/* Style for selected toggle buttons */
+.toggle-button:selected {
+    -fx-corners: 5px;
 }
 
 #toolbarMainWrapper {

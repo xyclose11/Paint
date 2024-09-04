@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -38,6 +39,9 @@ public class CanvasController {
     private GraphicsContext graphicsContext;
     private PaintStateModel paintStateModel;
     private CanvasModel canvasModel;
+
+    // Handles zoom state
+    private double scaleFactor = 1;
 
     public void setCanvasModel(CanvasModel canvasModel) {
         this.canvasModel = canvasModel;
@@ -95,7 +99,7 @@ public class CanvasController {
             currentShape.setFill(this.paintStateModel.getCurrentPaintColor());
             currentShape.setMouseTransparent(true);
             currentShape.setStrokeType(StrokeType.CENTERED);
-            currentShape.setStrokeWidth(this.paintStateModel.getCurrentLineWidth()); // TODO separate this from the brush line width
+//            currentShape.setStrokeWidth(this.paintStateModel.getCurrentLineWidth()); // TODO separate this from the brush line width
             drawingPane.getChildren().add(currentShape);
 
             // Set current shape in model
@@ -279,6 +283,22 @@ public class CanvasController {
             new Alert(Alert.AlertType.ERROR, "Unable to save the image at this time. Stack Trace: " + e.getMessage() );
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void scaleCanvasOnScroll(ScrollEvent scrollEvent) {
+        double zoomFactor = 1.1; // Handles zoom factor
+
+        // Check if user is scrolling in or out
+        if (scrollEvent.getDeltaY() > 0) {
+            scaleFactor *= zoomFactor;
+        } else {
+            scaleFactor /= zoomFactor;
+        }
+
+        canvasGroup.setScaleX(scaleFactor);
+
+        canvasGroup.setScaleY(scaleFactor);
     }
 
     // Mouse POS Handler

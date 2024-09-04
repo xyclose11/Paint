@@ -87,7 +87,6 @@ public class ToolMenuController {
 
     private void hideLWSlider(Toggle toggle) {
         Scene scene = sceneStateModel.getCurrentScene(); // Get primary stage
-
         BorderPane bp = (BorderPane) scene.getRoot();
         bp.setLeft(null);
     }
