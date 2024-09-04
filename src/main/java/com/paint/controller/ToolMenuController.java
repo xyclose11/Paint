@@ -19,6 +19,9 @@ public class ToolMenuController {
     private SceneStateModel sceneStateModel;
 
     @FXML
+    private ColorPicker colorPicker;
+
+    @FXML
     private ToggleButton currentBrushSelectedDisplay;
 
     @FXML
@@ -90,6 +93,11 @@ public class ToolMenuController {
     }
 
     @FXML
+    private void onActionSetColorPicker(ActionEvent actionEvent) {
+        this.paintStateModel.setCurrentPaintColor(colorPicker.getValue());
+    }
+
+    @FXML
     public void initialize() {
         // Add event listener to check if a tool that has the line width property is selected
         ToolSelect.selectedToggleProperty().addListener(((observable, oldValue, newValue) -> {
@@ -107,5 +115,11 @@ public class ToolMenuController {
                 }
             }
         }));
+
+//        colorPicker.setOnAction(new EventHandler() {
+//            public void handle(Event t) {
+//                Color c = colorPicker.getValue();
+//                System.out.println("New Color's RGB = "+c.getRed()+" "+c.getGreen()+" "+c.getBlue());
+//            }});
     }
 }

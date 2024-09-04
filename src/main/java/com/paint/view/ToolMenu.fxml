@@ -152,7 +152,7 @@
                <Label text="Colors" />
             </children>
          </VBox>
-         <ColorPicker />
+         <ColorPicker fx:id="colorPicker" onAction="#onActionSetColorPicker" />
       </children>
    </HBox>
    <HBox prefHeight="80.0" prefWidth="134.0">

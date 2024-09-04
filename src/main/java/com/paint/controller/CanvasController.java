@@ -91,7 +91,8 @@ public class CanvasController {
         }
 
         if (currentShape != null) {
-            currentShape.setStroke(Color.BLACK);
+            currentShape.setStroke(this.paintStateModel.getCurrentPaintColor());
+            currentShape.setFill(this.paintStateModel.getCurrentPaintColor());
             currentShape.setMouseTransparent(true);
             currentShape.setStrokeType(StrokeType.CENTERED);
             currentShape.setStrokeWidth(this.paintStateModel.getCurrentLineWidth()); // TODO separate this from the brush line width
@@ -112,7 +113,7 @@ public class CanvasController {
         switch (this.paintStateModel.getCurrentBrush()) {
             case "regular":
                 GraphicsContext gc = mainCanvas.getGraphicsContext2D(); // TODO move graphicsContext, setStroke, setLineWidth -> PaintStateModel
-                gc.setStroke(Color.BLACK);
+                gc.setStroke(this.paintStateModel.getCurrentPaintColor());
                 gc.setLineWidth(this.paintStateModel.getCurrentLineWidth());
                 gc.beginPath();
                 break;
