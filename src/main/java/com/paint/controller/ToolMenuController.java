@@ -19,6 +19,9 @@ public class ToolMenuController {
     private SceneStateModel sceneStateModel;
 
     @FXML
+    private ToggleButton currentBrushSelectedDisplay;
+
+    @FXML
     private ToggleGroup ToolSelect; // Get toggle group for tools
 
     // Set models
@@ -52,6 +55,9 @@ public class ToolMenuController {
         // Update paintStateModel current tool when a new tool is selected
         this.paintStateModel.setCurrentTool(sourceId);
         this.paintStateModel.setCurrentToolType("brush");
+
+        // Update currentBrushSelectedDisplay view to be selected
+        currentBrushSelectedDisplay.setSelected(true);
     }
 
     private void showToolIsNullAlert() {

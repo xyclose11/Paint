@@ -4,8 +4,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import org.kordamp.ikonli.javafx.*?>
-
-<HBox id="toolbarMainWrapper" minHeight="60.0" prefHeight="80.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.ToolMenuController">
+<HBox id="toolbarMainWrapper" minHeight="60.0" prefHeight="80.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.ToolMenuController">
    <VBox id="SelectionVBoxTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
       <children>
          <VBox prefHeight="200.0" prefWidth="100.0">
@@ -24,7 +23,7 @@
       <!--            </toggleGroup>-->
 
       <!--          </RadioButton>-->
-               <MenuButton id="menuButtonSelector" alignment="CENTER" contentDisplay="RIGHT" ellipsisString="" mnemonicParsing="false" prefHeight="8.0" prefWidth="40.0" VBox.vgrow="ALWAYS">
+               <MenuButton id="menuButtonSelector" alignment="CENTER" contentDisplay="RIGHT" ellipsisString="" mnemonicParsing="false" prefHeight="9.0" prefWidth="40.0" VBox.vgrow="ALWAYS">
                  <items>
                    <MenuItem mnemonicParsing="false" text="Action 1" />
                    <MenuItem mnemonicParsing="false" text="Action 2" />
@@ -69,10 +68,14 @@
          <Separator orientation="VERTICAL" prefHeight="200.0" />
          <VBox id="BrushesSectionTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
             <children>
-               <RadioButton ellipsisString="" mnemonicParsing="false" selected="true" />
-               <MenuButton mnemonicParsing="false" text="BrushSelectMenu">
+                <ToggleButton fx:id="currentBrushSelectedDisplay" mnemonicParsing="false">
+                    <graphic>
+                        <FontIcon id="toolBarBrushesToggle" fontSmoothingType="LCD" iconLiteral="fltrmz-paint-brush-20" iconSize="20" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                    </graphic>
+                </ToggleButton>
+               <MenuButton alignment="CENTER" contentDisplay="CENTER" ellipsisString="" mnemonicParsing="false" prefHeight="24.0" prefWidth="36.0">
                  <items>
-                     <RadioMenuItem mnemonicParsing="false" text="Brush" fx:id="regular" onAction="#updateMenuItemToolState" toggleGroup="$ToolSelect">
+                     <RadioMenuItem fx:id="regular" mnemonicParsing="false" onAction="#updateMenuItemToolState" text="Brush" toggleGroup="$ToolSelect">
                      </RadioMenuItem>
                      <MenuItem mnemonicParsing="false" text="Calligraphy Brush" />
                      <MenuItem mnemonicParsing="false" text="Calligraphy Pen" />
@@ -94,7 +97,7 @@
          <Separator orientation="VERTICAL" prefHeight="200.0" />
          <VBox id="ShapesSectionTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
             <children>
-               <GridPane id="ShapeSelectionGrid" alignment="CENTER_LEFT">
+               <GridPane id="ShapeSelectionGrid" alignment="TOP_CENTER" style="-fx-border-color: black;">
                  <columnConstraints>
                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -110,10 +113,29 @@
                      <Insets bottom="15.0" left="5.0" right="20.0" top="5.0" />
                   </VBox.margin>
                   <children>
-                     <RadioButton fx:id="StLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" selected="true" toggleGroup="$ToolSelect" />
-                     <RadioButton fx:id="CurveLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="1" />
-                     <RadioButton fx:id="Oval" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="2" />
-                     <RadioButton fx:id="Rectangle" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="3" />
+                      <ToggleButton fx:id="StLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" prefHeight="14.0" prefWidth="16.0" selected="true" style="-fx-background-radius: 3;" toggleGroup="$ToolSelect" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                          <graphic>
+                              <FontIcon id="toolBarLineToggle" fontSmoothingType="LCD" iconLiteral="unil-line-alt" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                          </graphic>
+                        <GridPane.margin>
+                           <Insets />
+                        </GridPane.margin>
+                      </ToggleButton>
+                     <ToggleButton fx:id="CurveLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="1">
+                         <graphic>
+                             <FontIcon id="toolBarBrushesToggle" fontSmoothingType="LCD" iconLiteral="fltrmz-paint-brush-20" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                         </graphic>
+                     </ToggleButton>
+                      <ToggleButton fx:id="Oval" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="2">
+                          <graphic>
+                              <FontIcon id="toolBarBrushesToggle" fontSmoothingType="LCD" iconLiteral="fltrmz-paint-brush-20" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                          </graphic>
+                      </ToggleButton>
+                      <ToggleButton fx:id="Rectangle" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="3">
+                          <graphic>
+                              <FontIcon id="toolBarBrushesToggle" fontSmoothingType="LCD" iconLiteral="mdi2r-rectangle-outline" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                          </graphic>
+                      </ToggleButton>
                   </children>
 
                </GridPane>
