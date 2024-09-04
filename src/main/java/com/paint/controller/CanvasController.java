@@ -94,6 +94,7 @@ public class CanvasController {
             currentShape.setStroke(Color.BLACK);
             currentShape.setMouseTransparent(true);
             currentShape.setStrokeType(StrokeType.CENTERED);
+            currentShape.setStrokeWidth(this.paintStateModel.getCurrentLineWidth()); // TODO separate this from the brush line width
             drawingPane.getChildren().add(currentShape);
 
             // Set current shape in model
