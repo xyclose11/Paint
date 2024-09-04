@@ -110,8 +110,9 @@ public class CanvasController {
     private void handleToolBrushOnPress() {
         switch (this.paintStateModel.getCurrentBrush()) {
             case "regular":
-                GraphicsContext gc = mainCanvas.getGraphicsContext2D();
+                GraphicsContext gc = mainCanvas.getGraphicsContext2D(); // TODO move graphicsContext, setStroke, setLineWidth -> PaintStateModel
                 gc.setStroke(Color.BLACK);
+                gc.setLineWidth(this.paintStateModel.getCurrentLineWidth());
                 gc.beginPath();
                 break;
         }
@@ -130,7 +131,7 @@ public class CanvasController {
                 handleToolShapeOnDragged(currentShape, curX, curY);
                 break;
             case "brush":
-                handleToolBrushOnDragged(curX, curY);
+                handleToolBrushOnDragged(curX, curY); // TODO figure out way to 'soften' edges for line to make it circle like
                 break;
         }
 
@@ -190,7 +191,7 @@ public class CanvasController {
 
     private void handleToolBrushOnDragged(double curX, double curY) {
         GraphicsContext gc = mainCanvas.getGraphicsContext2D();
-        gc.lineTo(curX, curY);
+        gc.lineTo(curX, curY);// TODO figure out way to 'soften' edges for line to make it circle like
         gc.stroke();
     }
 

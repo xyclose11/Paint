@@ -9,7 +9,7 @@
 <HBox xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.paint.controller.LineWidthController">
-    <Slider fx:id="lineWidthSlider" min="0" max="248" value="12" orientation="VERTICAL" minorTickCount="1" showTickLabels="true" showTickMarks="false" majorTickUnit="10" onMouseDragged="#onSliderValueChanged">
+    <Slider fx:id="lineWidthSlider" orientation="VERTICAL" onMouseDragged="#onSliderValueChanged">
 
     </Slider>
 </HBox>
