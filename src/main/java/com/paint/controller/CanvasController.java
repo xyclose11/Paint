@@ -297,7 +297,6 @@ public class CanvasController {
         }
 
         canvasGroup.setScaleX(scaleFactor);
-
         canvasGroup.setScaleY(scaleFactor);
     }
 

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.collections.FXCollections?>
-<?import javafx.geometry.Insets?>
+<?import java.lang.*?>
+<?import javafx.collections.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import java.lang.String?>
-<HBox maxHeight="35.0" minHeight="14" prefHeight="35.0" prefWidth="943.0" spacing="200" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.InfoController">
+
+<HBox maxHeight="35.0" minHeight="14" prefHeight="35.0" prefWidth="943.0" spacing="200" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.InfoController">
 
     <HBox spacing="20">
         <Label fx:id="mousePosLbl" text="Mouse POS">
@@ -41,17 +42,23 @@
       </VBox>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
          <children>
-             <ComboBox id="infoBarZoomCB" prefHeight="1.0" prefWidth="85.0" onAction="#onCanvasDimChange">
+             <ComboBox id="infoBarZoomCB" fx:id="infoBarZoomCB" editable="true" onAction="#onZoomCBChange" prefHeight="1.0" prefWidth="85.0" value="100%">
                  <items>
                     <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="10%"></String>
-                        <String fx:value="12.5%"></String>
-                        <String fx:value="25%"></String>
-                        <String fx:value="50%"></String>
-                        <String fx:value="75%"></String>
-                        <String fx:value="100%"></String>
-                        <String fx:value="150%"></String>
-                        <String fx:value="200%"></String>
+                        <String fx:value="10%" />
+                        <String fx:value="12.5%" />
+                        <String fx:value="25%" />
+                        <String fx:value="50%" />
+                        <String fx:value="75%" />
+                        <String fx:value="100%" />
+                        <String fx:value="150%" />
+                        <String fx:value="200%" />
+                        <String fx:value="300%" />
+                        <String fx:value="400%" />
+                        <String fx:value="500%" />
+                        <String fx:value="600%" />
+                        <String fx:value="700%" />
+                        <String fx:value="800%" />
                     </FXCollections>
                  </items>
              </ComboBox>
@@ -59,7 +66,7 @@
       </VBox>
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
          <children>
-            <Slider max="800.0" min="10.0" value="100.0" />
+            <Slider fx:id="infoBarZoomSlider" max="800.0" min="10.0" onMouseClicked="#onZoomSliderChange" onMouseDragged="#onZoomSliderChange" snapToTicks="true" value="100.0" />
          </children>
       </VBox>
         <HBox.margin>

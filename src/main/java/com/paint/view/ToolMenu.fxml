@@ -115,6 +115,9 @@
                   </VBox.margin>
                   <children>
                       <ToggleButton fx:id="StLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" prefHeight="14.0" prefWidth="16.0" selected="true" style="-fx-background-radius: 3;" toggleGroup="$ToolSelect" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                          <tooltip>
+                              <Tooltip text="Line" />
+                          </tooltip>
                           <graphic>
                               <FontIcon id="toolBarLineToggle" fontSmoothingType="LCD" iconLiteral="unil-line-alt" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                           </graphic>
@@ -122,17 +125,26 @@
                            <Insets />
                         </GridPane.margin>
                       </ToggleButton>
-                     <ToggleButton fx:id="CurveLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="1">
+                     <ToggleButton fx:id="CurveLine" disable="true" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="1">
+                         <tooltip>
+                             <Tooltip text="Curve" />
+                         </tooltip>
                          <graphic>
                              <FontIcon id="toolBarBrushesToggle" fontSmoothingType="LCD" iconLiteral="fltrmz-paint-brush-20" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                          </graphic>
                      </ToggleButton>
-                      <ToggleButton fx:id="Oval" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="2">
+                      <ToggleButton fx:id="Oval" disable="true" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="2">
+                          <tooltip>
+                              <Tooltip text="Oval" />
+                          </tooltip>
                           <graphic>
                               <FontIcon id="toolBarBrushesToggle" fontSmoothingType="LCD" iconLiteral="fltrmz-paint-brush-20" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                           </graphic>
                       </ToggleButton>
                       <ToggleButton fx:id="Rectangle" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="3">
+                          <tooltip>
+                              <Tooltip text="Rectangle" />
+                          </tooltip>
                           <graphic>
                               <FontIcon id="toolBarBrushesToggle" fontSmoothingType="LCD" iconLiteral="mdi2r-rectangle-outline" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                           </graphic>
@@ -156,7 +168,11 @@
                <Label text="Colors" />
             </children>
          </VBox>
-         <ColorPicker fx:id="colorPicker" onAction="#onActionSetColorPicker" />
+         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+            <children>
+               <ColorPicker fx:id="colorPicker" onAction="#onActionSetColorPicker" />
+            </children>
+         </VBox>
       </children>
    </HBox>
    <HBox prefHeight="80.0" prefWidth="134.0">
