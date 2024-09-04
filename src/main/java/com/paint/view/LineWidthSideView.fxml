@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.paint.controller.LineWidthController">
-    <Slider fx:id="lineWidthSlider" orientation="VERTICAL" onMouseDragged="#onSliderValueChanged">
+<HBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.LineWidthController">
+    <Slider fx:id="lineWidthSlider" onMouseDragged="#onSliderValueChanged" orientation="VERTICAL">
 
     </Slider>
 </HBox>
