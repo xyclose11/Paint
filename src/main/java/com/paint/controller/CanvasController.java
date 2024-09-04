@@ -115,6 +115,7 @@ public class CanvasController {
                 GraphicsContext gc = mainCanvas.getGraphicsContext2D(); // TODO move graphicsContext, setStroke, setLineWidth -> PaintStateModel
                 gc.setStroke(this.paintStateModel.getCurrentPaintColor());
                 gc.setLineWidth(this.paintStateModel.getCurrentLineWidth());
+                gc.setLineCap(this.paintStateModel.getCurrentStrokeLineCap());
                 gc.beginPath();
                 break;
         }

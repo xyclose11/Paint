@@ -2,6 +2,7 @@ package com.paint.model;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
+import javafx.scene.shape.StrokeLineCap;
 
 // Hold info about currently selected brush, image, color, shape, etc. settings.
 public class PaintStateModel {
@@ -33,12 +34,22 @@ public class PaintStateModel {
     private String currentToolType = "shape"; // Differentiates the differing tool types. i.e. (Select, brush, shape, etc.)
     private Shape currentShape;
     private double currentLineWidth;
+    private StrokeLineCap currentStrokeLineCap;
 
     public PaintStateModel() {
         this.currentBrush = new BrushObj();
         this.currentPaintColor = Color.BLACK; // Default color
         this.currentShape = null;
         this.currentLineWidth = .5;
+        this.currentStrokeLineCap = StrokeLineCap.ROUND; // Default cap for lines
+    }
+
+    public StrokeLineCap getCurrentStrokeLineCap() {
+        return currentStrokeLineCap;
+    }
+
+    public void setCurrentStrokeLineCap(StrokeLineCap currentStrokeLineCap) {
+        this.currentStrokeLineCap = currentStrokeLineCap;
     }
 
     public double getCurrentLineWidth() {
