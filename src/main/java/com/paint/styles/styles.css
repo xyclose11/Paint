@@ -28,6 +28,11 @@
     -fx-max-width: 0px;
 }
 
+.color-picker .color-picker-label .picker-color .picker-color-rect {
+    -fx-arc-height: 35;
+    -fx-arc-width: 35;
+}
+
 /** Scroll Pane **/
 /* Scrollbar Track */
 .scroll-pane .scroll-bar:horizontal .track,

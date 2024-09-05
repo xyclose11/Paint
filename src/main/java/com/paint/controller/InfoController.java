@@ -72,9 +72,11 @@ public class InfoController {
 
 	private void handleZoom() {
 		canvasGroup = canvasModel.getCanvasGroup();
-		// Create XY values from currentZoomLvl
-		canvasGroup.setScaleX(currentZoomLvl);
-		canvasGroup.setScaleY(currentZoomLvl);
+		double newZoomScale = currentZoomLvl / 100.0; // Divide by 100.0 to get proper format for setScaleX/Y
+
+		canvasGroup.setScaleX(newZoomScale);
+		canvasGroup.setScaleY(newZoomScale);
+
 	}
 
 	@FXML
