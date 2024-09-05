@@ -4,10 +4,21 @@ Version 1.1.0
 New Features:
     - Ability to draw a Line
     - Ability to draw a Rectangle (In all 4 directions)
+    - Ability to draw with the mouse
+    - Ability to change brush line width
+    - Ability to change shape line (stroke) width
     - BMP Format support
     - Updated Styling
     - Keyboard & Mouse Shortcuts
+    - Zoom in/out
+    - Partial Tooltip implementation
+    - Color Picker full implementation
 
+Known Issues:
+    - Zoom/Scaling has some degree of quality loss
+    - Brush occasionally makes "sharp" lines when drawing with mouse
+    - Lack of CTRL -> SCROLL keybinding for zoom/scale
+    - Styling issues cause 'off click' event to trigger button/menu items, etc
 
 ------------------------------------------------------------------------------
 Version 1.0.0
