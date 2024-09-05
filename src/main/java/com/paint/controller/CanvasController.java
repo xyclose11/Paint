@@ -97,8 +97,10 @@ public class CanvasController {
         }
 
         if (currentShape != null) {
-            currentShape.setStroke(this.paintStateModel.getCurrentPaintColor());
-            currentShape.setFill(this.paintStateModel.getCurrentPaintColor());
+            currentShape.setStroke(this.paintStateModel.getCurrentPaintColor()); // This controls the outline color
+            currentShape.setStrokeWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
+//            currentShape.setFill(this.paintStateModel.getCurrentPaintColor());
+            currentShape.setFill(null); // Set this to null to get 'outline' of shapes
             currentShape.setMouseTransparent(true);
             currentShape.setStrokeType(StrokeType.CENTERED);
 //            currentShape.setStrokeWidth(this.paintStateModel.getCurrentLineWidth()); // TODO separate this from the brush line width
@@ -201,7 +203,7 @@ public class CanvasController {
 
     private void handleToolBrushOnDragged(double curX, double curY) {
         GraphicsContext gc = mainCanvas.getGraphicsContext2D();
-        gc.lineTo(curX+.5, curY+.5); // +.5 to account for antialiasing
+        gc.lineTo(curX+.5, curY+.5); // +.5 to account for antialiasing. Makes line more natural
         gc.stroke();
     }
 

@@ -35,6 +35,7 @@ public class PaintStateModel {
     private Shape currentShape;
     private double currentLineWidth;
     private StrokeLineCap currentStrokeLineCap;
+    private double currentShapeLineStrokeWidth;
 
     public PaintStateModel() {
         this.currentBrush = new BrushObj();
@@ -42,6 +43,15 @@ public class PaintStateModel {
         this.currentShape = null;
         this.currentLineWidth = 1.0;
         this.currentStrokeLineCap = StrokeLineCap.ROUND; // Default cap for lines
+        this.currentShapeLineStrokeWidth = 1.0;
+    }
+
+    public double getCurrentShapeLineStrokeWidth() {
+        return currentShapeLineStrokeWidth;
+    }
+
+    public void setCurrentShapeLineStrokeWidth(double currentShapeLineStrokeWidth) {
+        this.currentShapeLineStrokeWidth = currentShapeLineStrokeWidth;
     }
 
     public StrokeLineCap getCurrentStrokeLineCap() {

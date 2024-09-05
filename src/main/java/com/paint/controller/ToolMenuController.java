@@ -27,6 +27,9 @@ public class ToolMenuController {
     @FXML
     private ToggleGroup ToolSelect; // Get toggle group for tools
 
+    @FXML
+    private ComboBox<String> toolMenuShapeLineWidthCB;
+
     // Set models
     public void setPaintStateModel(PaintStateModel paintStateModel) {
         this.paintStateModel = paintStateModel;
@@ -97,6 +100,27 @@ public class ToolMenuController {
     }
 
     @FXML
+    private void onShapeLineWidthChange(ActionEvent actionEvent) {
+        double cbVal = 1.0; // Default LW for shapes
+        try {
+            String tempV = this.toolMenuShapeLineWidthCB.getValue();
+            cbVal = Double.parseDouble(tempV.substring(0, tempV.length() - 2)); // Take out 'px' from each line, then convert into a double
+
+        } catch (Exception e) {
+            Alert noToolSelectedAlert = new Alert(Alert.AlertType.ERROR, """
+                    ERROR: UNABLE TO CONVERT SHAPE LINE WIDTH STRING -> DOUBLE. ERROR: 
+                    """ + e.getMessage());
+            noToolSelectedAlert.setTitle("No Tool Selected");
+            noToolSelectedAlert.setHeaderText("");
+            noToolSelectedAlert.showAndWait();
+            e.printStackTrace();
+        }
+
+        // Update paintStateModel fields
+        this.paintStateModel.setCurrentShapeLineStrokeWidth(cbVal);
+    }
+
+    @FXML
     public void initialize() {
         // Add event listener to check if a tool that has the line width property is selected
         ToolSelect.selectedToggleProperty().addListener(((observable, oldValue, newValue) -> {
@@ -114,11 +138,5 @@ public class ToolMenuController {
                 }
             }
         }));
-
-//        colorPicker.setOnAction(new EventHandler() {
-//            public void handle(Event t) {
-//                Color c = colorPicker.getValue();
-//                System.out.println("New Color's RGB = "+c.getRed()+" "+c.getGreen()+" "+c.getBlue());
-//            }});
     }
 }
