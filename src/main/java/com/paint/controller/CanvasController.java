@@ -15,6 +15,7 @@ import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -36,6 +37,9 @@ public class CanvasController {
     @FXML
     // Used to house all Shape objects that are drawn
     private Pane drawingPane;
+
+    @FXML
+    private StackPane canvasDrawingStackPane;
 
     private GraphicsContext graphicsContext;
     private PaintStateModel paintStateModel;
@@ -268,7 +272,7 @@ public class CanvasController {
         WritableImage writableImage = new WritableImage((int)(mainCanvas.getWidth()), (int) (mainCanvas.getHeight()));
         // Take a snapshot of the current canvas and save it to the writableImage
         //this.mainCanvas.snapshot(null, writableImage);
-        this.canvasGroup.snapshot(null, writableImage);
+        this.canvasDrawingStackPane.snapshot(null, writableImage);
 
         // Create a BufferedImage obj to store image data since BufferedImage requires an alpha channel
         BufferedImage imageData = new BufferedImage((int) writableImage.getWidth(), (int) writableImage.getHeight(), BufferedImage.TYPE_INT_RGB);
