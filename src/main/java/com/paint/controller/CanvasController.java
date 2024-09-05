@@ -201,7 +201,7 @@ public class CanvasController {
 
     private void handleToolBrushOnDragged(double curX, double curY) {
         GraphicsContext gc = mainCanvas.getGraphicsContext2D();
-        gc.lineTo(curX+.5, curY+.5);
+        gc.lineTo(curX+.5, curY+.5); // +.5 to account for antialiasing
         gc.stroke();
     }
 
@@ -262,7 +262,7 @@ public class CanvasController {
     }
 
     // Takes a snapshot of the canvas & saves it to the designated file
-    public void saveImageFromCanvas(File file, String fileExtension) {
+    public void saveImageFromCanvas(File file, String fileExtension) { // TODO bind the canvas + scrollPane + drawingPane sizes since saved images currently get zoom effect perma
         WritableImage writableImage = new WritableImage((int)(mainCanvas.getWidth()), (int) (mainCanvas.getHeight()));
         // Take a snapshot of the current canvas and save it to the writableImage
         //this.mainCanvas.snapshot(null, writableImage);
@@ -288,7 +288,7 @@ public class CanvasController {
     }
 
     @FXML
-    private void scaleCanvasOnScroll(ScrollEvent scrollEvent) {
+    private void scaleCanvasOnScroll(ScrollEvent scrollEvent) { // TODO add CTRL + SCROLL zoom effect to infobar
         double zoomFactor = 1.1; // Handles zoom factor
 
         // Check if user is scrolling in or out

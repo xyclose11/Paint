@@ -6,7 +6,7 @@
 }
 
 .scroll-pane .viewport {
-    -fx-background-color: transparent;
+    /*-fx-background-color: transparent;*/
 }
 
 .stack-pane {
@@ -19,6 +19,7 @@
     -fx-background-radius: 100;
     -fx-padding: 0 0 0 5;
     -fx-min-height: 35px;
+    -fx-background-color: transparent;
 }
 
 .color-picker > .arrow-button {
@@ -28,9 +29,16 @@
     -fx-max-width: 0px;
 }
 
-.color-picker .color-picker-label .picker-color .picker-color-rect {
-    -fx-arc-height: 35;
-    -fx-arc-width: 35;
+.color-picker .color-picker-label .picker-color .picker-color-rect { /** Rectangle Preview for ColorPicker **/
+    -fx-arc-height: 20;
+    -fx-arc-width: 20;
+    -fx-stroke-width: .2;
+}
+
+.color-picker .color-picker-label .picker-color {
+    -fx-min-height: 40px;
+    -fx-scale-x: 3;
+    -fx-scale-y: 3;
 }
 
 /** Scroll Pane **/
