@@ -232,9 +232,9 @@ public class CanvasController {
         // TODO translate the shape into a canvas obj
         GraphicsContext gc = mainCanvas.getGraphicsContext2D();
 
-        if (currentShape instanceof Rectangle rect) {
-            gc.fillRect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-        }
+//        if (currentShape instanceof Rectangle rect) {
+//            gc.fillRect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
+//        }
     }
     // DRAWING SECTION END
 
