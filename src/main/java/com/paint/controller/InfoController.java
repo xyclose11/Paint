@@ -33,6 +33,7 @@ public class InfoController {
 
 	public void setCanvasModel(CanvasModel canvasModel) {
 		this.canvasModel = canvasModel;
+		this.canvasGroup = canvasModel.getCanvasGroup();
 	}
 
 	@FXML
@@ -66,15 +67,12 @@ public class InfoController {
 		// Set zoom combo box to zoom value
 		this.infoBarZoomCB.setValue(String.valueOf(infoBarZoomSlider.getValue()));
 		currentZoomLvl = infoBarZoomSlider.getValue();
-		System.out.println(this.canvasModel.getCanvasHeight());
 		handleZoom();
 	}
 
 	private void handleZoom() {
 		canvasGroup = canvasModel.getCanvasGroup();
 		// Create XY values from currentZoomLvl
-//		double x = ;
-//		double y = ;
 		canvasGroup.setScaleX(currentZoomLvl);
 		canvasGroup.setScaleY(currentZoomLvl);
 	}

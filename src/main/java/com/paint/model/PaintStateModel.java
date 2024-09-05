@@ -40,7 +40,7 @@ public class PaintStateModel {
         this.currentBrush = new BrushObj();
         this.currentPaintColor = Color.BLACK; // Default color
         this.currentShape = null;
-        this.currentLineWidth = .5;
+        this.currentLineWidth = 1.0;
         this.currentStrokeLineCap = StrokeLineCap.ROUND; // Default cap for lines
     }
 

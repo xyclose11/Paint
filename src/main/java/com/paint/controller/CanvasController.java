@@ -10,6 +10,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
+import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -45,6 +46,7 @@ public class CanvasController {
 
     public void setCanvasModel(CanvasModel canvasModel) {
         this.canvasModel = canvasModel;
+        this.canvasModel.setCanvasGroup(canvasGroup);
         updateCanvasSize();
     }
 
@@ -63,6 +65,7 @@ public class CanvasController {
     // stores the mouse starting POS
     double startX = 0;
     double startY = 0;
+    PixelWriter pixelWriter;
 
     @FXML
     private void handleMousePressed(MouseEvent mouseEvent) {
@@ -80,7 +83,6 @@ public class CanvasController {
                 handleToolBrushOnPress();
                 break;
         }
-        // TODO Remove scroll pane & just add 2 separate scroll bars
     }
 
     private void handleToolShapeOnPress(Shape currentShape, String currentTool) {
@@ -121,6 +123,7 @@ public class CanvasController {
                 gc.setLineWidth(this.paintStateModel.getCurrentLineWidth());
                 gc.setLineCap(this.paintStateModel.getCurrentStrokeLineCap()); // Sets the line cap so that the brush appears 'circular' instead of 'square'
                 gc.beginPath();
+                gc.stroke();
                 break;
         }
     }
@@ -198,7 +201,7 @@ public class CanvasController {
 
     private void handleToolBrushOnDragged(double curX, double curY) {
         GraphicsContext gc = mainCanvas.getGraphicsContext2D();
-        gc.lineTo(curX, curY);// TODO figure out way to 'soften' edges for line to make it circle like
+        gc.lineTo(curX+.5, curY+.5);
         gc.stroke();
     }
 
@@ -213,7 +216,6 @@ public class CanvasController {
                 // TBD
                 break;
         }
-
 
     }
 
