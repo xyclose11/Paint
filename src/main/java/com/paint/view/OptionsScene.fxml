@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import org.kordamp.ikonli.javafx.*?>
-
-<BorderPane prefHeight="459.0" prefWidth="671.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.HelpMenuController">
+<?import javafx.scene.text.Font?>
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<BorderPane prefHeight="459.0" prefWidth="671.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.HelpMenuController">
    <top>
       <HBox prefHeight="40.0" prefWidth="671.0" BorderPane.alignment="CENTER">
          <children>
@@ -24,9 +23,14 @@
                   </Label>
                </children></HBox>
             <HBox prefHeight="30.0" prefWidth="384.0" HBox.hgrow="ALWAYS" />
-            <HBox prefHeight="30.0" prefWidth="111.0" HBox.hgrow="NEVER">
+            <HBox prefHeight="30.0" prefWidth="200.0" HBox.hgrow="NEVER">
                <children>
-                   <Button contentDisplay="RIGHT" mnemonicParsing="false" onAction="#loadAboutDialog" prefWidth="82.0" text="Help">
+                   <Button contentDisplay="RIGHT" mnemonicParsing="false" onAction="#loadAboutDialog" prefWidth="82.0" text="About">
+<!--                       <graphic>-->
+<!--                           <FontIcon id="aboutBtnQuestionMark" fontSmoothingType="LCD" iconLiteral="fltrmz-question-circle-20" iconSize="20" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />-->
+<!--                       </graphic>-->
+                   </Button>
+                   <Button contentDisplay="RIGHT" mnemonicParsing="false" onAction="#loadHelpDialog" prefWidth="82.0" text="Help">
                        <graphic>
                            <FontIcon id="aboutBtnQuestionMark" fontSmoothingType="LCD" iconLiteral="fltrmz-question-circle-20" iconSize="20" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                        </graphic>

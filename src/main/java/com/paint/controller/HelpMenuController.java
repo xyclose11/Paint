@@ -47,7 +47,7 @@ public class HelpMenuController {
 
     @FXML
     private void loadAboutDialog(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/HelpMenu.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/HelpMenu.fxml")); // TODO Switch HelpMenu.fxml & AboutMenu.fxml names
         DialogPane dialogPane = fxmlLoader.load();
 
         Alert aboutAlert = new Alert(Alert.AlertType.INFORMATION);
@@ -58,5 +58,13 @@ public class HelpMenuController {
     }
 
 
+    public void loadHelpDialog(ActionEvent actionEvent) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AboutMenu.fxml"));
+        DialogPane dialogPane = fxmlLoader.load();
 
+        Alert aboutAlert = new Alert(Alert.AlertType.INFORMATION);
+        aboutAlert.setTitle("About Pain(t)");
+        aboutAlert.setDialogPane(dialogPane);
+        aboutAlert.show();
+    }
 }

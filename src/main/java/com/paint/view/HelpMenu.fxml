@@ -1,14 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<DialogPane fx:id="helpMenuDialog" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="205.0" prefWidth="521.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<DialogPane fx:id="helpMenuDialog" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="205.0" prefWidth="521.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
     <header>
       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="51.0" prefWidth="880.0">
          <children>
-            <Label layoutX="216.0" layoutY="16.0" text="About Pain(t)">
+            <Label layoutX="153.0" layoutY="16.0" prefHeight="20.0" prefWidth="215.0" text="About Pain(t) Version 1.1.0">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font></Label>
@@ -17,12 +20,17 @@
     <content>
         <AnchorPane>
             <children>
-                <Label alignment="CENTER" layoutX="102.0" layoutY="11.0" prefHeight="42.0" prefWidth="318.0" text="Pain(t) Version 1.1.0" textAlignment="CENTER">
+                <Label alignment="CENTER" layoutX="97.0" prefHeight="62.0" prefWidth="327.0" text="Pain(t) is an image creation application, where you are able to manipulate shapes, brushes, with various colors, &amp; sizes. Based on Microsoft Paint" wrapText="true">
                <font>
                   <Font size="14.0" />
                </font></Label>
-            <Label alignment="CENTER" layoutX="8.0" layoutY="56.0" prefHeight="19.0" prefWidth="308.0" text="GitHub Repo: " />
-            <Hyperlink layoutX="203.0" layoutY="53.0" text="https://github.com/xyclose11/Paint" />
+            <Label alignment="CENTER" layoutX="-21.0" layoutY="79.0" prefHeight="19.0" prefWidth="308.0" text="GitHub Repo: " />
+            <Hyperlink layoutX="179.0" layoutY="77.0" text="https://github.com/xyclose11/Paint" />
+            <Label layoutX="398.0" layoutY="88.0" text="Last Updated 09/09/2024">
+               <font>
+                  <Font size="10.0" />
+               </font>
+            </Label>
             </children>
         </AnchorPane>
     </content>
