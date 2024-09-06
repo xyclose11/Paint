@@ -4,10 +4,7 @@ import com.paint.controller.CanvasController;
 import com.paint.controller.InfoController;
 import com.paint.controller.ToolMenuController;
 import com.paint.controller.UtilityController;
-import com.paint.model.CanvasModel;
-import com.paint.model.HelpAboutModel;
-import com.paint.model.PaintStateModel;
-import com.paint.model.SceneStateModel;
+import com.paint.model.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -23,6 +20,7 @@ public class Main extends Application {
     private final PaintStateModel paintStateModel = new PaintStateModel();
     private SceneStateModel sceneStateModel = null;
     private HelpAboutModel helpAboutModel = new HelpAboutModel();
+    private InfoCanvasModel infoCanvasModel = new InfoCanvasModel();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -72,9 +70,10 @@ public class Main extends Application {
 
         canvasController.setCanvasModel(canvasModel);
         canvasController.setPaintStateModel(paintStateModel);
+        canvasController.setInfoCanvasModel(infoCanvasModel);
 
         infoController.setCanvasModel(canvasModel);
-
+        infoController.setInfoCanvasModel(infoCanvasModel);
 
         // Add style sheets
         try {

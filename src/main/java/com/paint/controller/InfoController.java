@@ -1,6 +1,7 @@
 package com.paint.controller;
 
 import com.paint.model.CanvasModel;
+import com.paint.model.InfoCanvasModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
@@ -30,6 +31,14 @@ public class InfoController {
 	private Group canvasGroup;
 
 	private double currentZoomLvl;
+
+	private InfoCanvasModel infoCanvasModel;
+
+	public void setInfoCanvasModel(InfoCanvasModel infoCanvasModel) {
+		this.infoCanvasModel = infoCanvasModel;
+		// Bind text
+		this.mousePosLbl.textProperty().bind(this.infoCanvasModel.getMousePosLbl().textProperty());
+	}
 
 	public void setCanvasModel(CanvasModel canvasModel) {
 		this.canvasModel = canvasModel;
@@ -88,10 +97,12 @@ public class InfoController {
 
 	@FXML
 	private void initialize(){
-
 	}
 
 
+	// Add listener for InfoCanvasModel property change for mousePOSLbl
+	private void setMousePosLbl() {
 
+	}
 
 }

@@ -1,6 +1,7 @@
 package com.paint.controller;
 
 import com.paint.model.CanvasModel;
+import com.paint.model.InfoCanvasModel;
 import com.paint.model.PaintStateModel;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
@@ -44,6 +45,11 @@ public class CanvasController {
     private GraphicsContext graphicsContext;
     private PaintStateModel paintStateModel;
     private CanvasModel canvasModel;
+    private InfoCanvasModel infoCanvasModel;
+
+    public void setInfoCanvasModel(InfoCanvasModel infoCanvasModel) {
+        this.infoCanvasModel = infoCanvasModel;
+    }
 
     // Handles zoom state
     private double scaleFactor = 1;
@@ -136,6 +142,8 @@ public class CanvasController {
 
     @FXML
     private void handleMouseDragged(MouseEvent mouseEvent) {
+        // Update mouse POS lbl
+        this.infoCanvasModel.setMousePosLbl(mouseEvent);
         Shape currentShape = this.paintStateModel.getCurrentShape();
         String currentToolType = this.paintStateModel.getCurrentToolType();
 
@@ -147,7 +155,7 @@ public class CanvasController {
                 handleToolShapeOnDragged(currentShape, curX, curY);
                 break;
             case "brush":
-                handleToolBrushOnDragged(curX, curY); // TODO figure out way to 'soften' edges for line to make it circle like
+                handleToolBrushOnDragged(curX, curY);
                 break;
         }
 
@@ -310,7 +318,8 @@ public class CanvasController {
 
     // Mouse POS Handler
     @FXML
-    private void onMouseMoveCanvas(MouseEvent mouseEvent) {
-
+    private void onMouseOverCanvas(MouseEvent mouseEvent) {
+        // Access the global method used to update Mouse POS
+        this.infoCanvasModel.setMousePosLbl(mouseEvent);
     }
 }

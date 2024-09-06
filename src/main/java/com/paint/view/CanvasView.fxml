@@ -15,11 +15,11 @@
             <Group fx:id="canvasGroup">
                <children>
                    <!-- Shape Event Handlers added to the StackPane to avoid overlap issues with canvas and drawingPane -->
-                  <StackPane fx:id="canvasDrawingStackPane" onMouseDragged="#handleMouseDragged" onMousePressed="#handleMousePressed" onMouseReleased="#handleMouseReleased" prefHeight="111.0" prefWidth="200.0">
+                  <StackPane fx:id="canvasDrawingStackPane" onMouseDragged="#handleMouseDragged" onMousePressed="#handleMousePressed" onMouseReleased="#handleMouseReleased" onMouseMoved="#onMouseOverCanvas" prefHeight="111.0" prefWidth="200.0">
 <!--                  <StackPane fx:id="canvasDrawingStackPane" onMouseDragged="#onMouseDraggedBrush" onMousePressed="#onMouseDownBrush" onMouseReleased="#onMouseReleaseBrush" prefHeight="111.0" prefWidth="200.0">-->
                      <children>
 
-                           <Canvas fx:id="mainCanvas" width="1475" height="1170">
+                           <Canvas fx:id="mainCanvas" onMouseDragged="#onMouseOverCanvas" width="1475" height="1170">
 
                            </Canvas>
                            <Pane id="drawingPane" fx:id="drawingPane" prefHeight="1211.0" />
