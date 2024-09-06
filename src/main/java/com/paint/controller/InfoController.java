@@ -46,11 +46,6 @@ public class InfoController {
 	}
 
 	@FXML
-	private void onCanvasSizeChange() {
-
-	}
-
-	@FXML
 	private void onZoomCBChange(ActionEvent actionEvent) {
 		// Set zoom slider to CB zoom value
 
@@ -92,16 +87,6 @@ public class InfoController {
 
 		canvasGroup.setScaleX(newZoomScale);
 		canvasGroup.setScaleY(newZoomScale);
-
-	}
-
-	@FXML
-	private void initialize(){
-	}
-
-
-	// Add listener for InfoCanvasModel property change for mousePOSLbl
-	private void setMousePosLbl() {
 
 	}
 

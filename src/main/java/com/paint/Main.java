@@ -79,7 +79,6 @@ public class Main extends Application {
         try {
             scene.getStylesheets().add(getClass().getResource("/styles/styles.css").toString());
         } catch (Exception e) {
-            // TODO MORE THOROUGH ERROR HANDLING
             System.out.println(e.getMessage());
             e.printStackTrace();
         }

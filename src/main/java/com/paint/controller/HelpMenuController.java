@@ -32,8 +32,6 @@ public class HelpMenuController {
         Parent root = fxmlLoader.load();
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
 
-        HelpMenuController helpMenuController = fxmlLoader.getController();
-//        helpMenuController.setHelpAboutModel(helpAboutModel);
         // Remember the last scene to be able to switch back
         mainScene = stage.getScene();
 

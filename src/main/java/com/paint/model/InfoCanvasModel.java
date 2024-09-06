@@ -16,8 +16,6 @@ public class InfoCanvasModel {
 	}
 
 	public void setMousePosLbl(MouseEvent mouseEvent) {
-		System.out.println(mouseEvent.getX());
-		System.out.println(mouseEvent.getY());
 		mousePosLbl.setText("X: " + mouseEvent.getX() + " Y: " + mouseEvent.getY());
 	}
 }

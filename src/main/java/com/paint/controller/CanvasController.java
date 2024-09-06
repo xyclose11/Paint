@@ -11,7 +11,6 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
-import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
@@ -75,7 +74,6 @@ public class CanvasController {
     // stores the mouse starting POS
     double startX = 0;
     double startY = 0;
-    PixelWriter pixelWriter;
 
     @FXML
     private void handleMousePressed(MouseEvent mouseEvent) {
@@ -236,13 +234,6 @@ public class CanvasController {
     private void handleToolShapeReleased(Shape currentShape) {
         currentShape.setMouseTransparent(false);
         this.paintStateModel.setCurrentShape(null);
-
-        // TODO translate the shape into a canvas obj
-        GraphicsContext gc = mainCanvas.getGraphicsContext2D();
-
-//        if (currentShape instanceof Rectangle rect) {
-//            gc.fillRect(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight());
-//        }
     }
     // DRAWING SECTION END
 
