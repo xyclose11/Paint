@@ -72,20 +72,16 @@
                 </Button>
             </children>
          </HBox>
-         <Pane prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
-          <HBox prefHeight="30.0" prefWidth="200.0" HBox.hgrow="NEVER">
-              <children>
-                  <Button contentDisplay="RIGHT" mnemonicParsing="false" onAction="#getLoadAboutDialog" prefWidth="82.0" text="About">
-                  </Button>
-                  <Button contentDisplay="RIGHT" mnemonicParsing="false" onAction="#getLoadHelpDialog" prefWidth="82.0" text="Help">
-                      <graphic>
-                          <FontIcon id="aboutBtnQuestionMark" fontSmoothingType="LCD" iconLiteral="fltrmz-question-circle-20" iconSize="20" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
-                      </graphic>
-                  </Button>
-              </children>
-          </HBox>
+         <Pane prefHeight="200.0" prefWidth="100.0" HBox.hgrow="ALWAYS" />
          <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
             <children>
+                <Button contentDisplay="RIGHT" mnemonicParsing="false" onAction="#getLoadAboutDialog" prefWidth="82.0" text="About">
+                </Button>
+                <Button contentDisplay="RIGHT" mnemonicParsing="false" onAction="#getLoadHelpDialog" prefWidth="82.0" text="Help">
+                    <graphic>
+                        <FontIcon id="aboutBtnQuestionMark" fontSmoothingType="LCD" iconLiteral="fltrmz-question-circle-20" iconSize="20" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                    </graphic>
+                </Button>
                 <!-- Separate view to separate utilityMenu's concern -->
                 <fx:include source="OptionsPartialMenu.fxml" />
             </children>
