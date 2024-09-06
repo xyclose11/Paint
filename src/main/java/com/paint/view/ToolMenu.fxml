@@ -5,7 +5,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import org.kordamp.ikonli.javafx.*?>
-<?import java.lang.String?>
+<?import java.lang.*?>
 <HBox id="toolbarMainWrapper" minHeight="60.0" prefHeight="80.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.ToolMenuController">
    <VBox id="SelectionVBoxTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
       <children>
@@ -168,14 +168,14 @@
             <children>
                <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
                   <children>
-                      <ComboBox fx:id="toolMenuShapeLineWidthCB" onAction="#onShapeLineWidthChange" prefHeight="25.0" prefWidth="50.0">
+                      <ComboBox fx:id="toolMenuShapeLineWidthCB" onAction="#onShapeLineWidthChange" prefHeight="25.0" prefWidth="50.0" value="1px" VBox.vgrow="ALWAYS">
                           <items>
                               <FXCollections fx:factory="observableArrayList">
-                                  <String fx:value="1px"></String>
-                                  <String fx:value="2px"></String>
-                                  <String fx:value="3px"></String>
-                                  <String fx:value="4px"></String>
-                                  <String fx:value="5px"></String>
+                                  <String fx:value="1px" />
+                                  <String fx:value="2px" />
+                                  <String fx:value="3px" />
+                                  <String fx:value="4px" />
+                                  <String fx:value="5px" />
                               </FXCollections>
                           </items>
                           <tooltip>

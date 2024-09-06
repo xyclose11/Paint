@@ -48,14 +48,20 @@ public class InfoController {
 		// Convert string -> double
 		try {
 			String cbVal = this.infoBarZoomCB.getValue();
-			cbVal = cbVal.substring(0, cbVal.length() - 1); // Remove '%' symbol
-			double sliderVal = Double.parseDouble(cbVal);
 
+			// Check if there is a '%' symbol
+			// TODO implement more thorough validation since this test passes if there is simply a '%' anywhere
+			if (cbVal.lastIndexOf("%") != -1) { // Eval -> true means that there is a '%' symbol
+				cbVal = cbVal.substring(0, cbVal.length() - 1); // Remove '%' symbol
+			}
+
+			double sliderVal = Double.parseDouble(cbVal); // Convert string -> double to set slider POS
 			this.infoBarZoomSlider.setValue(sliderVal);
 
 			currentZoomLvl = sliderVal;
 
 		} catch (Exception e) {
+			System.out.println("ERROR");
 			e.printStackTrace();
 		}
 
@@ -70,6 +76,7 @@ public class InfoController {
 		handleZoom();
 	}
 
+	// Handle scaling/zoom
 	private void handleZoom() {
 		canvasGroup = canvasModel.getCanvasGroup();
 		double newZoomScale = currentZoomLvl / 100.0; // Divide by 100.0 to get proper format for setScaleX/Y

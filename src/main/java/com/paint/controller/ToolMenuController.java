@@ -104,7 +104,12 @@ public class ToolMenuController {
         double cbVal = 1.0; // Default LW for shapes
         try {
             String tempV = this.toolMenuShapeLineWidthCB.getValue();
-            cbVal = Double.parseDouble(tempV.substring(0, tempV.length() - 2)); // Take out 'px' from each line, then convert into a double
+
+            // TODO implement more thorough validation since you can input any other string and it will pass this test
+            if (tempV.lastIndexOf("px") != -1) { // Meaning that there is a 'px' string pair somewhere in the String
+                tempV = tempV.substring(0, tempV.length() - 2);
+            }
+            cbVal = Double.parseDouble(tempV); // Convert user input 'String -> double'
 
         } catch (Exception e) {
             Alert noToolSelectedAlert = new Alert(Alert.AlertType.ERROR, """
