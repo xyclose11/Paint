@@ -15,10 +15,17 @@ New Features:
     - Color Picker full implementation
 
 Known Issues:
-    - Zoom/Scaling has some degree of quality loss
     - Brush occasionally makes "sharp" lines when drawing with mouse
     - Lack of CTRL -> SCROLL keybinding for zoom/scale
-    - Styling issues cause 'off click' event to trigger button/menu items, etc
+    - When zoomed in user is unable to 'scroll' to the rest of the canvas
+    - Styling issue with top most 'Utility Bar' causing off center clicks
+
+
+Upcoming Features:
+    - Fit to screen button functionality
+    - Transformations for shapes (Move, Rotate, Resize, etc.)
+    - Circle, Triangle, Rounded Rectangle, & Curved line shape implementation
+    - A more 'natural' brush appearance by adjusting the individual pixels with different line creating algorithms
 
 ------------------------------------------------------------------------------
 Version 1.0.0

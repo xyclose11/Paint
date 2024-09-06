@@ -133,7 +133,7 @@
                                    <Tooltip text="Curve" />
                                </tooltip>
                                <graphic>
-                                   <FontIcon id="toolBarBrushesToggle" fontSmoothingType="LCD" iconLiteral="fltrmz-paint-brush-20" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                                   <FontIcon id="toolBarBrushesToggle" fontSmoothingType="LCD" iconLiteral="mdi2s-sine-wave" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                                </graphic>
                            </ToggleButton>
                             <ToggleButton fx:id="Oval" disable="true" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="2">
@@ -141,7 +141,7 @@
                                     <Tooltip text="Oval" />
                                 </tooltip>
                                 <graphic>
-                                    <FontIcon id="toolBarBrushesToggle" fontSmoothingType="LCD" iconLiteral="fltrmz-paint-brush-20" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                                    <FontIcon id="toolBarBrushesToggle" fontSmoothingType="LCD" iconLiteral="unil-circle" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                                 </graphic>
                             </ToggleButton>
                             <ToggleButton fx:id="Rectangle" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="3">
