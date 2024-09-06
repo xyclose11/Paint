@@ -1,14 +1,13 @@
 package com.paint.controller;
 
+import com.paint.model.HelpAboutModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -18,12 +17,23 @@ public class HelpMenuController {
     private static Scene mainScene; // Must be static to remember prev scene
     private Dialog<String> aboutDialog;
 
+    private HelpAboutModel helpAboutModel;
+
+    // Initialize HelpAboutModel
+    private void setHelpAboutModel(HelpAboutModel helpAboutModel) {
+        this.helpAboutModel = helpAboutModel;
+    }
+
     // Stage -> Scene -> Root node -> Leaf Nodes
     // Handle the opening of the options (Help) menu
     @FXML
     private void switchToOptionScene(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/view/OptionsScene.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/OptionsScene.fxml"));
+        Parent root = fxmlLoader.load();
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+
+        HelpMenuController helpMenuController = fxmlLoader.getController();
+//        helpMenuController.setHelpAboutModel(helpAboutModel);
         // Remember the last scene to be able to switch back
         mainScene = stage.getScene();
 
@@ -38,7 +48,6 @@ public class HelpMenuController {
     @FXML
     private void switchToMainScene(ActionEvent event) {
         stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        System.out.println(mainScene);
 
         // Set scene back to main
         stage.setScene(mainScene);
@@ -47,24 +56,17 @@ public class HelpMenuController {
 
     @FXML
     private void loadAboutDialog(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/HelpMenu.fxml")); // TODO Switch HelpMenu.fxml & AboutMenu.fxml names
-        DialogPane dialogPane = fxmlLoader.load();
-
-        Alert aboutAlert = new Alert(Alert.AlertType.INFORMATION);
-        aboutAlert.setTitle("About Pain(t)");
-        aboutAlert.setDialogPane(dialogPane);
-        aboutAlert.show();
-
+        this.helpAboutModel.loadAboutMenu();
     }
 
+    @FXML
+    private void loadHelpDialog(ActionEvent actionEvent) throws IOException {
+        this.helpAboutModel.loadHelpMenu();
+    }
 
-    public void loadHelpDialog(ActionEvent actionEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AboutMenu.fxml"));
-        DialogPane dialogPane = fxmlLoader.load();
-
-        Alert aboutAlert = new Alert(Alert.AlertType.INFORMATION);
-        aboutAlert.setTitle("About Pain(t)");
-        aboutAlert.setDialogPane(dialogPane);
-        aboutAlert.show();
+    @FXML
+    private void initialize(){
+        // Set HelpAboutModel
+        this.setHelpAboutModel(new HelpAboutModel());
     }
 }

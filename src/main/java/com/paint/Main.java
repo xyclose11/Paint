@@ -5,6 +5,7 @@ import com.paint.controller.InfoController;
 import com.paint.controller.ToolMenuController;
 import com.paint.controller.UtilityController;
 import com.paint.model.CanvasModel;
+import com.paint.model.HelpAboutModel;
 import com.paint.model.PaintStateModel;
 import com.paint.model.SceneStateModel;
 import javafx.application.Application;
@@ -21,6 +22,7 @@ public class Main extends Application {
     private final CanvasModel canvasModel = new CanvasModel();
     private final PaintStateModel paintStateModel = new PaintStateModel();
     private SceneStateModel sceneStateModel = null;
+    private HelpAboutModel helpAboutModel = new HelpAboutModel();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -63,6 +65,8 @@ public class Main extends Application {
         sceneStateModel = new SceneStateModel(scene);
 
         // Set controller models
+        utilityController.setHelpAboutModel(helpAboutModel);
+
         toolMenuController.setPaintStateModel(paintStateModel);
         toolMenuController.setSceneStateModel(sceneStateModel);
 

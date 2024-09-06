@@ -2,6 +2,7 @@ package com.paint.controller;
 
 
 import com.paint.model.CanvasModel;
+import com.paint.model.HelpAboutModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -16,6 +17,12 @@ public class UtilityController {
 
 	private CanvasController canvasController;
 	private CanvasModel canvasModel;
+
+	private HelpAboutModel helpAboutModel;
+
+	public void setHelpAboutModel(HelpAboutModel helpAboutModel) {
+		this.helpAboutModel = helpAboutModel;
+	}
 
 	// Setup communication between controllers
 	public void setCanvasController(CanvasController canvasController) {
@@ -165,6 +172,11 @@ public class UtilityController {
 	}
 
 
+	public void getLoadHelpDialog(ActionEvent actionEvent) throws IOException {
+		this.helpAboutModel.loadHelpMenu();
+	}
 
-
+	public void getLoadAboutDialog(ActionEvent actionEvent) throws IOException {
+		this.helpAboutModel.loadAboutMenu();
+	}
 }
