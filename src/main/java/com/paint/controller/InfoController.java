@@ -36,8 +36,11 @@ public class InfoController {
 
 	public void setInfoCanvasModel(InfoCanvasModel infoCanvasModel) {
 		this.infoCanvasModel = infoCanvasModel;
-		// Bind text
+
+		// Bind text props for resolution, mouse POS, & selection resolution
 		this.mousePosLbl.textProperty().bind(this.infoCanvasModel.getMousePosLbl().textProperty());
+		this.resolutionLbl.textProperty().bind(this.infoCanvasModel.getResolutionLbl().textProperty());
+		this.selectionResLbl.textProperty().bind(this.infoCanvasModel.getSelectionResLbl().textProperty());
 	}
 
 	public void setCanvasModel(CanvasModel canvasModel) {
@@ -87,7 +90,6 @@ public class InfoController {
 
 		canvasGroup.setScaleX(newZoomScale);
 		canvasGroup.setScaleY(newZoomScale);
-
 	}
 
 }

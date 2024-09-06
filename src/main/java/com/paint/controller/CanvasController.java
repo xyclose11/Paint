@@ -48,6 +48,8 @@ public class CanvasController {
 
     public void setInfoCanvasModel(InfoCanvasModel infoCanvasModel) {
         this.infoCanvasModel = infoCanvasModel;
+        // Initialize resolution label
+        this.infoCanvasModel.setResolutionLblText(canvasModel.getCanvasWidth(), canvasModel.getCanvasHeight());
     }
 
     // Handles zoom state
@@ -252,11 +254,15 @@ public class CanvasController {
     }
 
     public void setCanvas(Image image) {
-        // Set canvas dimensions to match image dimensions
-        mainCanvas.setWidth(image.getWidth());
-        mainCanvas.setHeight(image.getHeight());
+        double x = image.getWidth();
+        double y = image.getHeight();
 
-        // Update
+        // Set canvas dimensions to match image dimensions
+        mainCanvas.setWidth(x);
+        mainCanvas.setHeight(y);
+
+        // Update resolution label
+        this.infoCanvasModel.setResolutionLblText(x, y);
 
         // Get pixelReader to convert Image to a WritableImage to set the main canvas
         PixelReader pixelReader = image.getPixelReader();
