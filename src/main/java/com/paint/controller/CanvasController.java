@@ -79,18 +79,22 @@ public class CanvasController {
     private void handleMousePressed(MouseEvent mouseEvent) {
         startX = mouseEvent.getX();
         startY = mouseEvent.getY();
+
         String currentTool = this.paintStateModel.getCurrentTool();
         String currentToolType = this.paintStateModel.getCurrentToolType();
         Shape currentShape = this.paintStateModel.getCurrentShape();
 
-        switch (currentToolType) {
-            case "shape":
-                handleToolShapeOnPress(currentShape, currentTool);
-                break;
-            case "brush":
-                handleToolBrushOnPress();
-                break;
+        if (!this.paintStateModel.isTransformable()) {
+            switch (currentToolType) {
+                case "shape":
+                    handleToolShapeOnPress(currentShape, currentTool);
+                    break;
+                case "brush":
+                    handleToolBrushOnPress();
+                    break;
+            }
         }
+
     }
 
     private void handleToolShapeOnPress(Shape currentShape, String currentTool) {
@@ -124,8 +128,8 @@ public class CanvasController {
             currentShape.setStroke(this.paintStateModel.getCurrentPaintColor()); // This controls the outline color
             currentShape.setStrokeWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
             currentShape.setFill(null); // Set this to null to get 'outline' of shapes
-            currentShape.setMouseTransparent(true);
-            currentShape.setStrokeType(StrokeType.CENTERED);
+            currentShape.setMouseTransparent(false);
+            currentShape.setStrokeType(StrokeType.OUTSIDE);
             drawingPane.getChildren().add(currentShape);
 
             // Set current shape in model
@@ -154,6 +158,12 @@ public class CanvasController {
 
     @FXML
     private void handleMouseDragged(MouseEvent mouseEvent) {
+        // Verify mode
+        if (this.paintStateModel.isTransformable()) {
+            // If in transform mode, ignore drag events
+            return;
+        }
+
         // Update mouse POS lbl
         this.infoCanvasModel.setMousePosLbl(mouseEvent);
         Shape currentShape = this.paintStateModel.getCurrentShape();
@@ -246,6 +256,10 @@ public class CanvasController {
             ellipse.setRadiusY(Math.abs(curY - startY));
         }
 
+        if (currentShape instanceof Polygon polygon) {
+
+        }
+
 
     }
 
@@ -270,10 +284,38 @@ public class CanvasController {
     }
 
     private void handleToolShapeReleased(Shape currentShape) {
-        currentShape.setMouseTransparent(false);
-        this.paintStateModel.setCurrentShape(null);
+        // Disable StackPane Mouse Event Handlers
+//        setCanvasDrawingStackPaneHandlerState(false); // TODO see if this is necessary
+        currentShape.setPickOnBounds(true);
+
+        // Enable transformations
+        this.paintStateModel.setTransformable(true);
+
+        // Enable StackPane Mouse Event Handlers
+        setCanvasDrawingStackPaneHandlerState(true);
+
+
+        //        this.paintStateModel.setCurrentShape(null);
+    }
+
+    private void setCanvasDrawingStackPaneHandlerState(boolean bool) {
+        if (bool) {
+            this.canvasDrawingStackPane.setOnMousePressed(this::handleMousePressed);
+            this.canvasDrawingStackPane.setOnMouseDragged(this::handleMouseDragged);
+            this.canvasDrawingStackPane.setOnMouseReleased(this::handleMouseReleased);
+            this.canvasDrawingStackPane.setOnMouseMoved(this::onMouseOverCanvas);
+        } else {
+            this.canvasDrawingStackPane.setOnMousePressed(null);
+            this.canvasDrawingStackPane.setOnMouseDragged(null);
+            this.canvasDrawingStackPane.setOnMouseReleased(null);
+            this.canvasDrawingStackPane.setOnMouseMoved(null);
+        }
+
     }
     // DRAWING SECTION END
+
+    // TRANSLATION SECTION START
+    // TRANSLATION SECTION END
 
     @FXML
     private void initialize() {

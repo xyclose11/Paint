@@ -1,6 +1,9 @@
 package com.paint.model;
 
+import javafx.geometry.Bounds;
+import javafx.scene.Group;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeLineCap;
 
@@ -36,6 +39,8 @@ public class PaintStateModel {
     private double currentLineWidth;
     private StrokeLineCap currentStrokeLineCap;
     private double currentShapeLineStrokeWidth;
+    private boolean isTransformable;
+    private Group shapeTransformationGroup;
 
     public PaintStateModel() {
         this.currentBrush = new BrushObj();
@@ -44,6 +49,74 @@ public class PaintStateModel {
         this.currentLineWidth = 1.0;
         this.currentStrokeLineCap = StrokeLineCap.ROUND; // Default cap for lines
         this.currentShapeLineStrokeWidth = 1.0;
+        this.isTransformable = false;
+        this.shapeTransformationGroup = new Group();
+    }
+
+    public Group getShapeTransformationGroup() {
+        return shapeTransformationGroup;
+    }
+
+    public void setShapeTransformationGroup(Group shapeTransformationGroup) {
+        this.shapeTransformationGroup = shapeTransformationGroup;
+    }
+
+    public boolean isTransformable() {
+        return isTransformable;
+    }
+
+    public void setTransformable(boolean transformable) {
+        isTransformable = transformable;
+
+        if (transformable && currentShape != null) {
+            // Add dashed outline
+//            createSelectionBox(this.currentShape.getParent().getLayoutBounds(), this.currentShape); // TODO add dashed outline
+
+            // Add event listeners
+
+
+            // Translation handler (XY Movement)
+            this.currentShape.setOnMousePressed(e -> {
+
+                // Listen for drag
+                this.currentShape.setOnMouseDragged(d -> {
+                    this.currentShape.setTranslateX(d.getX());
+                    this.currentShape.setTranslateY(d.getY());
+                });
+
+            });
+
+            // Check if user clicks outside the border -> enter shapePlacement mode
+            this.currentShape.setOnMouseExited(e -> {
+                this.currentShape.getParent().setOnMousePressed(mouseEvent -> {
+                    if (!this.currentShape.getBoundsInParent().contains(mouseEvent.getX(), mouseEvent.getY())) {
+                        // User clicked off of the selected shape
+                        this.setTransformable(false);
+                    }
+                    this.currentShape.getParent().setOnMouseClicked(null);
+                });
+
+                this.currentShape.setPickOnBounds(false);
+                this.currentShape.setOnMouseExited(null);
+            });
+        }
+    }
+
+    private void createSelectionBox (Bounds parentBounds, Shape currentShape) {
+        // Get dimensions of the bounding box from parent
+        double xMin = parentBounds.getMinX();
+        double xMax = parentBounds.getMaxX();
+
+        double yMin = parentBounds.getMinY();
+        double yMax = parentBounds.getMaxY();
+
+        // Create a rect that will surround the currentShape
+        Rectangle selectionRect = new Rectangle(xMin, xMax, yMin, yMax);
+
+        selectionRect.getStrokeDashArray().addAll(20.0);
+        selectionRect.setStrokeDashOffset(10);
+
+//        currentShape.set
     }
 
     public double getCurrentShapeLineStrokeWidth() {
