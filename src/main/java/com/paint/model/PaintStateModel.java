@@ -75,6 +75,7 @@ public class PaintStateModel {
 //            createSelectionBox(this.currentShape.getParent().getLayoutBounds(), this.currentShape); // TODO add dashed outline
 
             // Add event listeners
+
             // Set keybinding for ESC to exit transform mode
             this.currentShape.getParent().getScene().setOnKeyPressed(keyEvent -> {
                 // Check key type
@@ -87,11 +88,13 @@ public class PaintStateModel {
 
             // Translation handler (XY Movement)
             this.currentShape.setOnMousePressed(e -> {
-
                 // Listen for drag
                 this.currentShape.setOnMouseDragged(d -> {
-                    this.currentShape.setTranslateX(d.getX());
-                    this.currentShape.setTranslateY(d.getY());
+
+                    if (this.currentShape instanceof Rectangle rect) {
+                        rect.setX(d.getSceneX() - rect.getX());
+                        rect.setY(d.getSceneY() - rect.getY());
+                    }
                 });
 
             });

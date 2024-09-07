@@ -186,6 +186,9 @@ public class CanvasController {
     }
 
     private void handleToolShapeOnDragged(Shape currentShape, double curX, double curY) {
+        if (this.paintStateModel.isTransformable()) {
+            return;
+        }
 
         if (currentShape == null) {
             // Error for if the currentShape is null (Ideally there should always be a tool selected)
@@ -287,15 +290,13 @@ public class CanvasController {
         // Disable StackPane Mouse Event Handlers
 //        setCanvasDrawingStackPaneHandlerState(false); // TODO see if this is necessary
         currentShape.setPickOnBounds(true);
-
         // Enable transformations
         this.paintStateModel.setTransformable(true);
 
         // Enable StackPane Mouse Event Handlers
-        setCanvasDrawingStackPaneHandlerState(true);
+//        setCanvasDrawingStackPaneHandlerState(true); // TODO see if this is necessary
 
-
-        //        this.paintStateModel.setCurrentShape(null);
+//                this.paintStateModel.setCurrentShape(null);
     }
 
     private void setCanvasDrawingStackPaneHandlerState(boolean bool) {
