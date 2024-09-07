@@ -7,6 +7,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeLineCap;
 
+import java.util.Objects;
+
 // Hold info about currently selected brush, image, color, shape, etc. settings.
 public class PaintStateModel {
     // Create a nested class to allow for default values in obj creation
@@ -73,7 +75,15 @@ public class PaintStateModel {
 //            createSelectionBox(this.currentShape.getParent().getLayoutBounds(), this.currentShape); // TODO add dashed outline
 
             // Add event listeners
-
+            // Set keybinding for ESC to exit transform mode
+            this.currentShape.getParent().getScene().setOnKeyPressed(keyEvent -> {
+                // Check key type
+                if (Objects.equals(keyEvent.getCode().getName(), "Esc")) {
+                    // Exit transformation mode
+                    this.setTransformable(false);
+                }
+                this.currentShape.getParent().getScene().setOnKeyPressed(null);
+            });
 
             // Translation handler (XY Movement)
             this.currentShape.setOnMousePressed(e -> {
