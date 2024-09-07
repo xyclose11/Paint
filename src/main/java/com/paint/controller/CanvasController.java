@@ -23,6 +23,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class CanvasController {
     @FXML
@@ -95,17 +96,17 @@ public class CanvasController {
     private void handleToolShapeOnPress(Shape currentShape, String currentTool) {
         switch (currentTool) {
             case "StLine":
-                currentShape = new Line(startX, startY, startX, startY);
+                currentShape = new Line(startX, startY, startX + 1, startY + 1);
                 break;
             case "Rectangle":
                 // x, y, width, height, Paint fill
-                currentShape = new Rectangle(startX, startY, 0, 0);
+                currentShape = new Rectangle(startX, startY, 1, 2);
                 break;
             case "Circle":
-                currentShape = new Circle(startX, startY, 0);
+                currentShape = new Circle(startX, startY, 1);
                 break;
             case "Square":
-                currentShape = new Rectangle(startX, startY, 0, 0);
+                currentShape = new Rectangle(startX, startY, 1, 1);
                 break;
             case "Ellipse":
                 // Center X Center Y | Radius X Radius Y
@@ -122,11 +123,9 @@ public class CanvasController {
         if (currentShape != null) {
             currentShape.setStroke(this.paintStateModel.getCurrentPaintColor()); // This controls the outline color
             currentShape.setStrokeWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
-//            currentShape.setFill(this.paintStateModel.getCurrentPaintColor());
             currentShape.setFill(null); // Set this to null to get 'outline' of shapes
             currentShape.setMouseTransparent(true);
             currentShape.setStrokeType(StrokeType.CENTERED);
-//            currentShape.setStrokeWidth(this.paintStateModel.getCurrentLineWidth()); // TODO separate this from the brush line width
             drawingPane.getChildren().add(currentShape);
 
             // Set current shape in model
@@ -198,7 +197,14 @@ public class CanvasController {
         }
 
         if (currentShape instanceof Rectangle rect) {
-            // Check if cursor is out of canvas/pane bounds
+            // Check if obj is a Square
+            if (Objects.equals(this.paintStateModel.getCurrentTool(), "Square")) {
+                // Ensure that W x H stay the same
+                double l = ((curX - startX) + (curY - startY)) / 2;
+                rect.setWidth(l);
+                rect.setHeight(l);
+                return;
+            }
 
             // Check if cursor is going in Quadrant 4 (Meaning that it doesn't require any calculation swaps)
             if (curX >= startX && curY >= startY) {

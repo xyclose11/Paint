@@ -102,7 +102,7 @@
             <children>
                <VBox id="ShapesSectionTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                   <children>
-                     <GridPane id="ShapeSelectionGrid" alignment="TOP_CENTER" style="-fx-border-color: grey;">
+                     <GridPane id="ShapeSelectionGrid" hgap="10.0" style="-fx-border-color: grey;" vgap="10.0">
                        <columnConstraints>
                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -116,10 +116,10 @@
                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                        </rowConstraints>
                         <VBox.margin>
-                           <Insets bottom="15.0" left="5.0" right="5.0" top="5.0" />
+                           <Insets left="5.0" right="5.0" top="5.0" />
                         </VBox.margin>
                         <children>
-                            <ToggleButton fx:id="StLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" prefHeight="14.0" prefWidth="16.0" selected="true" style="-fx-background-radius: 3;" toggleGroup="$ToolSelect" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                            <ToggleButton fx:id="StLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" prefHeight="14.0" prefWidth="16.0" selected="true" style="-fx-background-radius: 3;" toggleGroup="$ToolSelect" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                 <tooltip>
                                     <Tooltip text="Line" />
                                 </tooltip>
@@ -130,7 +130,7 @@
                                  <Insets />
                               </GridPane.margin>
                             </ToggleButton>
-                           <ToggleButton fx:id="CurveLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="1">
+                           <ToggleButton fx:id="CurveLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                <tooltip>
                                    <Tooltip text="Curve" />
                                </tooltip>
@@ -138,7 +138,7 @@
                                    <FontIcon id="toolBarBrushesToggle" fontSmoothingType="LCD" iconLiteral="mdi2s-sine-wave" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                                </graphic>
                            </ToggleButton>
-                            <ToggleButton fx:id="Circle" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="2">
+                            <ToggleButton fx:id="Circle" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                 <tooltip>
                                     <Tooltip text="Circle" />
                                 </tooltip>
@@ -146,7 +146,15 @@
                                     <FontIcon id="toolBarBrushesToggle" fontSmoothingType="LCD" iconLiteral="unil-circle" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                                 </graphic>
                             </ToggleButton>
-                            <ToggleButton fx:id="Rectangle" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="3">
+                           <ToggleButton fx:id="Square" ellipsisString="" layoutX="51.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                              <tooltip>
+                                 <Tooltip text="Square" />
+                              </tooltip>
+                              <graphic>
+                                 <FontIcon fontSmoothingType="LCD" iconLiteral="mdi2s-square-outline" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                              </graphic>
+                           </ToggleButton>
+                            <ToggleButton fx:id="Rectangle" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                                 <tooltip>
                                     <Tooltip text="Rectangle" />
                                 </tooltip>
@@ -154,7 +162,7 @@
                                     <FontIcon id="toolBarBrushesToggle" fontSmoothingType="LCD" iconLiteral="mdi2r-rectangle-outline" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                                 </graphic>
                             </ToggleButton>
-                           <ToggleButton fx:id="Ellipse" ellipsisString="" layoutX="41.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="4">
+                           <ToggleButton fx:id="Ellipse" ellipsisString="" layoutX="41.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                               <tooltip>
                                  <Tooltip text="Ellipse" />
                               </tooltip>
@@ -162,13 +170,20 @@
                                  <FontIcon fontSmoothingType="LCD" iconLiteral="mdi2e-ellipse-outline" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                               </graphic>
                            </ToggleButton>
+                           <ToggleButton fx:id="Triangle" ellipsisString="" layoutX="41.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                              <tooltip>
+                                 <Tooltip text="Triangle" />
+                              </tooltip>
+                              <graphic>
+                                 <FontIcon fontSmoothingType="LCD" iconLiteral="mdi2t-triangle-outline" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                              </graphic>
+                           </ToggleButton>
                         </children>
                         <padding>
-                           <Insets bottom="5.0" top="5.0" />
+                           <Insets left="8.0" right="8.0" top="8.0" />
                         </padding>
-      
+
                      </GridPane>
-                     <Label fx:id="ShapeSectionId" text="Shapes" />
                   </children>
                </VBox>
             </children>
