@@ -17,10 +17,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
-import javafx.scene.shape.StrokeType;
+import javafx.scene.shape.*;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -104,6 +101,22 @@ public class CanvasController {
                 // x, y, width, height, Paint fill
                 currentShape = new Rectangle(startX, startY, 0, 0);
                 break;
+            case "Circle":
+                currentShape = new Circle(startX, startY, 0);
+                break;
+            case "Square":
+                currentShape = new Rectangle(startX, startY, 0, 0);
+                break;
+            case "Ellipse":
+                // Center X Center Y | Radius X Radius Y
+                currentShape = new Ellipse(startX, startY, 0, 0);
+                break;
+            case "Triangle":
+                break;
+            case "Star":
+                break;
+            case "Hexagon":
+                break;
         }
 
         if (currentShape != null) {
@@ -165,51 +178,88 @@ public class CanvasController {
 
     private void handleToolShapeOnDragged(Shape currentShape, double curX, double curY) {
 
-        if (currentShape != null) {
-            // Check if shape is off the canvas
-            // TODO alter this so that it will auto scroll when going off the current viewport
-            if (curX >= mainCanvas.getWidth() || curY >= mainCanvas.getHeight() || curX < 0 || curY < 0) {
-                return;
-            }
-            if (currentShape instanceof Line line) {
-                line.setEndX(curX);
-                line.setEndY(curY);
-            } else if (currentShape instanceof Rectangle rect) {
-                // Check if cursor is out of canvas/pane bounds
-
-
-                // Check if cursor is going in Quadrant 4 (Meaning that it doesn't require any calculation swaps)
-                if (curX >= startX && curY >= startY) {
-                    rect.setWidth((curX - startX));
-                    rect.setHeight((curY - startY));
-                    return;
-                }
-
-                // Check if cursor is in Quadrants 2 OR 3
-                if (curX < startX) {
-                    // Swap calculation setters
-                    rect.setX(curX);
-                    rect.setWidth(Math.abs(startX - curX));
-                    rect.setHeight(Math.abs(curY - startY));
-                }
-
-                // Check if cursor is in Quadrants 2 OR 1
-                if (curY < startY) {
-                    // Swap calculation setters
-                    rect.setY(curY);
-                    rect.setWidth(Math.abs(curX - startX));
-                    rect.setHeight(Math.abs(startY - curY));
-                }
-
-            }
-
-        } else {
+        if (currentShape == null) {
             // Error for if the currentShape is null (Ideally there should always be a tool selected)
             Alert noToolSelectedAlert = new Alert(Alert.AlertType.ERROR, "NO TOOL SELECTED. Please select a tool in the tool bar above.");
             noToolSelectedAlert.setTitle("No Tool Selected: DRAGGED");
             noToolSelectedAlert.setHeaderText("");
             noToolSelectedAlert.showAndWait();
         }
+
+
+        // Check if shape is off the canvas
+        if (curX >= mainCanvas.getWidth() || curY >= mainCanvas.getHeight() || curX < 0 || curY < 0) {
+            return;
+        }
+
+        if (currentShape instanceof Line line) {
+            line.setEndX(curX);
+            line.setEndY(curY);
+        }
+
+        if (currentShape instanceof Rectangle rect) {
+            // Check if cursor is out of canvas/pane bounds
+
+            // Check if cursor is going in Quadrant 4 (Meaning that it doesn't require any calculation swaps)
+            if (curX >= startX && curY >= startY) {
+                rect.setWidth((curX - startX));
+                rect.setHeight((curY - startY));
+                return;
+            }
+
+            // Check if cursor is in Quadrants 2 OR 3
+            if (curX < startX) {
+                // Swap calculation setters
+                rect.setX(curX);
+                rect.setWidth(Math.abs(startX - curX));
+                rect.setHeight(Math.abs(curY - startY));
+            }
+
+            // Check if cursor is in Quadrants 2 OR 1
+            if (curY < startY) {
+                // Swap calculation setters
+                rect.setY(curY);
+                rect.setWidth(Math.abs(curX - startX));
+                rect.setHeight(Math.abs(startY - curY));
+            }
+
+        }
+
+        if (currentShape instanceof Circle circle) {
+
+            circle.setCenterX(startX);
+            circle.setCenterY(startY);
+            circle.setRadius(Math.abs(curX - startX));
+
+        }
+
+        if (currentShape instanceof Ellipse ellipse) {
+            if (curX >= startX && curY >= startY) {
+                ellipse.setCenterX(startX);
+                ellipse.setCenterY(startY);
+                ellipse.setRadiusX(startX - curX);
+                ellipse.setRadiusY(curY - startY);
+
+                return;
+            }
+
+            if (curX < startX) {
+                ellipse.setCenterX(curX);
+                ellipse.setCenterY(startY);
+                ellipse.setRadiusX(curX - startX);
+                ellipse.setRadiusY(curY - startY);
+
+                return;
+            }
+
+            if (curY < startY) {
+                ellipse.setCenterX(startX);
+                ellipse.setCenterY(curY);
+                ellipse.setRadiusX(curX - startX);
+                ellipse.setRadiusY(curY - startY);
+            }
+        }
+
 
     }
 

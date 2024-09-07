@@ -115,7 +115,7 @@ public class ToolMenuController {
             Alert noToolSelectedAlert = new Alert(Alert.AlertType.ERROR, """
                     ERROR: UNABLE TO CONVERT SHAPE LINE WIDTH STRING -> DOUBLE. ERROR: 
                     """ + e.getMessage());
-            noToolSelectedAlert.setTitle("No Tool Selected");
+            noToolSelectedAlert.setTitle("No Tool Selected: LW CHANGE");
             noToolSelectedAlert.setHeaderText("");
             noToolSelectedAlert.showAndWait();
             e.printStackTrace();

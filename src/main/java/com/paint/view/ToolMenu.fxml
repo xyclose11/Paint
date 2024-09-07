@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.collections.FXCollections?>
+<?import java.lang.*?>
+<?import javafx.collections.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import org.kordamp.ikonli.javafx.*?>
-<?import java.lang.*?>
-<HBox id="toolbarMainWrapper" minHeight="60.0" prefHeight="80.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.ToolMenuController">
+
+<HBox id="toolbarMainWrapper" minHeight="60.0" prefHeight="80.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.ToolMenuController">
    <VBox id="SelectionVBoxTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
       <children>
          <VBox prefHeight="200.0" prefWidth="100.0">
@@ -128,7 +129,7 @@
                                  <Insets />
                               </GridPane.margin>
                             </ToggleButton>
-                           <ToggleButton fx:id="CurveLine" disable="true" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="1">
+                           <ToggleButton fx:id="CurveLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="1">
                                <tooltip>
                                    <Tooltip text="Curve" />
                                </tooltip>
@@ -136,9 +137,9 @@
                                    <FontIcon id="toolBarBrushesToggle" fontSmoothingType="LCD" iconLiteral="mdi2s-sine-wave" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                                </graphic>
                            </ToggleButton>
-                            <ToggleButton fx:id="Oval" disable="true" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="2">
+                            <ToggleButton fx:id="Circle" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="2">
                                 <tooltip>
-                                    <Tooltip text="Oval" />
+                                    <Tooltip text="Circle" />
                                 </tooltip>
                                 <graphic>
                                     <FontIcon id="toolBarBrushesToggle" fontSmoothingType="LCD" iconLiteral="unil-circle" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
