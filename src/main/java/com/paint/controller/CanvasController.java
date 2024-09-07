@@ -109,7 +109,7 @@ public class CanvasController {
                 break;
             case "Ellipse":
                 // Center X Center Y | Radius X Radius Y
-                currentShape = new Ellipse(startX, startY, 0, 0);
+                currentShape = new Ellipse(startX, startY, 1, 1);
                 break;
             case "Triangle":
                 break;
@@ -234,30 +234,10 @@ public class CanvasController {
         }
 
         if (currentShape instanceof Ellipse ellipse) {
-            if (curX >= startX && curY >= startY) {
-                ellipse.setCenterX(startX);
-                ellipse.setCenterY(startY);
-                ellipse.setRadiusX(startX - curX);
-                ellipse.setRadiusY(curY - startY);
-
-                return;
-            }
-
-            if (curX < startX) {
-                ellipse.setCenterX(curX);
-                ellipse.setCenterY(startY);
-                ellipse.setRadiusX(curX - startX);
-                ellipse.setRadiusY(curY - startY);
-
-                return;
-            }
-
-            if (curY < startY) {
-                ellipse.setCenterX(startX);
-                ellipse.setCenterY(curY);
-                ellipse.setRadiusX(curX - startX);
-                ellipse.setRadiusY(curY - startY);
-            }
+            ellipse.setCenterX(startX);
+            ellipse.setCenterY(startY);
+            ellipse.setRadiusX(Math.abs(curX - startX));
+            ellipse.setRadiusY(Math.abs(curY - startY));
         }
 
 

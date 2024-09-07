@@ -108,6 +108,7 @@
                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                        </columnConstraints>
                        <rowConstraints>
                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -153,6 +154,14 @@
                                     <FontIcon id="toolBarBrushesToggle" fontSmoothingType="LCD" iconLiteral="mdi2r-rectangle-outline" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                                 </graphic>
                             </ToggleButton>
+                           <ToggleButton fx:id="Ellipse" ellipsisString="" layoutX="41.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="4">
+                              <tooltip>
+                                 <Tooltip text="Ellipse" />
+                              </tooltip>
+                              <graphic>
+                                 <FontIcon fontSmoothingType="LCD" iconLiteral="mdi2e-ellipse-outline" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                              </graphic>
+                           </ToggleButton>
                         </children>
                         <padding>
                            <Insets bottom="5.0" top="5.0" />
