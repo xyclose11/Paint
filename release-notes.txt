@@ -1,4 +1,14 @@
 Pain(t) Release Notes
+Version 1.2.0
+
+New Features:
+
+Known Issues:
+    - When creating an oval/circle/ellipse you are able to "push" the border of the canvas off
+    - When translating an object after initial creation it can at times be "jittery"
+    - Right Triangle Icon is not a right triangle
+
+------------------------------------------------------------------------------
 Version 1.1.0
 
 New Features:

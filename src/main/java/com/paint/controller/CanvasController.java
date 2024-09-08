@@ -233,7 +233,7 @@ public class CanvasController {
         }
 
         if (currentShape instanceof RightTriangle rightTriangle) {
-            rightTriangle.setVertices(startX, curY, curX, startY, curX, curY);
+            rightTriangle.setVertices(startX, curY, curX, startY, curX, curY); // TODO Update ToolMenu UI Icon with right triangle icon
         }
 
         if (currentShape instanceof Rectangle rect) {
