@@ -275,6 +275,7 @@ public class CanvasController {
     @FXML
     private void handleMouseReleased(MouseEvent mouseEvent) {
         String currentToolType = this.paintStateModel.getCurrentToolType();
+        System.out.println("HIT");
         switch (currentToolType) {
             case ("shape"):
                 handleToolShapeReleased(this.paintStateModel.getCurrentShape());
@@ -288,18 +289,15 @@ public class CanvasController {
 
     private void handleToolShapeReleased(Shape currentShape) {
         // Disable StackPane Mouse Event Handlers
-//        setCanvasDrawingStackPaneHandlerState(false); // TODO see if this is necessary
+        setCanvasDrawingStackPaneHandlerState(false);
         currentShape.setPickOnBounds(true);
         // Enable transformations
         this.paintStateModel.setTransformable(true, drawingPane);
 
-        // Enable StackPane Mouse Event Handlers
-//        setCanvasDrawingStackPaneHandlerState(true); // TODO see if this is necessary
-
 //                this.paintStateModel.setCurrentShape(null);
     }
 
-    private void setCanvasDrawingStackPaneHandlerState(boolean bool) {
+    public void setCanvasDrawingStackPaneHandlerState(boolean bool) {
         if (bool) {
             this.canvasDrawingStackPane.setOnMousePressed(this::handleMousePressed);
             this.canvasDrawingStackPane.setOnMouseDragged(this::handleMouseDragged);

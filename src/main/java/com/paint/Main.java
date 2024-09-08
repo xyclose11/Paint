@@ -75,6 +75,8 @@ public class Main extends Application {
         infoController.setCanvasModel(canvasModel);
         infoController.setInfoCanvasModel(infoCanvasModel);
 
+        paintStateModel.setCanvasController(canvasController);
+
         // Add style sheets
         try {
             scene.getStylesheets().add(getClass().getResource("/styles/styles.css").toString());

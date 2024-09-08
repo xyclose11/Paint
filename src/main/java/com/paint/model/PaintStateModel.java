@@ -1,12 +1,15 @@
 package com.paint.model;
 
-import javafx.geometry.Bounds;
+import com.paint.controller.CanvasController;
+import javafx.beans.binding.Bindings;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.transform.Translate;
 
 import java.util.Objects;
 
@@ -44,6 +47,9 @@ public class PaintStateModel {
     private double currentShapeLineStrokeWidth;
     private boolean isTransformable;
     private Group shapeTransformationGroup;
+    private Rectangle selectionRectangle;
+
+    private CanvasController canvasController;
 
     public PaintStateModel() {
         this.currentBrush = new BrushObj();
@@ -54,6 +60,23 @@ public class PaintStateModel {
         this.currentShapeLineStrokeWidth = 1.0;
         this.isTransformable = false;
         this.shapeTransformationGroup = new Group();
+        this.selectionRectangle = null;
+    }
+
+    public CanvasController getCanvasController() {
+        return canvasController;
+    }
+
+    public void setCanvasController(CanvasController canvasController) {
+        this.canvasController = canvasController;
+    }
+
+    public Rectangle getSelectionRectangle() {
+        return selectionRectangle;
+    }
+
+    public void setSelectionRectangle(Rectangle selectionRectangle) {
+        this.selectionRectangle = selectionRectangle;
     }
 
     public Group getShapeTransformationGroup() {
@@ -73,7 +96,7 @@ public class PaintStateModel {
 
         if (transformable && currentShape != null) {
             // Add dashed outline
-            createSelectionBox(this.currentShape.getBoundsInParent(), this.currentShape, draw); // TODO add dashed outline
+            createSelectionBox(this.currentShape, draw);
 
             // Add event listeners
 
@@ -83,63 +106,91 @@ public class PaintStateModel {
                 if (Objects.equals(keyEvent.getCode().getName(), "Esc")) {
                     // Exit transformation mode
                     this.setTransformable(false, null);
+
+                    // Enable CanvasController handlers
+                    this.canvasController.setCanvasDrawingStackPaneHandlerState(true);
                 }
                 this.currentShape.getParent().getScene().setOnKeyPressed(null);
             });
 
             // Translation handler (XY Movement)
-            this.currentShape.setOnMousePressed(e -> {
-                // Listen for drag
-                this.currentShape.setOnMouseDragged(d -> {
+            this.shapeTransformationGroup.setOnMousePressed(mousePressed -> {
+                this.shapeTransformationGroup.setUserData(new double[]{mousePressed.getX(), mousePressed.getY()});
+            });
 
-                    if (this.currentShape instanceof Rectangle rect) {
-                        rect.setX(d.getSceneX() - rect.getX());
-                        rect.setY(d.getSceneY() - rect.getY());
-                    }
-                });
+            this.shapeTransformationGroup.setOnMouseDragged(d -> {
+                double[] initialValues = (double[]) this.shapeTransformationGroup.getUserData();
+                double startX = initialValues[0];
+                double startY = initialValues[1];
 
+                this.shapeTransformationGroup.setTranslateX(this.shapeTransformationGroup.getTranslateX() + (d.getX() - startX));
+                this.shapeTransformationGroup.setTranslateY(this.shapeTransformationGroup.getTranslateY() + (d.getY() - startY));
+
+                this.shapeTransformationGroup.setUserData(new double[]{d.getX(), d.getY()});
             });
 
             // Check if user clicks outside the border -> enter shapePlacement mode
             this.currentShape.setOnMouseExited(e -> {
-                this.currentShape.getParent().setOnMousePressed(mouseEvent -> {
-                    if (!this.currentShape.getBoundsInParent().contains(mouseEvent.getX(), mouseEvent.getY())) {
+                this.currentShape.getParent().getParent().setOnMousePressed(mouseEvent -> {
+                    if (!this.currentShape.getParent().getBoundsInParent().contains(mouseEvent.getX(), mouseEvent.getY())) {
                         // User clicked off of the selected shape
                         this.setTransformable(false, null);
+
+                        // Enable CanvasController handlers
+                        this.canvasController.setCanvasDrawingStackPaneHandlerState(true);
+                        this.shapeTransformationGroup.setOnMouseDragged(null);
+                        this.currentShape.setPickOnBounds(false);
                     }
                     this.currentShape.getParent().setOnMouseClicked(null);
                 });
 
-                this.currentShape.setPickOnBounds(false);
                 this.currentShape.setOnMouseExited(null);
             });
         }
     }
 
-    private void createSelectionBox (Bounds parentBounds, Shape currentShape, Pane drawing) {
-        // Get dimensions of the bounding box from parent
-        double xMin = parentBounds.getMinX();
-        double xMax = parentBounds.getMaxX();
-
-        double yMin = parentBounds.getMinY();
-        double yMax = parentBounds.getMaxY();
-
+    private void createSelectionBox (Shape currentShape, Pane drawing) {
         // Create a rect that will surround the currentShape
         Rectangle selectionRect = new Rectangle();
 
-        selectionRect.xProperty().bind(currentShape.boundsInParentProperty().map(bounds -> bounds.getMinX()));
-        selectionRect.yProperty().bind(currentShape.boundsInParentProperty().map(bounds -> bounds.getMinY()));
-        selectionRect.widthProperty().bind(currentShape.boundsInParentProperty().map(bounds -> bounds.getWidth()));
-        selectionRect.heightProperty().bind(currentShape.boundsInParentProperty().map(bounds -> bounds.getHeight()));
+        // Bind the rectangle's position to the current shape's bounds in parent
+        selectionRect.xProperty().bind(
+                Bindings.createDoubleBinding(() -> currentShape.getBoundsInParent().getMinX(),
+                        currentShape.boundsInParentProperty())
+        );
+        selectionRect.yProperty().bind(
+                Bindings.createDoubleBinding(() -> currentShape.getBoundsInParent().getMinY(),
+                        currentShape.boundsInParentProperty())
+        );
+
+        selectionRect.widthProperty().bind(
+                Bindings.createDoubleBinding(() -> currentShape.getBoundsInParent().getWidth(),
+                        currentShape.boundsInParentProperty())
+        );
+        selectionRect.heightProperty().bind(
+                Bindings.createDoubleBinding(() -> currentShape.getBoundsInParent().getHeight(),
+                        currentShape.boundsInParentProperty())
+        );
 
         selectionRect.getStrokeDashArray().addAll(20.0);
         selectionRect.setFill(Color.TRANSPARENT);
         selectionRect.setStroke(Color.TURQUOISE);
         selectionRect.setStrokeDashOffset(10);
-
-        drawing.getChildren().add(selectionRect);
         selectionRect.toFront();
 
+
+
+        // Setup mouse event handlers
+        selectionRect.setOnMouseEntered(mouseEvent -> {
+            selectionRect.setCursor(Cursor.MOVE);
+        });
+
+        Group group = new Group(selectionRect, currentShape);
+        setShapeTransformationGroup(group);
+        // Add transformation to the group
+        Translate translate = new Translate();
+        this.shapeTransformationGroup.getTransforms().add(translate);
+        drawing.getChildren().add(shapeTransformationGroup);
     }
 
     public double getCurrentShapeLineStrokeWidth() {
