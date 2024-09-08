@@ -2,6 +2,7 @@ package com.paint.model;
 
 import javafx.geometry.Bounds;
 import javafx.scene.Group;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
@@ -67,12 +68,12 @@ public class PaintStateModel {
         return isTransformable;
     }
 
-    public void setTransformable(boolean transformable) {
+    public void setTransformable(boolean transformable, Pane draw) {
         isTransformable = transformable;
 
         if (transformable && currentShape != null) {
             // Add dashed outline
-//            createSelectionBox(this.currentShape.getParent().getLayoutBounds(), this.currentShape); // TODO add dashed outline
+            createSelectionBox(this.currentShape.getBoundsInParent(), this.currentShape, draw); // TODO add dashed outline
 
             // Add event listeners
 
@@ -81,7 +82,7 @@ public class PaintStateModel {
                 // Check key type
                 if (Objects.equals(keyEvent.getCode().getName(), "Esc")) {
                     // Exit transformation mode
-                    this.setTransformable(false);
+                    this.setTransformable(false, null);
                 }
                 this.currentShape.getParent().getScene().setOnKeyPressed(null);
             });
@@ -104,7 +105,7 @@ public class PaintStateModel {
                 this.currentShape.getParent().setOnMousePressed(mouseEvent -> {
                     if (!this.currentShape.getBoundsInParent().contains(mouseEvent.getX(), mouseEvent.getY())) {
                         // User clicked off of the selected shape
-                        this.setTransformable(false);
+                        this.setTransformable(false, null);
                     }
                     this.currentShape.getParent().setOnMouseClicked(null);
                 });
@@ -115,7 +116,7 @@ public class PaintStateModel {
         }
     }
 
-    private void createSelectionBox (Bounds parentBounds, Shape currentShape) {
+    private void createSelectionBox (Bounds parentBounds, Shape currentShape, Pane drawing) {
         // Get dimensions of the bounding box from parent
         double xMin = parentBounds.getMinX();
         double xMax = parentBounds.getMaxX();
@@ -124,12 +125,21 @@ public class PaintStateModel {
         double yMax = parentBounds.getMaxY();
 
         // Create a rect that will surround the currentShape
-        Rectangle selectionRect = new Rectangle(xMin, xMax, yMin, yMax);
+        Rectangle selectionRect = new Rectangle();
+
+        selectionRect.xProperty().bind(currentShape.boundsInParentProperty().map(bounds -> bounds.getMinX()));
+        selectionRect.yProperty().bind(currentShape.boundsInParentProperty().map(bounds -> bounds.getMinY()));
+        selectionRect.widthProperty().bind(currentShape.boundsInParentProperty().map(bounds -> bounds.getWidth()));
+        selectionRect.heightProperty().bind(currentShape.boundsInParentProperty().map(bounds -> bounds.getHeight()));
 
         selectionRect.getStrokeDashArray().addAll(20.0);
+        selectionRect.setFill(Color.TRANSPARENT);
+        selectionRect.setStroke(Color.TURQUOISE);
         selectionRect.setStrokeDashOffset(10);
 
-//        currentShape.set
+        drawing.getChildren().add(selectionRect);
+        selectionRect.toFront();
+
     }
 
     public double getCurrentShapeLineStrokeWidth() {

@@ -291,7 +291,7 @@ public class CanvasController {
 //        setCanvasDrawingStackPaneHandlerState(false); // TODO see if this is necessary
         currentShape.setPickOnBounds(true);
         // Enable transformations
-        this.paintStateModel.setTransformable(true);
+        this.paintStateModel.setTransformable(true, drawingPane);
 
         // Enable StackPane Mouse Event Handlers
 //        setCanvasDrawingStackPaneHandlerState(true); // TODO see if this is necessary
