@@ -113,7 +113,7 @@ public class PaintStateModel {
                 this.currentShape.getParent().getScene().setOnKeyPressed(null);
             });
 
-            // Translation handler (XY Movement)
+            // Translation handler (XY Movement) SECTION START
             this.shapeTransformationGroup.setOnMousePressed(mousePressed -> {
                 this.shapeTransformationGroup.setUserData(new double[]{mousePressed.getX(), mousePressed.getY()});
             });
@@ -128,6 +128,18 @@ public class PaintStateModel {
 
                 this.shapeTransformationGroup.setUserData(new double[]{d.getX(), d.getY()});
             });
+            // Translation handler (XY Movement) SECTION END
+
+            // Resize handler SECTION START
+            this.shapeTransformationGroup.setOnMouseMoved(mouseMoved -> {
+                // Determine location in relation to the selection bounds
+                double mSceneX = mouseMoved.getSceneX();
+                double mSceneY = mouseMoved.getSceneY();
+                System.out.println("ASDJ");
+
+            });
+            // Resize handler SECTION END
+
 
             // Check if user clicks outside the border -> enter shapePlacement mode
             this.currentShape.setOnMouseExited(e -> {
@@ -184,7 +196,22 @@ public class PaintStateModel {
         selectionRect.setStrokeType(StrokeType.OUTSIDE);
         selectionRect.toFront();
 
-
+        // TEST for the impl of other transformations (scale/resize, rotate, etc) | need to work out the event handlers
+//        Rectangle middleBox = new Rectangle();
+//        middleBox.xProperty().bind(selectionRect.xProperty().add(selectionRect.widthProperty().subtract(middleBox.widthProperty()).divide(2)));
+//        middleBox.yProperty().bind(selectionRect.yProperty());
+//        middleBox.setWidth(10);
+//        middleBox.setHeight(10);
+//
+//        middleBox.xProperty().addListener(((observable, oldValue, newValue) -> updateSelection(selectionRect, middleBox)));
+//        middleBox.yProperty().addListener(((observable, oldValue, newValue) -> updateSelection(selectionRect, middleBox)));
+//        middleBox.heightProperty().addListener(((observable, oldValue, newValue) -> updateSelection(selectionRect, middleBox)));
+//
+//        middleBox.setFill(Color.ORANGE);
+//        middleBox.setStroke(Color.ORANGE);
+//
+//        middleBox.setPickOnBounds(true);
+        // END TEST
 
         // Setup mouse event handlers
         selectionRect.setOnMouseEntered(mouseEvent -> {
@@ -201,6 +228,15 @@ public class PaintStateModel {
         // TODO remove selectionbox when saving since it willcapture the selectionbox in the file
 
         drawing.getChildren().add(shapeTransformationGroup);
+    }
+
+    private void updateSelection(Rectangle selectionRectangle, Rectangle resizeRect) {
+        // Manually update the size of the larger rectangle based on the smaller rectangle
+        double newWidth = resizeRect.getX() + resizeRect.getWidth() - selectionRectangle.getX();
+        double newHeight = resizeRect.getY() + resizeRect.getHeight() - selectionRectangle.getY();
+
+        selectionRectangle.setWidth(newWidth);
+        selectionRectangle.setHeight(newHeight);
     }
 
     public double getCurrentShapeLineStrokeWidth() {
