@@ -294,7 +294,6 @@ public class CanvasController {
         // Enable transformations
         this.paintStateModel.setTransformable(true, drawingPane);
 
-//                this.paintStateModel.setCurrentShape(null);
     }
 
     public void setCanvasDrawingStackPaneHandlerState(boolean bool) {

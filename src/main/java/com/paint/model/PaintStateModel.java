@@ -131,13 +131,6 @@ public class PaintStateModel {
             // Translation handler (XY Movement) SECTION END
 
             // Resize handler SECTION START
-            this.shapeTransformationGroup.setOnMouseMoved(mouseMoved -> {
-                // Determine location in relation to the selection bounds
-                double mSceneX = mouseMoved.getSceneX();
-                double mSceneY = mouseMoved.getSceneY();
-                System.out.println("ASDJ");
-
-            });
             // Resize handler SECTION END
 
 
@@ -228,15 +221,6 @@ public class PaintStateModel {
         // TODO remove selectionbox when saving since it willcapture the selectionbox in the file
 
         drawing.getChildren().add(shapeTransformationGroup);
-    }
-
-    private void updateSelection(Rectangle selectionRectangle, Rectangle resizeRect) {
-        // Manually update the size of the larger rectangle based on the smaller rectangle
-        double newWidth = resizeRect.getX() + resizeRect.getWidth() - selectionRectangle.getX();
-        double newHeight = resizeRect.getY() + resizeRect.getHeight() - selectionRectangle.getY();
-
-        selectionRectangle.setWidth(newWidth);
-        selectionRectangle.setHeight(newHeight);
     }
 
     public double getCurrentShapeLineStrokeWidth() {
