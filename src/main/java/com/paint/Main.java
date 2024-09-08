@@ -1,17 +1,19 @@
 package com.paint;
 
-import com.paint.controller.CanvasController;
-import com.paint.controller.InfoController;
-import com.paint.controller.ToolMenuController;
-import com.paint.controller.UtilityController;
+import com.paint.controller.*;
 import com.paint.model.*;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+
+import java.util.Optional;
 
 public class Main extends Application {
 
@@ -21,6 +23,7 @@ public class Main extends Application {
     private SceneStateModel sceneStateModel = null;
     private HelpAboutModel helpAboutModel = new HelpAboutModel();
     private InfoCanvasModel infoCanvasModel = new InfoCanvasModel();
+    private SettingStateModel settingStateModel = new SettingStateModel();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -59,6 +62,12 @@ public class Main extends Application {
 
         InfoController infoController = infoBarLoader.getController();
 
+        // Load optionsScene but hide it
+        FXMLLoader optionsLoader = new FXMLLoader(getClass().getResource("/view/OptionsScene.fxml"));
+        optionsLoader.load();
+
+        HelpMenuController helpMenuController = optionsLoader.getController();
+
         Scene scene = new Scene(rootLayout, 1225, 735);
         sceneStateModel = new SceneStateModel(scene);
 
@@ -71,9 +80,19 @@ public class Main extends Application {
         canvasController.setCanvasModel(canvasModel);
         canvasController.setPaintStateModel(paintStateModel);
         canvasController.setInfoCanvasModel(infoCanvasModel);
+        canvasController.setSettingStateModel(settingStateModel);
+        canvasController.setSceneStateModel(sceneStateModel);
+
+        System.out.println(settingStateModel);
+        helpMenuController.setSettingStateModel(settingStateModel);
 
         infoController.setCanvasModel(canvasModel);
         infoController.setInfoCanvasModel(infoCanvasModel);
+
+        // Update main controller state
+        sceneStateModel.setHelpMenuController(helpMenuController);
+        sceneStateModel.setMainScene(scene);
+        sceneStateModel.setPrimarystage(primaryStage);
 
         // Add style sheets
         try {
@@ -85,6 +104,39 @@ public class Main extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        // Set 'smart-save' event handlers on main stage
+        primaryStage.setOnHiding(windowEvent -> {
+           // Check if file has been saved
+            boolean isSaved = canvasController.fileSavedRecently();
+            if (isSaved) {
+                // File saved recently -> OK to close
+                return;
+            } else {
+                // File not saved recently -> Alert user
+                Alert fileNotSavedAlert = new Alert(Alert.AlertType.WARNING, """
+                        WARNING: You are about to close a file that has not been saved with your most recent changes. Are
+                        you sure you want to close?
+                        """);
+                fileNotSavedAlert.setTitle("WARNING: File not saved");
+                fileNotSavedAlert.setHeaderText("");
+
+                ButtonType saveFileBtn = new ButtonType("Save File", ButtonBar.ButtonData.APPLY); // Add a 'save' btn on dialog
+                ButtonType saveFileAsBtn = new ButtonType("Save File As", ButtonBar.ButtonData.APPLY); // Add a 'save as' btn on dialog
+
+                fileNotSavedAlert.getButtonTypes().add(saveFileBtn);
+                fileNotSavedAlert.getButtonTypes().add(saveFileAsBtn);
+
+                Optional<ButtonType> userInput = fileNotSavedAlert.showAndWait();
+
+                if (userInput.isPresent() && userInput.get() == ButtonType.OK) {
+                    System.out.println("OK");
+                } else {
+                    System.out.println("NOT OK");
+
+                }
+            }
+        });
     }
     
     public static void main(String[] args) {

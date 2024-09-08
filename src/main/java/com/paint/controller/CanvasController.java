@@ -1,8 +1,6 @@
 package com.paint.controller;
 
-import com.paint.model.CanvasModel;
-import com.paint.model.InfoCanvasModel;
-import com.paint.model.PaintStateModel;
+import com.paint.model.*;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
@@ -21,6 +19,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeType;
+import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -45,6 +44,16 @@ public class CanvasController {
     private PaintStateModel paintStateModel;
     private CanvasModel canvasModel;
     private InfoCanvasModel infoCanvasModel;
+    private SettingStateModel settingStateModel;
+    private SceneStateModel sceneStateModel;
+
+    public SceneStateModel getSceneStateModel() {
+        return sceneStateModel;
+    }
+
+    public void setSceneStateModel(SceneStateModel sceneStateModel) {
+        this.sceneStateModel = sceneStateModel;
+    }
 
     public void setInfoCanvasModel(InfoCanvasModel infoCanvasModel) {
         this.infoCanvasModel = infoCanvasModel;
@@ -273,10 +282,9 @@ public class CanvasController {
     }
 
     // Takes a snapshot of the canvas & saves it to the designated file
-    public void saveImageFromCanvas(File file, String fileExtension) { // TODO bind the canvas + scrollPane + drawingPane sizes since saved images currently get zoom effect perma
+    public void saveImageFromCanvas(File file, String fileExtension) {
         WritableImage writableImage = new WritableImage((int)(mainCanvas.getWidth()), (int) (mainCanvas.getHeight()));
         // Take a snapshot of the current canvas and save it to the writableImage
-        //this.mainCanvas.snapshot(null, writableImage);
         this.canvasDrawingStackPane.snapshot(null, writableImage);
 
         // Create a BufferedImage obj to store image data since BufferedImage requires an alpha channel
@@ -296,6 +304,21 @@ public class CanvasController {
             new Alert(Alert.AlertType.ERROR, "Unable to save the image at this time. Stack Trace: " + e.getMessage() );
             e.printStackTrace();
         }
+
+        // Check if user is trying to close without saving
+        Stage stage = (Stage) this.canvasDrawingStackPane.getScene().getWindow();
+        stage.setOnHiding(windowEvent -> {
+            System.out.println("TEST");
+        });
+
+        this.sceneStateModel.getPrimarystage().setOnHiding(windowEvent -> {
+            System.out.println("THIS");
+        });
+    }
+
+    public boolean fileSavedRecently() {
+        // Check if the file has been saved & is up-to-date
+        return false;
     }
 
     @FXML
@@ -311,6 +334,10 @@ public class CanvasController {
 
         canvasGroup.setScaleX(scaleFactor);
         canvasGroup.setScaleY(scaleFactor);
+    }
+    
+    public void setSettingStateModel(SettingStateModel settingStateModel) {
+        this.settingStateModel = settingStateModel;
     }
 
     // Mouse POS Handler
