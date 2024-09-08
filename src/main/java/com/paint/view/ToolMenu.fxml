@@ -130,7 +130,7 @@
                                  <Insets />
                               </GridPane.margin>
                             </ToggleButton>
-                           <ToggleButton fx:id="CurveLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                           <ToggleButton fx:id="Curve" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                                <tooltip>
                                    <Tooltip text="Curve" />
                                </tooltip>

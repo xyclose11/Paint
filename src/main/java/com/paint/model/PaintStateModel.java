@@ -6,10 +6,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
-import javafx.scene.shape.StrokeLineCap;
-import javafx.scene.shape.StrokeType;
+import javafx.scene.shape.*;
 
 import java.util.Objects;
 
@@ -144,7 +141,7 @@ public class PaintStateModel {
                         // Enable CanvasController handlers
                         this.canvasController.setCanvasDrawingStackPaneHandlerState(true);
                         this.shapeTransformationGroup.setOnMouseDragged(null);
-                        this.currentShape.setPickOnBounds(false);
+                        //this.currentShape.setPickOnBounds(false);
                     }
                     this.currentShape.getParent().setOnMouseClicked(null);
                 });

@@ -122,6 +122,10 @@ public class CanvasController {
                 break;
             case "Hexagon":
                 break;
+            case "Curve":
+                timesAdjusted = 0;
+                currentShape = new QuadCurve(startX, startY, startX, startY, startX + 1, startY + 1);
+                break;
         }
 
         if (currentShape != null) {
@@ -207,6 +211,13 @@ public class CanvasController {
         if (currentShape instanceof Line line) {
             line.setEndX(curX);
             line.setEndY(curY);
+            return;
+        }
+
+        if (currentShape instanceof QuadCurve curve) {
+            // Drag starting line -> wait for user click 1 or 2 times for control location
+            curve.setEndX(curX);
+            curve.setEndY(curY);
         }
 
         if (currentShape instanceof Rectangle rect) {
@@ -275,7 +286,6 @@ public class CanvasController {
     @FXML
     private void handleMouseReleased(MouseEvent mouseEvent) {
         String currentToolType = this.paintStateModel.getCurrentToolType();
-        System.out.println("HIT");
         switch (currentToolType) {
             case ("shape"):
                 handleToolShapeReleased(this.paintStateModel.getCurrentShape());
@@ -287,13 +297,34 @@ public class CanvasController {
 
     }
 
+    private int timesAdjusted = 0;
     private void handleToolShapeReleased(Shape currentShape) {
         // Disable StackPane Mouse Event Handlers
         setCanvasDrawingStackPaneHandlerState(false);
-        currentShape.setPickOnBounds(true);
-        // Enable transformations
-        this.paintStateModel.setTransformable(true, drawingPane);
 
+        // Check if currentShape is a curve
+        if (currentShape instanceof QuadCurve curve) {
+            // Enable mouse click handler for control XY location
+            this.canvasGroup.setOnMouseClicked(event -> {
+                if (timesAdjusted >= 2) {
+                    curve.setControlX(event.getX());
+                    curve.setControlY(event.getY());
+                    currentShape.setPickOnBounds(true);
+                    // Enable transformations
+                    this.paintStateModel.setTransformable(true, drawingPane);
+                    this.canvasGroup.setOnMouseClicked(null);
+                } else {
+                    curve.setControlX(event.getX());
+                    curve.setControlY(event.getY());
+                    timesAdjusted++;
+                }
+            });
+        } else {
+            // Allow shape to be selected via mouse select
+            currentShape.setPickOnBounds(true);
+            // Enable transformations
+            this.paintStateModel.setTransformable(true, drawingPane);
+        }
     }
 
     public void setCanvasDrawingStackPaneHandlerState(boolean bool) {
