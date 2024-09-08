@@ -24,6 +24,7 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 public class CanvasController {
     @FXML
@@ -239,6 +240,8 @@ public class CanvasController {
                 break;
         }
 
+        // Canvas has been altered adjust state of canvasModel
+        this.canvasModel.setFileBlank(false);
     }
 
     private void handleToolShapeReleased(Shape currentShape) {
@@ -299,16 +302,34 @@ public class CanvasController {
         try {
             // Create new file or overwrite file with same name, with designated fileExtension at the path file
             ImageIO.write(bufferedImage, fileExtension, file);
+
+            // Update hash for file
+            this.canvasModel.setFileOpenMD5(this.canvasModel.getCurrentFileMD5(file));
         } catch (IOException e) {
             new Alert(Alert.AlertType.ERROR, "Unable to save the image at this time. Stack Trace: " + e.getMessage() );
             e.printStackTrace();
+        } catch (NoSuchAlgorithmException e) {
+	        throw new RuntimeException(e);
         }
 
     }
 
-    public boolean isFileSavedRecently() {
-        // Check if the file has been saved & is up-to-date
-        // Maybe try to hash the file compared to an on open file hash to see if changes?
+    public boolean isFileSavedRecently() throws IOException, NoSuchAlgorithmException {
+        if (canvasModel.isFileBlank()) {
+            return true;
+        }
+
+        // Check if file has been saved at all during runtime
+        if (canvasModel.getCurrentFile() == null) {
+            return false;
+        }
+        // Check if the file has been saved & is up-to-date by comparing hashes
+        String fileHash = canvasModel.getCurrentFileMD5(canvasModel.getCurrentFile());
+
+        if (this.canvasModel.getFileOpenMD5().equals(fileHash)) {
+            // No changes have been made since last save
+            return true;
+        }
         return false;
     }
 

@@ -11,6 +11,7 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 public class UtilityController {
 	private File currentFile; // Used to manage state during runtime
@@ -38,7 +39,7 @@ public class UtilityController {
 	}
 
 	@FXML
-	private void handleFileOpen(ActionEvent event) {
+	private void handleFileOpen(ActionEvent event) throws IOException, NoSuchAlgorithmException {
 		FileChooser fileChooser = new FileChooser();
 
 		fileChooser.setTitle("Select Image");
@@ -68,6 +69,12 @@ public class UtilityController {
 		// Adjust state of currentFile
 		currentFile = selectedFile;
 
+		// Generate MD5 hash to be used for smart-save func
+		String fileHash = canvasModel.getCurrentFileMD5(selectedFile);
+		canvasModel.setFileOpenMD5(fileHash);
+
+		canvasModel.setCurrentFile(currentFile);
+
 		try  {
 			// Create base Image
 			Image image = new Image(selectedFile.toURI().toURL().toExternalForm(),true);
@@ -84,7 +91,6 @@ public class UtilityController {
 		image.progressProperty().addListener((obs, oldProgress, newProgress) -> {
 			if (newProgress.doubleValue() == 1.0) { // -> Image is loaded
 				canvasController.setCanvas(image);
-
 			}
 		});
 
@@ -98,7 +104,7 @@ public class UtilityController {
 	// 5. Call ImageIO.write()
 
 	@FXML
-	public void handleFileSave(ActionEvent event) {
+	public void handleFileSave(ActionEvent event) throws IOException, NoSuchAlgorithmException {
 		// Check if there is a current file opened
 		if (currentFile == null) {
 			// Redirect request to handleFileSaveAs
@@ -110,11 +116,18 @@ public class UtilityController {
 		String fileExt = getFileExt(filePath);
 		File file = new File(filePath); // Find the previously saved file
 
+		// Update the MD5 hash
+		String fileHash = canvasModel.getCurrentFileMD5(file);
+		canvasModel.setFileOpenMD5(fileHash);
+
 		canvasController.saveImageFromCanvas(file, fileExt);
+
+		canvasModel.setCurrentFile(file);
+
 	}
 
 	@FXML
-	private void handleFileSaveAs(ActionEvent event) {
+	private void handleFileSaveAs(ActionEvent event) throws IOException, NoSuchAlgorithmException {
 		FileChooser fileChooser = new FileChooser();
 
 		fileChooser.getExtensionFilters().addAll(
@@ -147,6 +160,12 @@ public class UtilityController {
 
 		canvasController.saveImageFromCanvas(file, fileExt);
 
+		// Generate MD5 hash to be used for smart-save func
+		String fileHash = canvasModel.getCurrentFileMD5(file);
+		canvasModel.setFileOpenMD5(fileHash);
+
+		// Set currentOpenFile
+		canvasModel.setCurrentFile(file);
 	}
 
 

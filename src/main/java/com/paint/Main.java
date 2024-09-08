@@ -16,6 +16,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
+
 public class Main extends Application {
 
     // Instantiate models for future use
@@ -74,6 +77,7 @@ public class Main extends Application {
 
         // Set controller models
         utilityController.setHelpAboutModel(helpAboutModel);
+        utilityController.setCanvasModel(canvasModel);
 
         toolMenuController.setPaintStateModel(paintStateModel);
         toolMenuController.setSceneStateModel(sceneStateModel);
@@ -84,7 +88,6 @@ public class Main extends Application {
         canvasController.setSettingStateModel(settingStateModel);
         canvasController.setSceneStateModel(sceneStateModel);
 
-        System.out.println(settingStateModel);
         helpMenuController.setSettingStateModel(settingStateModel);
 
         infoController.setCanvasModel(canvasModel);
@@ -111,9 +114,16 @@ public class Main extends Application {
             @Override
             public void handle(WindowEvent event) {
                  // Check if file has been saved
-                boolean isSaved = canvasController.isFileSavedRecently();
-                if (isSaved) {
-                    // File saved recently -> OK to close || no file opened
+	            boolean isSaved = false;
+	            try {
+		            isSaved = canvasController.isFileSavedRecently();
+	            } catch (IOException e) {
+		            throw new RuntimeException(e);
+	            } catch (NoSuchAlgorithmException e) {
+		            throw new RuntimeException(e);
+	            }
+	            if (isSaved || canvasModel.isFileBlank()) {
+                    // File saved recently -> OK to close || no file opened (blank)
                     primaryStage.close();
                 } else {
                     // File not saved recently -> Alert user
@@ -137,8 +147,14 @@ public class Main extends Application {
                         primaryStage.close();
                     }
                     if (alertResult.getText() == "Save") { // Save file
-                        utilityController.handleFileSave(null);
-                        event.consume(); // Consuming the event here prevents the 'exit' event from closing the application
+	                    try {
+		                    utilityController.handleFileSave(null);
+	                    } catch (IOException e) {
+		                    throw new RuntimeException(e);
+	                    } catch (NoSuchAlgorithmException e) {
+		                    throw new RuntimeException(e);
+	                    }
+	                    event.consume(); // Consuming the event here prevents the 'exit' event from closing the application
                     }
 
                     if (alertResult == ButtonType.CANCEL) { // Cancel operation
