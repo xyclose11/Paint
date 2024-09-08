@@ -3,6 +3,7 @@ package com.paint.controller;
 import com.paint.model.CanvasModel;
 import com.paint.model.InfoCanvasModel;
 import com.paint.model.PaintStateModel;
+import com.paint.resource.Triangle;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
@@ -117,6 +118,7 @@ public class CanvasController {
                 currentShape = new Ellipse(startX, startY, 1, 1);
                 break;
             case "Triangle":
+                currentShape = new Triangle(startX, startX, startX, startY, startY, startY);
                 break;
             case "Star":
                 break;
@@ -218,6 +220,12 @@ public class CanvasController {
             // Drag starting line -> wait for user click 1 or 2 times for control location
             curve.setEndX(curX);
             curve.setEndY(curY);
+        }
+
+        if (currentShape instanceof Triangle triangle) {
+            // X1 stays same | Y1 changes | X2 changes | Y2 stays same | X3 & Y3 are the cursor
+            double topVertex = ((curX - startX) / 2) + startX;
+            triangle.setVertices(startX, curY, topVertex, startY, curX, curY);
         }
 
         if (currentShape instanceof Rectangle rect) {
