@@ -24,7 +24,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 
 public class CanvasController {
     @FXML
@@ -247,6 +246,8 @@ public class CanvasController {
     private void handleToolShapeReleased(Shape currentShape) {
         currentShape.setMouseTransparent(false);
         this.paintStateModel.setCurrentShape(null);
+        this.canvasModel.setChangesMade(true);
+
     }
     // DRAWING SECTION END
 
@@ -281,6 +282,8 @@ public class CanvasController {
 
         // Set canvas to the writableImage
         mainCanvas.getGraphicsContext2D().drawImage(writableImage, 0, 0);
+
+        this.canvasModel.setChangesMade(true);
     }
 
     // Takes a snapshot of the canvas & saves it to the designated file
@@ -303,33 +306,19 @@ public class CanvasController {
             // Create new file or overwrite file with same name, with designated fileExtension at the path file
             ImageIO.write(bufferedImage, fileExtension, file);
 
-            // Update hash for file
-            this.canvasModel.setFileOpenMD5(this.canvasModel.getCurrentFileMD5(file));
+            this.canvasModel.setChangesMade(false);
         } catch (IOException e) {
             new Alert(Alert.AlertType.ERROR, "Unable to save the image at this time. Stack Trace: " + e.getMessage() );
             e.printStackTrace();
-        } catch (NoSuchAlgorithmException e) {
-	        throw new RuntimeException(e);
         }
 
     }
 
-    public boolean isFileSavedRecently() throws IOException, NoSuchAlgorithmException {
-        if (canvasModel.isFileBlank()) {
+    public boolean isFileSavedRecently() throws IOException {
+        if (!canvasModel.isChangesMade()) {
             return true;
         }
 
-        // Check if file has been saved at all during runtime
-        if (canvasModel.getCurrentFile() == null) {
-            return false;
-        }
-        // Check if the file has been saved & is up-to-date by comparing hashes
-        String fileHash = canvasModel.getCurrentFileMD5(canvasModel.getCurrentFile());
-
-        if (this.canvasModel.getFileOpenMD5().equals(fileHash)) {
-            // No changes have been made since last save
-            return true;
-        }
         return false;
     }
 

@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 
 public class Main extends Application {
 
@@ -119,8 +118,6 @@ public class Main extends Application {
 		            isSaved = canvasController.isFileSavedRecently();
 	            } catch (IOException e) {
 		            throw new RuntimeException(e);
-	            } catch (NoSuchAlgorithmException e) {
-		            throw new RuntimeException(e);
 	            }
 	            if (isSaved || canvasModel.isFileBlank()) {
                     // File saved recently -> OK to close || no file opened (blank)
@@ -150,8 +147,6 @@ public class Main extends Application {
 	                    try {
 		                    utilityController.handleFileSave(null);
 	                    } catch (IOException e) {
-		                    throw new RuntimeException(e);
-	                    } catch (NoSuchAlgorithmException e) {
 		                    throw new RuntimeException(e);
 	                    }
 	                    event.consume(); // Consuming the event here prevents the 'exit' event from closing the application

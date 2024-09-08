@@ -69,10 +69,6 @@ public class UtilityController {
 		// Adjust state of currentFile
 		currentFile = selectedFile;
 
-		// Generate MD5 hash to be used for smart-save func
-		String fileHash = canvasModel.getCurrentFileMD5(selectedFile);
-		canvasModel.setFileOpenMD5(fileHash);
-
 		canvasModel.setCurrentFile(currentFile);
 
 		try  {
@@ -104,7 +100,7 @@ public class UtilityController {
 	// 5. Call ImageIO.write()
 
 	@FXML
-	public void handleFileSave(ActionEvent event) throws IOException, NoSuchAlgorithmException {
+	public void handleFileSave(ActionEvent event) throws IOException {
 		// Check if there is a current file opened
 		if (currentFile == null) {
 			// Redirect request to handleFileSaveAs
@@ -116,10 +112,6 @@ public class UtilityController {
 		String fileExt = getFileExt(filePath);
 		File file = new File(filePath); // Find the previously saved file
 
-		// Update the MD5 hash
-		String fileHash = canvasModel.getCurrentFileMD5(file);
-		canvasModel.setFileOpenMD5(fileHash);
-
 		canvasController.saveImageFromCanvas(file, fileExt);
 
 		canvasModel.setCurrentFile(file);
@@ -127,7 +119,7 @@ public class UtilityController {
 	}
 
 	@FXML
-	private void handleFileSaveAs(ActionEvent event) throws IOException, NoSuchAlgorithmException {
+	private void handleFileSaveAs(ActionEvent event) throws IOException {
 		FileChooser fileChooser = new FileChooser();
 
 		fileChooser.getExtensionFilters().addAll(
@@ -159,10 +151,6 @@ public class UtilityController {
 		String fileExt = getFileExt(file.getAbsolutePath());
 
 		canvasController.saveImageFromCanvas(file, fileExt);
-
-		// Generate MD5 hash to be used for smart-save func
-		String fileHash = canvasModel.getCurrentFileMD5(file);
-		canvasModel.setFileOpenMD5(fileHash);
 
 		// Set currentOpenFile
 		canvasModel.setCurrentFile(file);
