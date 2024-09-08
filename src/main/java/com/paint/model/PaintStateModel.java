@@ -9,7 +9,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeLineCap;
-import javafx.scene.transform.Translate;
+import javafx.scene.shape.StrokeType;
 
 import java.util.Objects;
 
@@ -177,24 +177,29 @@ public class PaintStateModel {
                         currentShape.boundsInParentProperty())
         );
 
-        selectionRect.getStrokeDashArray().addAll(20.0);
+        selectionRect.getStrokeDashArray().addAll(9.5);
         selectionRect.setFill(Color.TRANSPARENT);
-        selectionRect.setStroke(Color.TURQUOISE);
-        selectionRect.setStrokeDashOffset(10);
+        selectionRect.setStroke(Color.GRAY);
+        selectionRect.setStrokeDashOffset(40);
+        selectionRect.setStrokeType(StrokeType.OUTSIDE);
         selectionRect.toFront();
 
 
 
         // Setup mouse event handlers
         selectionRect.setOnMouseEntered(mouseEvent -> {
-            selectionRect.setCursor(Cursor.MOVE);
+            selectionRect.setCursor(Cursor.H_RESIZE);
         });
 
         Group group = new Group(selectionRect, currentShape);
         setShapeTransformationGroup(group);
-        // Add transformation to the group
-        Translate translate = new Translate();
-        this.shapeTransformationGroup.getTransforms().add(translate);
+
+        shapeTransformationGroup.setOnMouseEntered(mouseE -> {
+            shapeTransformationGroup.setCursor(Cursor.MOVE);
+        });
+
+        // TODO remove selectionbox when saving since it willcapture the selectionbox in the file
+
         drawing.getChildren().add(shapeTransformationGroup);
     }
 
