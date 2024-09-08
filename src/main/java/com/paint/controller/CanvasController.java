@@ -1,5 +1,10 @@
 package com.paint.controller;
 
+import com.paint.model.CanvasModel;
+import com.paint.model.InfoCanvasModel;
+import com.paint.model.PaintStateModel;
+import com.paint.resource.RightTriangle;
+import com.paint.resource.Triangle;
 import com.paint.model.*;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
@@ -15,15 +20,13 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
-import javafx.scene.shape.StrokeType;
+import javafx.scene.shape.*;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class CanvasController {
     @FXML
@@ -89,39 +92,65 @@ public class CanvasController {
     private void handleMousePressed(MouseEvent mouseEvent) {
         startX = mouseEvent.getX();
         startY = mouseEvent.getY();
+
         String currentTool = this.paintStateModel.getCurrentTool();
         String currentToolType = this.paintStateModel.getCurrentToolType();
         Shape currentShape = this.paintStateModel.getCurrentShape();
 
-        switch (currentToolType) {
-            case "shape":
-                handleToolShapeOnPress(currentShape, currentTool);
-                break;
-            case "brush":
-                handleToolBrushOnPress();
-                break;
+        if (!this.paintStateModel.isTransformable()) {
+            switch (currentToolType) {
+                case "shape":
+                    handleToolShapeOnPress(currentShape, currentTool);
+                    break;
+                case "brush":
+                    handleToolBrushOnPress();
+                    break;
+            }
         }
+
     }
 
     private void handleToolShapeOnPress(Shape currentShape, String currentTool) {
         switch (currentTool) {
             case "StLine":
-                currentShape = new Line(startX, startY, startX, startY);
+                currentShape = new Line(startX, startY, startX + 1, startY + 1);
                 break;
             case "Rectangle":
                 // x, y, width, height, Paint fill
-                currentShape = new Rectangle(startX, startY, 0, 0);
+                currentShape = new Rectangle(startX, startY, 1, 2);
+                break;
+            case "Circle":
+                currentShape = new Circle(startX, startY, 1);
+                break;
+            case "Square":
+                currentShape = new Rectangle(startX, startY, 1, 1);
+                break;
+            case "Ellipse":
+                // Center X Center Y | Radius X Radius Y
+                currentShape = new Ellipse(startX, startY, 1, 1);
+                break;
+            case "Triangle":
+                currentShape = new Triangle(startX, startX, startX, startY, startY, startY);
+                break;
+            case "RightTriangle":
+                currentShape = new RightTriangle(startX, startX, startX, startY, startY, startY);
+                break;
+            case "Star":
+                break;
+            case "Hexagon":
+                break;
+            case "Curve":
+                timesAdjusted = 0;
+                currentShape = new CubicCurve(startX, startY, startX, startY, startX + 1, startY + 1, startX + 1, startY + 1);
                 break;
         }
 
         if (currentShape != null) {
             currentShape.setStroke(this.paintStateModel.getCurrentPaintColor()); // This controls the outline color
             currentShape.setStrokeWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
-//            currentShape.setFill(this.paintStateModel.getCurrentPaintColor());
             currentShape.setFill(null); // Set this to null to get 'outline' of shapes
-            currentShape.setMouseTransparent(true);
-            currentShape.setStrokeType(StrokeType.CENTERED);
-//            currentShape.setStrokeWidth(this.paintStateModel.getCurrentLineWidth()); // TODO separate this from the brush line width
+            currentShape.setMouseTransparent(false);
+            currentShape.setStrokeType(StrokeType.OUTSIDE);
             drawingPane.getChildren().add(currentShape);
 
             // Set current shape in model
@@ -150,6 +179,12 @@ public class CanvasController {
 
     @FXML
     private void handleMouseDragged(MouseEvent mouseEvent) {
+        // Verify mode
+        if (this.paintStateModel.isTransformable()) {
+            // If in transform mode, ignore drag events
+            return;
+        }
+
         // Update mouse POS lbl
         this.infoCanvasModel.setMousePosLbl(mouseEvent);
         Shape currentShape = this.paintStateModel.getCurrentShape();
@@ -172,52 +207,100 @@ public class CanvasController {
     }
 
     private void handleToolShapeOnDragged(Shape currentShape, double curX, double curY) {
+        if (this.paintStateModel.isTransformable()) {
+            return;
+        }
 
-        if (currentShape != null) {
-            // Check if shape is off the canvas
-            // TODO alter this so that it will auto scroll when going off the current viewport
-            if (curX >= mainCanvas.getWidth() || curY >= mainCanvas.getHeight() || curX < 0 || curY < 0) {
-                return;
-            }
-            if (currentShape instanceof Line line) {
-                line.setEndX(curX);
-                line.setEndY(curY);
-            } else if (currentShape instanceof Rectangle rect) {
-                // Check if cursor is out of canvas/pane bounds
-
-
-                // Check if cursor is going in Quadrant 4 (Meaning that it doesn't require any calculation swaps)
-                if (curX >= startX && curY >= startY) {
-                    rect.setWidth((curX - startX));
-                    rect.setHeight((curY - startY));
-                    return;
-                }
-
-                // Check if cursor is in Quadrants 2 OR 3
-                if (curX < startX) {
-                    // Swap calculation setters
-                    rect.setX(curX);
-                    rect.setWidth(Math.abs(startX - curX));
-                    rect.setHeight(Math.abs(curY - startY));
-                }
-
-                // Check if cursor is in Quadrants 2 OR 1
-                if (curY < startY) {
-                    // Swap calculation setters
-                    rect.setY(curY);
-                    rect.setWidth(Math.abs(curX - startX));
-                    rect.setHeight(Math.abs(startY - curY));
-                }
-
-            }
-
-        } else {
+        if (currentShape == null) {
             // Error for if the currentShape is null (Ideally there should always be a tool selected)
             Alert noToolSelectedAlert = new Alert(Alert.AlertType.ERROR, "NO TOOL SELECTED. Please select a tool in the tool bar above.");
             noToolSelectedAlert.setTitle("No Tool Selected: DRAGGED");
             noToolSelectedAlert.setHeaderText("");
             noToolSelectedAlert.showAndWait();
         }
+
+
+        // Check if shape is off the canvas
+        if (curX >= mainCanvas.getWidth() || curY >= mainCanvas.getHeight() || curX < 0 || curY < 0) {
+            return;
+        }
+
+        if (currentShape instanceof Line line) {
+            line.setEndX(curX);
+            line.setEndY(curY);
+            return;
+        }
+
+        if (currentShape instanceof CubicCurve curve) {
+            // Drag starting line -> wait for user click 1 or 2 times for control location
+            curve.setEndX(curX);
+            curve.setEndY(curY);
+        }
+
+        if (currentShape instanceof Triangle triangle) {
+            // X1 stays same | Y1 changes | X2 changes | Y2 stays same | X3 & Y3 are the cursor
+            double topVertex = ((curX - startX) / 2) + startX;
+            triangle.setVertices(startX, curY, topVertex, startY, curX, curY);
+        }
+
+        if (currentShape instanceof RightTriangle rightTriangle) {
+            rightTriangle.setVertices(startX, curY, curX, startY, curX, curY); // TODO Update ToolMenu UI Icon with right triangle icon
+        }
+
+        if (currentShape instanceof Rectangle rect) {
+            // Check if obj is a Square
+            if (Objects.equals(this.paintStateModel.getCurrentTool(), "Square")) {
+                // Ensure that W x H stay the same
+                double l = ((curX - startX) + (curY - startY)) / 2;
+                rect.setWidth(l);
+                rect.setHeight(l);
+                return;
+            }
+
+            // Check if cursor is going in Quadrant 4 (Meaning that it doesn't require any calculation swaps)
+            if (curX >= startX && curY >= startY) {
+                rect.setWidth((curX - startX));
+                rect.setHeight((curY - startY));
+                return;
+            }
+
+            // Check if cursor is in Quadrants 2 OR 3
+            if (curX < startX) {
+                // Swap calculation setters
+                rect.setX(curX);
+                rect.setWidth(Math.abs(startX - curX));
+                rect.setHeight(Math.abs(curY - startY));
+            }
+
+            // Check if cursor is in Quadrants 2 OR 1
+            if (curY < startY) {
+                // Swap calculation setters
+                rect.setY(curY);
+                rect.setWidth(Math.abs(curX - startX));
+                rect.setHeight(Math.abs(startY - curY));
+            }
+
+        }
+
+        if (currentShape instanceof Circle circle) {
+
+            circle.setCenterX(startX);
+            circle.setCenterY(startY);
+            circle.setRadius(Math.abs(curX - startX));
+
+        }
+
+        if (currentShape instanceof Ellipse ellipse) {
+            ellipse.setCenterX(startX);
+            ellipse.setCenterY(startY);
+            ellipse.setRadiusX(Math.abs(curX - startX));
+            ellipse.setRadiusY(Math.abs(curY - startY));
+        }
+
+        if (currentShape instanceof Polygon polygon) {
+
+        }
+
 
     }
 
@@ -243,13 +326,55 @@ public class CanvasController {
         this.canvasModel.setFileBlank(false);
     }
 
+    private int timesAdjusted = 0;
     private void handleToolShapeReleased(Shape currentShape) {
-        currentShape.setMouseTransparent(false);
-        this.paintStateModel.setCurrentShape(null);
-        this.canvasModel.setChangesMade(true);
+        // Disable StackPane Mouse Event Handlers
+        setCanvasDrawingStackPaneHandlerState(false);
+
+        // Check if currentShape is a curve
+        if (currentShape instanceof CubicCurve curve) {
+            // Enable mouse click handler for control XY location
+            this.canvasGroup.setOnMouseClicked(event -> {
+                if (timesAdjusted >= 2) {
+                    curve.setControlX2(event.getX());
+                    curve.setControlY2(event.getY());
+                    currentShape.setPickOnBounds(true);
+                    // Enable transformations
+                    this.paintStateModel.setTransformable(true, drawingPane);
+                    this.canvasGroup.setOnMouseClicked(null);
+                } else {
+                    curve.setControlX1(event.getX());
+                    curve.setControlY1(event.getY());
+                    timesAdjusted++;
+                }
+            });
+        } else {
+            // Allow shape to be selected via mouse select
+            currentShape.setPickOnBounds(true);
+            // Enable transformations
+            this.paintStateModel.setTransformable(true, drawingPane);
+        }
+    }
+
+    public void setCanvasDrawingStackPaneHandlerState(boolean bool) {
+        if (bool) {
+            this.canvasDrawingStackPane.setOnMousePressed(this::handleMousePressed);
+            this.canvasDrawingStackPane.setOnMouseDragged(this::handleMouseDragged);
+            this.canvasDrawingStackPane.setOnMouseReleased(this::handleMouseReleased);
+            this.canvasDrawingStackPane.setOnMouseMoved(this::onMouseOverCanvas);
+        } else {
+            this.canvasDrawingStackPane.setOnMousePressed(null);
+            this.canvasDrawingStackPane.setOnMouseDragged(null);
+            this.canvasDrawingStackPane.setOnMouseReleased(null);
+            this.canvasDrawingStackPane.setOnMouseMoved(null);
+        }
+	    this.canvasModel.setChangesMade(true);
 
     }
     // DRAWING SECTION END
+
+    // TRANSLATION SECTION START
+    // TRANSLATION SECTION END
 
     @FXML
     private void initialize() {
@@ -336,7 +461,7 @@ public class CanvasController {
         canvasGroup.setScaleX(scaleFactor);
         canvasGroup.setScaleY(scaleFactor);
     }
-    
+
     public void setSettingStateModel(SettingStateModel settingStateModel) {
         this.settingStateModel = settingStateModel;
     }
