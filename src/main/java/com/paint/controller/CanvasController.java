@@ -124,7 +124,7 @@ public class CanvasController {
                 break;
             case "Curve":
                 timesAdjusted = 0;
-                currentShape = new QuadCurve(startX, startY, startX, startY, startX + 1, startY + 1);
+                currentShape = new CubicCurve(startX, startY, startX, startY, startX + 1, startY + 1, startX + 1, startY + 1);
                 break;
         }
 
@@ -214,7 +214,7 @@ public class CanvasController {
             return;
         }
 
-        if (currentShape instanceof QuadCurve curve) {
+        if (currentShape instanceof CubicCurve curve) {
             // Drag starting line -> wait for user click 1 or 2 times for control location
             curve.setEndX(curX);
             curve.setEndY(curY);
@@ -303,19 +303,19 @@ public class CanvasController {
         setCanvasDrawingStackPaneHandlerState(false);
 
         // Check if currentShape is a curve
-        if (currentShape instanceof QuadCurve curve) {
+        if (currentShape instanceof CubicCurve curve) {
             // Enable mouse click handler for control XY location
             this.canvasGroup.setOnMouseClicked(event -> {
                 if (timesAdjusted >= 2) {
-                    curve.setControlX(event.getX());
-                    curve.setControlY(event.getY());
+                    curve.setControlX2(event.getX());
+                    curve.setControlY2(event.getY());
                     currentShape.setPickOnBounds(true);
                     // Enable transformations
                     this.paintStateModel.setTransformable(true, drawingPane);
                     this.canvasGroup.setOnMouseClicked(null);
                 } else {
-                    curve.setControlX(event.getX());
-                    curve.setControlY(event.getY());
+                    curve.setControlX1(event.getX());
+                    curve.setControlY1(event.getY());
                     timesAdjusted++;
                 }
             });
