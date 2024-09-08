@@ -3,17 +3,18 @@ package com.paint;
 import com.paint.controller.*;
 import com.paint.model.*;
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
-import java.util.Optional;
+import javafx.stage.WindowEvent;
 
 public class Main extends Application {
 
@@ -106,34 +107,43 @@ public class Main extends Application {
         primaryStage.show();
 
         // Set 'smart-save' event handlers on main stage
-        primaryStage.setOnHiding(windowEvent -> {
-           // Check if file has been saved
-            boolean isSaved = canvasController.fileSavedRecently();
-            if (isSaved) {
-                // File saved recently -> OK to close
-                return;
-            } else {
-                // File not saved recently -> Alert user
-                Alert fileNotSavedAlert = new Alert(Alert.AlertType.WARNING, """
-                        WARNING: You are about to close a file that has not been saved with your most recent changes. Are
-                        you sure you want to close?
-                        """);
-                fileNotSavedAlert.setTitle("WARNING: File not saved");
-                fileNotSavedAlert.setHeaderText("");
-
-                ButtonType saveFileBtn = new ButtonType("Save File", ButtonBar.ButtonData.APPLY); // Add a 'save' btn on dialog
-                ButtonType saveFileAsBtn = new ButtonType("Save File As", ButtonBar.ButtonData.APPLY); // Add a 'save as' btn on dialog
-
-                fileNotSavedAlert.getButtonTypes().add(saveFileBtn);
-                fileNotSavedAlert.getButtonTypes().add(saveFileAsBtn);
-
-                Optional<ButtonType> userInput = fileNotSavedAlert.showAndWait();
-
-                if (userInput.isPresent() && userInput.get() == ButtonType.OK) {
-                    System.out.println("OK");
+        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                 // Check if file has been saved
+                boolean isSaved = canvasController.isFileSavedRecently();
+                if (isSaved) {
+                    // File saved recently -> OK to close || no file opened
+                    primaryStage.close();
                 } else {
-                    System.out.println("NOT OK");
+                    // File not saved recently -> Alert user
+                    Alert fileNotSavedAlert = new Alert(Alert.AlertType.WARNING, """
+                            WARNING: You are about to close a file that has not been saved with your most recent changes. Are
+                            you sure you want to close?
+                            """);
+                    fileNotSavedAlert.setTitle("WARNING: File not saved");
+                    fileNotSavedAlert.setHeaderText("");
 
+                    ButtonType saveFileBtn = new ButtonType("Save", ButtonBar.ButtonData.APPLY); // Add a 'save' btn on dialog
+
+                    fileNotSavedAlert.getButtonTypes().add(saveFileBtn);
+                    fileNotSavedAlert.getButtonTypes().add(ButtonType.CANCEL);
+
+                    ((Button)fileNotSavedAlert.getDialogPane().lookupButton(ButtonType.OK)).setText("Don't Save"); // Change default btn text
+
+                    ButtonType alertResult = fileNotSavedAlert.showAndWait().orElse(ButtonType.CANCEL);
+
+                    if (alertResult == ButtonType.OK) { // User wants to close without saving
+                        primaryStage.close();
+                    }
+                    if (alertResult.getText() == "Save") { // Save file
+                        utilityController.handleFileSave(null);
+                        event.consume(); // Consuming the event here prevents the 'exit' event from closing the application
+                    }
+
+                    if (alertResult == ButtonType.CANCEL) { // Cancel operation
+                        event.consume(); // Consuming the event here prevents the 'exit' event from closing the application
+                    }
                 }
             }
         });

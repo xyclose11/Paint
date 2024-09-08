@@ -19,7 +19,6 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeType;
-import javafx.stage.Stage;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -305,19 +304,11 @@ public class CanvasController {
             e.printStackTrace();
         }
 
-        // Check if user is trying to close without saving
-        Stage stage = (Stage) this.canvasDrawingStackPane.getScene().getWindow();
-        stage.setOnHiding(windowEvent -> {
-            System.out.println("TEST");
-        });
-
-        this.sceneStateModel.getPrimarystage().setOnHiding(windowEvent -> {
-            System.out.println("THIS");
-        });
     }
 
-    public boolean fileSavedRecently() {
+    public boolean isFileSavedRecently() {
         // Check if the file has been saved & is up-to-date
+        // Maybe try to hash the file compared to an on open file hash to see if changes?
         return false;
     }
 

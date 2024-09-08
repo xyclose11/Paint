@@ -98,7 +98,7 @@ public class UtilityController {
 	// 5. Call ImageIO.write()
 
 	@FXML
-	private void handleFileSave(ActionEvent event) {
+	public void handleFileSave(ActionEvent event) {
 		// Check if there is a current file opened
 		if (currentFile == null) {
 			// Redirect request to handleFileSaveAs
