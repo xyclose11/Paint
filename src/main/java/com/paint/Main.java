@@ -66,10 +66,10 @@ public class Main extends Application {
         InfoController infoController = infoBarLoader.getController();
 
         // Load optionsScene but hide it
-        FXMLLoader optionsLoader = new FXMLLoader(getClass().getResource("/view/OptionsScene.fxml"));
-        optionsLoader.load();
+//        FXMLLoader optionsLoader = new FXMLLoader(getClass().getResource("/view/OptionsScene.fxml"));
+//        optionsLoader.load();
 
-        HelpMenuController helpMenuController = optionsLoader.getController();
+//        HelpMenuController helpMenuController = optionsLoader.getController();
 
         Scene scene = new Scene(rootLayout, 1225, 735);
         sceneStateModel = new SceneStateModel(scene);
@@ -87,15 +87,15 @@ public class Main extends Application {
         canvasController.setSettingStateModel(settingStateModel);
         canvasController.setSceneStateModel(sceneStateModel);
 
-        helpMenuController.setSettingStateModel(settingStateModel);
+//        helpMenuController.setSettingStateModel(settingStateModel);
 
         infoController.setCanvasModel(canvasModel);
         infoController.setInfoCanvasModel(infoCanvasModel);
 
         // Update main controller state
-        sceneStateModel.setHelpMenuController(helpMenuController);
-        sceneStateModel.setMainScene(scene);
-        sceneStateModel.setPrimarystage(primaryStage);
+//        sceneStateModel.setHelpMenuController(helpMenuController);
+//        sceneStateModel.setMainScene(scene);
+//        sceneStateModel.setPrimarystage(primaryStage);
 
         // Add style sheets
         try {
