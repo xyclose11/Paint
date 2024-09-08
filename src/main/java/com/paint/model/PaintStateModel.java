@@ -146,6 +146,11 @@ public class PaintStateModel {
 
                 this.currentShape.setOnMouseExited(null);
             });
+        } else {
+            // Remove selectionRectangle
+            if (this.shapeTransformationGroup.getChildren().size() >= 1) {
+                this.shapeTransformationGroup.getChildren().get(0).setVisible(false);
+            }
         }
     }
 
