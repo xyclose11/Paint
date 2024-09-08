@@ -178,6 +178,14 @@
                                  <FontIcon fontSmoothingType="LCD" iconLiteral="mdi2t-triangle-outline" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                               </graphic>
                            </ToggleButton>
+                            <ToggleButton fx:id="RightTriangle" ellipsisString="" layoutX="41.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#updateToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                                <tooltip>
+                                    <Tooltip text="Right Triangle" />
+                                </tooltip>
+                                <graphic>
+                                    <FontIcon fontSmoothingType="LCD" iconLiteral="mdi2t-triangle-outline" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                                </graphic>
+                            </ToggleButton>
                         </children>
                         <padding>
                            <Insets left="8.0" right="8.0" top="8.0" />

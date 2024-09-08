@@ -3,6 +3,7 @@ package com.paint.controller;
 import com.paint.model.CanvasModel;
 import com.paint.model.InfoCanvasModel;
 import com.paint.model.PaintStateModel;
+import com.paint.resource.RightTriangle;
 import com.paint.resource.Triangle;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
@@ -120,6 +121,9 @@ public class CanvasController {
             case "Triangle":
                 currentShape = new Triangle(startX, startX, startX, startY, startY, startY);
                 break;
+            case "RightTriangle":
+                currentShape = new RightTriangle(startX, startX, startX, startY, startY, startY);
+                break;
             case "Star":
                 break;
             case "Hexagon":
@@ -226,6 +230,10 @@ public class CanvasController {
             // X1 stays same | Y1 changes | X2 changes | Y2 stays same | X3 & Y3 are the cursor
             double topVertex = ((curX - startX) / 2) + startX;
             triangle.setVertices(startX, curY, topVertex, startY, curX, curY);
+        }
+
+        if (currentShape instanceof RightTriangle rightTriangle) {
+            rightTriangle.setVertices(startX, curY, curX, startY, curX, curY);
         }
 
         if (currentShape instanceof Rectangle rect) {
