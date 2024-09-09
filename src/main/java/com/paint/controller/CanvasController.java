@@ -401,9 +401,7 @@ public class CanvasController {
             // Enable transformations
             this.paintStateModel.setTransformable(true, drawingPane);
         }
-
-        // Apply shape to canvas
-//        applyPaneShapeToCanvas(this.paintStateModel.getCurrentShape());
+        this.paintStateModel.setCurrentShape(null);
     }
 
     public void applyPaneShapeToCanvas(Shape currentShape) {
@@ -429,6 +427,8 @@ public class CanvasController {
             }
 
             graphicsContext.setLineWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
+            graphicsContext.setFill(null);
+            graphicsContext.setStroke(this.paintStateModel.getCurrentPaintColor());
             graphicsContext.strokeRect(x,y,w,h);
 
             // Reinitialize drawingPane to remove shape

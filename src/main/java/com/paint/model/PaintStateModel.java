@@ -118,9 +118,6 @@ public class PaintStateModel {
             });
 
             // Translation handler (XY Movement) SECTION START
-//            this.shapeTransformationGroup.setOnMousePressed(mousePressed -> {
-//                this.shapeTransformationGroup.setUserData(new double[]{mousePressed.getX(), mousePressed.getY()});
-//            });
 
             parent.getParent().setOnMousePressed(mousePressed -> handleMousePressed(mousePressed, parent));
 
@@ -172,11 +169,13 @@ public class PaintStateModel {
         this.shapeTransformationGroup.setOnMouseDragged(null);
         this.shapeTransformationGroup.setOnMousePressed(null);
 
+        // Convert shape -> canvas
+        this.canvasController.applyPaneShapeToCanvas(currentShape);
+
         // Enable CanvasController handlers
         this.canvasController.setCanvasDrawingStackPaneHandlerState(true);
 
-        // Convert shape -> canvas
-        this.canvasController.applyPaneShapeToCanvas(currentShape);
+
     }
 
     private void createSelectionBox (Shape currentShape, Pane drawing) {
