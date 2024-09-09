@@ -1,11 +1,8 @@
 package com.paint.controller;
 
-import com.paint.model.CanvasModel;
-import com.paint.model.InfoCanvasModel;
-import com.paint.model.PaintStateModel;
+import com.paint.model.*;
 import com.paint.resource.RightTriangle;
 import com.paint.resource.Triangle;
-import com.paint.model.*;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
@@ -98,16 +95,40 @@ public class CanvasController {
         Shape currentShape = this.paintStateModel.getCurrentShape();
 
         if (!this.paintStateModel.isTransformable()) {
-            switch (currentToolType) {
+            switch (currentToolType) { // TODO create a toolController and move all of these mouse handler code bodies to it
                 case "shape":
                     handleToolShapeOnPress(currentShape, currentTool);
                     break;
                 case "brush":
                     handleToolBrushOnPress();
                     break;
+                case "general":
+                    handleToolGeneralOnPress(currentShape, currentTool);
+                    break;
             }
         }
 
+    }
+
+    private void handleToolGeneralOnPress(Shape currentShape, String currentTool) {
+        switch (currentTool){
+            case "Eraser":
+                // Create new rectangle for eraser
+//                currentShape = new Rectangle(startX, startY, 6, 6);
+                graphicsContext.clearRect(startX, startY, 60, 60);
+                break;
+
+        }
+
+        System.out.println(currentShape);
+
+        if (currentShape != null) { // TODO ASAP combine these methods with that of the ToolShape handler when in dedicated controller
+            loadDefaultShapeAttributes(currentShape);
+//            drawingPane.getChildren().add(currentShape);
+
+            // Set current shape in model
+//            this.paintStateModel.setCurrentShape(currentShape);
+        }
     }
 
     private void handleToolShapeOnPress(Shape currentShape, String currentTool) {
@@ -146,22 +167,29 @@ public class CanvasController {
         }
 
         if (currentShape != null) {
-            currentShape.setStroke(this.paintStateModel.getCurrentPaintColor()); // This controls the outline color
-            currentShape.setStrokeWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
-            currentShape.setFill(null); // Set this to null to get 'outline' of shapes
-            currentShape.setMouseTransparent(false);
-            currentShape.setStrokeType(StrokeType.OUTSIDE);
+            loadDefaultShapeAttributes(currentShape);
             drawingPane.getChildren().add(currentShape);
 
             // Set current shape in model
             this.paintStateModel.setCurrentShape(currentShape);
         } else {
             // Error for if the currentShape is null (Ideally there should always be a tool selected)
-            Alert noToolSelectedAlert = new Alert(Alert.AlertType.ERROR, "NO TOOL SELECTED. Please select a tool in the tool bar above.");
+            Alert noToolSelectedAlert = new Alert(Alert.AlertType.ERROR, "NO TOOL SELECTED. Please select a tool in the tool bar above. FROM SHAPE HANDLER");
             noToolSelectedAlert.setTitle("No Tool Selected");
             noToolSelectedAlert.setHeaderText("");
             noToolSelectedAlert.showAndWait();
         }
+    }
+
+    private void loadDefaultShapeAttributes(Shape currentShape) {
+        currentShape.setStroke(this.paintStateModel.getCurrentPaintColor()); // This controls the outline color
+        currentShape.setStrokeWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
+        currentShape.setFill(null); // Set this to null to get 'outline' of shapes
+        currentShape.setMouseTransparent(false);
+        currentShape.setStrokeType(StrokeType.OUTSIDE);
+
+        // Set current shape in model
+        this.paintStateModel.setCurrentShape(currentShape);
     }
 
     private void handleToolBrushOnPress() {
@@ -200,10 +228,29 @@ public class CanvasController {
             case "brush":
                 handleToolBrushOnDragged(curX, curY);
                 break;
+            case "general":
+                handleToolGeneralOnDragged(currentShape, curX, curY);
+                break;
         }
 
         // Set currentShape in model
         this.paintStateModel.setCurrentShape(currentShape);
+    }
+
+    private void handleToolGeneralOnDragged(Shape currentShape, double curX, double curY) {
+        if (currentShape == null) {
+            // Error for if the currentShape is null (Ideally there should always be a tool selected)
+            Alert noToolSelectedAlert = new Alert(Alert.AlertType.ERROR, "NO TOOL SELECTED. Please select a tool in the tool bar above.");
+            noToolSelectedAlert.setTitle("No Tool Selected: GENERAL DRAGGED");
+            noToolSelectedAlert.setHeaderText("");
+            noToolSelectedAlert.showAndWait();
+        }
+
+        double eraserStrokeWidth = 5;
+        double eraserX = curX - eraserStrokeWidth;
+        double eraserY = curY - eraserStrokeWidth;
+
+        graphicsContext.clearRect(eraserX, eraserY, eraserStrokeWidth, eraserStrokeWidth);
     }
 
     private void handleToolShapeOnDragged(Shape currentShape, double curX, double curY) {
@@ -353,6 +400,48 @@ public class CanvasController {
             currentShape.setPickOnBounds(true);
             // Enable transformations
             this.paintStateModel.setTransformable(true, drawingPane);
+        }
+
+        // Apply shape to canvas
+//        applyPaneShapeToCanvas(this.paintStateModel.getCurrentShape());
+    }
+
+    public void applyPaneShapeToCanvas(Shape currentShape) {
+        Group selectionGroup = this.paintStateModel.getShapeTransformationGroup();
+
+        if (currentShape instanceof Rectangle) {
+            Shape shape = (Shape) selectionGroup.getChildren().get(1);
+            double x;
+            double y;
+            double w;
+            double h;
+
+            if (checkForTranslation(selectionGroup)) {
+                x = shape.getBoundsInLocal().getMinX() + selectionGroup.getTranslateX();
+                y = shape.getBoundsInParent().getMinY() + selectionGroup.getTranslateY();
+                w = shape.getBoundsInParent().getWidth();
+                h = shape.getBoundsInParent().getHeight();
+            } else {
+                x = shape.getBoundsInLocal().getMinX();
+                y = shape.getBoundsInParent().getMinY();
+                w = shape.getBoundsInParent().getWidth();
+                h = shape.getBoundsInParent().getHeight();
+            }
+
+            graphicsContext.setLineWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
+            graphicsContext.strokeRect(x,y,w,h);
+
+            // Reinitialize drawingPane to remove shape
+            drawingPane.getChildren().clear();
+        }
+    }
+
+    private boolean checkForTranslation(Group selectionGroup) {
+        // Check translation XY movement
+        if (selectionGroup.getTranslateX() == 0.0 && selectionGroup.getTranslateY() == 0.0) {
+            return false;
+        } else {
+            return true;
         }
     }
 

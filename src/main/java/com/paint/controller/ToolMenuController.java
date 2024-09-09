@@ -39,7 +39,7 @@ public class ToolMenuController {
     }
 
     @FXML
-    public void updateToolState(MouseEvent mouseEvent) {
+    public void updateShapeToolState(MouseEvent mouseEvent) {
         String sourceId = ((Control)mouseEvent.getSource()).getId();
 
         if (sourceId == null) {
@@ -65,6 +65,21 @@ public class ToolMenuController {
         // Update currentBrushSelectedDisplay view to be selected
         currentBrushSelectedDisplay.setSelected(true);
     }
+
+    // General tool event handler
+    @FXML
+    public void updateGeneralToolState(MouseEvent mouseEvent) throws IOException {
+        String sourceId = ((Control)mouseEvent.getSource()).getId();
+
+        if (sourceId == null) {
+            showToolIsNullAlert();
+        }
+        // Update paintStateModel current tool when a new tool is selected
+        this.paintStateModel.setCurrentTool(sourceId);
+        this.paintStateModel.setCurrentToolType("general");
+    }
+
+
 
     private void showToolIsNullAlert() {
         // Show alert if selected tool does not respond properly

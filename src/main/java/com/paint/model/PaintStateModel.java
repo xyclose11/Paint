@@ -4,11 +4,16 @@ import com.paint.controller.CanvasController;
 import javafx.beans.binding.Bindings;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
-
-import java.util.Objects;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
+import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.shape.StrokeType;
 
 // Hold info about currently selected brush, image, color, shape, etc. settings.
 public class PaintStateModel {
@@ -36,8 +41,8 @@ public class PaintStateModel {
     private Color currentPaintColor;
 
     private final BrushObj currentBrush;
-    private String currentTool = "StLine"; // Holds the currentTool that the user has selected. // TODO Change to selection tool when impl
-    private String currentToolType = "shape"; // Differentiates the differing tool types. i.e. (Select, brush, shape, etc.)
+    private String currentTool; // Holds the currentTool that the user has selected. // TODO Change to selection tool when impl
+    private String currentToolType; // Differentiates the differing tool types. i.e. (Select, brush, shape, etc.)
     private Shape currentShape;
     private double currentLineWidth;
     private StrokeLineCap currentStrokeLineCap;
@@ -50,6 +55,8 @@ public class PaintStateModel {
 
     public PaintStateModel() {
         this.currentBrush = new BrushObj();
+        this.currentTool = "StLine";
+        this.currentToolType = "shape"; // Tool Types include: shape, brush, image, selection, & general // TODO convert this to its own class with the currentTool
         this.currentPaintColor = Color.BLACK; // Default color
         this.currentShape = null;
         this.currentLineWidth = 1.0;
@@ -95,59 +102,48 @@ public class PaintStateModel {
             // Add dashed outline
             createSelectionBox(this.currentShape, draw);
 
-            // Add event listeners
+            Parent parent = this.currentShape.getParent();
+            if (parent == null) {
+                System.out.println("PARENT ERROR");
+                return;
+            }
 
+            Scene parentScene = parent.getScene();
             // Set keybinding for ESC to exit transform mode
-            this.currentShape.getParent().getScene().setOnKeyPressed(keyEvent -> {
+            parentScene.setOnKeyPressed(keyEvent -> {
                 // Check key type
-                if (Objects.equals(keyEvent.getCode().getName(), "Esc")) {
-                    // Exit transformation mode
-                    this.setTransformable(false, null);
-
-                    // Enable CanvasController handlers
-                    this.canvasController.setCanvasDrawingStackPaneHandlerState(true);
+                if (keyEvent.getCode() == KeyCode.ESCAPE) {
+                    exitTransformMode(parent);
                 }
-                this.currentShape.getParent().getScene().setOnKeyPressed(null);
             });
 
             // Translation handler (XY Movement) SECTION START
-            this.shapeTransformationGroup.setOnMousePressed(mousePressed -> {
-                this.shapeTransformationGroup.setUserData(new double[]{mousePressed.getX(), mousePressed.getY()});
-            });
+//            this.shapeTransformationGroup.setOnMousePressed(mousePressed -> {
+//                this.shapeTransformationGroup.setUserData(new double[]{mousePressed.getX(), mousePressed.getY()});
+//            });
 
-            this.shapeTransformationGroup.setOnMouseDragged(d -> {
+            parent.getParent().setOnMousePressed(mousePressed -> handleMousePressed(mousePressed, parent));
+
+            this.shapeTransformationGroup.setOnMouseDragged(dragEvent -> {
                 double[] initialValues = (double[]) this.shapeTransformationGroup.getUserData();
-                double startX = initialValues[0];
-                double startY = initialValues[1];
+                if (initialValues != null) {
+                    double startX = initialValues[0];
+                    double startY = initialValues[1];
 
-                this.shapeTransformationGroup.setTranslateX(this.shapeTransformationGroup.getTranslateX() + (d.getX() - startX));
-                this.shapeTransformationGroup.setTranslateY(this.shapeTransformationGroup.getTranslateY() + (d.getY() - startY));
+                    // Update shape position
+                    this.shapeTransformationGroup.setTranslateX(this.shapeTransformationGroup.getTranslateX() + (dragEvent.getX() - startX));
+                    this.shapeTransformationGroup.setTranslateY(this.shapeTransformationGroup.getTranslateY() + (dragEvent.getY() - startY));
 
-                this.shapeTransformationGroup.setUserData(new double[]{d.getX(), d.getY()});
+                    // Update UserData with the new mouse position
+                    this.shapeTransformationGroup.setUserData(new double[]{dragEvent.getX(), dragEvent.getY()});
+                }
             });
+
             // Translation handler (XY Movement) SECTION END
 
             // Resize handler SECTION START
             // Resize handler SECTION END
 
-
-            // Check if user clicks outside the border -> enter shapePlacement mode
-            this.currentShape.setOnMouseExited(e -> {
-                this.currentShape.getParent().getParent().setOnMousePressed(mouseEvent -> {
-                    if (!this.currentShape.getParent().getBoundsInParent().contains(mouseEvent.getX(), mouseEvent.getY())) {
-                        // User clicked off of the selected shape
-                        this.setTransformable(false, null);
-
-                        // Enable CanvasController handlers
-                        this.canvasController.setCanvasDrawingStackPaneHandlerState(true);
-                        this.shapeTransformationGroup.setOnMouseDragged(null);
-                        //this.currentShape.setPickOnBounds(false);
-                    }
-                    this.currentShape.getParent().setOnMouseClicked(null);
-                });
-
-                this.currentShape.setOnMouseExited(null);
-            });
         } else {
             // Remove selectionRectangle
             if (this.shapeTransformationGroup.getChildren().size() >= 1) {
@@ -156,9 +152,37 @@ public class PaintStateModel {
         }
     }
 
+    private void handleMousePressed(MouseEvent mouseEvent, Parent parent) {
+        if (!this.shapeTransformationGroup.getBoundsInParent().contains(mouseEvent.getX(), mouseEvent.getY())) {
+            exitTransformMode(parent);
+        }else {
+            this.shapeTransformationGroup.setUserData(new double[]{mouseEvent.getX(), mouseEvent.getY()});
+        }
+
+    }
+
+    private void exitTransformMode(Parent parent) {
+        if (parent != null) {
+            Scene parentScene = parent.getScene();
+            if (parentScene != null) {
+                parentScene.setOnKeyPressed(null);
+            }
+        }
+        this.setTransformable(false, null);
+        this.shapeTransformationGroup.setOnMouseDragged(null);
+        this.shapeTransformationGroup.setOnMousePressed(null);
+
+        // Enable CanvasController handlers
+        this.canvasController.setCanvasDrawingStackPaneHandlerState(true);
+
+        // Convert shape -> canvas
+        this.canvasController.applyPaneShapeToCanvas(currentShape);
+    }
+
     private void createSelectionBox (Shape currentShape, Pane drawing) {
         // Create a rect that will surround the currentShape
         Rectangle selectionRect = new Rectangle();
+        selectionRect.setId("selectionBox");
 
         // Bind the rectangle's position to the current shape's bounds in parent
         selectionRect.xProperty().bind(

@@ -60,7 +60,7 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                            <children>
-                              <CheckBox fx:id="autoSaveCB" mnemonicParsing="false" text="Autosave" onMouseClicked="#onAutosaveCBChange">
+                              <CheckBox fx:id="autoSaveCB" mnemonicParsing="false" text="Autosave" >
                                  <font>
                                     <Font size="12.0" />
                                  </font>
@@ -70,7 +70,7 @@
                                     <Font size="12.0" />
                                  </font>
                               </CheckBox>
-                              <Slider fx:id="autoSaveIntervalSlider" onMouseClicked="#onAutosaveIntervalChange" onMouseDragged="#onAutosaveIntervalChange"  blockIncrement="2.5" majorTickUnit="15.0" max="60.0" minorTickCount="4" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="4.0" GridPane.columnIndex="2" /><Label alignment="BASELINE_RIGHT" prefHeight="40.0" prefWidth="130.0" text="Autosave Interval" textAlignment="CENTER" GridPane.columnIndex="1" />
+                              <Slider fx:id="autoSaveIntervalSlider"   blockIncrement="2.5" majorTickUnit="15.0" max="60.0" minorTickCount="4" showTickLabels="true" showTickMarks="true" snapToTicks="true" value="4.0" GridPane.columnIndex="2" /><Label alignment="BASELINE_RIGHT" prefHeight="40.0" prefWidth="130.0" text="Autosave Interval" textAlignment="CENTER" GridPane.columnIndex="1" />
                            </children>
                         </GridPane>
                      </children></AnchorPane>
