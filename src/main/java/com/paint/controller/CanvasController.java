@@ -405,6 +405,21 @@ public class CanvasController {
 
     public void applyPaneShapeToCanvas(Shape currentShape) {
         Group selectionGroup = this.paintStateModel.getShapeTransformationGroup();
+        Shape shape = (Shape) selectionGroup.getChildren().get(1);
+
+        double x;
+        double y;
+        double w = shape.getBoundsInParent().getWidth();
+        double h = shape.getBoundsInParent().getHeight();
+
+        if (checkForTranslation(selectionGroup)) {
+            x = shape.getBoundsInLocal().getMinX() + selectionGroup.getTranslateX();
+            y = shape.getBoundsInParent().getMinY() + selectionGroup.getTranslateY();
+        } else {
+            x = shape.getBoundsInLocal().getMinX();
+            y = shape.getBoundsInParent().getMinY();
+        }
+
 
 //        if (currentShape instanceof Line line) {
 //            line.setEndX(curX);
@@ -424,61 +439,42 @@ public class CanvasController {
 //            triangle.setVertices(startX, curY, topVertex, startY, curX, curY);
 //        }
 //
-//        if (currentShape instanceof RightTriangle rightTriangle) {
-//            rightTriangle.setVertices(startX, curY, curX, startY, curX, curY); // TODO Update ToolMenu UI Icon with right triangle icon
-//        }
-//
-//        if (currentShape instanceof Circle circle) {
-//
-//            circle.setCenterX(startX);
-//            circle.setCenterY(startY);
-//            circle.setRadius(Math.abs(curX - startX));
-//
-//        }
-        if (currentShape instanceof Ellipse) {
-            Ellipse ellipse = (Ellipse) selectionGroup.getChildren().get(1);
-            double curX;
-            double curY;
-            double w = ellipse.getBoundsInLocal().getWidth();
-            double h = ellipse.getBoundsInLocal().getHeight();
+        if (currentShape instanceof RightTriangle) {
+            RightTriangle rightTriangle = (RightTriangle) selectionGroup.getChildren().get(1);
 
+            double xT, yT;
             if (checkForTranslation(selectionGroup)) {
-                curX = ellipse.getBoundsInLocal().getMinX() + selectionGroup.getTranslateX();
-                curY = ellipse.getBoundsInParent().getMinY() + selectionGroup.getTranslateY();
+                xT = selectionGroup.getTranslateX();
+                yT = selectionGroup.getTranslateY();
             } else {
-                curX = ellipse.getBoundsInLocal().getMinX();
-                curY = ellipse.getBoundsInParent().getMinY();
+                xT = 0;
+                yT = 0;
             }
 
-            graphicsContext.strokeOval(curX, curY, w, h);
+            double[] xPoints = new double[3];
+            double[] yPoints = new double[3];
 
-//            ellipse.setCenterX(startX);
-//            ellipse.setCenterY(startY);
-//            ellipse.setRadiusX(Math.abs(curX - startX));
-//            ellipse.setRadiusY(Math.abs(curY - startY));
+            xPoints[0] = rightTriangle.getX1() + xT;
+            xPoints[1] = rightTriangle.getX2() + xT;
+            xPoints[2] = rightTriangle.getX3() + xT;
+
+            yPoints[0] = rightTriangle.getY1() + yT;
+            yPoints[1] = rightTriangle.getY2() + yT;
+            yPoints[2] = rightTriangle.getY3() + yT;
+
+            graphicsContext.strokePolygon(xPoints, yPoints, 3);
         }
 
+        if (currentShape instanceof Circle) {
+            graphicsContext.strokeOval(x, y, w, h);
+        }
+
+        if (currentShape instanceof Ellipse) {
+            graphicsContext.strokeOval(x, y, w, h);
+        }
 
         if (currentShape instanceof Rectangle) {
-            Shape shape = (Shape) selectionGroup.getChildren().get(1);
-            double x;
-            double y;
-            double w;
-            double h;
-
-            if (checkForTranslation(selectionGroup)) {
-                x = shape.getBoundsInLocal().getMinX() + selectionGroup.getTranslateX();
-                y = shape.getBoundsInParent().getMinY() + selectionGroup.getTranslateY();
-                w = shape.getBoundsInParent().getWidth();
-                h = shape.getBoundsInParent().getHeight();
-            } else {
-                x = shape.getBoundsInLocal().getMinX();
-                y = shape.getBoundsInParent().getMinY();
-                w = shape.getBoundsInParent().getWidth();
-                h = shape.getBoundsInParent().getHeight();
-            }
             graphicsContext.strokeRect(x,y,w,h);
-
         }
 
         graphicsContext.setLineWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
