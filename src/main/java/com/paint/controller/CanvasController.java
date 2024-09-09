@@ -229,7 +229,7 @@ public class CanvasController {
                 handleToolBrushOnDragged(curX, curY);
                 break;
             case "general":
-                handleToolGeneralOnDragged(currentShape, curX, curY);
+                handleToolGeneralOnDragged(curX, curY);
                 break;
         }
 
@@ -237,8 +237,8 @@ public class CanvasController {
         this.paintStateModel.setCurrentShape(currentShape);
     }
 
-    private void handleToolGeneralOnDragged(Shape currentShape, double curX, double curY) {
-        if (currentShape == null) {
+    private void handleToolGeneralOnDragged(double curX, double curY) {
+        if (paintStateModel.getCurrentTool() == null) {
             // Error for if the currentShape is null (Ideally there should always be a tool selected)
             Alert noToolSelectedAlert = new Alert(Alert.AlertType.ERROR, "NO TOOL SELECTED. Please select a tool in the tool bar above.");
             noToolSelectedAlert.setTitle("No Tool Selected: GENERAL DRAGGED");
@@ -401,11 +401,63 @@ public class CanvasController {
             // Enable transformations
             this.paintStateModel.setTransformable(true, drawingPane);
         }
-        this.paintStateModel.setCurrentShape(null);
     }
 
     public void applyPaneShapeToCanvas(Shape currentShape) {
         Group selectionGroup = this.paintStateModel.getShapeTransformationGroup();
+
+//        if (currentShape instanceof Line line) {
+//            line.setEndX(curX);
+//            line.setEndY(curY);
+//            return;
+//        }
+//
+//        if (currentShape instanceof CubicCurve curve) {
+//            // Drag starting line -> wait for user click 1 or 2 times for control location
+//            curve.setEndX(curX);
+//            curve.setEndY(curY);
+//        }
+//
+//        if (currentShape instanceof Triangle triangle) {
+//            // X1 stays same | Y1 changes | X2 changes | Y2 stays same | X3 & Y3 are the cursor
+//            double topVertex = ((curX - startX) / 2) + startX;
+//            triangle.setVertices(startX, curY, topVertex, startY, curX, curY);
+//        }
+//
+//        if (currentShape instanceof RightTriangle rightTriangle) {
+//            rightTriangle.setVertices(startX, curY, curX, startY, curX, curY); // TODO Update ToolMenu UI Icon with right triangle icon
+//        }
+//
+//        if (currentShape instanceof Circle circle) {
+//
+//            circle.setCenterX(startX);
+//            circle.setCenterY(startY);
+//            circle.setRadius(Math.abs(curX - startX));
+//
+//        }
+        if (currentShape instanceof Ellipse) {
+            Ellipse ellipse = (Ellipse) selectionGroup.getChildren().get(1);
+            double curX;
+            double curY;
+            double w = ellipse.getBoundsInLocal().getWidth();
+            double h = ellipse.getBoundsInLocal().getHeight();
+
+            if (checkForTranslation(selectionGroup)) {
+                curX = ellipse.getBoundsInLocal().getMinX() + selectionGroup.getTranslateX();
+                curY = ellipse.getBoundsInParent().getMinY() + selectionGroup.getTranslateY();
+            } else {
+                curX = ellipse.getBoundsInLocal().getMinX();
+                curY = ellipse.getBoundsInParent().getMinY();
+            }
+
+            graphicsContext.strokeOval(curX, curY, w, h);
+
+//            ellipse.setCenterX(startX);
+//            ellipse.setCenterY(startY);
+//            ellipse.setRadiusX(Math.abs(curX - startX));
+//            ellipse.setRadiusY(Math.abs(curY - startY));
+        }
+
 
         if (currentShape instanceof Rectangle) {
             Shape shape = (Shape) selectionGroup.getChildren().get(1);
@@ -425,15 +477,18 @@ public class CanvasController {
                 w = shape.getBoundsInParent().getWidth();
                 h = shape.getBoundsInParent().getHeight();
             }
-
-            graphicsContext.setLineWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
-            graphicsContext.setFill(null);
-            graphicsContext.setStroke(this.paintStateModel.getCurrentPaintColor());
             graphicsContext.strokeRect(x,y,w,h);
 
-            // Reinitialize drawingPane to remove shape
-            drawingPane.getChildren().clear();
         }
+
+        graphicsContext.setLineWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
+        graphicsContext.setFill(null);
+        graphicsContext.setStroke(this.paintStateModel.getCurrentPaintColor());
+        // Reinitialize drawingPane to remove shape
+        drawingPane.getChildren().clear();
+
+        this.paintStateModel.setCurrentShape(null);
+
     }
 
     private boolean checkForTranslation(Group selectionGroup) {

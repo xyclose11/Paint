@@ -170,7 +170,7 @@ public class PaintStateModel {
         this.shapeTransformationGroup.setOnMousePressed(null);
 
         // Convert shape -> canvas
-        this.canvasController.applyPaneShapeToCanvas(currentShape);
+        this.canvasController.applyPaneShapeToCanvas(this.currentShape);
 
         // Enable CanvasController handlers
         this.canvasController.setCanvasDrawingStackPaneHandlerState(true);
