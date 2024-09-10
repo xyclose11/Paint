@@ -45,6 +45,15 @@ public class CanvasController {
     private InfoCanvasModel infoCanvasModel;
     private SettingStateModel settingStateModel;
     private SceneStateModel sceneStateModel;
+    private ToolController toolController;
+
+    public void setToolController(ToolController toolController) {
+        this.toolController = toolController;
+    }
+
+    public ToolController getToolController() {
+        return toolController;
+    }
 
     public SceneStateModel getSceneStateModel() {
         return sceneStateModel;
@@ -71,6 +80,8 @@ public class CanvasController {
 
     public void setPaintStateModel(PaintStateModel paintStateModel) {
         this.paintStateModel = paintStateModel;
+        // Update ToolController
+        this.toolController.setPaintStateModel(paintStateModel);
     }
 
     private void updateCanvasSize() {
@@ -103,7 +114,8 @@ public class CanvasController {
                     handleToolBrushOnPress();
                     break;
                 case "general":
-                    handleToolGeneralOnPress(currentShape, currentTool);
+//                    handleToolGeneralOnPress(currentShape, currentTool);
+                    toolController.handleToolGeneralOnPress(currentShape, currentTool);
                     break;
             }
         }
@@ -407,74 +419,83 @@ public class CanvasController {
         Group selectionGroup = this.paintStateModel.getShapeTransformationGroup();
         Shape shape = (Shape) selectionGroup.getChildren().get(1);
 
-        double x;
-        double y;
+        double minX;
+        double minY;
+        double maxX;
+        double maxY;
         double w = shape.getBoundsInParent().getWidth();
         double h = shape.getBoundsInParent().getHeight();
 
+        // Translation state
+        double xT, yT;
+
         if (checkForTranslation(selectionGroup)) {
-            x = shape.getBoundsInLocal().getMinX() + selectionGroup.getTranslateX();
-            y = shape.getBoundsInParent().getMinY() + selectionGroup.getTranslateY();
+            xT = selectionGroup.getTranslateX();
+            yT = selectionGroup.getTranslateY();
+
+            minX = shape.getBoundsInParent().getMinX() + xT;
+            maxX = shape.getBoundsInParent().getMaxX() + xT;
+
+            minY = shape.getBoundsInParent().getMinY() + yT;
+            maxY = shape.getBoundsInParent().getMaxY() + yT;
         } else {
-            x = shape.getBoundsInLocal().getMinX();
-            y = shape.getBoundsInParent().getMinY();
+            xT = 0;
+            yT = 0;
+
+            minX = shape.getBoundsInParent().getMinX();
+            maxX = shape.getBoundsInParent().getMaxX();
+
+            minY = shape.getBoundsInParent().getMinY();
+            maxY = shape.getBoundsInParent().getMaxY();
         }
 
 
-//        if (currentShape instanceof Line line) {
-//            line.setEndX(curX);
-//            line.setEndY(curY);
-//            return;
-//        }
-//
-//        if (currentShape instanceof CubicCurve curve) {
-//            // Drag starting line -> wait for user click 1 or 2 times for control location
-//            curve.setEndX(curX);
-//            curve.setEndY(curY);
-//        }
-//
-//        if (currentShape instanceof Triangle triangle) {
-//            // X1 stays same | Y1 changes | X2 changes | Y2 stays same | X3 & Y3 are the cursor
-//            double topVertex = ((curX - startX) / 2) + startX;
-//            triangle.setVertices(startX, curY, topVertex, startY, curX, curY);
-//        }
-//
+        if (currentShape instanceof Line) {
+            // TODO ASAP: FIX BUG WHERE IN QUADRANTS 1 & 3 IT FLIPS THE LINE
+            System.out.println(shape.getBoundsInParent());
+            graphicsContext.strokeLine(minX, minY, maxX, maxY);
+        }
+
+        if (currentShape instanceof CubicCurve) {
+            // control point XY 2x -> end XY
+            CubicCurve curve = (CubicCurve) selectionGroup.getChildren().get(1);
+
+            System.out.println(curve);
+            System.out.println(curve.getBoundsInParent());
+
+            double px1 = curve.getControlX1();
+            double py1 = curve.getControlY1();
+            double px2 = curve.getControlX2();
+            double py2 = curve.getControlY2();
+
+            graphicsContext.beginPath();
+            graphicsContext.bezierCurveTo(px1, py1, px2, py2, maxX, maxY);
+            graphicsContext.closePath();
+        }
+
+        if (currentShape instanceof Triangle) {
+            // X1 stays same | Y1 changes | X2 changes | Y2 stays same | X3 & Y3 are the cursor
+            Triangle triangle = (Triangle) selectionGroup.getChildren().get(1);
+
+            handleTriangles(xT, yT, triangle);
+        }
+
         if (currentShape instanceof RightTriangle) {
             RightTriangle rightTriangle = (RightTriangle) selectionGroup.getChildren().get(1);
 
-            double xT, yT;
-            if (checkForTranslation(selectionGroup)) {
-                xT = selectionGroup.getTranslateX();
-                yT = selectionGroup.getTranslateY();
-            } else {
-                xT = 0;
-                yT = 0;
-            }
-
-            double[] xPoints = new double[3];
-            double[] yPoints = new double[3];
-
-            xPoints[0] = rightTriangle.getX1() + xT;
-            xPoints[1] = rightTriangle.getX2() + xT;
-            xPoints[2] = rightTriangle.getX3() + xT;
-
-            yPoints[0] = rightTriangle.getY1() + yT;
-            yPoints[1] = rightTriangle.getY2() + yT;
-            yPoints[2] = rightTriangle.getY3() + yT;
-
-            graphicsContext.strokePolygon(xPoints, yPoints, 3);
+            handleTriangles(xT, yT, rightTriangle);
         }
 
         if (currentShape instanceof Circle) {
-            graphicsContext.strokeOval(x, y, w, h);
+            graphicsContext.strokeOval(minX, minY, w, h);
         }
 
         if (currentShape instanceof Ellipse) {
-            graphicsContext.strokeOval(x, y, w, h);
+            graphicsContext.strokeOval(minX, minY, w, h);
         }
 
         if (currentShape instanceof Rectangle) {
-            graphicsContext.strokeRect(x,y,w,h);
+            graphicsContext.strokeRect(minX, minY,w,h);
         }
 
         graphicsContext.setLineWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
@@ -485,6 +506,21 @@ public class CanvasController {
 
         this.paintStateModel.setCurrentShape(null);
 
+    }
+
+    private void handleTriangles(double xT, double yT, Triangle triangle) {
+        double[] xPoints = new double[3];
+        double[] yPoints = new double[3];
+
+        xPoints[0] = triangle.getX1() + xT;
+        xPoints[1] = triangle.getX2() + xT;
+        xPoints[2] = triangle.getX3() + xT;
+
+        yPoints[0] = triangle.getY1() + yT;
+        yPoints[1] = triangle.getY2() + yT;
+        yPoints[2] = triangle.getY3() + yT;
+
+        graphicsContext.strokePolygon(xPoints, yPoints, 3);
     }
 
     private boolean checkForTranslation(Group selectionGroup) {
@@ -524,6 +560,10 @@ public class CanvasController {
 
         // Initialize graphics context to enable drawing
         graphicsContext = mainCanvas.getGraphicsContext2D();
+
+        // Initialize tool controller to separate concerns
+        toolController = new ToolController();
+        toolController.setGraphicsContext(graphicsContext);
 
         // Set default background color -> white
         graphicsContext.setFill(Color.WHITE);
