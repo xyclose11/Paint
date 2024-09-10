@@ -164,6 +164,10 @@ public class PaintStateModel {
             if (parentScene != null) {
                 parentScene.setOnKeyPressed(null);
             }
+
+            if (parent.getParent() != null) {
+                parent.getParent().setOnMousePressed(null);
+            }
         }
         this.setTransformable(false, null);
         this.shapeTransformationGroup.setOnMouseDragged(null);
@@ -174,6 +178,9 @@ public class PaintStateModel {
 
         // Enable CanvasController handlers
         this.canvasController.setCanvasDrawingStackPaneHandlerState(true);
+
+        // Reset shapeGroup
+        setShapeTransformationGroup(null);
 
 
     }

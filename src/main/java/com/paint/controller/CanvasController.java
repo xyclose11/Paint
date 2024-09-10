@@ -103,7 +103,8 @@ public class CanvasController {
 
         String currentTool = this.paintStateModel.getCurrentTool();
         String currentToolType = this.paintStateModel.getCurrentToolType();
-        Shape currentShape = this.paintStateModel.getCurrentShape();
+        Shape currentShape = null;
+        this.paintStateModel.setCurrentShape(null);
 
         if (!this.paintStateModel.isTransformable()) {
             switch (currentToolType) { // TODO create a toolController and move all of these mouse handler code bodies to it
@@ -390,14 +391,18 @@ public class CanvasController {
         // Disable StackPane Mouse Event Handlers
         setCanvasDrawingStackPaneHandlerState(false);
 
+        // Check for current tool
+        System.out.println(this.paintStateModel.getCurrentTool());
+
         // Check if currentShape is a curve
         if (currentShape instanceof CubicCurve curve) {
             // Enable mouse click handler for control XY location
             this.canvasGroup.setOnMouseClicked(event -> {
+                System.out.println(timesAdjusted);
                 if (timesAdjusted >= 2) {
                     curve.setControlX2(event.getX());
                     curve.setControlY2(event.getY());
-                    currentShape.setPickOnBounds(true);
+//                    currentShape.setPickOnBounds(true);
                     // Enable transformations
                     this.paintStateModel.setTransformable(true, drawingPane);
                     this.canvasGroup.setOnMouseClicked(null);
@@ -412,6 +417,8 @@ public class CanvasController {
             currentShape.setPickOnBounds(true);
             // Enable transformations
             this.paintStateModel.setTransformable(true, drawingPane);
+
+            this.paintStateModel.setCurrentShape(currentShape);
         }
     }
 
@@ -468,14 +475,18 @@ public class CanvasController {
             System.out.println(curve);
             System.out.println(curve.getBoundsInParent());
 
-            double px1 = curve.getControlX1();
-            double py1 = curve.getControlY1();
-            double px2 = curve.getControlX2();
-            double py2 = curve.getControlY2();
+            double px1 = curve.getControlX1() + xT;
+            double py1 = curve.getControlY1() + yT;
+            double px2 = curve.getControlX2() + xT;
+            double py2 = curve.getControlY2() + yT;
+            double eX = curve.getEndX() + xT;
+            double eY = curve.getEndY() + yT;
 
             graphicsContext.beginPath();
-            graphicsContext.bezierCurveTo(px1, py1, px2, py2, maxX, maxY);
+            graphicsContext.moveTo(minX, minY);
+            graphicsContext.bezierCurveTo(px1, py1, px2, py2, eX, eY);
             graphicsContext.stroke();
+            graphicsContext.closePath();
         }
 
         if (currentShape instanceof Triangle) {
