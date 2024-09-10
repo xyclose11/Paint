@@ -24,7 +24,7 @@ public class ToolController {
 
         System.out.println(currentShape);
 
-        if (currentShape != null) { // TODO ASAP combine these methods with that of the ToolShape handler when in dedicated controller
+        if (currentShape != null) {
             loadDefaultShapeAttributes(currentShape);
 //            drawingPane.getChildren().add(currentShape);
 

@@ -259,7 +259,7 @@ public class CanvasController {
             noToolSelectedAlert.showAndWait();
         }
 
-        double eraserStrokeWidth = 5;
+        double eraserStrokeWidth = this.paintStateModel.getCurrentLineWidth();
         double eraserX = curX - eraserStrokeWidth;
         double eraserY = curY - eraserStrokeWidth;
 
@@ -482,8 +482,11 @@ public class CanvasController {
             double eX = curve.getEndX() + xT;
             double eY = curve.getEndY() + yT;
 
+            double startX = curve.getStartX() + xT;
+            double startY = curve.getStartY() + yT;
+
             graphicsContext.beginPath();
-            graphicsContext.moveTo(minX, minY);
+            graphicsContext.moveTo(startX, startY);
             graphicsContext.bezierCurveTo(px1, py1, px2, py2, eX, eY);
             graphicsContext.stroke();
             graphicsContext.closePath();
