@@ -1,12 +1,12 @@
 package com.paint.controller;
 
 import com.paint.model.*;
+import com.paint.resource.ResizeableCanvas;
 import com.paint.resource.RightTriangle;
 import com.paint.resource.Triangle;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
@@ -14,6 +14,7 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -27,7 +28,10 @@ import java.util.Objects;
 
 public class CanvasController {
     @FXML
-    Canvas mainCanvas;
+    public HBox canvasContainer;
+
+    @FXML
+    ResizeableCanvas mainCanvas;
 
     @FXML
     private Group canvasGroup;
@@ -90,6 +94,11 @@ public class CanvasController {
             canvasModel.setCanvasHeight(mainCanvas.getHeight());
         }
     }
+
+    // RESIZE CANVAS HANDLERS START
+
+    // RESIZE CANVAS HANDLERS END
+
 
     // DRAWING EVENT HANDLERS SECTION START
     // stores the mouse starting POS
@@ -562,6 +571,41 @@ public class CanvasController {
         // Set default background color -> white
         graphicsContext.setFill(Color.WHITE);
         graphicsContext.fillRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
+
+//        canvasGroup.setOnMouseExited(mouseEvent -> handleResizeCanvasExited(mouseEvent));
+    }
+
+    @FXML
+    private void handleResizeCanvasExited(MouseEvent mouseEvent) {
+        double sX = 0;
+        double sY;
+        double w = this.mainCanvas.getWidth();
+        System.out.println(w);
+        System.out.println(mouseEvent.getX());
+        System.out.println(this.mainCanvas.getLayoutBounds());
+        System.out.println(this.mainCanvas.getBoundsInLocal());
+        System.out.println(this.mainCanvas.getLayoutX());
+        if (mouseEvent.getX() < w && mouseEvent.getX() >= -15) {
+            System.out.println("HIT");
+            // Listen for mouse Pressed -> Mouse Dragged
+            this.canvasContainer.setOnMousePressed(mE -> {
+                System.out.println("PRESSED");
+            });
+
+            this.canvasContainer.setOnMouseDragged(mD -> {
+                System.out.println("DRAGGED");
+
+            });
+        } else {
+            this.canvasContainer.setOnMouseDragged(null);
+            this.canvasContainer.setOnMousePressed(null);
+
+        }
+    }
+
+    private void handleResizeCanvasPressed(MouseEvent mouseEvent) {
+        // Determine if on edge of canvas
+
     }
 
     public void setCanvas(Image image) {
