@@ -451,9 +451,14 @@ public class CanvasController {
 
 
         if (currentShape instanceof Line) {
-            // TODO ASAP: FIX BUG WHERE IN QUADRANTS 1 & 3 IT FLIPS THE LINE
-            System.out.println(shape.getBoundsInParent());
-            graphicsContext.strokeLine(minX, minY, maxX, maxY);
+            // You don't need to use the bounded XY since that will only indicate the bounding box & translations
+            Line line = (Line) selectionGroup.getChildren().get(1);
+            double lX = line.getStartX() + xT;
+            double lY = line.getStartY() + yT;
+            double eX = line.getEndX() + xT;
+            double eY = line.getEndY() + yT;
+
+            graphicsContext.strokeLine(lX, lY, eX, eY);
         }
 
         if (currentShape instanceof CubicCurve) {
@@ -470,7 +475,7 @@ public class CanvasController {
 
             graphicsContext.beginPath();
             graphicsContext.bezierCurveTo(px1, py1, px2, py2, maxX, maxY);
-            graphicsContext.closePath();
+            graphicsContext.stroke();
         }
 
         if (currentShape instanceof Triangle) {
