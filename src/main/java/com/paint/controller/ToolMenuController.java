@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -17,6 +18,10 @@ public class ToolMenuController {
     private PaintStateModel paintStateModel;
 
     private SceneStateModel sceneStateModel;
+
+    private LineWidthController lineWidthController;
+
+    private HBox lwView;
 
     @FXML
     private ColorPicker colorPicker;
@@ -36,6 +41,22 @@ public class ToolMenuController {
     }
     public void setSceneStateModel(SceneStateModel sceneStateModel) {
         this.sceneStateModel = sceneStateModel;
+    }
+
+    public void setLineWidthController(LineWidthController lineWidthController) {
+        this.lineWidthController = lineWidthController;
+    }
+
+    public LineWidthController getLineWidthController() {
+        return this.lineWidthController;
+    }
+
+    public void setLwView(HBox hBox) {
+        this.lwView = hBox;
+    }
+
+    public HBox getLwView() {
+        return lwView;
     }
 
     @FXML
@@ -90,20 +111,26 @@ public class ToolMenuController {
     }
 
     public void showLWSlider() throws IOException {
-        // Set left 'Choose Line Width' slider
-        FXMLLoader lWLoader = new FXMLLoader(getClass().getResource("/view/LineWidthSideView.fxml"));
+        // Check if LW Slider has been initialized previously
+        if (this.lineWidthController == null || this.lwView == null) {
+            // Set left 'Choose Line Width' slider
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/LineWidthSideView.fxml"));
+            HBox temp = fxmlLoader.load();
+            setLwView(temp);
+            setLineWidthController(fxmlLoader.getController());
+        }
+
         Stage stage = (Stage) this.sceneStateModel.getCurrentScene().getWindow();
 
         // Set LWSlider to left side of the main BorderPane
         BorderPane bp = (BorderPane) stage.getScene().getRoot();
-        bp.setLeft(lWLoader.load());
+        bp.setLeft(lwView);
 
         // Add PaintStateModel to controller to alter Line Width
-        LineWidthController lineWidthController = lWLoader.getController();
-        lineWidthController.setPaintStateModel(this.paintStateModel);
+        this.lineWidthController.setPaintStateModel(this.paintStateModel);
     }
 
-    private void hideLWSlider(Toggle toggle) {
+    private void hideLWSlider() {
         Scene scene = sceneStateModel.getCurrentScene(); // Get primary stage
         BorderPane bp = (BorderPane) scene.getRoot();
         bp.setLeft(null);
@@ -155,7 +182,7 @@ public class ToolMenuController {
 	                }
                 } else {
                     // Hide Line Width Slider
-                    hideLWSlider(newValue);
+                    hideLWSlider();
                 }
             }
         }));

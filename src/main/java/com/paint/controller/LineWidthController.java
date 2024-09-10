@@ -21,14 +21,14 @@ public class LineWidthController {
 		this.paintStateModel.setCurrentLineWidth(lineWidthSlider.getValue());
 	}
 
-	@FXML
+	@FXML // TODO save the state of the FXML so it doesn't reset the Val here
 	private void initialize() {
 		// Default slider settings
-		this.lineWidthSlider.setMajorTickUnit(0.25f);
+		this.lineWidthSlider.setMajorTickUnit(8.0f);
 		this.lineWidthSlider.setMinorTickCount(1);
-		this.lineWidthSlider.setMax(80);
-		this.lineWidthSlider.setValue(0.5f);
-		this.lineWidthSlider.setMin(0);
+		this.lineWidthSlider.setMax(120);
+		this.lineWidthSlider.setValue(12.0f); // Default LW
+		this.lineWidthSlider.setMin(1);
 		this.lineWidthSlider.setShowTickLabels(true); // TODO create popup in canvas to show size of line
 
 	}
