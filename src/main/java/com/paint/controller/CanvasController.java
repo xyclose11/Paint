@@ -115,7 +115,7 @@ public class CanvasController {
                     handleToolBrushOnPress();
                     break;
                 case "general":
-                    toolController.handleToolGeneralOnPress(currentShape, currentTool);
+                    toolController.handleToolGeneralOnPress(currentShape, currentTool, mouseEvent);
                     break;
             }
         }
@@ -373,7 +373,6 @@ public class CanvasController {
         if (currentShape instanceof CubicCurve curve) {
             // Enable mouse click handler for control XY location
             this.canvasGroup.setOnMouseClicked(event -> {
-                System.out.println(timesAdjusted);
                 if (timesAdjusted >= 2) {
                     curve.setControlX2(event.getX());
                     curve.setControlY2(event.getY());
@@ -398,6 +397,8 @@ public class CanvasController {
     }
 
     public void applyPaneShapeToCanvas(Shape currentShape) {
+        graphicsContext.setStroke(this.paintStateModel.getCurrentPaintColor()); // Responsible for the color of shapes
+
         Group selectionGroup = this.paintStateModel.getShapeTransformationGroup();
         Shape shape = (Shape) selectionGroup.getChildren().get(1);
 
@@ -447,9 +448,6 @@ public class CanvasController {
             // control point XY 2x -> end XY
             CubicCurve curve = (CubicCurve) selectionGroup.getChildren().get(1);
 
-            System.out.println(curve);
-            System.out.println(curve.getBoundsInParent());
-
             double px1 = curve.getControlX1() + xT;
             double py1 = curve.getControlY1() + yT;
             double px2 = curve.getControlX2() + xT;
@@ -494,7 +492,8 @@ public class CanvasController {
 
         graphicsContext.setLineWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
         graphicsContext.setFill(null);
-        graphicsContext.setStroke(this.paintStateModel.getCurrentPaintColor());
+
+
         // Reinitialize drawingPane to remove shape
         drawingPane.getChildren().clear();
 

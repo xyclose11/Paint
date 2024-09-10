@@ -2,6 +2,10 @@ package com.paint.controller;
 
 import com.paint.model.PaintStateModel;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.PixelReader;
+import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeType;
 
@@ -12,10 +16,17 @@ public class ToolController {
     private double startX = 0;
     private double startY = 0;
 
-    public void handleToolGeneralOnPress(Shape currentShape, String currentTool) {
+    public void handleToolGeneralOnPress(Shape currentShape, String currentTool, MouseEvent mouseEvent) {
         switch (currentTool){
             case "Eraser":
                 graphicsContext.clearRect(startX, startY, 60, 60);
+                break;
+            case "colorGrabber":
+                // Get the color of the pixel under the mouse
+                WritableImage image = graphicsContext.getCanvas().snapshot(null, null);
+                PixelReader pixelReader = image.getPixelReader();
+                Color selectedColor = pixelReader.getColor((int) mouseEvent.getX(), (int) mouseEvent.getY());
+                this.paintStateModel.setCurrentPaintColor(selectedColor);
                 break;
 
         }

@@ -10,6 +10,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -136,9 +137,14 @@ public class ToolMenuController {
         bp.setLeft(null);
     }
 
+    public void setColorPicker(Color color) {
+        this.colorPicker.setValue(color);
+    }
+
     @FXML
     private void onActionSetColorPicker(ActionEvent actionEvent) {
         this.paintStateModel.setCurrentPaintColor(colorPicker.getValue());
+        this.colorPicker.valueProperty().bindBidirectional(this.paintStateModel.getCurrentPaintColorProperty());
     }
 
     @FXML

@@ -2,6 +2,8 @@ package com.paint.model;
 
 import com.paint.controller.CanvasController;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Parent;
@@ -38,7 +40,8 @@ public class PaintStateModel {
 
     }
 
-    private Color currentPaintColor;
+//    private Color currentPaintColor;
+    private ObjectProperty<Color> currentPaintColor = new SimpleObjectProperty<>(Color.BLACK);
 
     private final BrushObj currentBrush;
     private String currentTool; // Holds the currentTool that the user has selected. // TODO Change to selection tool when impl
@@ -57,7 +60,6 @@ public class PaintStateModel {
         this.currentBrush = new BrushObj();
         this.currentTool = "StLine";
         this.currentToolType = "shape"; // Tool Types include: shape, brush, image, selection, & general // TODO convert this to its own class with the currentTool
-        this.currentPaintColor = Color.BLACK; // Default color
         this.currentShape = null;
         this.currentLineWidth = 1.0;
         this.currentStrokeLineCap = StrokeLineCap.ROUND; // Default cap for lines
@@ -65,6 +67,7 @@ public class PaintStateModel {
         this.isTransformable = false;
         this.shapeTransformationGroup = new Group();
         this.selectionRectangle = null;
+        this.currentPaintColor.setValue(Color.BLACK); // Default color
     }
 
     public CanvasController getCanvasController() {
@@ -299,12 +302,16 @@ public class PaintStateModel {
         this.currentBrush.setBrushType(currentBrush);
     }
 
-    public Color getCurrentPaintColor() {
+    public ObjectProperty<Color> getCurrentPaintColorProperty() {
         return currentPaintColor;
     }
 
+    public Color getCurrentPaintColor() {
+        return this.currentPaintColor.getValue();
+    }
+
     public void setCurrentPaintColor(Color color) {
-        this.currentPaintColor = color;
+        this.currentPaintColor.setValue(color);
     }
 
     public String getCurrentToolType() {
