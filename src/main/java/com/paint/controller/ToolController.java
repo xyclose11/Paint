@@ -15,21 +15,13 @@ public class ToolController {
     public void handleToolGeneralOnPress(Shape currentShape, String currentTool) {
         switch (currentTool){
             case "Eraser":
-                // Create new rectangle for eraser
-//                currentShape = new Rectangle(startX, startY, 6, 6);
                 graphicsContext.clearRect(startX, startY, 60, 60);
                 break;
 
         }
 
-        System.out.println(currentShape);
-
         if (currentShape != null) {
             loadDefaultShapeAttributes(currentShape);
-//            drawingPane.getChildren().add(currentShape);
-
-            // Set current shape in model
-//            this.paintStateModel.setCurrentShape(currentShape);
         }
     }
 

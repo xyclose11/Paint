@@ -89,10 +89,10 @@ public class ToolMenuController {
         noToolSelectedAlert.showAndWait();
     }
 
-    private void showLWSlider(RadioMenuItem radioItem) throws IOException {
+    public void showLWSlider() throws IOException {
         // Set left 'Choose Line Width' slider
         FXMLLoader lWLoader = new FXMLLoader(getClass().getResource("/view/LineWidthSideView.fxml"));
-        Stage stage = (Stage)radioItem.getParentPopup().getOwnerWindow(); // Get primary stage
+        Stage stage = (Stage) this.sceneStateModel.getCurrentScene().getWindow();
 
         // Set LWSlider to left side of the main BorderPane
         BorderPane bp = (BorderPane) stage.getScene().getRoot();
@@ -145,10 +145,11 @@ public class ToolMenuController {
         // Add event listener to check if a tool that has the line width property is selected
         ToolSelect.selectedToggleProperty().addListener(((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                if (newValue instanceof RadioMenuItem) {
+                String val = newValue.toString();
+                if (val.contains("regular") || val.contains("eraser")) { // Looks for 'regular' brush type
                     // Show Line Width Slider
 	                try {
-		                showLWSlider((RadioMenuItem) newValue);
+		                showLWSlider();
 	                } catch (IOException e) {
 		                throw new RuntimeException(e);
 	                }

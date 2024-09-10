@@ -107,7 +107,7 @@ public class CanvasController {
         this.paintStateModel.setCurrentShape(null);
 
         if (!this.paintStateModel.isTransformable()) {
-            switch (currentToolType) { // TODO create a toolController and move all of these mouse handler code bodies to it
+            switch (currentToolType) {
                 case "shape":
                     handleToolShapeOnPress(currentShape, currentTool);
                     break;
@@ -115,33 +115,11 @@ public class CanvasController {
                     handleToolBrushOnPress();
                     break;
                 case "general":
-//                    handleToolGeneralOnPress(currentShape, currentTool);
                     toolController.handleToolGeneralOnPress(currentShape, currentTool);
                     break;
             }
         }
 
-    }
-
-    private void handleToolGeneralOnPress(Shape currentShape, String currentTool) {
-        switch (currentTool){
-            case "Eraser":
-                // Create new rectangle for eraser
-//                currentShape = new Rectangle(startX, startY, 6, 6);
-                graphicsContext.clearRect(startX, startY, 60, 60);
-                break;
-
-        }
-
-        System.out.println(currentShape);
-
-        if (currentShape != null) { // TODO ASAP combine these methods with that of the ToolShape handler when in dedicated controller
-            loadDefaultShapeAttributes(currentShape);
-//            drawingPane.getChildren().add(currentShape);
-
-            // Set current shape in model
-//            this.paintStateModel.setCurrentShape(currentShape);
-        }
     }
 
     private void handleToolShapeOnPress(Shape currentShape, String currentTool) {
@@ -260,8 +238,8 @@ public class CanvasController {
         }
 
         double eraserStrokeWidth = this.paintStateModel.getCurrentLineWidth();
-        double eraserX = curX - eraserStrokeWidth;
-        double eraserY = curY - eraserStrokeWidth;
+        double eraserX = curX - (eraserStrokeWidth / 2);
+        double eraserY = curY - (eraserStrokeWidth / 2);
 
         graphicsContext.clearRect(eraserX, eraserY, eraserStrokeWidth, eraserStrokeWidth);
     }
@@ -390,9 +368,6 @@ public class CanvasController {
     private void handleToolShapeReleased(Shape currentShape) {
         // Disable StackPane Mouse Event Handlers
         setCanvasDrawingStackPaneHandlerState(false);
-
-        // Check for current tool
-        System.out.println(this.paintStateModel.getCurrentTool());
 
         // Check if currentShape is a curve
         if (currentShape instanceof CubicCurve curve) {
