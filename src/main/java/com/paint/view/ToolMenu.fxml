@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.collections.FXCollections?>
+<?import java.lang.*?>
+<?import javafx.collections.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.input.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 <?import org.kordamp.ikonli.javafx.*?>
-<?import java.lang.*?>
-<HBox id="toolbarMainWrapper" minHeight="60.0" prefHeight="80.0" prefWidth="480.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.ToolMenuController">
+
+<HBox id="toolbarMainWrapper" minHeight="60.0" prefHeight="80.0" prefWidth="1007.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.ToolMenuController">
    <VBox id="SelectionVBoxTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
       <children>
          <VBox prefHeight="200.0" prefWidth="100.0">
@@ -75,7 +78,7 @@
                      <ToggleButton contentDisplay="CENTER" disable="true" mnemonicParsing="false" text="ToggleButton" toggleGroup="$ToolSelect" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                      <ToggleButton contentDisplay="CENTER" disable="true" layoutX="7.0" layoutY="8.0" mnemonicParsing="false" text="ToggleButton" toggleGroup="$ToolSelect" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                      <ToggleButton contentDisplay="CENTER" disable="true" layoutX="27.0" layoutY="8.0" mnemonicParsing="false" text="ToggleButton" toggleGroup="$ToolSelect" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                      <ToggleButton onMouseClicked="#updateGeneralToolState" id="colorGrabber" fx:id="colorGrabber" contentDisplay="CENTER" ellipsisString="" layoutX="21.0" layoutY="14.0" mnemonicParsing="false" toggleGroup="$ToolSelect" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                      <ToggleButton id="colorGrabber" fx:id="colorGrabber" contentDisplay="CENTER" ellipsisString="" layoutX="21.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#updateGeneralToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                           <graphic>
                               <FontIcon id="toolbarColorGrabberIcon" fontSmoothingType="LCD" iconLiteral="mdi2s-select-color" iconSize="20" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                           </graphic>
@@ -84,7 +87,7 @@
                           </tooltip>
                       </ToggleButton>
                      <ToggleButton contentDisplay="CENTER" disable="true" layoutX="33.0" layoutY="14.0" mnemonicParsing="false" text="ToggleButton" toggleGroup="$ToolSelect" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                     <ToggleButton fx:id="toggleEraser" id="eraser" contentDisplay="CENTER" ellipsisString="" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#updateGeneralToolState" toggleGroup="$ToolSelect" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                     <ToggleButton id="eraser" fx:id="toggleEraser" contentDisplay="CENTER" ellipsisString="" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#updateGeneralToolState" toggleGroup="$ToolSelect" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                          <graphic>
                              <FontIcon id="toolbarGeneralEraserIcon" fontSmoothingType="LCD" iconLiteral="fltfal-eraser-20" iconSize="20" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                          </graphic>
@@ -264,6 +267,11 @@
          <VBox id="ColorsSectionTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
             <children>
                <Label text="Colors" />
+               <Label fx:id="toolMenuColorLbl" alignment="BOTTOM_CENTER" ellipsisString="" prefHeight="52.0" prefWidth="94.0" text="hex/rgb/name" textAlignment="CENTER" wrapText="true">
+                  <font>
+                     <Font size="12.0" />
+                  </font>
+               </Label>
             </children>
          </VBox>
          <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
@@ -272,6 +280,9 @@
                     <tooltip>
                         <Tooltip text="Change Current Color" />
                     </tooltip>
+                  <value>
+                     <Color />
+                  </value>
                 </ColorPicker>
             </children>
          </VBox>

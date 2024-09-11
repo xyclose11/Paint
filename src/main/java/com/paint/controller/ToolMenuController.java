@@ -15,10 +15,14 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 
 public class ToolMenuController {
     @FXML
     public ToggleButton toggleEraser;
+
+    @FXML
+    public Label toolMenuColorLbl;
 
     private CanvasModel canvasModel;
 
@@ -159,6 +163,13 @@ public class ToolMenuController {
     private void onActionSetColorPicker(ActionEvent actionEvent) {
         this.paintStateModel.setCurrentPaintColor(colorPicker.getValue());
         this.colorPicker.valueProperty().bindBidirectional(this.paintStateModel.getCurrentPaintColorProperty());
+        Color color = this.paintStateModel.getCurrentPaintColor();
+        DecimalFormat decimalFormat = new DecimalFormat("000");
+        String redV = decimalFormat.format(color.getRed() * 255); // Multiply by 255 since the range of getRed/Blue/Green -> 0.0 - 1.0
+        String blueV = decimalFormat.format(color.getBlue() * 255);
+        String greenV = decimalFormat.format(color.getGreen() * 255);
+
+        this.toolMenuColorLbl.setText("HEX: " + color + " RGB: " + redV + "," + greenV + "," + blueV);
     }
 
     @FXML
