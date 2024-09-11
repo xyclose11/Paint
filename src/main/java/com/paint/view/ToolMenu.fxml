@@ -226,6 +226,14 @@
                                     <FontIcon fontSmoothingType="LCD" iconLiteral="mdi2t-triangle-outline" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                                 </graphic>
                             </ToggleButton>
+                           <ToggleButton fx:id="Star" ellipsisString="" layoutX="119.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#updateShapeToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                              <tooltip>
+                                 <Tooltip text="Star" />
+                              </tooltip>
+                              <graphic>
+                                 <FontIcon fontSmoothingType="LCD" iconLiteral="mdi2s-star-outline" iconSize="18" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                              </graphic>
+                           </ToggleButton>
                         </children>
                         <padding>
                            <Insets left="8.0" right="8.0" top="8.0" />

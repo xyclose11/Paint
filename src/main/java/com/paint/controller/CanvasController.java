@@ -2,6 +2,7 @@ package com.paint.controller;
 
 import com.paint.model.*;
 import com.paint.resource.RightTriangle;
+import com.paint.resource.Star;
 import com.paint.resource.Triangle;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
@@ -148,6 +149,7 @@ public class CanvasController {
                 currentShape = new RightTriangle(startX, startX, startX, startY, startY, startY);
                 break;
             case "Star":
+                currentShape = new Star(startX, startY, 1);
                 break;
             case "Hexagon":
                 break;
@@ -335,8 +337,9 @@ public class CanvasController {
             ellipse.setRadiusY(Math.abs(curY - startY));
         }
 
-        if (currentShape instanceof Polygon polygon) {
-
+        if (currentShape instanceof Star star) {
+            double r = (curX + curY) / 7.6;
+            star.updateStar(startX, startY, r);
         }
 
 
@@ -490,6 +493,13 @@ public class CanvasController {
             graphicsContext.strokeRect(minX, minY,w,h);
         }
 
+        if (currentShape instanceof Star) {
+            Star star = (Star) selectionGroup.getChildren().get(1);
+
+            handleStar(xT, yT, star);
+
+        }
+
         graphicsContext.setLineWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
         graphicsContext.setFill(null);
 
@@ -499,6 +509,15 @@ public class CanvasController {
 
         this.paintStateModel.setCurrentShape(null);
 
+    }
+
+    private void handleStar(double xT, double yT, Star star) {
+        star.applyTranslation(xT, yT);
+        graphicsContext.strokePolygon(
+                star.getPoints().stream().filter(p -> star.getPoints().indexOf(p) % 2 == 0).mapToDouble(p -> p).toArray(),
+                star.getPoints().stream().filter(p -> star.getPoints().indexOf(p) % 2 == 1).mapToDouble(p -> p).toArray(),
+                star.getPoints().size() / 2
+        );
     }
 
     private void handleTriangles(double xT, double yT, Triangle triangle) {
