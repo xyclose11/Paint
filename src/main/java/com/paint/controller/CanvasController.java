@@ -578,35 +578,48 @@ public class CanvasController {
     private void handleResizeCanvasExited(MouseEvent mouseEvent) {
         double canvasWidth = this.mainCanvas.getWidth();
         double mouseX = mouseEvent.getX();
-
+        System.out.println(mouseX);
         if (mouseX < canvasWidth && mouseX >= -15) {
             // Mouse is near the left edge of the canvas
-            setCanvasResizeHandlers();
+            setCanvasResizeHandlers("Left");
         } else {
             // Reset event handlers when the mouse is outside the resizing area
             resetCanvasResizeHandlers();
         }
     }
 
-    private void setCanvasResizeHandlers() {
-        this.canvasContainer.setOnMousePressed(mE -> {
-            System.out.println("PRESSED");
-        });
+    private void setCanvasResizeHandlers(String direction) {
 
         this.canvasContainer.setOnMouseDragged(mD -> {
-            double newWidth = mainCanvas.getWidth() + (mD.getX() - mainCanvas.getWidth());
-            double newHeight = mainCanvas.getHeight();
 
-            // Ensure the new width is positive
-            if (newWidth > 0) {
-                mainCanvas.setWidth(newWidth);
-                this.infoCanvasModel.setResolutionLblText(newWidth, mainCanvas.getHeight());
+            // Ensure user does not go below 1
+            if (mD.getX() < 1 || mD.getY() < 1 || mD.getX() > 10000 || mD.getY() > 10000) {
+                return;
             }
 
-            // Optionally update the height if needed
-            // mainCanvas.setHeight(newHeight);
+            double newWidth = mainCanvas.getWidth();
+            double newHeight = mainCanvas.getHeight();
 
-            System.out.println("Resized Width: " + newWidth);
+            switch (direction) {
+                case "Left":
+                    newWidth = mainCanvas.getWidth() + (mD.getX() - mainCanvas.getWidth());
+                    this.mainCanvas.expandLeft(newWidth);
+                    break;
+                case "Right":
+                    break;
+                case "Top":
+                    break;
+                case "Bottom":
+                    break;
+            }
+
+            if (newWidth > 1) {
+                this.infoCanvasModel.setResolutionLblText(newWidth, newHeight);
+            }
+
+            if (newHeight > 1) {
+                this.infoCanvasModel.setResolutionLblText(newWidth, newHeight);
+            }
         });
     }
 
