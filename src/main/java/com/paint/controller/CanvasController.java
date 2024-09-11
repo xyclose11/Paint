@@ -572,40 +572,47 @@ public class CanvasController {
         graphicsContext.setFill(Color.WHITE);
         graphicsContext.fillRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
 
-//        canvasGroup.setOnMouseExited(mouseEvent -> handleResizeCanvasExited(mouseEvent));
     }
 
     @FXML
     private void handleResizeCanvasExited(MouseEvent mouseEvent) {
-        double sX = 0;
-        double sY;
-        double w = this.mainCanvas.getWidth();
-        System.out.println(w);
-        System.out.println(mouseEvent.getX());
-        System.out.println(this.mainCanvas.getLayoutBounds());
-        System.out.println(this.mainCanvas.getBoundsInLocal());
-        System.out.println(this.mainCanvas.getLayoutX());
-        if (mouseEvent.getX() < w && mouseEvent.getX() >= -15) {
-            System.out.println("HIT");
-            // Listen for mouse Pressed -> Mouse Dragged
-            this.canvasContainer.setOnMousePressed(mE -> {
-                System.out.println("PRESSED");
-            });
+        double canvasWidth = this.mainCanvas.getWidth();
+        double mouseX = mouseEvent.getX();
 
-            this.canvasContainer.setOnMouseDragged(mD -> {
-                System.out.println("DRAGGED");
-
-            });
+        if (mouseX < canvasWidth && mouseX >= -15) {
+            // Mouse is near the left edge of the canvas
+            setCanvasResizeHandlers();
         } else {
-            this.canvasContainer.setOnMouseDragged(null);
-            this.canvasContainer.setOnMousePressed(null);
-
+            // Reset event handlers when the mouse is outside the resizing area
+            resetCanvasResizeHandlers();
         }
     }
 
-    private void handleResizeCanvasPressed(MouseEvent mouseEvent) {
-        // Determine if on edge of canvas
+    private void setCanvasResizeHandlers() {
+        this.canvasContainer.setOnMousePressed(mE -> {
+            System.out.println("PRESSED");
+        });
 
+        this.canvasContainer.setOnMouseDragged(mD -> {
+            double newWidth = mainCanvas.getWidth() + (mD.getX() - mainCanvas.getWidth());
+            double newHeight = mainCanvas.getHeight();
+
+            // Ensure the new width is positive
+            if (newWidth > 0) {
+                mainCanvas.setWidth(newWidth);
+                this.infoCanvasModel.setResolutionLblText(newWidth, mainCanvas.getHeight());
+            }
+
+            // Optionally update the height if needed
+            // mainCanvas.setHeight(newHeight);
+
+            System.out.println("Resized Width: " + newWidth);
+        });
+    }
+
+    private void resetCanvasResizeHandlers() {
+        this.canvasContainer.setOnMouseDragged(null);
+        this.canvasContainer.setOnMousePressed(null);
     }
 
     public void setCanvas(Image image) {
