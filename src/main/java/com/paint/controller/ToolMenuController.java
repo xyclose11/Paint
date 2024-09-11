@@ -1,5 +1,6 @@
 package com.paint.controller;
 
+import com.paint.model.CanvasModel;
 import com.paint.model.PaintStateModel;
 import com.paint.model.SceneStateModel;
 import javafx.event.ActionEvent;
@@ -16,6 +17,11 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class ToolMenuController {
+    @FXML
+    public ToggleButton toggleEraser;
+
+    private CanvasModel canvasModel;
+
     private PaintStateModel paintStateModel;
 
     private SceneStateModel sceneStateModel;
@@ -42,6 +48,14 @@ public class ToolMenuController {
     }
     public void setSceneStateModel(SceneStateModel sceneStateModel) {
         this.sceneStateModel = sceneStateModel;
+    }
+
+    public CanvasModel getCanvasModel() {
+        return canvasModel;
+    }
+
+    public void setCanvasModel(CanvasModel canvasModel) {
+        this.canvasModel = canvasModel;
     }
 
     public void setLineWidthController(LineWidthController lineWidthController) {

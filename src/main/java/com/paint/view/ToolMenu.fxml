@@ -3,6 +3,7 @@
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.*?>
 <?import org.kordamp.ikonli.javafx.*?>
 <?import java.lang.*?>
@@ -83,7 +84,7 @@
                           </tooltip>
                       </ToggleButton>
                      <ToggleButton contentDisplay="CENTER" disable="true" layoutX="33.0" layoutY="14.0" mnemonicParsing="false" text="ToggleButton" toggleGroup="$ToolSelect" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                     <ToggleButton id="eraser" fx:id="eraser" contentDisplay="CENTER" ellipsisString="" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#updateGeneralToolState" toggleGroup="$ToolSelect" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                     <ToggleButton fx:id="toggleEraser" id="eraser" contentDisplay="CENTER" ellipsisString="" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#updateGeneralToolState" toggleGroup="$ToolSelect" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                          <graphic>
                              <FontIcon id="toolbarGeneralEraserIcon" fontSmoothingType="LCD" iconLiteral="fltfal-eraser-20" iconSize="20" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                          </graphic>
@@ -111,6 +112,9 @@
                <MenuButton alignment="CENTER" contentDisplay="CENTER" ellipsisString="" mnemonicParsing="false" prefHeight="24.0" prefWidth="36.0">
                  <items>
                      <RadioMenuItem fx:id="regular" mnemonicParsing="false" onAction="#updateMenuItemToolState" text="Brush" toggleGroup="$ToolSelect">
+                         <accelerator>
+                             <KeyCodeCombination alt="DOWN" code="B" control="UP" meta="UP" shift="UP" shortcut="UP" />
+                         </accelerator>
                      </RadioMenuItem>
                      <MenuItem mnemonicParsing="false" text="Calligraphy Brush" />
                      <MenuItem mnemonicParsing="false" text="Calligraphy Pen" />

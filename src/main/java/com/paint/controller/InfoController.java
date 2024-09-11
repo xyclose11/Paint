@@ -65,7 +65,7 @@ public class InfoController {
 			double sliderVal = Double.parseDouble(cbVal); // Convert string -> double to set slider POS
 			this.infoBarZoomSlider.setValue(sliderVal);
 
-			currentZoomLvl = sliderVal;
+			this.canvasModel.setZoomScale(sliderVal);
 
 		} catch (Exception e) {
 			System.out.println("ERROR");
@@ -79,14 +79,21 @@ public class InfoController {
 	private void onZoomSliderChange(MouseEvent mouseEvent) {
 		// Set zoom combo box to zoom value
 		this.infoBarZoomCB.setValue(String.valueOf(infoBarZoomSlider.getValue()));
-		currentZoomLvl = infoBarZoomSlider.getValue();
+		this.canvasModel.setZoomScale(infoBarZoomSlider.getValue());
+		this.infoBarZoomCB.setValue(String.valueOf(infoBarZoomSlider.getValue()));
+
+		this.infoBarZoomSlider.valueProperty().bindBidirectional(this.canvasModel.zoomScaleProperty());
+
 		handleZoom();
 	}
 
 	// Handle scaling/zoom
 	private void handleZoom() {
 		canvasGroup = canvasModel.getCanvasGroup();
-		double newZoomScale = currentZoomLvl / 100.0; // Divide by 100.0 to get proper format for setScaleX/Y
+		double newZoomScale = this.canvasModel.getZoomScale() / 100.0; // Divide by 100.0 to get proper format for setScaleX/Y
+		System.out.println(newZoomScale);
+
+		this.infoBarZoomSlider.valueProperty().bindBidirectional(this.canvasModel.zoomScaleProperty());
 
 		canvasGroup.setScaleX(newZoomScale);
 		canvasGroup.setScaleY(newZoomScale);

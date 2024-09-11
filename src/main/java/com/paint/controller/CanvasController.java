@@ -620,9 +620,18 @@ public class CanvasController {
         return false;
     }
 
+
     @FXML
     private void scaleCanvasOnScroll(ScrollEvent scrollEvent) { // TODO add CTRL + SCROLL zoom effect to infobar
-        double zoomFactor = 1.1; // Handles zoom factor
+        if (!scrollEvent.isControlDown()) {
+            // Ensure that CTRL is held down
+            return;
+        }
+
+        double zoomFactor = 1.25; // Handles zoom factor
+        double scaleFactor = this.canvasModel.getZoomScale();
+        double maxScale = this.canvasModel.getMaxScale();
+        double minScale = this.canvasModel.getMinScale();
 
         // Check if user is scrolling in or out
         if (scrollEvent.getDeltaY() > 0) {
@@ -631,8 +640,14 @@ public class CanvasController {
             scaleFactor /= zoomFactor;
         }
 
-        canvasGroup.setScaleX(scaleFactor);
-        canvasGroup.setScaleY(scaleFactor);
+        if (scaleFactor > maxScale || scaleFactor < minScale) {
+            return;
+        }
+
+        this.canvasModel.setZoomScale(scaleFactor);
+
+        this.canvasModel.getCanvasGroup().setScaleX(scaleFactor);
+        this.canvasModel.getCanvasGroup().setScaleY(scaleFactor);
     }
 
     public void setSettingStateModel(SettingStateModel settingStateModel) {

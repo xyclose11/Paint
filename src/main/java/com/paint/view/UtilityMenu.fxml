@@ -12,6 +12,11 @@
       <children>
           <MenuBar id="utilityMenuBar" fx:id="utilityMenuBarFX" cache="true" prefHeight="22.0" prefWidth="139.0" style="-fx-padding: -5 -5 -5 -5; -fx-background-color: transparent;" styleClass="utilityMenuBar" HBox.hgrow="SOMETIMES">
               <Menu id="fileMenuBar" fx:id="fileMenuBarFX" text="File">
+                  <MenuItem id="NewUtilityMenu" fx:id="NewItemUtilityMenu" onAction="#handleNewFile" text="New">
+                      <accelerator>
+                          <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                      </accelerator>
+                  </MenuItem>
                   <MenuItem id="OpenUtilityMenu" fx:id="OpenUtilityMenu" onAction="#handleFileOpen" text="Open">
                   <accelerator>
                      <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />

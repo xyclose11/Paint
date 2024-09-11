@@ -186,4 +186,8 @@ public class UtilityController {
 	public void getLoadAboutDialog(ActionEvent actionEvent) throws IOException {
 		this.helpAboutModel.loadAboutMenu();
 	}
+
+	public void handleNewFile(ActionEvent actionEvent) {
+		// TODO Create a new file when hit
+	}
 }

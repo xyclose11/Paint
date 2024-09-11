@@ -15,6 +15,38 @@ public class CanvasModel {
     private boolean isFileBlank = true; // On open file is blank
     private File currentFile;
     private boolean changesMade;
+//    private double zoomScale;
+    private final DoubleProperty zoomScale = new SimpleDoubleProperty(1.0); // 1.0 = 100%
+    private double maxScale = 8.0;
+    private double minScale = 0.10;
+
+    public double getMaxScale() {
+        return maxScale;
+    }
+
+    public double getMinScale() {
+        return minScale;
+    }
+
+    public void setMaxScale(double maxScale) {
+        this.maxScale = maxScale;
+    }
+
+    public void setMinScale(double minScale) {
+        this.minScale = minScale;
+    }
+
+    public DoubleProperty zoomScaleProperty() {
+        return zoomScale;
+    }
+
+    public double getZoomScale() {
+        return zoomScale.getValue();
+    }
+
+    public void setZoomScale(double zoomScale) {
+        this.zoomScale.setValue(zoomScale);
+    }
 
     public boolean isChangesMade() {
         return changesMade;

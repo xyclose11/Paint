@@ -80,6 +80,7 @@ public class Main extends Application {
 
         toolMenuController.setPaintStateModel(paintStateModel);
         toolMenuController.setSceneStateModel(sceneStateModel);
+        toolMenuController.setCanvasModel(canvasModel);
 
         canvasController.setCanvasModel(canvasModel);
         canvasController.setPaintStateModel(paintStateModel);
