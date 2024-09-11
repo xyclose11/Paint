@@ -92,7 +92,9 @@ public class Main extends Application {
 
         infoController.setCanvasModel(canvasModel);
         infoController.setInfoCanvasModel(infoCanvasModel);
+        infoController.setPaintStateModel(paintStateModel);
 
+        paintStateModel.setInfoCanvasModel(infoCanvasModel);
         paintStateModel.setCanvasController(canvasController);
 
         // Update main controller state

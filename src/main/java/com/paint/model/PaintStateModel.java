@@ -56,6 +56,16 @@ public class PaintStateModel {
 
     private CanvasController canvasController;
 
+    private InfoCanvasModel infoCanvasModel;
+
+    public InfoCanvasModel getInfoCanvasModel() {
+        return infoCanvasModel;
+    }
+
+    public void setInfoCanvasModel(InfoCanvasModel infoCanvasModel) {
+        this.infoCanvasModel = infoCanvasModel;
+    }
+
     public PaintStateModel() {
         this.currentBrush = new BrushObj();
         this.currentTool = "StLine";
@@ -258,6 +268,8 @@ public class PaintStateModel {
     }
 
     public void setCurrentShapeLineStrokeWidth(double currentShapeLineStrokeWidth) {
+        // Set infobar lbl
+        this.infoCanvasModel.setCurrentLineWidthLbl(currentShapeLineStrokeWidth);
         this.currentShapeLineStrokeWidth = currentShapeLineStrokeWidth;
     }
 
@@ -274,6 +286,7 @@ public class PaintStateModel {
     }
 
     public void setCurrentLineWidth(double currentLineWidth) {
+        this.infoCanvasModel.setCurrentLineWidthLbl(currentLineWidth);
         this.currentLineWidth = currentLineWidth;
     }
 

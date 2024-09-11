@@ -6,7 +6,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox maxHeight="35.0" minHeight="14" prefHeight="35.0" prefWidth="943.0" spacing="200" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.InfoController">
+<HBox maxHeight="35.0" minHeight="14" prefHeight="35.0" prefWidth="1186.0" spacing="200" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.InfoController">
 
     <HBox spacing="20">
         <Label fx:id="mousePosLbl" text="Mouse POS">
@@ -24,6 +24,12 @@
         <Label fx:id="resolutionLbl" text="Resolution">
             <tooltip>
                 <Tooltip text="Current Resolution of Canvas" />
+            </tooltip>
+        </Label>
+      <Separator orientation="VERTICAL" prefHeight="200.0" />
+        <Label fx:id="lineWidthLbl" text="Line Width" textAlignment="CENTER">
+            <tooltip>
+                <Tooltip text="Current Line Width" />
             </tooltip>
         </Label>
         <HBox.margin>

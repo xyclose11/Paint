@@ -2,6 +2,7 @@ package com.paint.controller;
 
 import com.paint.model.CanvasModel;
 import com.paint.model.InfoCanvasModel;
+import com.paint.model.PaintStateModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
@@ -18,6 +19,9 @@ public class InfoController {
 	public Slider infoBarZoomSlider;
 
 	@FXML
+    public Label lineWidthLbl;
+
+    @FXML
 	private Label resolutionLbl;
 
 	@FXML
@@ -34,6 +38,16 @@ public class InfoController {
 
 	private InfoCanvasModel infoCanvasModel;
 
+	private PaintStateModel paintStateModel;
+
+	public PaintStateModel getPaintStateModel() {
+		return paintStateModel;
+	}
+
+	public void setPaintStateModel(PaintStateModel paintStateModel) {
+		this.paintStateModel = paintStateModel;
+	}
+
 	public void setInfoCanvasModel(InfoCanvasModel infoCanvasModel) {
 		this.infoCanvasModel = infoCanvasModel;
 
@@ -41,6 +55,7 @@ public class InfoController {
 		this.mousePosLbl.textProperty().bind(this.infoCanvasModel.getMousePosLbl().textProperty());
 		this.resolutionLbl.textProperty().bind(this.infoCanvasModel.getResolutionLbl().textProperty());
 		this.selectionResLbl.textProperty().bind(this.infoCanvasModel.getSelectionResLbl().textProperty());
+		this.lineWidthLbl.textProperty().bind(this.infoCanvasModel.getCurrentLineWidthLbl().textProperty());
 	}
 
 	public void setCanvasModel(CanvasModel canvasModel) {
