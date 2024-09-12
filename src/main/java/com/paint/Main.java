@@ -7,11 +7,9 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.ButtonType;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -27,6 +25,7 @@ public class Main extends Application {
     private HelpAboutModel helpAboutModel = new HelpAboutModel();
     private InfoCanvasModel infoCanvasModel = new InfoCanvasModel();
     private SettingStateModel settingStateModel = new SettingStateModel();
+    private TabModel tabModel = new TabModel();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -34,10 +33,20 @@ public class Main extends Application {
 
         // Set Center
         FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/view/CanvasView.fxml"));
-        rootLayout.setCenter(canvasLoader.load());
+
+        HBox canvasView = canvasLoader.load();
+
+        FXMLLoader tabPaneWrapperLoader = new FXMLLoader(getClass().getResource("/view/TabPaneWrapper.fxml"));
+        TabPane canvasWrapper = tabPaneWrapperLoader.load();
+
+        canvasWrapper.getTabs().get(0).setContent(canvasView);
+
+        rootLayout.setCenter(canvasWrapper);
+
+        canvasModel.setCanvasView(canvasView);
 
         CanvasController canvasController = canvasLoader.getController();
-
+        TabController tabController = tabPaneWrapperLoader.getController();
 
         // Wrap topper, and set top
         FXMLLoader utilityMenuLoader = new FXMLLoader(getClass().getResource("/view/UtilityMenu.fxml"));
@@ -88,6 +97,11 @@ public class Main extends Application {
         canvasController.setSettingStateModel(settingStateModel);
         canvasController.setSceneStateModel(sceneStateModel);
 
+        tabController.setCanvasModel(canvasModel);
+        tabController.setTabModel(tabModel);
+        tabModel.setTabPane(canvasWrapper);
+
+        canvasModel.setCurrentCanvasController(canvasController);
 //        helpMenuController.setSettingStateModel(settingStateModel);
 
         infoController.setCanvasModel(canvasModel);

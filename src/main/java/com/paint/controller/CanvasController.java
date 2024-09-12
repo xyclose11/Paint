@@ -11,6 +11,8 @@ import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
@@ -32,8 +34,9 @@ public class CanvasController {
     @FXML
     public HBox canvasContainer;
 
+
     @FXML
-    ResizeableCanvas mainCanvas;
+    private ResizeableCanvas mainCanvas;
 
     @FXML
     private Group canvasGroup;
@@ -52,6 +55,15 @@ public class CanvasController {
     private SettingStateModel settingStateModel;
     private SceneStateModel sceneStateModel;
     private ToolController toolController;
+    private TabModel tabModel;
+
+    public void setTabModel(TabModel tabModel) {
+        this.tabModel = tabModel;
+    }
+
+    public TabModel getTabModel() {
+        return tabModel;
+    }
 
     public void setToolController(ToolController toolController) {
         this.toolController = toolController;
@@ -775,10 +787,5 @@ public class CanvasController {
         this.infoCanvasModel.setMousePosLbl(mouseEvent);
     }
 
-    // TAB Handler SECTION START
 
-
-
-
-    // TAB Handler SECTION END
 }

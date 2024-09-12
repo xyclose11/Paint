@@ -1,8 +1,10 @@
 package com.paint.model;
 
+import com.paint.controller.CanvasController;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Group;
+import javafx.scene.layout.HBox;
 
 import java.io.File;
 
@@ -15,7 +17,25 @@ public class CanvasModel {
     private boolean isFileBlank = true; // On open file is blank
     private File currentFile;
     private boolean changesMade;
-//    private double zoomScale;
+    private CanvasController currentCanvasController;
+    private HBox canvasView;
+
+    public HBox getCanvasView() {
+        return canvasView;
+    }
+
+    public void setCanvasView(HBox canvasView) {
+        this.canvasView = canvasView;
+    }
+
+    public CanvasController getCurrentCanvasController() {
+        return currentCanvasController;
+    }
+
+    public void setCurrentCanvasController(CanvasController currentCanvasController) {
+        this.currentCanvasController = currentCanvasController;
+    }
+
     private final DoubleProperty zoomScale = new SimpleDoubleProperty(1.0); // 1.0 = 100%
     private double maxScale = 8.0;
     private double minScale = 0.10;
