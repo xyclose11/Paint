@@ -1,17 +1,21 @@
 package com.paint.controller;
 
-import com.paint.model.CanvasModel;
-import com.paint.model.TabModel;
+import com.paint.model.*;
+import com.paint.resource.Workspace;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.HBox;
+
+import java.io.IOException;
 
 public class TabController {
 	private TabModel tabModel;
 	private CanvasModel canvasModel;
+	private PaintStateModel paintStateModel;
+	private InfoCanvasModel infoCanvasModel;
+	private SettingStateModel settingStateModel;
 
 	@FXML
 	public TabPane fileTabPane;
@@ -29,12 +33,12 @@ public class TabController {
 
 	// TAB Handler SECTION START
 	@FXML
-	private void onMouseClickedNewFileTab(Event event) {
+	private void onMouseClickedNewFileTab(Event event) throws IOException {
 		TabPane tabPane = this.tabModel.getTabPane();
 		Tab newTab = new Tab("FILE");
 
-		HBox t = this.canvasModel.getCanvasView();
-		newTab.setContent(t);
+		Workspace workspace = new Workspace(canvasModel, true, paintStateModel, infoCanvasModel, settingStateModel, tabModel);
+		newTab.setContent(workspace.getCanvasView());
 
 		int addNewFileTabIndex= tabPane.getTabs().indexOf(addNewFileTab);
 
@@ -66,6 +70,19 @@ public class TabController {
 		return this.tabModel;
 	}
 
+	public InfoCanvasModel getInfoCanvasModel() {
+		return infoCanvasModel;
+	}
 
+	public void setInfoCanvasModel(InfoCanvasModel infoCanvasModel) {
+		this.infoCanvasModel = infoCanvasModel;
+	}
 
+	public void setSettingStateModel(SettingStateModel settingStateModel) {
+		this.settingStateModel = settingStateModel;
+	}
+
+	public void setPaintStateModel(PaintStateModel paintStateModel) {
+		this.paintStateModel = paintStateModel;
+	}
 }

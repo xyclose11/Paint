@@ -1,9 +1,11 @@
 package com.paint.resource;
 
 import com.paint.controller.CanvasController;
-import com.paint.model.CanvasModel;
-import com.paint.model.SceneStateModel;
+import com.paint.model.*;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
+
+import java.io.IOException;
 
 /*
 * Each Workspace requires its own unique CanvasModel & CanvasController
@@ -15,19 +17,29 @@ public class Workspace {
 	private SceneStateModel sceneStateModel;
 	private HBox canvasView;
 
-	public Workspace() {
+	public Workspace() throws IOException {
+		FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/view/CanvasView.fxml"));
+		this.canvasView = canvasLoader.load();
 		this.canvasModel = new CanvasModel();
-		this.canvasController = new CanvasController();
+		this.canvasController = canvasLoader.getController();
 	}
 
-	public Workspace(CanvasModel canvasModel, CanvasController canvasController, boolean isActive) {
+	public Workspace(CanvasModel canvasModel, boolean isActive, PaintStateModel paintStateModel, InfoCanvasModel infoCanvasModel, SettingStateModel settingStateModel, TabModel tabModel) throws IOException {
+		FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/view/CanvasView.fxml"));
+		this.canvasView = canvasLoader.load();
 		this.canvasModel = canvasModel;
-		this.canvasController = canvasController;
+		this.canvasController = canvasLoader.getController();
 		this.isActive = isActive;
+		canvasController.setCanvasModel(canvasModel);
+		canvasController.setPaintStateModel(paintStateModel);
+		canvasController.setInfoCanvasModel(infoCanvasModel);
+		canvasController.setSettingStateModel(settingStateModel);
+		canvasController.setSceneStateModel(sceneStateModel);
+		canvasController.setTabModel(tabModel);
 	}
 
 	public HBox getCanvasView() {
-		return canvasView;
+		return  canvasView;
 	}
 
 	public void setCanvasView(HBox canvasView) {
