@@ -1,13 +1,14 @@
 package com.paint.controller;
 
 import com.paint.model.*;
+import com.paint.resource.ResizeableCanvas;
 import com.paint.resource.RightTriangle;
 import com.paint.resource.Star;
 import com.paint.resource.Triangle;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
@@ -15,6 +16,7 @@ import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -28,7 +30,10 @@ import java.util.Objects;
 
 public class CanvasController {
     @FXML
-    Canvas mainCanvas;
+    public HBox canvasContainer;
+
+    @FXML
+    ResizeableCanvas mainCanvas;
 
     @FXML
     private Group canvasGroup;
@@ -91,6 +96,11 @@ public class CanvasController {
             canvasModel.setCanvasHeight(mainCanvas.getHeight());
         }
     }
+
+    // RESIZE CANVAS HANDLERS START
+
+    // RESIZE CANVAS HANDLERS END
+
 
     // DRAWING EVENT HANDLERS SECTION START
     // stores the mouse starting POS
@@ -580,6 +590,91 @@ public class CanvasController {
         // Set default background color -> white
         graphicsContext.setFill(Color.WHITE);
         graphicsContext.fillRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
+
+    }
+
+    @FXML
+    private void handleResizeCanvasExited(MouseEvent mouseEvent) {
+        double canvasWidth = this.mainCanvas.getWidth();
+        double canvasHeight = this.mainCanvas.getHeight();
+        double mouseX = mouseEvent.getX();
+        double mouseY = mouseEvent.getY();
+
+        System.out.println("mouseX " + mouseX);
+        System.out.println(canvasWidth);
+
+        // Boolean values to determine the cardinal directions for resizing NESW
+        boolean mouseN = (mouseY < canvasHeight);
+        boolean mouseE = (mouseX > canvasWidth);
+        boolean mouseS = (mouseY > canvasHeight);
+        boolean mouseW = (mouseX < canvasWidth);
+
+        if (mouseN) {
+            if (mouseE) {
+                setCanvasResizeHandlers("NE");
+                this.canvasContainer.setCursor(Cursor.NE_RESIZE);
+            }
+            setCanvasResizeHandlers("N");
+            this.canvasContainer.setCursor(Cursor.V_RESIZE);
+        }
+
+
+        if (mouseS) {
+            setCanvasResizeHandlers("S");
+            this.canvasContainer.setCursor(Cursor.V_RESIZE);
+        }
+
+        if (mouseE) {
+            setCanvasResizeHandlers("E");
+            this.canvasContainer.setCursor(Cursor.H_RESIZE);
+        }
+
+        if (mouseW) {
+            setCanvasResizeHandlers("W");
+            this.canvasContainer.setCursor(Cursor.H_RESIZE);
+        }
+
+    }
+
+    private void setCanvasResizeHandlers(String direction) {
+
+        this.canvasContainer.setOnMouseDragged(mD -> {
+
+            // Ensure user does not go below 1
+            if (mD.getX() < 1 || mD.getY() < 1 || mD.getX() > 10000 || mD.getY() > 10000) {
+                return;
+            }
+
+            double newWidth = mainCanvas.getWidth();
+            double newHeight = mainCanvas.getHeight();
+
+            switch (direction) {
+                case "W":
+                    newWidth = Math.max(mD.getX(), 1);
+                    this.mainCanvas.expandW(mD.getX());
+                    break;
+                case "E":
+                    newWidth = Math.max(mD.getX(), 1);
+                    this.mainCanvas.expandE(newWidth);
+                    break;
+                case "N":
+                    newHeight = Math.max(mD.getY(), 1);
+                    this.mainCanvas.expandN(newHeight);
+                    break;
+                case "S":
+                    newHeight = Math.max(mD.getY(), 1);
+                    this.mainCanvas.expandS(newHeight);
+                    break;
+            }
+
+            if (newWidth > 1) {
+                this.infoCanvasModel.setResolutionLblText(newWidth, newHeight);
+            }
+
+            if (newHeight > 1) {
+                this.infoCanvasModel.setResolutionLblText(newWidth, newHeight);
+            }
+        });
     }
 
     public void setCanvas(Image image) {

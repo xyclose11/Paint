@@ -6,11 +6,10 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox alignment="CENTER" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.CanvasController">
-
-
+<?import com.paint.resource.ResizeableCanvas?>
+<HBox fx:id="canvasContainer" onMouseClicked="#handleResizeCanvasExited" alignment="CENTER" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.CanvasController">
     <VBox alignment="CENTER" fillWidth="true">
-        <ScrollPane maxHeight="1500.0">
+        <ScrollPane>
          <content>
             <Group fx:id="canvasGroup">
                <children>
@@ -19,9 +18,9 @@
 <!--                  <StackPane fx:id="canvasDrawingStackPane" onMouseDragged="#onMouseDraggedBrush" onMousePressed="#onMouseDownBrush" onMouseReleased="#onMouseReleaseBrush" prefHeight="111.0" prefWidth="200.0">-->
                      <children>
 
-                           <Canvas fx:id="mainCanvas" onMouseDragged="#onMouseOverCanvas" width="1475" height="1170">
+                           <ResizeableCanvas fx:id="mainCanvas" onMouseDragged="#onMouseOverCanvas" width="900" height="600">
 
-                           </Canvas>
+                           </ResizeableCanvas>
                            <Pane id="drawingPane" fx:id="drawingPane" prefHeight="1211.0" />
 
                      </children>
