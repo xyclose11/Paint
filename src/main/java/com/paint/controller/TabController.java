@@ -30,13 +30,8 @@ public class TabController {
 	// TAB Handler SECTION START
 	@FXML
 	private void onMouseClickedNewFileTab(Event event) {
-		Button button = (Button) event.getSource();
-
 		TabPane tabPane = this.tabModel.getTabPane();
 		Tab newTab = new Tab("FILE");
-
-		// START TEMP
-		// END TEMP
 
 		HBox t = this.canvasModel.getCanvasView();
 		newTab.setContent(t);
@@ -48,6 +43,8 @@ public class TabController {
 		tabPane.getTabs().add(newTab);
 		tabPane.getTabs().add(addNewFileTab);
 
+		// Set focus on newly created tab
+		tabPane.getSelectionModel().select(newTab);
 	}
 
 
