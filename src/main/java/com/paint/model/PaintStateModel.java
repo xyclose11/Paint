@@ -1,6 +1,5 @@
 package com.paint.model;
 
-import com.paint.controller.CanvasController;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -40,7 +39,7 @@ public class PaintStateModel {
 
     }
 
-//    private Color currentPaintColor;
+    // Converted currentPaintColor to a property for binding purposes
     private ObjectProperty<Color> currentPaintColor = new SimpleObjectProperty<>(Color.BLACK);
 
     private final BrushObj currentBrush;
@@ -54,7 +53,8 @@ public class PaintStateModel {
     private Group shapeTransformationGroup;
     private Rectangle selectionRectangle;
 
-    private CanvasController canvasController;
+//    private CanvasController canvasController;
+    private CurrentWorkspaceModel currentWorkspaceModel;
 
     private InfoCanvasModel infoCanvasModel;
 
@@ -80,13 +80,15 @@ public class PaintStateModel {
         this.currentPaintColor.setValue(Color.BLACK); // Default color
     }
 
-    public CanvasController getCanvasController() {
-        return canvasController;
+    public CurrentWorkspaceModel getCurrentWorkspaceModel() { return  this.currentWorkspaceModel; }
+
+    public void setCurrentWorkspaceModel(CurrentWorkspaceModel currentWorkspaceModel) {
+        this.currentWorkspaceModel = currentWorkspaceModel;
     }
 
-    public void setCanvasController(CanvasController canvasController) {
-        this.canvasController = canvasController;
-    }
+//    public void setCanvasController(CanvasController canvasController) {
+//        this.canvasController = canvasController;
+//    }
 
     public Rectangle getSelectionRectangle() {
         return selectionRectangle;
@@ -185,12 +187,13 @@ public class PaintStateModel {
         this.setTransformable(false, null);
         this.shapeTransformationGroup.setOnMouseDragged(null);
         this.shapeTransformationGroup.setOnMousePressed(null);
+        this.shapeTransformationGroup.setOnMouseEntered(null);
 
         // Convert shape -> canvas
-        this.canvasController.applyPaneShapeToCanvas(this.currentShape);
+        this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().applyPaneShapeToCanvas(this.currentShape);
 
         // Enable CanvasController handlers
-        this.canvasController.setCanvasDrawingStackPaneHandlerState(true);
+        this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().setCanvasDrawingStackPaneHandlerState(true);
 
         // Reset shapeGroup
         setShapeTransformationGroup(null);
@@ -247,9 +250,9 @@ public class PaintStateModel {
         // END TEST
 
         // Setup mouse event handlers
-        selectionRect.setOnMouseEntered(mouseEvent -> {
-            selectionRect.setCursor(Cursor.H_RESIZE);
-        });
+//        selectionRect.setOnMouseEntered(mouseEvent -> {
+//            selectionRect.setCursor(Cursor.H_RESIZE);
+//        });
 
         Group group = new Group(selectionRect, currentShape);
         setShapeTransformationGroup(group);

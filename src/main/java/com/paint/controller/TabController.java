@@ -43,7 +43,7 @@ public class TabController {
 		});
 
 
-		Workspace workspace = new Workspace(canvasModel, true, infoCanvasModel, settingStateModel, tabModel);
+		Workspace workspace = new Workspace(canvasModel, true, paintStateModel, infoCanvasModel, settingStateModel, tabModel);
 
 		// Set the current workspace in focus
 		this.currentWorkspaceModel.setCurrentWorkspace(workspace);

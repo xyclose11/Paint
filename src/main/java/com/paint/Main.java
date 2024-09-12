@@ -38,7 +38,7 @@ public class Main extends Application {
 
         HBox canvasView = canvasLoader.load();
 
-        Workspace initialWorkspace = new Workspace(canvasModel, true, infoCanvasModel, settingStateModel, tabModel);
+        Workspace initialWorkspace = new Workspace(canvasModel, true, paintStateModel, infoCanvasModel, settingStateModel, tabModel);
 //        initialWorkspace.setCanvasView(canvasView);
         initialWorkspace.setSceneStateModel(sceneStateModel);
 
@@ -109,8 +109,8 @@ public class Main extends Application {
         tabController.setSettingStateModel(settingStateModel);
         tabController.setCurrentWorkspaceModel(currentWorkspaceModel);
 
+        // Maintains the state of the current workspace in focus
         canvasWrapper.getSelectionModel().selectedIndexProperty().addListener(((observable, oldValue, newValue) -> {
-
             // Change active workspace
             Workspace workspace = this.currentWorkspaceModel.getWorkspaceList().get(newValue);
             this.currentWorkspaceModel.setCurrentWorkspace(workspace);
@@ -126,7 +126,7 @@ public class Main extends Application {
         infoController.setPaintStateModel(paintStateModel);
 
         paintStateModel.setInfoCanvasModel(infoCanvasModel);
-        paintStateModel.setCanvasController(canvasController);
+        paintStateModel.setCurrentWorkspaceModel(currentWorkspaceModel);
 
         // Add style sheets
         try {

@@ -10,6 +10,7 @@ public class CurrentWorkspaceModel {
 	private Workspace currentWorkspace;
 	private HashMap<Integer, Workspace> workspaceList = new HashMap<>();
 
+	// Store the workspaces in a hashmap for fast access // TODO HashMap -> LRU Cache + Add a memory monitor option
 	public HashMap<Integer, Workspace> getWorkspaceList() {
 		return workspaceList;
 	}

@@ -125,7 +125,6 @@ public class CanvasController {
         String currentTool = this.paintStateModel.getCurrentTool();
         String currentToolType = this.paintStateModel.getCurrentToolType();
         Shape currentShape = null;
-        this.paintStateModel.setCurrentShape(null);
 
         if (!this.paintStateModel.isTransformable()) {
             switch (currentToolType) {
@@ -527,8 +526,6 @@ public class CanvasController {
         // Reinitialize drawingPane to remove shape
         drawingPane.getChildren().clear();
 
-        this.paintStateModel.setCurrentShape(null);
-
     }
 
     private void handleStar(double xT, double yT, Star star) {
@@ -711,7 +708,6 @@ public class CanvasController {
 
     // Takes a snapshot of the canvas & saves it to the designated file
     public void saveImageFromCanvas(File file, String fileExtension) {
-        System.out.println("File: " + file);
         WritableImage writableImage = new WritableImage((int)(mainCanvas.getWidth()), (int) (mainCanvas.getHeight()));
         // Take a snapshot of the current canvas and save it to the writableImage
         this.canvasDrawingStackPane.snapshot(null, writableImage);

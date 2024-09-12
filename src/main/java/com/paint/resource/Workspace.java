@@ -24,16 +24,15 @@ public class Workspace {
 		this.canvasController = canvasLoader.getController();
 	}
 
-	public Workspace(CanvasModel canvasModel, boolean isActive, InfoCanvasModel infoCanvasModel, SettingStateModel settingStateModel, TabModel tabModel) throws IOException {
+	public Workspace(CanvasModel canvasModel, boolean isActive, PaintStateModel paintStateModel, InfoCanvasModel infoCanvasModel, SettingStateModel settingStateModel, TabModel tabModel) throws IOException {
 		FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/view/CanvasView.fxml"));
 		this.canvasView = canvasLoader.load();
 		this.canvasModel = canvasModel;
 		this.canvasController = canvasLoader.getController();
 		this.isActive = isActive;
 		canvasController.setCanvasModel(canvasModel);
-		PaintStateModel paintStateModel = new PaintStateModel();
-		paintStateModel.setCanvasController(canvasController);
-		paintStateModel.setInfoCanvasModel(infoCanvasModel);
+//		paintStateModel.setCanvasController(canvasController);
+//		paintStateModel.setInfoCanvasModel(infoCanvasModel);
 		canvasController.setPaintStateModel(paintStateModel);
 		canvasController.setInfoCanvasModel(infoCanvasModel);
 		canvasController.setSettingStateModel(settingStateModel);
