@@ -74,6 +74,7 @@ public class Main extends Application {
         utilityController.setCanvasController(canvasController);
         utilityController.setCurrentWorkspaceModel(currentWorkspaceModel);
         currentWorkspaceModel.setCurrentWorkspace(initialWorkspace);
+        currentWorkspaceModel.getWorkspaceList().put(0, initialWorkspace);
         // Instantiate the CanvasController inside utilityController
 //        utilityController.setCanvasController(canvasController);
 
@@ -107,6 +108,13 @@ public class Main extends Application {
         tabController.setInfoCanvasModel(infoCanvasModel);
         tabController.setSettingStateModel(settingStateModel);
         tabController.setCurrentWorkspaceModel(currentWorkspaceModel);
+
+        canvasWrapper.getSelectionModel().selectedIndexProperty().addListener(((observable, oldValue, newValue) -> {
+
+            // Change active workspace
+            Workspace workspace = this.currentWorkspaceModel.getWorkspaceList().get(newValue);
+            this.currentWorkspaceModel.setCurrentWorkspace(workspace);
+        }));
 
         tabModel.setTabPane(canvasWrapper);
         tabModel.setNewTab(initialTab);

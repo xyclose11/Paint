@@ -64,9 +64,6 @@ public class UtilityController {
 			return;
 		}
 
-		// Adjust state of currentFile
-		this.currentWorkspaceModel.setCurrentFile(selectedFile);
-
 		try  {
 			// Create base Image
 			Image image = new Image(selectedFile.toURI().toURL().toExternalForm(),true);
@@ -142,9 +139,6 @@ public class UtilityController {
 			alert.show();
 			return;
 		}
-		// Update currentFile state
-		this.currentWorkspaceModel.setCurrentFile(file);
-
 		String fileExt = getFileExt(file.getAbsolutePath());
 
 		Workspace temp = this.currentWorkspaceModel.getCurrentWorkspace();

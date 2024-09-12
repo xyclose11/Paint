@@ -2,11 +2,11 @@ package com.paint.controller;
 
 import com.paint.model.*;
 import com.paint.resource.Workspace;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
 
@@ -34,13 +34,22 @@ public class TabController {
 
 	// TAB Handler SECTION START
 	@FXML
-	private void onMouseClickedNewFileTab(Event event) throws IOException {
+	private void onMouseClickedNewFileTab(MouseEvent event) throws IOException {
 		TabPane tabPane = this.tabModel.getTabPane();
 		Tab newTab = new Tab("FILE");
 
+		newTab.setOnCloseRequest(closeEvent -> {
+			this.currentWorkspaceModel.getWorkspaceList().remove(tabPane.getTabs().size() - 1);
+		});
+
 
 		Workspace workspace = new Workspace(canvasModel, true, infoCanvasModel, settingStateModel, tabModel);
+
+		// Set the current workspace in focus
 		this.currentWorkspaceModel.setCurrentWorkspace(workspace);
+
+		// Add to total workspace list
+		this.currentWorkspaceModel.addToEndOfWorkspaceList(workspace);
 
 		newTab.setContent(workspace.getCanvasView());
 
