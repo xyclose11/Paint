@@ -106,7 +106,6 @@ public class InfoController {
 	private void handleZoom() {
 		canvasGroup = canvasModel.getCanvasGroup();
 		double newZoomScale = this.canvasModel.getZoomScale() / 100.0; // Divide by 100.0 to get proper format for setScaleX/Y
-		System.out.println(newZoomScale);
 
 		this.infoBarZoomSlider.valueProperty().bindBidirectional(this.canvasModel.zoomScaleProperty());
 

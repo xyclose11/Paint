@@ -610,9 +610,6 @@ public class CanvasController {
         double mouseX = mouseEvent.getX();
         double mouseY = mouseEvent.getY();
 
-        System.out.println("mouseX " + mouseX);
-        System.out.println(canvasWidth);
-
         // Boolean values to determine the cardinal directions for resizing NESW
         boolean mouseN = (mouseY < canvasHeight);
         boolean mouseE = (mouseX > canvasWidth);

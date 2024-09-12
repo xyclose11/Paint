@@ -52,7 +52,6 @@ public class TabController {
 		this.currentWorkspaceModel.addToEndOfWorkspaceList(workspace);
 
 		newTab.setContent(workspace.getCanvasView());
-		System.out.println(tabPane.getTabs().size());
 
 		int addNewFileTabIndex= tabPane.getTabs().indexOf(addNewFileTab);
 

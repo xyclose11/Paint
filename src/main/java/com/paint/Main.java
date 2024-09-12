@@ -38,16 +38,9 @@ public class Main extends Application {
 
         HBox canvasView = canvasLoader.load();
 
-        Workspace initialWorkspace = new Workspace(canvasModel, true, paintStateModel, infoCanvasModel, settingStateModel, tabModel);
-
-        initialWorkspace.setSceneStateModel(sceneStateModel);
 
         FXMLLoader tabPaneWrapperLoader = new FXMLLoader(getClass().getResource("/view/TabPaneWrapper.fxml"));
         TabPane canvasWrapper = tabPaneWrapperLoader.load();
-
-//        Tab initialTab = canvasWrapper.getTabs().get(0);
-
-//        initialTab.setContent(initialWorkspace.getCanvasView());
 
         rootLayout.setCenter(canvasWrapper);
 
@@ -128,6 +121,14 @@ public class Main extends Application {
 
         paintStateModel.setInfoCanvasModel(infoCanvasModel);
         paintStateModel.setCurrentWorkspaceModel(currentWorkspaceModel);
+
+        // TESTING START
+        currentWorkspaceModel.setCanvasModel(canvasModel);
+        currentWorkspaceModel.setSettingStateModel(settingStateModel);
+        currentWorkspaceModel.setInfoCanvasModel(infoCanvasModel);
+        currentWorkspaceModel.setTabModel(tabModel);
+        currentWorkspaceModel.setPaintStateModel(paintStateModel);
+        // TESTING END
 
         // Add style sheets
         try {

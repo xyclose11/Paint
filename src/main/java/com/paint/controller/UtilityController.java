@@ -80,6 +80,12 @@ public class UtilityController {
 		image.progressProperty().addListener((obs, oldProgress, newProgress) -> {
 			if (newProgress.doubleValue() == 1.0) { // -> Image is loaded
 				Workspace temp = this.currentWorkspaceModel.getCurrentWorkspace();
+				if (temp == null) {
+					// Create new Workspace
+					// WIP
+//					Workspace newWorkspace = new Workspace();
+				}
+
 				// Apply image to the current open workspace
 				temp.getCanvasController().setCanvas(image);
 				temp.getCanvasModel().setChangesMade(true);

@@ -6,6 +6,13 @@ import java.io.File;
 import java.util.HashMap;
 
 public class CurrentWorkspaceModel {
+	// Store models for new file creation
+	private TabModel tabModel;
+	private SettingStateModel settingStateModel;
+	private PaintStateModel paintStateModel;
+	private InfoCanvasModel infoCanvasModel;
+	private CanvasModel canvasModel;
+
 	private File currentFile;
 	private Workspace currentWorkspace;
 	private HashMap<Integer, Workspace> workspaceList = new HashMap<>();
@@ -38,4 +45,45 @@ public class CurrentWorkspaceModel {
 	public void setCurrentFile(File currentFile) {
 		this.currentFile = currentFile;
 	}
+
+	public TabModel getTabModel() {
+		return tabModel;
+	}
+
+	public void setTabModel(TabModel tabModel) {
+		this.tabModel = tabModel;
+	}
+
+	public SettingStateModel getSettingStateModel() {
+		return settingStateModel;
+	}
+
+	public void setSettingStateModel(SettingStateModel settingStateModel) {
+		this.settingStateModel = settingStateModel;
+	}
+
+	public PaintStateModel getPaintStateModel() {
+		return paintStateModel;
+	}
+
+	public void setPaintStateModel(PaintStateModel paintStateModel) {
+		this.paintStateModel = paintStateModel;
+	}
+
+	public InfoCanvasModel getInfoCanvasModel() {
+		return infoCanvasModel;
+	}
+
+	public void setInfoCanvasModel(InfoCanvasModel infoCanvasModel) {
+		this.infoCanvasModel = infoCanvasModel;
+	}
+
+	public CanvasModel getCanvasModel() {
+		return canvasModel;
+	}
+
+	public void setCanvasModel(CanvasModel canvasModel) {
+		this.canvasModel = canvasModel;
+	}
+
 }
