@@ -2,6 +2,7 @@ package com.paint;
 
 import com.paint.controller.*;
 import com.paint.model.*;
+import com.paint.resource.Workspace;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -36,12 +37,16 @@ public class Main extends Application {
 
         HBox canvasView = canvasLoader.load();
 
+        Workspace initialWorkspace = new Workspace(canvasModel, new CanvasController(), true);
+        initialWorkspace.setCanvasView(canvasView);
+        initialWorkspace.setSceneStateModel(sceneStateModel);
+
         FXMLLoader tabPaneWrapperLoader = new FXMLLoader(getClass().getResource("/view/TabPaneWrapper.fxml"));
         TabPane canvasWrapper = tabPaneWrapperLoader.load();
 
         Tab initialTab = canvasWrapper.getTabs().get(0);
 
-        initialTab.setContent(canvasView);
+        initialTab.setContent(initialWorkspace.getCanvasView());
 
         rootLayout.setCenter(canvasWrapper);
 
@@ -76,12 +81,6 @@ public class Main extends Application {
 
         InfoController infoController = infoBarLoader.getController();
 
-        // Load optionsScene but hide it
-//        FXMLLoader optionsLoader = new FXMLLoader(getClass().getResource("/view/OptionsScene.fxml"));
-//        optionsLoader.load();
-
-//        HelpMenuController helpMenuController = optionsLoader.getController();
-
         Scene scene = new Scene(rootLayout, 1225, 735);
         sceneStateModel = new SceneStateModel(scene);
 
@@ -106,7 +105,6 @@ public class Main extends Application {
         tabModel.setNewTab(initialTab);
 
         canvasModel.setCurrentCanvasController(canvasController);
-//        helpMenuController.setSettingStateModel(settingStateModel);
 
         infoController.setCanvasModel(canvasModel);
         infoController.setInfoCanvasModel(infoCanvasModel);
@@ -115,10 +113,8 @@ public class Main extends Application {
         paintStateModel.setInfoCanvasModel(infoCanvasModel);
         paintStateModel.setCanvasController(canvasController);
 
-        // Update main controller state
-//        sceneStateModel.setHelpMenuController(helpMenuController);
-//        sceneStateModel.setMainScene(scene);
-//        sceneStateModel.setPrimarystage(primaryStage);
+        sceneStateModel.setCanvasView(canvasView);
+
 
         // Add style sheets
         try {
