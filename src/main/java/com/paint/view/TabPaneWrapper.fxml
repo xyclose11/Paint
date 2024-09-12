@@ -7,9 +7,6 @@
 <?import javafx.scene.layout.*?>
 
 <TabPane fx:id="fileTabPane" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.TabController">
-    <Tab fx:id="currentFileTab" text="New File" closable="false">
-
-    </Tab>
     <Tab fx:id="addNewFileTab" closable="false">
         <graphic>
             <Button fx:id="addNewFileTabBtn" text="+" onMouseClicked="#onMouseClickedNewFileTab">

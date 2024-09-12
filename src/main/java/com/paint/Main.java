@@ -39,15 +39,15 @@ public class Main extends Application {
         HBox canvasView = canvasLoader.load();
 
         Workspace initialWorkspace = new Workspace(canvasModel, true, paintStateModel, infoCanvasModel, settingStateModel, tabModel);
-//        initialWorkspace.setCanvasView(canvasView);
+
         initialWorkspace.setSceneStateModel(sceneStateModel);
 
         FXMLLoader tabPaneWrapperLoader = new FXMLLoader(getClass().getResource("/view/TabPaneWrapper.fxml"));
         TabPane canvasWrapper = tabPaneWrapperLoader.load();
 
-        Tab initialTab = canvasWrapper.getTabs().get(0);
+//        Tab initialTab = canvasWrapper.getTabs().get(0);
 
-        initialTab.setContent(initialWorkspace.getCanvasView());
+//        initialTab.setContent(initialWorkspace.getCanvasView());
 
         rootLayout.setCenter(canvasWrapper);
 
@@ -73,10 +73,6 @@ public class Main extends Application {
         UtilityController utilityController = utilityMenuLoader.getController();
         utilityController.setCanvasController(canvasController);
         utilityController.setCurrentWorkspaceModel(currentWorkspaceModel);
-        currentWorkspaceModel.setCurrentWorkspace(initialWorkspace);
-        currentWorkspaceModel.getWorkspaceList().put(0, initialWorkspace);
-        // Instantiate the CanvasController inside utilityController
-//        utilityController.setCanvasController(canvasController);
 
         // Set bottom
         FXMLLoader infoBarLoader = new FXMLLoader(getClass().getResource("/view/InfoBar.fxml"));
@@ -115,12 +111,14 @@ public class Main extends Application {
             Workspace workspace = this.currentWorkspaceModel.getWorkspaceList().get(newValue);
             this.currentWorkspaceModel.setCurrentWorkspace(workspace);
 
+            // Exit user from transformation mode
+            this.paintStateModel.setTransformable(false, this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().getDrawingPane());
+
             // Set active tab
             this.tabModel.setCurrentTab(canvasWrapper.getTabs().get((Integer) newValue));
         }));
 
         tabModel.setTabPane(canvasWrapper);
-        tabModel.setNewTab(initialTab);
 
         canvasModel.setCurrentCanvasController(canvasController);
 

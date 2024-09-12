@@ -15,7 +15,7 @@ public class Workspace {
 	private CanvasController canvasController;
 	private boolean isActive = false; // A new workspace is not viewable
 	private SceneStateModel sceneStateModel;
-	private HBox canvasView;
+	private HBox canvasView; // TODO add layer & Undo/Redo into this class with LRU Cache so that each will have its own
 
 	public Workspace() throws IOException {
 		FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/view/CanvasView.fxml"));

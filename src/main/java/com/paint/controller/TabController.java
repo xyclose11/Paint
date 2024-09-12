@@ -52,12 +52,19 @@ public class TabController {
 		this.currentWorkspaceModel.addToEndOfWorkspaceList(workspace);
 
 		newTab.setContent(workspace.getCanvasView());
+		System.out.println(tabPane.getTabs().size());
 
 		int addNewFileTabIndex= tabPane.getTabs().indexOf(addNewFileTab);
 
-		tabPane.getTabs().remove(addNewFileTabIndex);
 		tabPane.setTabDragPolicy(TabPane.TabDragPolicy.REORDER);
+
+		// Check if there are any tabs to remove
+		if (tabPane.getTabs().size() <= 1) {
+			this.tabModel.setCurrentTab(newTab);
+		}
+
 		tabPane.getTabs().add(newTab);
+		tabPane.getTabs().remove(addNewFileTabIndex);
 		tabPane.getTabs().add(addNewFileTab);
 
 		// Set focus on newly created tab

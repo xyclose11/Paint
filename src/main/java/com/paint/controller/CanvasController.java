@@ -75,6 +75,8 @@ public class CanvasController {
         return sceneStateModel;
     }
 
+    public Pane getDrawingPane() { return this.drawingPane; }
+
     public void setSceneStateModel(SceneStateModel sceneStateModel) {
         this.sceneStateModel = sceneStateModel;
     }

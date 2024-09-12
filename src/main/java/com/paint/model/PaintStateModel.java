@@ -173,7 +173,7 @@ public class PaintStateModel {
 
     }
 
-    private void exitTransformMode(Parent parent) {
+    public void exitTransformMode(Parent parent) {
         if (parent != null) {
             Scene parentScene = parent.getScene();
             if (parentScene != null) {
