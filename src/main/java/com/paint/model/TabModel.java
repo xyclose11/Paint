@@ -22,4 +22,9 @@ public class TabModel {
     public void setNewTab(Tab newTab) {
         this.newTab = newTab;
     }
+
+    public void setTabName(String tabName) {
+        // Set the tab name when a file is saved to the file name
+        this.newTab.setText(tabName);
+    }
 }

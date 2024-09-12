@@ -11,8 +11,6 @@ import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
@@ -731,6 +729,9 @@ public class CanvasController {
             ImageIO.write(bufferedImage, fileExtension, file);
 
             this.canvasModel.setChangesMade(false);
+
+            // Set tab name
+            this.tabModel.setTabName(file.getName());
         } catch (IOException e) {
             new Alert(Alert.AlertType.ERROR, "Unable to save the image at this time. Stack Trace: " + e.getMessage() );
             e.printStackTrace();

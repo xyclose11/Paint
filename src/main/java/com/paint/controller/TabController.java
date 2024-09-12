@@ -45,6 +45,8 @@ public class TabController {
 
 		// Set focus on newly created tab
 		tabPane.getSelectionModel().select(newTab);
+
+		this.tabModel.setNewTab(newTab);
 	}
 
 

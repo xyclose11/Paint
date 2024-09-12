@@ -96,6 +96,7 @@ public class Main extends Application {
         canvasController.setInfoCanvasModel(infoCanvasModel);
         canvasController.setSettingStateModel(settingStateModel);
         canvasController.setSceneStateModel(sceneStateModel);
+        canvasController.setTabModel(tabModel);
 
         tabController.setCanvasModel(canvasModel);
         tabController.setTabModel(tabModel);
