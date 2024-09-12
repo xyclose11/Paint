@@ -1,8 +1,9 @@
 package com.paint.controller;
 
 
-import com.paint.model.CanvasModel;
+import com.paint.model.CurrentWorkspaceModel;
 import com.paint.model.HelpAboutModel;
+import com.paint.resource.Workspace;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -11,13 +12,14 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
 
 public class UtilityController {
-	private File currentFile; // Used to manage state during runtime
 
 	private CanvasController canvasController;
-	private CanvasModel canvasModel;
+	private CurrentWorkspaceModel currentWorkspaceModel;
 
 	private HelpAboutModel helpAboutModel;
 
@@ -30,12 +32,8 @@ public class UtilityController {
 		this.canvasController = canvasController;
 	}
 
-	public void setCanvasModel(CanvasModel canvasModel) {
-		this.canvasModel = canvasModel;
-	}
-
-	public UtilityController() {
-		currentFile = null;
+	public void setCurrentWorkspaceModel(CurrentWorkspaceModel currentWorkspaceModel) {
+		this.currentWorkspaceModel = currentWorkspaceModel;
 	}
 
 	@FXML
@@ -67,9 +65,7 @@ public class UtilityController {
 		}
 
 		// Adjust state of currentFile
-		currentFile = selectedFile;
-
-		canvasModel.setCurrentFile(currentFile);
+		this.currentWorkspaceModel.setCurrentFile(selectedFile);
 
 		try  {
 			// Create base Image
@@ -86,7 +82,10 @@ public class UtilityController {
 		// Wait for image to load
 		image.progressProperty().addListener((obs, oldProgress, newProgress) -> {
 			if (newProgress.doubleValue() == 1.0) { // -> Image is loaded
-				canvasController.setCanvas(image);
+				Workspace temp = this.currentWorkspaceModel.getCurrentWorkspace();
+				// Apply image to the current open workspace
+				temp.getCanvasController().setCanvas(image);
+				temp.getCanvasModel().setChangesMade(true);
 			}
 		});
 
@@ -102,20 +101,18 @@ public class UtilityController {
 	@FXML
 	public void handleFileSave(ActionEvent event) throws IOException {
 		// Check if there is a current file opened
-		if (currentFile == null) {
+		if (this.currentWorkspaceModel.getCurrentFile() == null) {
 			// Redirect request to handleFileSaveAs
 			handleFileSaveAs(event);
 			return;
 		}
 
-		String filePath = currentFile.getAbsolutePath();
+		String filePath = this.currentWorkspaceModel.getCurrentFile().getAbsolutePath();
 		String fileExt = getFileExt(filePath);
 		File file = new File(filePath); // Find the previously saved file
 
-		canvasController.saveImageFromCanvas(file, fileExt);
-
-		canvasModel.setCurrentFile(file);
-
+		Workspace temp = this.currentWorkspaceModel.getCurrentWorkspace();
+		temp.getCanvasController().saveImageFromCanvas(file, fileExt);
 	}
 
 	@FXML
@@ -146,14 +143,12 @@ public class UtilityController {
 			return;
 		}
 		// Update currentFile state
-		currentFile = file;
+		this.currentWorkspaceModel.setCurrentFile(file);
 
 		String fileExt = getFileExt(file.getAbsolutePath());
 
-		canvasController.saveImageFromCanvas(file, fileExt);
-
-		// Set currentOpenFile
-		canvasModel.setCurrentFile(file);
+		Workspace temp = this.currentWorkspaceModel.getCurrentWorkspace();
+		temp.getCanvasController().saveImageFromCanvas(file, fileExt);
 	}
 
 
@@ -187,7 +182,10 @@ public class UtilityController {
 		this.helpAboutModel.loadAboutMenu();
 	}
 
-	public void handleNewFile(ActionEvent actionEvent) {
-		// TODO Create a new file when hit
+	public void handleNewFile(ActionEvent actionEvent) throws IOException {
+		Path tempFile = Files.createTempFile(Files.createTempDirectory("temp-dir"), "testData-", ".txt");
+
+		File newFile = tempFile.toFile();
+		this.currentWorkspaceModel.setCurrentFile(newFile);
 	}
 }

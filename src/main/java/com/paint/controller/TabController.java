@@ -16,6 +16,7 @@ public class TabController {
 	private PaintStateModel paintStateModel;
 	private InfoCanvasModel infoCanvasModel;
 	private SettingStateModel settingStateModel;
+	private CurrentWorkspaceModel currentWorkspaceModel;
 
 	@FXML
 	public TabPane fileTabPane;
@@ -37,7 +38,10 @@ public class TabController {
 		TabPane tabPane = this.tabModel.getTabPane();
 		Tab newTab = new Tab("FILE");
 
+
 		Workspace workspace = new Workspace(canvasModel, true, infoCanvasModel, settingStateModel, tabModel);
+		this.currentWorkspaceModel.setCurrentWorkspace(workspace);
+
 		newTab.setContent(workspace.getCanvasView());
 
 		int addNewFileTabIndex= tabPane.getTabs().indexOf(addNewFileTab);
@@ -54,6 +58,11 @@ public class TabController {
 		this.tabModel.setNewTab(newTab);
 	}
 	// TAB Handler SECTION END
+
+
+	public void setCurrentWorkspaceModel(CurrentWorkspaceModel currentWorkspaceModel) {
+		this.currentWorkspaceModel = currentWorkspaceModel;
+	}
 
 	public void setTabModel(TabModel tabModel) {
 		this.tabModel = tabModel;

@@ -6,16 +6,12 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Group;
 import javafx.scene.layout.HBox;
 
-import java.io.File;
-
 // Model to hold canvas information
 public class CanvasModel {
     private final DoubleProperty canvasWidth = new SimpleDoubleProperty();
     private final DoubleProperty canvasHeight = new SimpleDoubleProperty();
     private Group canvasGroup;
-    private String fileOpenMD5;
     private boolean isFileBlank = true; // On open file is blank
-    private File currentFile;
     private boolean changesMade;
     private CanvasController currentCanvasController;
     private HBox canvasView;
@@ -74,14 +70,6 @@ public class CanvasModel {
 
     public void setChangesMade(boolean changesMade) {
         this.changesMade = changesMade;
-    }
-
-    public File getCurrentFile() {
-        return currentFile;
-    }
-
-    public void setCurrentFile(File currentFile) {
-        this.currentFile = currentFile;
     }
 
     public boolean isFileBlank() {

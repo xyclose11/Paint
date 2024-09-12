@@ -711,9 +711,11 @@ public class CanvasController {
 
     // Takes a snapshot of the canvas & saves it to the designated file
     public void saveImageFromCanvas(File file, String fileExtension) {
+        System.out.println("File: " + file);
         WritableImage writableImage = new WritableImage((int)(mainCanvas.getWidth()), (int) (mainCanvas.getHeight()));
         // Take a snapshot of the current canvas and save it to the writableImage
         this.canvasDrawingStackPane.snapshot(null, writableImage);
+
 
         // Create a BufferedImage obj to store image data since BufferedImage requires an alpha channel
         BufferedImage imageData = new BufferedImage((int) writableImage.getWidth(), (int) writableImage.getHeight(), BufferedImage.TYPE_INT_RGB);

@@ -27,6 +27,7 @@ public class Main extends Application {
     private InfoCanvasModel infoCanvasModel = new InfoCanvasModel();
     private SettingStateModel settingStateModel = new SettingStateModel();
     private TabModel tabModel = new TabModel();
+    private CurrentWorkspaceModel currentWorkspaceModel = new CurrentWorkspaceModel();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -70,9 +71,11 @@ public class Main extends Application {
         ToolMenuController toolMenuController = toolMenuLoader.getController();
 
         UtilityController utilityController = utilityMenuLoader.getController();
-
-        // Instantiate the CanvasController inside utilityController
         utilityController.setCanvasController(canvasController);
+        utilityController.setCurrentWorkspaceModel(currentWorkspaceModel);
+        currentWorkspaceModel.setCurrentWorkspace(initialWorkspace);
+        // Instantiate the CanvasController inside utilityController
+//        utilityController.setCanvasController(canvasController);
 
         // Set bottom
         FXMLLoader infoBarLoader = new FXMLLoader(getClass().getResource("/view/InfoBar.fxml"));
@@ -86,7 +89,6 @@ public class Main extends Application {
 
         // Set controller models
         utilityController.setHelpAboutModel(helpAboutModel);
-        utilityController.setCanvasModel(canvasModel);
 
         toolMenuController.setPaintStateModel(paintStateModel);
         toolMenuController.setSceneStateModel(sceneStateModel);
@@ -104,6 +106,7 @@ public class Main extends Application {
         tabController.setPaintStateModel(paintStateModel);
         tabController.setInfoCanvasModel(infoCanvasModel);
         tabController.setSettingStateModel(settingStateModel);
+        tabController.setCurrentWorkspaceModel(currentWorkspaceModel);
 
         tabModel.setTabPane(canvasWrapper);
         tabModel.setNewTab(initialTab);
@@ -116,9 +119,6 @@ public class Main extends Application {
 
         paintStateModel.setInfoCanvasModel(infoCanvasModel);
         paintStateModel.setCanvasController(canvasController);
-
-        sceneStateModel.setCanvasView(canvasView);
-
 
         // Add style sheets
         try {
