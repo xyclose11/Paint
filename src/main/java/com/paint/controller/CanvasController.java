@@ -577,7 +577,8 @@ public class CanvasController {
             this.canvasDrawingStackPane.setOnMouseMoved(null);
         }
 	    this.canvasModel.setChangesMade(true);
-
+        // Change tabName to append '*' to indicate that changes are not saved
+        this.tabModel.appendUnsavedTitle();
     }
     // DRAWING SECTION END
 
@@ -732,6 +733,7 @@ public class CanvasController {
 
             // Set tab name
             this.tabModel.setTabName(file.getName());
+            this.tabModel.handleFileSavedTitle();
         } catch (IOException e) {
             new Alert(Alert.AlertType.ERROR, "Unable to save the image at this time. Stack Trace: " + e.getMessage() );
             e.printStackTrace();

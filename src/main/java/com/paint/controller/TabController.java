@@ -48,10 +48,6 @@ public class TabController {
 
 		this.tabModel.setNewTab(newTab);
 	}
-
-
-
-
 	// TAB Handler SECTION END
 
 	public void setTabModel(TabModel tabModel) {

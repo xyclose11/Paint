@@ -39,7 +39,9 @@ public class Main extends Application {
         FXMLLoader tabPaneWrapperLoader = new FXMLLoader(getClass().getResource("/view/TabPaneWrapper.fxml"));
         TabPane canvasWrapper = tabPaneWrapperLoader.load();
 
-        canvasWrapper.getTabs().get(0).setContent(canvasView);
+        Tab initialTab = canvasWrapper.getTabs().get(0);
+
+        initialTab.setContent(canvasView);
 
         rootLayout.setCenter(canvasWrapper);
 
@@ -101,6 +103,7 @@ public class Main extends Application {
         tabController.setCanvasModel(canvasModel);
         tabController.setTabModel(tabModel);
         tabModel.setTabPane(canvasWrapper);
+        tabModel.setNewTab(initialTab);
 
         canvasModel.setCurrentCanvasController(canvasController);
 //        helpMenuController.setSettingStateModel(settingStateModel);

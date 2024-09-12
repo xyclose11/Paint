@@ -27,4 +27,17 @@ public class TabModel {
         // Set the tab name when a file is saved to the file name
         this.newTab.setText(tabName);
     }
+
+    public void appendUnsavedTitle() {
+        if (!this.newTab.getText().contains("*")) {
+            this.newTab.setText(this.newTab.getText() + "*");
+        }
+    }
+
+    public void handleFileSavedTitle() {
+        if (this.newTab.getText().contains("*")) {
+            String newString = this.newTab.getText().substring(this.newTab.getText().lastIndexOf("*"), this.newTab.getText().length());
+            this.newTab.setText(newString);
+        }
+    }
 }
