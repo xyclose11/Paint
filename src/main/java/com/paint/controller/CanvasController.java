@@ -632,20 +632,19 @@ public class CanvasController {
 
             switch (direction) {
                 case "W":
-                    newWidth = (mainCanvas.getWidth() + (mD.getX() - mainCanvas.getWidth()));
-                    System.out.println(newWidth);
-                    this.mainCanvas.expandW(newWidth);
+                    newWidth = Math.max(mD.getX(), 1);
+                    this.mainCanvas.expandW(mD.getX());
                     break;
                 case "E":
-                    newWidth = mainCanvas.getWidth() + (mD.getX() - mainCanvas.getWidth());
+                    newWidth = Math.max(mD.getX(), 1);
                     this.mainCanvas.expandE(newWidth);
                     break;
                 case "N":
-                    newHeight = mainCanvas.getHeight() + (mD.getY() - mainCanvas.getHeight());
+                    newHeight = Math.max(mD.getY(), 1);
                     this.mainCanvas.expandN(newHeight);
                     break;
                 case "S":
-                    newHeight = mainCanvas.getHeight() + (mD.getY() - mainCanvas.getHeight());
+                    newHeight = Math.max(mD.getY(), 1);
                     this.mainCanvas.expandS(newHeight);
                     break;
             }
