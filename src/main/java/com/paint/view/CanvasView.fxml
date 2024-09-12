@@ -7,34 +7,31 @@
 <?import javafx.scene.layout.*?>
 
 <?import com.paint.resource.ResizeableCanvas?>
-<HBox fx:id="canvasContainer" onMouseClicked="#handleResizeCanvasExited" alignment="CENTER" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.CanvasController">
-    <VBox alignment="CENTER" fillWidth="true">
-        <ScrollPane>
-         <content>
-            <Group fx:id="canvasGroup">
-               <children>
-                   <!-- Shape Event Handlers added to the StackPane to avoid overlap issues with canvas and drawingPane -->
-                  <StackPane fx:id="canvasDrawingStackPane" onScroll="#scaleCanvasOnScroll" onMouseDragged="#handleMouseDragged" onMousePressed="#handleMousePressed" onMouseReleased="#handleMouseReleased" onMouseMoved="#onMouseOverCanvas" prefHeight="111.0" prefWidth="200.0">
-<!--                  <StackPane fx:id="canvasDrawingStackPane" onMouseDragged="#onMouseDraggedBrush" onMousePressed="#onMouseDownBrush" onMouseReleased="#onMouseReleaseBrush" prefHeight="111.0" prefWidth="200.0">-->
-                     <children>
+<TabPane xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.CanvasController">
+    <Tab text="New File" closable="false">
+        <HBox fx:id="canvasContainer" alignment="CENTER" onMouseClicked="#handleResizeCanvasExited">
+            <VBox alignment="CENTER" fillWidth="true">
+                <ScrollPane>
+                    <cursor>
+                        <Cursor fx:constant="CROSSHAIR" />
+                    </cursor>
+                    <Group fx:id="canvasGroup">
+                        <!-- Shape Event Handlers added to the StackPane to avoid overlap issues with canvas and drawingPane -->
+                        <StackPane fx:id="canvasDrawingStackPane" onMouseDragged="#handleMouseDragged" onMouseMoved="#onMouseOverCanvas" onMousePressed="#handleMousePressed" onMouseReleased="#handleMouseReleased" onScroll="#scaleCanvasOnScroll" prefHeight="111.0" prefWidth="200.0">
+                            <ResizeableCanvas fx:id="mainCanvas" height="600" onMouseDragged="#onMouseOverCanvas" width="900">
 
-                           <ResizeableCanvas fx:id="mainCanvas" onMouseDragged="#onMouseOverCanvas" width="900" height="600">
+                            </ResizeableCanvas>
+                            <Pane id="drawingPane" fx:id="drawingPane" prefHeight="1211.0" />
 
-                           </ResizeableCanvas>
-                           <Pane id="drawingPane" fx:id="drawingPane" prefHeight="1211.0" />
+                        </StackPane>
+                    </Group>
+                </ScrollPane>
+                <HBox.margin>
+                    <Insets />
+                </HBox.margin>
 
-                     </children>
-                  </StackPane>
-               </children>
-            </Group>
-         </content>
-         <cursor>
-            <Cursor fx:constant="CROSSHAIR" />
-         </cursor>
-        </ScrollPane>
-      <HBox.margin>
-         <Insets />
-      </HBox.margin>
+            </VBox>
+        </HBox>
+    </Tab>
+</TabPane>
 
-    </VBox>
-</HBox>

@@ -774,4 +774,11 @@ public class CanvasController {
         // Access the global method used to update Mouse POS
         this.infoCanvasModel.setMousePosLbl(mouseEvent);
     }
+
+    // TAB Handler SECTION START
+
+
+
+
+    // TAB Handler SECTION END
 }
