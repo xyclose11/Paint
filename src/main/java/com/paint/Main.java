@@ -114,6 +114,9 @@ public class Main extends Application {
             // Change active workspace
             Workspace workspace = this.currentWorkspaceModel.getWorkspaceList().get(newValue);
             this.currentWorkspaceModel.setCurrentWorkspace(workspace);
+
+            // Set active tab
+            this.tabModel.setCurrentTab(canvasWrapper.getTabs().get((Integer) newValue));
         }));
 
         tabModel.setTabPane(canvasWrapper);
