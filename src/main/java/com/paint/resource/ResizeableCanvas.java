@@ -27,15 +27,31 @@ public class ResizeableCanvas extends Canvas {
 		super.setHeight(height);
 	}
 
-	public void expandLeft(double newWidth) {
+	public void expandW(double newWidth) {
 		// Ensure the new width is positive
 		if (newWidth > 0) {
 			this.setWidth(newWidth);
 		}
+	}
 
-		// Optionally update the height if needed
-		// mainCanvas.setHeight(newHeight);
+	public void expandE(double newWidth) {
+		// Ensure the new width is positive
+		if (newWidth > 0) {
+			this.setWidth(newWidth);
+		}
+	}
 
-		System.out.println("Resized Width: " + newWidth);
+	public void expandN(double newHeight) {
+		// Ensure the new width is positive
+		if (newHeight > 0) {
+			this.setHeight(newHeight);
+		}
+	}
+
+	public void expandS(double newHeight) {
+		// Ensure the new width is positive
+		if (newHeight > 0) {
+			this.setHeight(newHeight);
+		}
 	}
 }

@@ -6,6 +6,7 @@ import com.paint.resource.RightTriangle;
 import com.paint.resource.Triangle;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
@@ -577,15 +578,44 @@ public class CanvasController {
     @FXML
     private void handleResizeCanvasExited(MouseEvent mouseEvent) {
         double canvasWidth = this.mainCanvas.getWidth();
+        double canvasHeight = this.mainCanvas.getHeight();
         double mouseX = mouseEvent.getX();
-        System.out.println(mouseX);
-        if (mouseX < canvasWidth && mouseX >= -15) {
-            // Mouse is near the left edge of the canvas
-            setCanvasResizeHandlers("Left");
-        } else {
-            // Reset event handlers when the mouse is outside the resizing area
-            resetCanvasResizeHandlers();
+        double mouseY = mouseEvent.getY();
+
+        System.out.println("mouseX " + mouseX);
+        System.out.println(canvasWidth);
+
+        // Boolean values to determine the cardinal directions for resizing NESW
+        boolean mouseN = (mouseY < canvasHeight);
+        boolean mouseE = (mouseX > canvasWidth);
+        boolean mouseS = (mouseY > canvasHeight);
+        boolean mouseW = (mouseX < canvasWidth);
+
+        if (mouseN) {
+            if (mouseE) {
+                setCanvasResizeHandlers("NE");
+                this.canvasContainer.setCursor(Cursor.NE_RESIZE);
+            }
+            setCanvasResizeHandlers("N");
+            this.canvasContainer.setCursor(Cursor.V_RESIZE);
         }
+
+
+        if (mouseS) {
+            setCanvasResizeHandlers("S");
+            this.canvasContainer.setCursor(Cursor.V_RESIZE);
+        }
+
+        if (mouseE) {
+            setCanvasResizeHandlers("E");
+            this.canvasContainer.setCursor(Cursor.H_RESIZE);
+        }
+
+        if (mouseW) {
+            setCanvasResizeHandlers("W");
+            this.canvasContainer.setCursor(Cursor.H_RESIZE);
+        }
+
     }
 
     private void setCanvasResizeHandlers(String direction) {
@@ -601,15 +631,22 @@ public class CanvasController {
             double newHeight = mainCanvas.getHeight();
 
             switch (direction) {
-                case "Left":
+                case "W":
+                    newWidth = (mainCanvas.getWidth() + (mD.getX() - mainCanvas.getWidth()));
+                    System.out.println(newWidth);
+                    this.mainCanvas.expandW(newWidth);
+                    break;
+                case "E":
                     newWidth = mainCanvas.getWidth() + (mD.getX() - mainCanvas.getWidth());
-                    this.mainCanvas.expandLeft(newWidth);
+                    this.mainCanvas.expandE(newWidth);
                     break;
-                case "Right":
+                case "N":
+                    newHeight = mainCanvas.getHeight() + (mD.getY() - mainCanvas.getHeight());
+                    this.mainCanvas.expandN(newHeight);
                     break;
-                case "Top":
-                    break;
-                case "Bottom":
+                case "S":
+                    newHeight = mainCanvas.getHeight() + (mD.getY() - mainCanvas.getHeight());
+                    this.mainCanvas.expandS(newHeight);
                     break;
             }
 
@@ -621,11 +658,6 @@ public class CanvasController {
                 this.infoCanvasModel.setResolutionLblText(newWidth, newHeight);
             }
         });
-    }
-
-    private void resetCanvasResizeHandlers() {
-        this.canvasContainer.setOnMouseDragged(null);
-        this.canvasContainer.setOnMousePressed(null);
     }
 
     public void setCanvas(Image image) {
