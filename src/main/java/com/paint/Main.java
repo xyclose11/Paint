@@ -37,7 +37,7 @@ public class Main extends Application {
 
         HBox canvasView = canvasLoader.load();
 
-        Workspace initialWorkspace = new Workspace(canvasModel, true, paintStateModel, infoCanvasModel, settingStateModel, tabModel);
+        Workspace initialWorkspace = new Workspace(canvasModel, true, infoCanvasModel, settingStateModel, tabModel);
 //        initialWorkspace.setCanvasView(canvasView);
         initialWorkspace.setSceneStateModel(sceneStateModel);
 

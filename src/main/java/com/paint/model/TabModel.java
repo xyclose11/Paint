@@ -6,6 +6,15 @@ import javafx.scene.control.TabPane;
 public class TabModel {
     private TabPane tabPane;
     private Tab newTab;
+    private Tab currentTab;
+
+    public void setCurrentTab(Tab currentTab) {
+        this.currentTab = currentTab;
+    }
+
+    public Tab getCurrentTab() {
+        return currentTab;
+    }
 
     public TabPane getTabPane() {
         return tabPane;

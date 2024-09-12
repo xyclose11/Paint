@@ -37,7 +37,7 @@ public class TabController {
 		TabPane tabPane = this.tabModel.getTabPane();
 		Tab newTab = new Tab("FILE");
 
-		Workspace workspace = new Workspace(canvasModel, true, paintStateModel, infoCanvasModel, settingStateModel, tabModel);
+		Workspace workspace = new Workspace(canvasModel, true, infoCanvasModel, settingStateModel, tabModel);
 		newTab.setContent(workspace.getCanvasView());
 
 		int addNewFileTabIndex= tabPane.getTabs().indexOf(addNewFileTab);
@@ -49,6 +49,7 @@ public class TabController {
 
 		// Set focus on newly created tab
 		tabPane.getSelectionModel().select(newTab);
+		this.tabModel.setCurrentTab(newTab);
 
 		this.tabModel.setNewTab(newTab);
 	}

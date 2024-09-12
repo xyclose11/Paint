@@ -181,7 +181,7 @@ public class CanvasController {
 
         if (currentShape != null) {
             loadDefaultShapeAttributes(currentShape);
-            drawingPane.getChildren().add(currentShape);
+            this.drawingPane.getChildren().add(currentShape);
 
             // Set current shape in model
             this.paintStateModel.setCurrentShape(currentShape);
