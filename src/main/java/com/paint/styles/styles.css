@@ -45,6 +45,24 @@
     -fx-background-color: white;
 }
 
+#addNewFileTab {
+    -fx-padding: 0;
+}
+
+#addNewFileTab .button {
+    -fx-background-radius: 2;
+}
+
+#fileTabPane {
+    -fx-tab-min-width: 20px;
+    -fx-tab-max-width: 120px;
+    -fx-tab-min-height: 30px;
+    -fx-tab-max-height: 50px;
+}
+
+#fileTabPane .tab { /* Can modify the tab's themselves */
+}
+
 /** Scroll Pane **/
 /* Scrollbar Track */
 .scroll-pane .scroll-bar:horizontal .track,
