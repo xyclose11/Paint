@@ -15,6 +15,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
+import java.io.File;
 import java.io.IOException;
 
 public class Main extends Application {
@@ -104,6 +105,9 @@ public class Main extends Application {
             Workspace workspace = this.currentWorkspaceModel.getWorkspaceList().get(newValue);
             this.currentWorkspaceModel.setCurrentWorkspace(workspace);
 
+            File currentWorkspaceFile = workspace.getWorkspaceFile();
+            this.currentWorkspaceModel.setCurrentFile(currentWorkspaceFile);
+
             // Exit user from transformation mode
             this.paintStateModel.setTransformable(false, this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().getDrawingPane());
 
@@ -192,7 +196,21 @@ public class Main extends Application {
             }
         });
     }
-    
+
+    // LAST WORKING ON FINISHING TABS
+    // LIST
+    // 1. CLEAN UP TABS
+    // 2. GO THROUGH TODOS
+    // 3. CONDENSE MODELS
+    // 4. SEPARATE CONTROLLER RESPONSIBILITY
+    //
+    // ETC:
+    // - ADD UPPER LIMIT TO AMOUNT OF OPEN TABS
+    // - LRU CACHE FOR TABS
+    // - MEMORY DISPLAY (OPTIONAL)
+
+
+
     public static void main(String[] args) {
         launch();
     }

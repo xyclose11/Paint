@@ -104,6 +104,7 @@ public class UtilityController {
 	@FXML
 	public void handleFileSave(ActionEvent event) throws IOException {
 		// Check if there is a current file opened
+		System.out.println(this.currentWorkspaceModel.getCurrentFile());
 		if (this.currentWorkspaceModel.getCurrentFile() == null) {
 			// Redirect request to handleFileSaveAs
 			handleFileSaveAs(event);
@@ -116,6 +117,8 @@ public class UtilityController {
 
 		Workspace temp = this.currentWorkspaceModel.getCurrentWorkspace();
 		temp.getCanvasController().saveImageFromCanvas(file, fileExt);
+
+		temp.setWorkspaceFile(file);
 	}
 
 	@FXML
@@ -149,6 +152,8 @@ public class UtilityController {
 
 		Workspace temp = this.currentWorkspaceModel.getCurrentWorkspace();
 		temp.getCanvasController().saveImageFromCanvas(file, fileExt);
+
+		temp.setWorkspaceFile(file);
 	}
 
 

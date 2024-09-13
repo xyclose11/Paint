@@ -36,7 +36,7 @@ public class TabController {
 	@FXML
 	private void onMouseClickedNewFileTab(MouseEvent event) throws IOException {
 		TabPane tabPane = this.tabModel.getTabPane();
-		Tab newTab = new Tab("FILE");
+		Tab newTab = new Tab("New File");
 
 		newTab.setOnCloseRequest(closeEvent -> {
 			this.currentWorkspaceModel.getWorkspaceList().remove(tabPane.getTabs().size() - 1);
@@ -109,4 +109,6 @@ public class TabController {
 	public void setPaintStateModel(PaintStateModel paintStateModel) {
 		this.paintStateModel = paintStateModel;
 	}
+
+	public Button getAddNewFileTabBtn() { return this.addNewFileTabBtn; }
 }

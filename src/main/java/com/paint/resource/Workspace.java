@@ -5,12 +5,14 @@ import com.paint.model.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
 
+import java.io.File;
 import java.io.IOException;
 
 /*
 * Each Workspace requires its own unique CanvasModel & CanvasController
 * */
 public class Workspace {
+	private File workspaceFile; // Used to hold the file representation of the current workspace
 	private CanvasModel canvasModel;
 	private CanvasController canvasController;
 	private boolean isActive = false; // A new workspace is not viewable
@@ -76,5 +78,13 @@ public class Workspace {
 
 	public CanvasModel getCanvasModel() {
 		return canvasModel;
+	}
+
+	public void setWorkspaceFile(File workspaceFile) {
+		this.workspaceFile = workspaceFile;
+	}
+
+	public File getWorkspaceFile() {
+		return workspaceFile;
 	}
 }
