@@ -137,7 +137,7 @@ public class CanvasController {
                     handleToolBrushOnPress();
                     break;
                 case "general":
-                    toolController.handleToolGeneralOnPress(currentShape, currentTool, mouseEvent);
+                    toolController.handleToolGeneralOnPress(currentShape, currentTool, mouseEvent, drawingPane);
                     break;
             }
         }
@@ -376,11 +376,14 @@ public class CanvasController {
     private void handleMouseReleased(MouseEvent mouseEvent) {
         String currentToolType = this.paintStateModel.getCurrentToolType();
         switch (currentToolType) {
-            case ("shape"):
+            case "shape":
                 handleToolShapeReleased(this.paintStateModel.getCurrentShape());
                 break;
-            case ("brush"):
+            case "brush":
                 // TBD
+                break;
+            case "general":
+                this.toolController.applyTextToCanvas("This is a text", mouseEvent.getX(), mouseEvent.getY());
                 break;
         }
 

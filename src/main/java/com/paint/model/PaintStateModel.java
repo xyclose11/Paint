@@ -53,7 +53,6 @@ public class PaintStateModel {
     private Group shapeTransformationGroup;
     private Rectangle selectionRectangle;
 
-//    private CanvasController canvasController;
     private CurrentWorkspaceModel currentWorkspaceModel;
 
     private InfoCanvasModel infoCanvasModel;
@@ -174,6 +173,7 @@ public class PaintStateModel {
     }
 
     public void exitTransformMode(Parent parent) {
+        // Release events from Parent
         if (parent != null) {
             Scene parentScene = parent.getScene();
             if (parentScene != null) {
@@ -184,6 +184,8 @@ public class PaintStateModel {
                 parent.getParent().setOnMousePressed(null);
             }
         }
+
+        // Release events from shape group
         this.setTransformable(false, null);
         this.shapeTransformationGroup.setOnMouseDragged(null);
         this.shapeTransformationGroup.setOnMousePressed(null);
@@ -191,7 +193,7 @@ public class PaintStateModel {
 
         // Convert shape -> canvas
         this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().applyPaneShapeToCanvas(this.currentShape);
-
+        System.out.println("HIT");
         // Enable CanvasController handlers
         this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().setCanvasDrawingStackPaneHandlerState(true);
 

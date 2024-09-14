@@ -85,6 +85,11 @@ public class Main extends Application {
         toolMenuController.setSceneStateModel(sceneStateModel);
         toolMenuController.setCanvasModel(canvasModel);
 
+        // Set the FXMLLoader for the Font tool menu
+        FXMLLoader fontToolBarLoader = new FXMLLoader(getClass().getResource("/view/FontToolBar.fxml"));
+        toolMenuController.setFontToolBarLoader(fontToolBarLoader);
+
+
         canvasController.setCanvasModel(canvasModel);
         canvasController.setPaintStateModel(paintStateModel);
         canvasController.setInfoCanvasModel(infoCanvasModel);

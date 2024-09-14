@@ -77,7 +77,14 @@
                   <children>
                      <ToggleButton contentDisplay="CENTER" disable="true" mnemonicParsing="false" text="ToggleButton" toggleGroup="$ToolSelect" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                      <ToggleButton contentDisplay="CENTER" disable="true" layoutX="7.0" layoutY="8.0" mnemonicParsing="false" text="ToggleButton" toggleGroup="$ToolSelect" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                     <ToggleButton contentDisplay="CENTER" disable="true" layoutX="27.0" layoutY="8.0" mnemonicParsing="false" text="ToggleButton" toggleGroup="$ToolSelect" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                      <ToggleButton id="TextTool" contentDisplay="CENTER" layoutX="27.0" layoutY="8.0" mnemonicParsing="false" toggleGroup="$ToolSelect" onMouseClicked="#updateGeneralToolState" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                          <tooltip>
+                              <Tooltip text="Text (T)" />
+                          </tooltip>
+                          <graphic>
+                              <FontIcon fontSmoothingType="LCD" iconLiteral="mdi2c-cursor-text" iconSize="18" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                          </graphic>
+                      </ToggleButton>
                       <ToggleButton id="colorGrabber" fx:id="colorGrabber" contentDisplay="CENTER" ellipsisString="" layoutX="21.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#updateGeneralToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
                           <graphic>
                               <FontIcon id="toolbarColorGrabberIcon" fontSmoothingType="LCD" iconLiteral="mdi2s-select-color" iconSize="20" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
