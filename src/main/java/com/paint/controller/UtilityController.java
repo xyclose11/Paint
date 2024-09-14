@@ -8,7 +8,9 @@ import com.paint.resource.Workspace;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -18,6 +20,12 @@ import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
 
 public class UtilityController {
+
+	@FXML
+	public Button undoBtn;
+
+	@FXML
+	public Button redoBtn;
 
 	private CurrentWorkspaceModel currentWorkspaceModel;
 
@@ -196,5 +204,13 @@ public class UtilityController {
 	@FXML
 	private void onCanvasClearMouseClick() {
 		this.canvasModel.clearCanvas();
+	}
+
+	public void onKeyPressedUndoBtn(KeyEvent keyEvent) {
+		System.out.println("UNDO");
+	}
+
+	public void onKeyPressedRedoBtn(KeyEvent keyEvent) {
+		System.out.println("REDO");
 	}
 }

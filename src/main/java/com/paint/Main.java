@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -148,14 +147,27 @@ public class Main extends Application {
         scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
-                if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.N) { // Create new file/canvas
-                    try {
-                        tabController.onKeyPressedNewFileTab(keyEvent);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+                // CTRL related key events
+                if (keyEvent.isControlDown()) {
+                    switch (keyEvent.getCode()) {
+                        case N: // Create new tab -> file
+                            try {
+                                tabController.onKeyPressedNewFileTab(keyEvent);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            keyEvent.consume(); // This prevents the event from going any further
+                            break;
+                        case Z: // Undo
+                            utilityController.onKeyPressedUndoBtn(keyEvent);
+                            break;
+                        case Y: // Redo
+                            utilityController.onKeyPressedRedoBtn(keyEvent);
+                            break;
                     }
-                    keyEvent.consume(); // This prevents the event from going any further
+
                 }
+
             }
         });
 
