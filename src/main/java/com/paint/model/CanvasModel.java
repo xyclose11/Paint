@@ -1,10 +1,13 @@
 package com.paint.model;
 
 import com.paint.controller.CanvasController;
+import com.paint.resource.ResizeableCanvas;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.scene.Group;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 
 // Model to hold canvas information
 public class CanvasModel {
@@ -22,6 +25,22 @@ public class CanvasModel {
 
     public void setCanvasView(HBox canvasView) {
         this.canvasView = canvasView;
+    }
+
+    public void clearCanvas() {
+        // Show alert
+        Alert clearCanvasAlert = new Alert(Alert.AlertType.WARNING, """
+                            WARNING: You are about to clear the canvas. Any unsaved changes will be lost.
+                            Do you still want to continue?
+                            """);
+        clearCanvasAlert.setTitle("WARNING: You're changes will not be saved.");
+        clearCanvasAlert.setHeaderText("");
+        clearCanvasAlert.showAndWait();
+
+        StackPane stackPane = (StackPane) this.getCanvasGroup().getChildren().get(0);
+        ResizeableCanvas resizeableCanvas = (ResizeableCanvas) stackPane.getChildren().get(0);
+        resizeableCanvas.getGraphicsContext2D().clearRect(0, 0, resizeableCanvas.getWidth(), resizeableCanvas.getHeight());
+
     }
 
     public CanvasController getCurrentCanvasController() {

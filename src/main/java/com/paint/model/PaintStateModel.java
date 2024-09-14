@@ -157,8 +157,13 @@ public class PaintStateModel {
             // Resize handler SECTION END
 
         } else {
+            // Handle error
+            if (this.shapeTransformationGroup == null) {
+                return;
+            }
+
             // Remove selectionRectangle
-            if (this.shapeTransformationGroup.getChildren().size() >= 1) {
+            if (!this.shapeTransformationGroup.getChildren().isEmpty()) {
                 this.shapeTransformationGroup.getChildren().get(0).setVisible(false);
             }
         }

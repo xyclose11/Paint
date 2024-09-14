@@ -1,6 +1,7 @@
 package com.paint.controller;
 
 
+import com.paint.model.CanvasModel;
 import com.paint.model.CurrentWorkspaceModel;
 import com.paint.model.HelpAboutModel;
 import com.paint.resource.Workspace;
@@ -18,18 +19,21 @@ import java.security.NoSuchAlgorithmException;
 
 public class UtilityController {
 
-	private CanvasController canvasController;
 	private CurrentWorkspaceModel currentWorkspaceModel;
 
 	private HelpAboutModel helpAboutModel;
+	private CanvasModel canvasModel;
+
+	public CanvasModel getCanvasModel() {
+		return canvasModel;
+	}
+
+	public void setCanvasModel(CanvasModel canvasModel) {
+		this.canvasModel = canvasModel;
+	}
 
 	public void setHelpAboutModel(HelpAboutModel helpAboutModel) {
 		this.helpAboutModel = helpAboutModel;
-	}
-
-	// Setup communication between controllers
-	public void setCanvasController(CanvasController canvasController) {
-		this.canvasController = canvasController;
 	}
 
 	public void setCurrentWorkspaceModel(CurrentWorkspaceModel currentWorkspaceModel) {
@@ -80,11 +84,6 @@ public class UtilityController {
 		image.progressProperty().addListener((obs, oldProgress, newProgress) -> {
 			if (newProgress.doubleValue() == 1.0) { // -> Image is loaded
 				Workspace temp = this.currentWorkspaceModel.getCurrentWorkspace();
-				if (temp == null) {
-					// Create new Workspace
-					// WIP
-//					Workspace newWorkspace = new Workspace();
-				}
 
 				// Apply image to the current open workspace
 				temp.getCanvasController().setCanvas(image);
@@ -192,5 +191,10 @@ public class UtilityController {
 
 		File newFile = tempFile.toFile();
 		this.currentWorkspaceModel.setCurrentFile(newFile);
+	}
+
+	@FXML
+	private void onCanvasClearMouseClick() {
+		this.canvasModel.clearCanvas();
 	}
 }

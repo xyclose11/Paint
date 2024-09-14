@@ -9,8 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -67,7 +65,6 @@ public class Main extends Application {
         ToolMenuController toolMenuController = toolMenuLoader.getController();
 
         UtilityController utilityController = utilityMenuLoader.getController();
-        utilityController.setCanvasController(canvasController);
         utilityController.setCurrentWorkspaceModel(currentWorkspaceModel);
 
         // Set bottom
@@ -82,6 +79,7 @@ public class Main extends Application {
 
         // Set controller models
         utilityController.setHelpAboutModel(helpAboutModel);
+        utilityController.setCanvasModel(canvasModel);
 
         toolMenuController.setPaintStateModel(paintStateModel);
         toolMenuController.setSceneStateModel(sceneStateModel);
@@ -144,20 +142,20 @@ public class Main extends Application {
             e.printStackTrace();
         }
 
-        // Setup key event listeners
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.N) { // Create new file/canvas
-                    try {
-                        tabController.onKeyPressedNewFileTab(keyEvent);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-                    keyEvent.consume(); // This prevents the event from going any further
-                }
-            }
-        });
+        // Setup key binding event listeners
+//        scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+//            @Override
+//            public void handle(KeyEvent keyEvent) {
+//                if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.N) { // Create new file/canvas
+//                    try {
+//                        tabController.onKeyPressedNewFileTab(keyEvent);
+//                    } catch (IOException e) {
+//                        throw new RuntimeException(e);
+//                    }
+//                    keyEvent.consume(); // This prevents the event from going any further
+//                }
+//            }
+//        });
 
         primaryStage.setScene(scene);
         primaryStage.show();

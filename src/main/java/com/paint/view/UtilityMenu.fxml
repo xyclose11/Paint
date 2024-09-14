@@ -30,9 +30,12 @@
                   <MenuItem fx:id="SaveAsUtilityMenu" onAction="#handleFileSaveAs" text="Save As">
             </MenuItem>
               </Menu>
-            <Menu disable="true" mnemonicParsing="false" text="Edit">
+            <Menu mnemonicParsing="false" text="Edit">
               <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
+                <MenuItem id="clearCanvasMenuItem" mnemonicParsing="false" text="Clear Canvas" onAction="#onCanvasClearMouseClick">
+                     <accelerator>
+                        <KeyCodeCombination alt="DOWN" code="W" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
               </items>
             </Menu>
             <Menu disable="true" mnemonicParsing="false" text="View">
