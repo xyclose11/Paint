@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 import java.io.IOException;
@@ -35,6 +36,14 @@ public class TabController {
 	// TAB Handler SECTION START
 	@FXML
 	private void onMouseClickedNewFileTab(MouseEvent event) throws IOException {
+		createNewTab();
+	}
+
+	public void onKeyPressedNewFileTab(KeyEvent keyEvent) throws IOException {
+		createNewTab();
+	}
+
+	private void createNewTab() throws IOException {
 		TabPane tabPane = this.tabModel.getTabPane();
 		Tab newTab = new Tab("New File");
 
@@ -71,6 +80,7 @@ public class TabController {
 
 		this.tabModel.setNewTab(newTab);
 	}
+
 	// TAB Handler SECTION END
 
 
@@ -111,4 +121,5 @@ public class TabController {
 	}
 
 	public Button getAddNewFileTabBtn() { return this.addNewFileTabBtn; }
+
 }

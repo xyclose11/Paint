@@ -11,7 +11,7 @@
 
 <TabPane fx:id="fileTabPane" prefHeight="597.0" prefWidth="797.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.TabController">
     <Tab fx:id="addNewFileTab" closable="false">
-        <graphic> <!-- TODO MAKE THE '+' BUTTON AS BIG AS THE TAB SO USERS CANNOT CLICK THE BACKGROUND-->
+        <graphic>
             <Button fx:id="addNewFileTabBtn" onMouseClicked="#onMouseClickedNewFileTab" text="+">
             </Button>
         </graphic>
