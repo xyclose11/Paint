@@ -41,6 +41,7 @@ public class Workspace {
 		canvasController.setSceneStateModel(sceneStateModel);
 		canvasController.setTabModel(tabModel);
 		canvasController.setCurrentWorkspaceModel(paintStateModel.getCurrentWorkspaceModel());
+		this.undoStack.push(canvasController.getCurrentCanvasSnapshot());
 	}
 
 	public HBox getCanvasView() {

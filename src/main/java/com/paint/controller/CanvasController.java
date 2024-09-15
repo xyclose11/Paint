@@ -139,25 +139,20 @@ public class CanvasController {
 
         String currentTool = this.paintStateModel.getCurrentTool();
         String currentToolType = this.paintStateModel.getCurrentToolType();
-        Shape currentShape = null;
 
         // Empty redo stack
         this.currentWorkspaceModel.getCurrentWorkspace().getRedoStack().clear();
 
-        // Add previous canvas snapshot to undo stack
-        WritableImage writableImage = new WritableImage((int)(mainCanvas.getWidth()), (int) (mainCanvas.getHeight()));
-        this.currentWorkspaceModel.getCurrentWorkspace().getUndoStack().push(mainCanvas.snapshot(null, writableImage));
-
         if (!this.paintStateModel.isTransformable()) {
             switch (currentToolType) {
                 case "shape":
-                    handleToolShapeOnPress(currentShape, currentTool);
+                    handleToolShapeOnPress(null, currentTool);
                     break;
                 case "brush":
                     handleToolBrushOnPress();
                     break;
                 case "general":
-                    toolController.handleToolGeneralOnPress(currentShape, currentTool, mouseEvent);
+                    toolController.handleToolGeneralOnPress(null, currentTool, mouseEvent);
                     break;
             }
         }
@@ -396,6 +391,10 @@ public class CanvasController {
 
     @FXML
     private void handleMouseReleased(MouseEvent mouseEvent) {
+        // Add previous canvas snapshot to undo stack
+        WritableImage writableImage = new WritableImage((int)(mainCanvas.getWidth()), (int) (mainCanvas.getHeight()));
+
+        this.currentWorkspaceModel.getCurrentWorkspace().getUndoStack().push(mainCanvas.snapshot(null, writableImage));
         String currentToolType = this.paintStateModel.getCurrentToolType();
         switch (currentToolType) {
             case ("shape"):
@@ -809,5 +808,9 @@ public class CanvasController {
         this.infoCanvasModel.setMousePosLbl(mouseEvent);
     }
 
+    public WritableImage getCurrentCanvasSnapshot() {
+        WritableImage image = new WritableImage((int) mainCanvas.getWidth(), (int) mainCanvas.getHeight());
+        return mainCanvas.snapshot(null, image);
+    }
 
 }
