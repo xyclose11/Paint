@@ -8,10 +8,17 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 public class HelpMenuController {
+
+    @FXML
+    public Label javaPun;
+
+    @FXML
+    public Label javaPunAnswer;
 
     private Stage stage;
     private static Scene mainScene; // Must be static to remember prev scene
@@ -60,6 +67,11 @@ public class HelpMenuController {
     @FXML
     private void loadHelpDialog(ActionEvent actionEvent) throws IOException {
         this.helpAboutModel.loadHelpMenu();
+    }
+
+    @FXML
+    private void handleMouseClickedPun() {
+        this.javaPunAnswer.setOpacity(1.0);
     }
 
     @FXML
