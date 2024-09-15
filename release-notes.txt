@@ -2,11 +2,34 @@ Pain(t) Release Notes
 Version 1.2.0
 
 New Features:
+    - Width controls over shape & brush tools
+    - Resizable Canvas
+    - Tab implementation (Allows user to have multiple workspaces open)
+    - Ability to draw a 'square', 'ellipse', 'circle', 'triangle', 'right triangle', 'five-pointed star', and a 'curved line'
+    - Text label support for colors when selecting through the color picker
+    - Added a color grabber that will set the current color to the color selected
+    - Added a dashed outline of all shapes
+    - Ability to 'translate' (move) a shape after placement
+    - Smart-save (Detects if any changes since the last save were made before allowing the user to exit the application)
+    - Added an eraser tool with dynamic widths
+    - A pun on Java (settings panel)
+    - Keybindings (CTRL + S, etc.)
+
 
 Known Issues:
     - When creating an oval/circle/ellipse you are able to "push" the border of the canvas off
     - When translating an object after initial creation it can at times be "jittery"
     - Right Triangle Icon is not a right triangle
+
+Upcoming Features:
+    - Undo Redo
+    - Blank starting image
+    - Clear canvas button
+    - Regular sided polygon
+    - Select and move a piece of the image
+    - Select and copy a piece of the image
+    - Text input
+
 
 ------------------------------------------------------------------------------
 Version 1.1.0
