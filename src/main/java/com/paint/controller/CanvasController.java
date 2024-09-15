@@ -558,8 +558,11 @@ public class CanvasController {
     public void applySelectionToCanvas(ImageView selection) {
         Image image = selection.getImage();
 
+        double x = selection.getX() + selection.getTranslateX();
+        double y = selection.getY() + selection.getTranslateY();
+
         // Set canvas to the image
-        mainCanvas.getGraphicsContext2D().drawImage(image, selection.getX(), selection.getY());
+        mainCanvas.getGraphicsContext2D().drawImage(image, x, y);
 
         this.canvasModel.setChangesMade(true);
     }
