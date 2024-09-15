@@ -12,6 +12,7 @@ import javafx.scene.Group;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
@@ -393,17 +394,20 @@ public class CanvasController {
     private void handleMouseReleased(MouseEvent mouseEvent) {
         String currentToolType = this.paintStateModel.getCurrentToolType();
 
-        // Disable StackPane Mouse Event Handlers
-        setCanvasDrawingStackPaneHandlerState(false);
+
 
         switch (currentToolType) {
             case ("shape"):
+                // Disable StackPane Mouse Event Handlers
+                setCanvasDrawingStackPaneHandlerState(false);
                 handleToolShapeReleased(this.paintStateModel.getCurrentShape());
                 break;
             case ("brush"):
                 // TBD
                 break;
             case ("selection"):
+                // Disable StackPane Mouse Event Handlers
+                setCanvasDrawingStackPaneHandlerState(false);
                 selectionHandler.handleSelectionReleased();
                 break;
         }
@@ -549,6 +553,15 @@ public class CanvasController {
         // Reinitialize drawingPane to remove shape
         drawingPane.getChildren().clear();
 
+    }
+
+    public void applySelectionToCanvas(ImageView selection) {
+        Image image = selection.getImage();
+
+        // Set canvas to the image
+        mainCanvas.getGraphicsContext2D().drawImage(image, selection.getX(), selection.getY());
+
+        this.canvasModel.setChangesMade(true);
     }
 
     private void handleStar(double xT, double yT, Star star) {

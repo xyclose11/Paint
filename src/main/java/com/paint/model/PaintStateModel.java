@@ -211,8 +211,10 @@ public class PaintStateModel {
         // Convert shape -> canvas
 
         // Check if current object is a shape
-        if (Objects.equals(this.currentToolType, "shape")) {
+        if (Objects.equals(this.currentToolType, "shape")) { // TODO convert this into a switch/case statement
             this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().applyPaneShapeToCanvas(this.currentShape);
+        } else if (Objects.equals(this.currentToolType, "selection")) {
+            this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().applySelectionToCanvas(this.imageView);
         }
 
 

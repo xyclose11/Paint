@@ -71,7 +71,6 @@ public class SelectionHandler {
 
 	public void handleSelectionReleased() {
 		// On release transfer everything inside the rect into a new draggable rect
-
 		WritableImage image = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
 		canvas.snapshot(null, image);
 
@@ -83,6 +82,9 @@ public class SelectionHandler {
 		ImageView imageView = new ImageView(selectImg);
 		imageView.setX(startX);
 		imageView.setY(startY);
+
+		// Remove a rect of same size from canvas
+		canvas.getGraphicsContext2D().clearRect(startX, startY, selectionRect.getWidth(), selectionRect.getHeight());
 
 		this.paintStateModel.setCurrentShape(selectionRect);
 		this.paintStateModel.setCurrentSelection(imageView);
