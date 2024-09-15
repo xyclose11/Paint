@@ -62,7 +62,7 @@ public class TabController {
 
 		newTab.setContent(workspace.getCanvasView());
 
-		int addNewFileTabIndex= tabPane.getTabs().indexOf(addNewFileTab);
+		int addNewFileTabIndex = tabPane.getTabs().indexOf(addNewFileTab);
 
 		tabPane.setTabDragPolicy(TabPane.TabDragPolicy.REORDER);
 

@@ -54,6 +54,15 @@ public class CanvasController {
     private SceneStateModel sceneStateModel;
     private ToolController toolController;
     private TabModel tabModel;
+    private CurrentWorkspaceModel currentWorkspaceModel;
+
+    public CurrentWorkspaceModel getCurrentWorkspaceModel() {
+        return currentWorkspaceModel;
+    }
+
+    public void setCurrentWorkspaceModel(CurrentWorkspaceModel currentWorkspaceModel) {
+        this.currentWorkspaceModel = currentWorkspaceModel;
+    }
 
     public void setTabModel(TabModel tabModel) {
         this.tabModel = tabModel;
@@ -85,6 +94,10 @@ public class CanvasController {
         this.infoCanvasModel = infoCanvasModel;
         // Initialize resolution label
         this.infoCanvasModel.setResolutionLblText(canvasModel.getCanvasWidth(), canvasModel.getCanvasHeight());
+    }
+
+    public GraphicsContext getGraphicsContext() {
+        return graphicsContext;
     }
 
     // Handles zoom state
@@ -127,6 +140,13 @@ public class CanvasController {
         String currentTool = this.paintStateModel.getCurrentTool();
         String currentToolType = this.paintStateModel.getCurrentToolType();
         Shape currentShape = null;
+
+        // Empty redo stack
+        this.currentWorkspaceModel.getCurrentWorkspace().getRedoStack().clear();
+
+        // Add previous canvas snapshot to undo stack
+        WritableImage writableImage = new WritableImage((int)(mainCanvas.getWidth()), (int) (mainCanvas.getHeight()));
+        this.currentWorkspaceModel.getCurrentWorkspace().getUndoStack().push(mainCanvas.snapshot(null, writableImage));
 
         if (!this.paintStateModel.isTransformable()) {
             switch (currentToolType) {
@@ -186,6 +206,8 @@ public class CanvasController {
 
             // Set current shape in model
             this.paintStateModel.setCurrentShape(currentShape);
+
+
         } else {
             // Error for if the currentShape is null (Ideally there should always be a tool selected)
             Alert noToolSelectedAlert = new Alert(Alert.AlertType.ERROR, "NO TOOL SELECTED. Please select a tool in the tool bar above. FROM SHAPE HANDLER");
@@ -525,6 +547,7 @@ public class CanvasController {
         graphicsContext.setFill(null);
 
 
+
         // Reinitialize drawingPane to remove shape
         drawingPane.getChildren().clear();
 
@@ -600,7 +623,6 @@ public class CanvasController {
         // Set default background color -> white
         graphicsContext.setFill(Color.WHITE);
         graphicsContext.fillRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
-
     }
 
     @FXML

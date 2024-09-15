@@ -3,10 +3,12 @@ package com.paint.resource;
 import com.paint.controller.CanvasController;
 import com.paint.model.*;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Stack;
 
 /*
 * Each Workspace requires its own unique CanvasModel & CanvasController
@@ -17,14 +19,14 @@ public class Workspace {
 	private CanvasController canvasController;
 	private boolean isActive = false; // A new workspace is not viewable
 	private SceneStateModel sceneStateModel;
-	private HBox canvasView; // TODO add layer & Undo/Redo into this class with LRU Cache so that each will have its own
+	private HBox canvasView;
+	private Stack<WritableImage> undoStack = new Stack<>();
 
-	public Workspace() throws IOException {
-		FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/view/CanvasView.fxml"));
-		this.canvasView = canvasLoader.load();
-		this.canvasModel = new CanvasModel();
-		this.canvasController = canvasLoader.getController();
-	}
+	public Stack<WritableImage> getUndoStack(){ return this.undoStack; }
+
+	private Stack<WritableImage> redoStack = new Stack<>();
+
+	public Stack<WritableImage> getRedoStack(){ return this.redoStack; }
 
 	public Workspace(CanvasModel canvasModel, boolean isActive, PaintStateModel paintStateModel, InfoCanvasModel infoCanvasModel, SettingStateModel settingStateModel, TabModel tabModel) throws IOException {
 		FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/view/CanvasView.fxml"));
@@ -38,6 +40,7 @@ public class Workspace {
 		canvasController.setSettingStateModel(settingStateModel);
 		canvasController.setSceneStateModel(sceneStateModel);
 		canvasController.setTabModel(tabModel);
+		canvasController.setCurrentWorkspaceModel(paintStateModel.getCurrentWorkspaceModel());
 	}
 
 	public HBox getCanvasView() {

@@ -92,6 +92,7 @@ public class Main extends Application {
         canvasController.setSettingStateModel(settingStateModel);
         canvasController.setSceneStateModel(sceneStateModel);
         canvasController.setTabModel(tabModel);
+        canvasController.setCurrentWorkspaceModel(currentWorkspaceModel);
 
         tabController.setCanvasModel(canvasModel);
         tabController.setTabModel(tabModel);
@@ -143,6 +144,9 @@ public class Main extends Application {
             e.printStackTrace();
         }
 
+        // UNDO SETUP START
+        // UNDO SETUP END
+
         // Setup key binding event listeners
         scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
@@ -160,9 +164,13 @@ public class Main extends Application {
                             break;
                         case Z: // Undo
                             utilityController.onKeyPressedUndoBtn(keyEvent);
+                            // When undoing add to redo stack
+
                             break;
                         case Y: // Redo
                             utilityController.onKeyPressedRedoBtn(keyEvent);
+                            // When redoing add to undo stack
+
                             break;
                     }
 

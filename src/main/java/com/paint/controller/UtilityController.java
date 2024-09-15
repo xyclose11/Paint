@@ -10,6 +10,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 
@@ -207,10 +208,28 @@ public class UtilityController {
 	}
 
 	public void onKeyPressedUndoBtn(KeyEvent keyEvent) {
-		System.out.println("UNDO");
+		Workspace currentWorkspace = this.currentWorkspaceModel.getCurrentWorkspace();
+		if (!currentWorkspace.getUndoStack().isEmpty()) {
+			System.out.println(currentWorkspace.getUndoStack());
+			WritableImage img = currentWorkspace.getUndoStack().pop(); // Remove last applied change
+			currentWorkspace.getRedoStack().push(img); // Add to redo stack
+
+			if (!currentWorkspace.getUndoStack().isEmpty()) {
+				// Use peek as to not delete/remove the other last change
+				WritableImage peekImg = currentWorkspace.getUndoStack().peek();
+
+				this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().setCanvas(peekImg);
+			}
+
+		}
 	}
 
 	public void onKeyPressedRedoBtn(KeyEvent keyEvent) {
-		System.out.println("REDO");
+		Workspace currentWorkspace = this.currentWorkspaceModel.getCurrentWorkspace();
+		if (!currentWorkspace.getRedoStack().isEmpty()) {
+			System.out.println(currentWorkspace.getRedoStack());
+			WritableImage img = currentWorkspace.getRedoStack().pop();
+			this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().setCanvas(img);
+		}
 	}
 }
