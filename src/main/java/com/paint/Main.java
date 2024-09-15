@@ -31,6 +31,7 @@ public class Main extends Application {
     private SettingStateModel settingStateModel = new SettingStateModel();
     private TabModel tabModel = new TabModel();
     private CurrentWorkspaceModel currentWorkspaceModel = new CurrentWorkspaceModel();
+    private SelectionHandler selectionHandler = new SelectionHandler();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -93,6 +94,9 @@ public class Main extends Application {
         canvasController.setSettingStateModel(settingStateModel);
         canvasController.setSceneStateModel(sceneStateModel);
         canvasController.setTabModel(tabModel);
+
+        selectionHandler.setPaintStateModel(paintStateModel);
+        canvasController.setSelectionHandler(selectionHandler);
 
         tabController.setCanvasModel(canvasModel);
         tabController.setTabModel(tabModel);

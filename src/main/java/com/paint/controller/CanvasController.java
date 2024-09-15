@@ -53,7 +53,17 @@ public class CanvasController {
     private SettingStateModel settingStateModel;
     private SceneStateModel sceneStateModel;
     private ToolController toolController;
+    private SelectionHandler selectionHandler;
     private TabModel tabModel;
+
+    public SelectionHandler getSelectionHandler() {
+        return selectionHandler;
+    }
+
+    public void setSelectionHandler(SelectionHandler selectionHandler) {
+        this.selectionHandler = selectionHandler;
+        this.selectionHandler.setCanvasGroup(canvasGroup);
+    }
 
     public void setTabModel(TabModel tabModel) {
         this.tabModel = tabModel;
@@ -138,6 +148,10 @@ public class CanvasController {
                     break;
                 case "general":
                     toolController.handleToolGeneralOnPress(currentShape, currentTool, mouseEvent);
+                    break;
+                case "selection":
+                    System.out.println("SELECTION");
+                    selectionHandler.handleSelectionPressed(startX, startY);
                     break;
             }
         }
@@ -244,6 +258,9 @@ public class CanvasController {
                 break;
             case "general":
                 handleToolGeneralOnDragged(curX, curY);
+                break;
+            case "selection":
+                selectionHandler.handleSelectionDragged(curX, curY);
                 break;
         }
 
@@ -375,12 +392,19 @@ public class CanvasController {
     @FXML
     private void handleMouseReleased(MouseEvent mouseEvent) {
         String currentToolType = this.paintStateModel.getCurrentToolType();
+
+        // Disable StackPane Mouse Event Handlers
+        setCanvasDrawingStackPaneHandlerState(false);
+
         switch (currentToolType) {
             case ("shape"):
                 handleToolShapeReleased(this.paintStateModel.getCurrentShape());
                 break;
             case ("brush"):
                 // TBD
+                break;
+            case ("selection"):
+                selectionHandler.handleSelectionReleased();
                 break;
         }
 
@@ -390,9 +414,6 @@ public class CanvasController {
 
     private int timesAdjusted = 0;
     private void handleToolShapeReleased(Shape currentShape) {
-        // Disable StackPane Mouse Event Handlers
-        setCanvasDrawingStackPaneHandlerState(false);
-
         // Check if currentShape is a curve
         if (currentShape instanceof CubicCurve curve) {
             // Enable mouse click handler for control XY location
@@ -400,7 +421,7 @@ public class CanvasController {
                 if (timesAdjusted >= 2) {
                     curve.setControlX2(event.getX());
                     curve.setControlY2(event.getY());
-//                    currentShape.setPickOnBounds(true);
+
                     // Enable transformations
                     this.paintStateModel.setTransformable(true, drawingPane);
                     this.canvasGroup.setOnMouseClicked(null);

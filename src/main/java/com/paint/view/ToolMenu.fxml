@@ -15,7 +15,7 @@
       <children>
          <VBox prefHeight="200.0" prefWidth="100.0">
             <children>
-                <ToggleButton ellipsisString="" mnemonicParsing="false">
+                <ToggleButton fx:id="selection" id="selection" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateSelectionToolState">
                     <graphic>
                         <FontIcon id="toolBarSelectionRadio" fontSmoothingType="LCD" iconLiteral="mdi2s-selection" iconSize="22" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                     </graphic>
@@ -23,12 +23,6 @@
                      <ToggleGroup fx:id="ToolSelect" />
                   </toggleGroup>
                 </ToggleButton>
-      <!--          <RadioButton id="toolBarSelectionRadio" ellipsisString="" mnemonicParsing="false" selected="true">-->
-      <!--            <toggleGroup>-->
-      <!--               <ToggleGroup fx:id="ShapeSelect" />-->
-      <!--            </toggleGroup>-->
-
-      <!--          </RadioButton>-->
                <MenuButton id="menuButtonSelector" alignment="CENTER" contentDisplay="RIGHT" ellipsisString="" mnemonicParsing="false" prefHeight="9.0" prefWidth="40.0" VBox.vgrow="ALWAYS">
                  <items>
                    <MenuItem mnemonicParsing="false" text="Action 1" />

@@ -7,6 +7,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -16,8 +17,12 @@ import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeType;
 
+import java.util.Objects;
+
 // Hold info about currently selected brush, image, color, shape, etc. settings.
 public class PaintStateModel {
+
+
     // Create a nested class to allow for default values in obj creation
     private static class BrushObj {
         private String brushType;
@@ -52,6 +57,7 @@ public class PaintStateModel {
     private boolean isTransformable;
     private Group shapeTransformationGroup;
     private Rectangle selectionRectangle;
+    private ImageView imageView;
 
 //    private CanvasController canvasController;
     private CurrentWorkspaceModel currentWorkspaceModel;
@@ -78,6 +84,10 @@ public class PaintStateModel {
         this.shapeTransformationGroup = new Group();
         this.selectionRectangle = null;
         this.currentPaintColor.setValue(Color.BLACK); // Default color
+    }
+
+    public void setCurrentSelection(ImageView imageView) {
+        this.imageView = imageView;
     }
 
     public CurrentWorkspaceModel getCurrentWorkspaceModel() { return  this.currentWorkspaceModel; }
@@ -145,7 +155,6 @@ public class PaintStateModel {
                     // Update shape position
                     this.shapeTransformationGroup.setTranslateX(this.shapeTransformationGroup.getTranslateX() + (dragEvent.getX() - startX));
                     this.shapeTransformationGroup.setTranslateY(this.shapeTransformationGroup.getTranslateY() + (dragEvent.getY() - startY));
-
                     // Update UserData with the new mouse position
                     this.shapeTransformationGroup.setUserData(new double[]{dragEvent.getX(), dragEvent.getY()});
                 }
@@ -173,6 +182,11 @@ public class PaintStateModel {
         if (!this.shapeTransformationGroup.getBoundsInParent().contains(mouseEvent.getX(), mouseEvent.getY())) {
             exitTransformMode(parent);
         }else {
+            if (Objects.equals(this.currentToolType, "selection")) {
+                this.imageView.translateXProperty().bind(this.shapeTransformationGroup.translateXProperty());
+                this.imageView.translateYProperty().bind(this.shapeTransformationGroup.translateYProperty());
+            }
+
             this.shapeTransformationGroup.setUserData(new double[]{mouseEvent.getX(), mouseEvent.getY()});
         }
 
@@ -195,7 +209,12 @@ public class PaintStateModel {
         this.shapeTransformationGroup.setOnMouseEntered(null);
 
         // Convert shape -> canvas
-        this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().applyPaneShapeToCanvas(this.currentShape);
+
+        // Check if current object is a shape
+        if (Objects.equals(this.currentToolType, "shape")) {
+            this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().applyPaneShapeToCanvas(this.currentShape);
+        }
+
 
         // Enable CanvasController handlers
         this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().setCanvasDrawingStackPaneHandlerState(true);

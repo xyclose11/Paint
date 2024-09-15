@@ -1,6 +1,7 @@
 package com.paint.resource;
 
 import com.paint.controller.CanvasController;
+import com.paint.controller.SelectionHandler;
 import com.paint.model.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.HBox;
@@ -38,6 +39,9 @@ public class Workspace {
 		canvasController.setSettingStateModel(settingStateModel);
 		canvasController.setSceneStateModel(sceneStateModel);
 		canvasController.setTabModel(tabModel);
+		SelectionHandler selectionHandler = new SelectionHandler();
+		selectionHandler.setPaintStateModel(paintStateModel);
+		canvasController.setSelectionHandler(selectionHandler);
 	}
 
 	public HBox getCanvasView() {
