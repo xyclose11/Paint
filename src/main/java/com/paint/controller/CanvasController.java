@@ -9,6 +9,7 @@ import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
@@ -405,7 +406,7 @@ public class CanvasController {
                 handleToolShapeReleased(this.paintStateModel.getCurrentShape());
                 break;
             case ("brush"), ("general"), ("selection"):
-                this.currentWorkspaceModel.getCurrentWorkspace().getUndoStack().push(mainCanvas.snapshot(null, writableImage));
+                this.currentWorkspaceModel.getCurrentWorkspace().getUndoStack().push(getCurrentCanvasSnapshot());
                 break;
         }
 
@@ -826,7 +827,9 @@ public class CanvasController {
 
     public WritableImage getCurrentCanvasSnapshot() {
         WritableImage image = new WritableImage((int) mainCanvas.getWidth(), (int) mainCanvas.getHeight());
-        return mainCanvas.snapshot(null, image);
+        SnapshotParameters snapshotParameters = new SnapshotParameters();
+        mainCanvas.getGraphicsContext2D().setImageSmoothing(false);
+        return mainCanvas.snapshot(snapshotParameters, image);
     }
 
 }
