@@ -10,7 +10,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
-import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 
@@ -208,24 +207,22 @@ public class UtilityController {
 		this.currentWorkspaceModel.getCurrentWorkspace().getCanvasModel().clearCanvas();
 	}
 
+	@FXML
+	private void onMouseClickedUndo() {
+		this.currentWorkspaceModel.getCurrentWorkspace().handleUndoAction();
+	}
+
+	@FXML
+	private void onMouseClickedRedo() {
+		this.currentWorkspaceModel.getCurrentWorkspace().handleRedoAction();
+	}
+
 	public void onKeyPressedUndoBtn(KeyEvent keyEvent) {
-		Workspace currentWorkspace = this.currentWorkspaceModel.getCurrentWorkspace();
-		if (currentWorkspace.getUndoStack().size() >= 1) {
-			WritableImage currentState = currentWorkspace.getUndoStack().pop(); // Remove last applied change
-			currentWorkspace.getCanvasController().setCanvas(currentState); // Apply prev state to current canvas
-			currentWorkspace.getRedoStack().push(currentState); // Add to redo stack
-		}
+		this.currentWorkspaceModel.getCurrentWorkspace().handleUndoAction();
 	}
 
 	public void onKeyPressedRedoBtn(KeyEvent keyEvent) {
-		Workspace currentWorkspace = this.currentWorkspaceModel.getCurrentWorkspace();
-		if (currentWorkspace.getRedoStack().size() >= 1) {
-			WritableImage img = currentWorkspace.getRedoStack().pop();
+		this.currentWorkspaceModel.getCurrentWorkspace().handleRedoAction();
 
-			// Re-Add to undo stack
-			currentWorkspace.getUndoStack().push(img);
-
-			currentWorkspace.getCanvasController().setCanvas(img);
-		}
 	}
 }

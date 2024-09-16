@@ -96,4 +96,21 @@ public class Workspace {
 	public File getWorkspaceFile() {
 		return workspaceFile;
 	}
+
+	public void handleRedoAction() {
+		if (getRedoStack().size() >= 1) {
+			WritableImage img = getRedoStack().pop();
+			// Re-Add to undo stack
+			getUndoStack().push(img);
+			getCanvasController().setCanvas(img);
+		}
+	}
+
+	public void handleUndoAction() {
+		if (getUndoStack().size() >= 1) {
+			WritableImage currentState = getUndoStack().pop(); // Remove last applied change
+			getCanvasController().setCanvas(currentState); // Apply prev state to current canvas
+			getRedoStack().push(currentState); // Add to redo stack
+		}
+	}
 }
