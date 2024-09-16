@@ -196,8 +196,13 @@ public class Main extends Application {
                  // Check if file has been saved
 	            boolean isSaved = false;
 	            try {
-                    CanvasController currentCanvasController = currentWorkspaceModel.getCurrentWorkspace().getCanvasController();
-		            isSaved = currentCanvasController.isFileSavedRecently();
+                    // If no tabs active allow user to exit without alerting
+                    if (currentWorkspaceModel.getSize() == 0) {
+                        primaryStage.close();
+                    } else {
+                        CanvasController currentCanvasController = currentWorkspaceModel.getCurrentWorkspace().getCanvasController();
+		                isSaved = currentCanvasController.isFileSavedRecently();
+                    }
 	            } catch (IOException e) {
 		            throw new RuntimeException(e);
 	            }
