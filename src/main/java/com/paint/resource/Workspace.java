@@ -28,12 +28,16 @@ public class Workspace {
 
 	public Stack<WritableImage> getRedoStack(){ return this.redoStack; }
 
-	public Workspace(CanvasModel canvasModel, boolean isActive, PaintStateModel paintStateModel, InfoCanvasModel infoCanvasModel, SettingStateModel settingStateModel, TabModel tabModel) throws IOException {
+	public Workspace(HBox canvasView, boolean isActive, PaintStateModel paintStateModel, InfoCanvasModel infoCanvasModel, SettingStateModel settingStateModel, TabModel tabModel) throws IOException {
 		FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/view/CanvasView.fxml"));
 		this.canvasView = canvasLoader.load();
-		this.canvasModel = canvasModel;
+		this.canvasModel = new CanvasModel();
+
 		this.canvasController = canvasLoader.getController();
 		this.isActive = isActive;
+
+		canvasModel.setCanvasView(canvasView);
+
 		canvasController.setCanvasModel(canvasModel);
 		canvasController.setPaintStateModel(paintStateModel);
 		canvasController.setInfoCanvasModel(infoCanvasModel);

@@ -204,7 +204,8 @@ public class UtilityController {
 
 	@FXML
 	private void onCanvasClearMouseClick() {
-		this.canvasModel.clearCanvas();
+		// Get current workspaces' canvasModel
+		this.currentWorkspaceModel.getCurrentWorkspace().getCanvasModel().clearCanvas();
 	}
 
 	public void onKeyPressedUndoBtn(KeyEvent keyEvent) {

@@ -33,7 +33,6 @@ public class CanvasController {
     @FXML
     public HBox canvasContainer;
 
-
     @FXML
     private ResizeableCanvas mainCanvas;
 
@@ -778,7 +777,7 @@ public class CanvasController {
     }
 
     public boolean isFileSavedRecently() throws IOException {
-        if (!canvasModel.isChangesMade()) {
+        if (!this.canvasModel.isChangesMade()) {
             return true;
         }
         return false;

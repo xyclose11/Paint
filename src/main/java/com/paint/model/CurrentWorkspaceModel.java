@@ -11,8 +11,7 @@ public class CurrentWorkspaceModel {
 	private SettingStateModel settingStateModel;
 	private PaintStateModel paintStateModel;
 	private InfoCanvasModel infoCanvasModel;
-	private CanvasModel canvasModel;
-	
+
 	private File currentFile;
 	private Workspace currentWorkspace;
 	private HashMap<Integer, Workspace> workspaceList = new HashMap<>();
@@ -76,14 +75,6 @@ public class CurrentWorkspaceModel {
 
 	public void setInfoCanvasModel(InfoCanvasModel infoCanvasModel) {
 		this.infoCanvasModel = infoCanvasModel;
-	}
-
-	public CanvasModel getCanvasModel() {
-		return canvasModel;
-	}
-
-	public void setCanvasModel(CanvasModel canvasModel) {
-		this.canvasModel = canvasModel;
 	}
 
 	public int getSize() {

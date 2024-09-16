@@ -8,6 +8,7 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 
@@ -51,8 +52,9 @@ public class TabController {
 			this.currentWorkspaceModel.getWorkspaceList().remove(tabPane.getTabs().size() - 1);
 		});
 
+		HBox canvasView = this.canvasModel.getCanvasView();
 
-		Workspace workspace = new Workspace(canvasModel, true, paintStateModel, infoCanvasModel, settingStateModel, tabModel);
+		Workspace workspace = new Workspace(canvasView, true, paintStateModel, infoCanvasModel, settingStateModel, tabModel);
 
 		// Set the current workspace in focus
 		this.currentWorkspaceModel.setCurrentWorkspace(workspace);

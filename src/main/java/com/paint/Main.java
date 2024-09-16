@@ -126,8 +126,6 @@ public class Main extends Application {
 
         tabModel.setTabPane(canvasWrapper);
 
-        canvasModel.setCurrentCanvasController(canvasController);
-
         infoController.setCanvasModel(canvasModel);
         infoController.setInfoCanvasModel(infoCanvasModel);
         infoController.setPaintStateModel(paintStateModel);
@@ -135,13 +133,10 @@ public class Main extends Application {
         paintStateModel.setInfoCanvasModel(infoCanvasModel);
         paintStateModel.setCurrentWorkspaceModel(currentWorkspaceModel);
 
-        // TESTING START
-        currentWorkspaceModel.setCanvasModel(canvasModel);
         currentWorkspaceModel.setSettingStateModel(settingStateModel);
         currentWorkspaceModel.setInfoCanvasModel(infoCanvasModel);
         currentWorkspaceModel.setTabModel(tabModel);
         currentWorkspaceModel.setPaintStateModel(paintStateModel);
-        // TESTING END
 
         // Add style sheets
         try {
@@ -206,7 +201,7 @@ public class Main extends Application {
 	            } catch (IOException e) {
 		            throw new RuntimeException(e);
 	            }
-	            if (isSaved || canvasModel.isFileBlank()) {
+	            if (isSaved) {
                     // File saved recently -> OK to close || no file opened (blank)
                     primaryStage.close();
                 } else {
