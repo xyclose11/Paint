@@ -189,7 +189,8 @@ public class Main extends Application {
                  // Check if file has been saved
 	            boolean isSaved = false;
 	            try {
-		            isSaved = canvasController.isFileSavedRecently();
+                    CanvasController currentCanvasController = currentWorkspaceModel.getCurrentWorkspace().getCanvasController();
+		            isSaved = currentCanvasController.isFileSavedRecently();
 	            } catch (IOException e) {
 		            throw new RuntimeException(e);
 	            }

@@ -112,14 +112,13 @@ public class UtilityController {
 	@FXML
 	public void handleFileSave(ActionEvent event) throws IOException {
 		// Check if there is a current file opened
-		System.out.println(this.currentWorkspaceModel.getCurrentFile());
-		if (this.currentWorkspaceModel.getCurrentFile() == null) {
+		if (this.currentWorkspaceModel.getCurrentWorkspace().getWorkspaceFile() == null) {
 			// Redirect request to handleFileSaveAs
 			handleFileSaveAs(event);
 			return;
 		}
 
-		String filePath = this.currentWorkspaceModel.getCurrentFile().getAbsolutePath();
+		String filePath = this.currentWorkspaceModel.getCurrentWorkspace().getWorkspaceFile().getAbsolutePath();
 		String fileExt = getFileExt(filePath);
 		File file = new File(filePath); // Find the previously saved file
 
