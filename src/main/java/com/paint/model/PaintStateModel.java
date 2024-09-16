@@ -52,6 +52,13 @@ public class PaintStateModel {
     private boolean isTransformable;
     private Group shapeTransformationGroup;
     private Rectangle selectionRectangle;
+    private boolean isDashed;
+
+    public boolean getDashed() { return this.isDashed; }
+
+    public void setDashed(boolean b) {
+        this.isDashed = b;
+    }
 
 //    private CanvasController canvasController;
     private CurrentWorkspaceModel currentWorkspaceModel;

@@ -219,6 +219,11 @@ public class CanvasController {
         currentShape.setMouseTransparent(false);
         currentShape.setStrokeType(StrokeType.OUTSIDE);
 
+        if (this.paintStateModel.getDashed()) {
+            // Setup dashed lines for shapes
+            currentShape.getStrokeDashArray().addAll(9.5);
+        }
+
         // Set current shape in model
         this.paintStateModel.setCurrentShape(currentShape);
     }
@@ -540,6 +545,13 @@ public class CanvasController {
 
             handleStar(xT, yT, star);
 
+        }
+
+        // Check for dashed lines
+        if (this.paintStateModel.getDashed()) { // TODO fix issue with the shape after dash select not adapting to the new change
+            graphicsContext.setLineDashes(9.5);
+        } else {
+            graphicsContext.setLineDashes(0);
         }
 
         graphicsContext.setLineWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
