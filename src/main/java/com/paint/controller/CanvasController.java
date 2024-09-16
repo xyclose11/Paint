@@ -398,7 +398,6 @@ public class CanvasController {
     @FXML
     private void handleMouseReleased(MouseEvent mouseEvent) {
         // Add previous canvas snapshot to undo stack
-        WritableImage writableImage = new WritableImage((int)(mainCanvas.getWidth()), (int) (mainCanvas.getHeight()));
 
         String currentToolType = this.paintStateModel.getCurrentToolType();
         switch (currentToolType) {
@@ -409,6 +408,8 @@ public class CanvasController {
                 this.currentWorkspaceModel.getCurrentWorkspace().getUndoStack().push(getCurrentCanvasSnapshot());
                 break;
         }
+
+        this.canvasModel.setChangesMade(true);
 
         // Canvas has been altered adjust state of canvasModel
         this.canvasModel.setFileBlank(false);
@@ -780,7 +781,6 @@ public class CanvasController {
         if (!canvasModel.isChangesMade()) {
             return true;
         }
-
         return false;
     }
 
