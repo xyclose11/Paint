@@ -15,7 +15,7 @@
 
 /** Color Picker **/
 .color-picker {
-    -fx-color-label-visible: false;
+    -fx-color-label-visible: true;
     -fx-background-radius: 100;
     -fx-padding: 0 0 0 5;
     -fx-min-height: 35px;
@@ -37,8 +37,11 @@
 
 .color-picker .color-picker-label .picker-color {
     -fx-min-height: 40px;
-    -fx-scale-x: 3;
-    -fx-scale-y: 3;
+    -fx-scale-x: 1.7;
+    -fx-scale-y: 1.7;
+}
+
+.color-picker .color-picker-label {
 }
 
 #canvasDrawingStackPane {
