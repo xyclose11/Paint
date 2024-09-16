@@ -210,13 +210,8 @@ public class UtilityController {
 		Workspace currentWorkspace = this.currentWorkspaceModel.getCurrentWorkspace();
 		if (currentWorkspace.getUndoStack().size() >= 1) {
 			WritableImage currentState = currentWorkspace.getUndoStack().pop(); // Remove last applied change
-			WritableImage img = currentWorkspace.getUndoStack().peek();
-
-			if (!currentWorkspace.getUndoStack().isEmpty()) {
-				currentWorkspace.getRedoStack().push(currentState); // Add to redo stack
-			}
-
-			currentWorkspace.getCanvasController().setCanvas(img);
+			currentWorkspace.getCanvasController().setCanvas(currentState); // Apply prev state to current canvas
+			currentWorkspace.getRedoStack().push(currentState); // Add to redo stack
 		}
 	}
 

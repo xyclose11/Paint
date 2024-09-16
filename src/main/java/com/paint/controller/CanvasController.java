@@ -399,14 +399,13 @@ public class CanvasController {
         // Add previous canvas snapshot to undo stack
         WritableImage writableImage = new WritableImage((int)(mainCanvas.getWidth()), (int) (mainCanvas.getHeight()));
 
-        this.currentWorkspaceModel.getCurrentWorkspace().getUndoStack().push(mainCanvas.snapshot(null, writableImage));
         String currentToolType = this.paintStateModel.getCurrentToolType();
         switch (currentToolType) {
             case ("shape"):
                 handleToolShapeReleased(this.paintStateModel.getCurrentShape());
                 break;
-            case ("brush"):
-                // TBD
+            case ("brush"), ("eraser"), ("selection"):
+                this.currentWorkspaceModel.getCurrentWorkspace().getUndoStack().push(mainCanvas.snapshot(null, writableImage));
                 break;
         }
 
@@ -557,6 +556,9 @@ public class CanvasController {
         graphicsContext.setLineWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
         graphicsContext.setFill(null);
 
+        // Add shape creation to the undo stack on applied 2 canvas
+        WritableImage writableImage = new WritableImage((int)(mainCanvas.getWidth()), (int) (mainCanvas.getHeight()));
+        this.currentWorkspaceModel.getCurrentWorkspace().getUndoStack().push(mainCanvas.snapshot(null, writableImage));
 
 
         // Reinitialize drawingPane to remove shape

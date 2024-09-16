@@ -41,7 +41,8 @@ public class Workspace {
 		canvasController.setSceneStateModel(sceneStateModel);
 		canvasController.setTabModel(tabModel);
 		canvasController.setCurrentWorkspaceModel(paintStateModel.getCurrentWorkspaceModel());
-		this.undoStack.push(canvasController.getCurrentCanvasSnapshot());
+
+		this.undoStack.push(canvasController.getCurrentCanvasSnapshot()); // Set initial state as base action for undo
 	}
 
 	public HBox getCanvasView() {
