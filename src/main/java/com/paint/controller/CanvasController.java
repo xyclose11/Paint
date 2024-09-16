@@ -404,7 +404,7 @@ public class CanvasController {
             case ("shape"):
                 handleToolShapeReleased(this.paintStateModel.getCurrentShape());
                 break;
-            case ("brush"), ("eraser"), ("selection"):
+            case ("brush"), ("general"), ("selection"):
                 this.currentWorkspaceModel.getCurrentWorkspace().getUndoStack().push(mainCanvas.snapshot(null, writableImage));
                 break;
         }
@@ -425,7 +425,6 @@ public class CanvasController {
                 if (timesAdjusted >= 2) {
                     curve.setControlX2(event.getX());
                     curve.setControlY2(event.getY());
-//                    currentShape.setPickOnBounds(true);
                     // Enable transformations
                     this.paintStateModel.setTransformable(true, drawingPane);
                     this.canvasGroup.setOnMouseClicked(null);
