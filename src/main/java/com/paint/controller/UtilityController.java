@@ -80,7 +80,7 @@ public class UtilityController {
 		try  {
 			// Create base Image
 			Image image = new Image(selectedFile.toURI().toURL().toExternalForm(),true);
-			waitForImageLoad(image);
+			waitForImageLoad(image, selectedFile);
 		} catch (IOException e) {
 			new Alert(Alert.AlertType.ERROR, "Unable to create an image: ERROR: " + e.getMessage());
 			e.printStackTrace();
@@ -88,7 +88,7 @@ public class UtilityController {
 
 	}
 
-	private void waitForImageLoad(Image image) {
+	private void waitForImageLoad(Image image, File selectedFile) {
 		// Wait for image to load
 		image.progressProperty().addListener((obs, oldProgress, newProgress) -> {
 			if (newProgress.doubleValue() == 1.0) { // -> Image is loaded
@@ -97,6 +97,7 @@ public class UtilityController {
 				// Apply image to the current open workspace
 				temp.getCanvasController().setCanvas(image);
 				temp.getCanvasModel().setChangesMade(true);
+				temp.setWorkspaceFile(selectedFile);
 			}
 		});
 
