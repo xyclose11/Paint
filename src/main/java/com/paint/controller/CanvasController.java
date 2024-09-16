@@ -458,6 +458,16 @@ public class CanvasController {
         double w = shape.getBoundsInParent().getWidth();
         double h = shape.getBoundsInParent().getHeight();
 
+        // Check for dashed lines
+        if (this.paintStateModel.getDashed()) {
+            graphicsContext.setLineDashes(9.5);
+        } else {
+            graphicsContext.setLineDashes(0);
+        }
+
+        graphicsContext.setLineWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
+        graphicsContext.setFill(null);
+
         // Translation state
         double xT, yT;
 
@@ -546,15 +556,7 @@ public class CanvasController {
 
         }
 
-        // Check for dashed lines
-        if (this.paintStateModel.getDashed()) { // TODO fix issue with the shape after dash select not adapting to the new change
-            graphicsContext.setLineDashes(9.5);
-        } else {
-            graphicsContext.setLineDashes(0);
-        }
 
-        graphicsContext.setLineWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
-        graphicsContext.setFill(null);
 
         // Add shape creation to the undo stack on applied 2 canvas
         WritableImage writableImage = new WritableImage((int)(mainCanvas.getWidth()), (int) (mainCanvas.getHeight()));
