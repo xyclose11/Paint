@@ -39,11 +39,21 @@ public class PaintStateModel {
 
     }
 
+    // Constant default values START
+    final String INITIAL_TOOL = "StLine";
+    final String INITIAL_TOOLTYPE = "shape";
+    final double INITIAL_LINE_WIDTH = 1.0;
+    final double INITIAL_SHAPE_LINE_WIDTH = 1.0;
+    final StrokeLineCap INITIAL_LINE_CAP = StrokeLineCap.ROUND;
+    final Color INITIAL_PAINT_COLOR = Color.BLACK;
+    // Constant default values END
+
+
     // Converted currentPaintColor to a property for binding purposes
     private ObjectProperty<Color> currentPaintColor = new SimpleObjectProperty<>(Color.BLACK);
 
     private final BrushObj currentBrush;
-    private String currentTool; // Holds the currentTool that the user has selected. // TODO Change to selection tool when impl
+    private String currentTool; // Holds the currentTool that the user has selected.
     private String currentToolType; // Differentiates the differing tool types. i.e. (Select, brush, shape, etc.)
     private Shape currentShape;
     private double currentLineWidth;
@@ -75,16 +85,16 @@ public class PaintStateModel {
 
     public PaintStateModel() {
         this.currentBrush = new BrushObj();
-        this.currentTool = "StLine";
-        this.currentToolType = "shape"; // Tool Types include: shape, brush, image, selection, & general // TODO convert this to its own class with the currentTool
+        this.currentTool = INITIAL_TOOL;
+        this.currentToolType = INITIAL_TOOLTYPE; // Tool Types include: shape, brush, image, selection, & general // TODO convert this to its own class with the currentTool
         this.currentShape = null;
-        this.currentLineWidth = 1.0;
-        this.currentStrokeLineCap = StrokeLineCap.ROUND; // Default cap for lines
-        this.currentShapeLineStrokeWidth = 1.0;
+        this.currentLineWidth = INITIAL_LINE_WIDTH;
+        this.currentStrokeLineCap = INITIAL_LINE_CAP; // Default cap for lines
+        this.currentShapeLineStrokeWidth = INITIAL_SHAPE_LINE_WIDTH;
         this.isTransformable = false;
         this.shapeTransformationGroup = new Group();
         this.selectionRectangle = null;
-        this.currentPaintColor.setValue(Color.BLACK); // Default color
+        this.currentPaintColor.setValue(INITIAL_PAINT_COLOR); // Default color
     }
 
     public CurrentWorkspaceModel getCurrentWorkspaceModel() { return  this.currentWorkspaceModel; }
@@ -92,10 +102,6 @@ public class PaintStateModel {
     public void setCurrentWorkspaceModel(CurrentWorkspaceModel currentWorkspaceModel) {
         this.currentWorkspaceModel = currentWorkspaceModel;
     }
-
-//    public void setCanvasController(CanvasController canvasController) {
-//        this.canvasController = canvasController;
-//    }
 
     public Rectangle getSelectionRectangle() {
         return selectionRectangle;

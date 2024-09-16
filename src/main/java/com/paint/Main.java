@@ -33,9 +33,15 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // TODO Replace the hard coded resolution size with const
+        final int INITIAL_RES_X = 1200; // Initial resolution vals
+        final int INITIAL_RES_Y = 900;
+
+
+
         BorderPane rootLayout = new BorderPane(); // Contains the main scene/content
 
+        rootLayout.setPrefWidth(INITIAL_RES_X);
+        rootLayout.setPrefHeight(INITIAL_RES_Y);
         // Set Center
         FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/view/CanvasView.fxml"));
 
