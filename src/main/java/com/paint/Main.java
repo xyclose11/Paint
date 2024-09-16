@@ -33,6 +33,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        // TODO Replace the hard coded resolution size with const
         BorderPane rootLayout = new BorderPane(); // Contains the main scene/content
 
         // Set Center
@@ -234,20 +235,6 @@ public class Main extends Application {
             }
         });
     }
-
-    // LAST WORKING ON FINISHING TABS
-    // LIST
-    // 1. CLEAN UP TABS
-    // 2. GO THROUGH TODOS
-    // 3. CONDENSE MODELS
-    // 4. SEPARATE CONTROLLER RESPONSIBILITY
-    //
-    // ETC:
-    // - ADD UPPER LIMIT TO AMOUNT OF OPEN TABS
-    // - LRU CACHE FOR TABS
-    // - MEMORY DISPLAY (OPTIONAL)
-
-
 
     public static void main(String[] args) {
         launch();

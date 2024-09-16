@@ -208,27 +208,27 @@ public class UtilityController {
 
 	public void onKeyPressedUndoBtn(KeyEvent keyEvent) {
 		Workspace currentWorkspace = this.currentWorkspaceModel.getCurrentWorkspace();
-		if (!currentWorkspace.getUndoStack().isEmpty()) {
-			System.out.println(currentWorkspace.getUndoStack());
-			WritableImage img = currentWorkspace.getUndoStack().pop(); // Remove last applied change
-			currentWorkspace.getRedoStack().push(img); // Add to redo stack
+		if (currentWorkspace.getUndoStack().size() >= 1) {
+			WritableImage currentState = currentWorkspace.getUndoStack().pop(); // Remove last applied change
+			WritableImage img = currentWorkspace.getUndoStack().peek();
 
 			if (!currentWorkspace.getUndoStack().isEmpty()) {
-				// Use peek as to not delete/remove the other last change
-				WritableImage peekImg = currentWorkspace.getUndoStack().peek();
-
-				this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().setCanvas(peekImg);
+				currentWorkspace.getRedoStack().push(currentState); // Add to redo stack
 			}
 
+			currentWorkspace.getCanvasController().setCanvas(img);
 		}
 	}
 
 	public void onKeyPressedRedoBtn(KeyEvent keyEvent) {
 		Workspace currentWorkspace = this.currentWorkspaceModel.getCurrentWorkspace();
-		if (!currentWorkspace.getRedoStack().isEmpty()) {
-			System.out.println(currentWorkspace.getRedoStack());
+		if (currentWorkspace.getRedoStack().size() >= 1) {
 			WritableImage img = currentWorkspace.getRedoStack().pop();
-			this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().setCanvas(img);
+
+			// Re-Add to undo stack
+			currentWorkspace.getUndoStack().push(img);
+
+			currentWorkspace.getCanvasController().setCanvas(img);
 		}
 	}
 }
