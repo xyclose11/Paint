@@ -217,7 +217,7 @@ public class CanvasController {
         currentShape.setStrokeWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
         currentShape.setFill(null); // Set this to null to get 'outline' of shapes
         currentShape.setMouseTransparent(false);
-        currentShape.setStrokeType(StrokeType.OUTSIDE);
+        currentShape.setStrokeType(StrokeType.CENTERED);
 
         if (this.paintStateModel.getDashed()) {
             // Setup dashed lines for shapes
@@ -464,6 +464,7 @@ public class CanvasController {
         } else {
             graphicsContext.setLineDashes(0);
         }
+
 
         graphicsContext.setLineWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
         graphicsContext.setFill(null);
