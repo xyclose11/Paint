@@ -167,12 +167,12 @@ public class Main extends Application {
                         case Z: // Undo
                             utilityController.onKeyPressedUndoBtn(keyEvent);
                             // When undoing add to redo stack
-
+                            keyEvent.consume();
                             break;
                         case Y: // Redo
                             utilityController.onKeyPressedRedoBtn(keyEvent);
                             // When redoing add to undo stack
-
+                            keyEvent.consume();
                             break;
                     }
 

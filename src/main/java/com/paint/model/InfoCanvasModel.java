@@ -11,7 +11,7 @@ public class InfoCanvasModel {
 
 	private Label mousePosLbl = new Label("");
 
-	private Label currentLineWidthLbl = new Label("");
+	private Label currentLineWidthLbl = new Label("1px");
 
 	public Label getCurrentLineWidthLbl() {
 		return currentLineWidthLbl;

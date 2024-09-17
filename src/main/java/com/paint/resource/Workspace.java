@@ -32,7 +32,6 @@ public class Workspace {
 		this.isActive = isActive;
 
 		canvasModel.setCanvasView(canvasView);
-
 		canvasController.setCanvasModel(canvasModel);
 		canvasController.setPaintStateModel(paintStateModel);
 		canvasController.setInfoCanvasModel(infoCanvasModel);

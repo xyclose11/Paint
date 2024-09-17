@@ -6,6 +6,7 @@ import com.paint.resource.RightTriangle;
 import com.paint.resource.Star;
 import com.paint.resource.Triangle;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
@@ -20,7 +21,6 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 
 import javax.imageio.ImageIO;
@@ -636,9 +636,20 @@ public class CanvasController {
         toolController = new ToolController();
         toolController.setGraphicsContext(graphicsContext);
 
-        // Set default background color -> white
-        graphicsContext.setFill(Color.WHITE);
-        graphicsContext.fillRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
+        // Bind infobar properties to canvasDrawingStackPane since we remove the event listeners from the mainCanvas
+        canvasDrawingStackPane.addEventFilter(MouseEvent.MOUSE_MOVED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                infoCanvasModel.setMousePosLbl(event);
+            }
+        });
+
+        canvasDrawingStackPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                infoCanvasModel.setMousePosLbl(event);
+            }
+        });
     }
 
     @FXML
