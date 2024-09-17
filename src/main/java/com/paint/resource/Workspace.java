@@ -11,22 +11,17 @@ import java.io.IOException;
 import java.util.Stack;
 
 /*
-* Each Workspace requires its own unique CanvasModel & CanvasController
-* */
+ * Each Workspace requires its own unique CanvasModel & CanvasController
+ * */
 public class Workspace {
+	private final Stack<WritableImage> undoStack = new Stack<>();
+	private final Stack<WritableImage> redoStack = new Stack<>();
 	private File workspaceFile; // Used to hold the file representation of the current workspace
 	private CanvasModel canvasModel;
 	private CanvasController canvasController;
 	private boolean isActive = false; // A new workspace is not viewable
 	private SceneStateModel sceneStateModel;
 	private HBox canvasView;
-	private Stack<WritableImage> undoStack = new Stack<>();
-
-	public Stack<WritableImage> getUndoStack(){ return this.undoStack; }
-
-	private Stack<WritableImage> redoStack = new Stack<>();
-
-	public Stack<WritableImage> getRedoStack(){ return this.redoStack; }
 
 	public Workspace(HBox canvasView, boolean isActive, PaintStateModel paintStateModel, InfoCanvasModel infoCanvasModel, SettingStateModel settingStateModel, TabModel tabModel) throws IOException {
 		FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/view/CanvasView.fxml"));
@@ -49,8 +44,16 @@ public class Workspace {
 		this.undoStack.push(canvasController.getCurrentCanvasSnapshot()); // Set initial state as base action for undo
 	}
 
+	public Stack<WritableImage> getUndoStack() {
+		return this.undoStack;
+	}
+
+	public Stack<WritableImage> getRedoStack() {
+		return this.redoStack;
+	}
+
 	public HBox getCanvasView() {
-		return  canvasView;
+		return canvasView;
 	}
 
 	public void setCanvasView(HBox canvasView) {
@@ -65,36 +68,36 @@ public class Workspace {
 		this.sceneStateModel = sceneStateModel;
 	}
 
-	public void setActive(boolean active) {
-		isActive = active;
-	}
-
 	public boolean isActive() {
 		return isActive;
 	}
 
-	public void setCanvasModel(CanvasModel canvasModel) {
-		this.canvasModel = canvasModel;
-	}
-
-	public void setCanvasController(CanvasController canvasController) {
-		this.canvasController = canvasController;
+	public void setActive(boolean active) {
+		isActive = active;
 	}
 
 	public CanvasController getCanvasController() {
 		return canvasController;
 	}
 
+	public void setCanvasController(CanvasController canvasController) {
+		this.canvasController = canvasController;
+	}
+
 	public CanvasModel getCanvasModel() {
 		return canvasModel;
 	}
 
-	public void setWorkspaceFile(File workspaceFile) {
-		this.workspaceFile = workspaceFile;
+	public void setCanvasModel(CanvasModel canvasModel) {
+		this.canvasModel = canvasModel;
 	}
 
 	public File getWorkspaceFile() {
 		return workspaceFile;
+	}
+
+	public void setWorkspaceFile(File workspaceFile) {
+		this.workspaceFile = workspaceFile;
 	}
 
 	public void handleRedoAction() {
