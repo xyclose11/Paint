@@ -119,4 +119,8 @@ public class SelectionHandler {
 		this.canvas = (ResizeableCanvas) drawingContainer.getChildren().get(0);
 		this.drawingPane = (Pane) drawingContainer.getChildren().get(1);
 	}
+
+	public void removeSelectionRectangle() {
+		this.drawingPane.getChildren().clear();
+	}
 }

@@ -606,6 +606,7 @@ public class CanvasController {
         graphicsContext.save();
 
         // Reset GC settings
+        this.selectionHandler.removeSelectionRectangle();
         graphicsContext.setLineDashes(null);
         graphicsContext.setStroke(Color.TRANSPARENT);
         graphicsContext.setFill(Color.TRANSPARENT);
@@ -613,7 +614,6 @@ public class CanvasController {
         // Set canvas to the image
         mainCanvas.getGraphicsContext2D().drawImage(image, x, y);
 
-        graphicsContext.restore();
 
         this.canvasModel.setChangesMade(true);
     }

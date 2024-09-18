@@ -191,13 +191,11 @@ public class PaintStateModel {
 		this.shapeTransformationGroup.setOnMouseEntered(null);
 
 		// Convert shape -> canvas
-		this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().applyPaneShapeToCanvas(this.currentShape);
-        // Convert shape -> canvas
-
         // Check if current object is a shape
         if (Objects.equals(this.currentToolType, "shape")) { // TODO convert this into a switch/case statement
             this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().applyPaneShapeToCanvas(this.currentShape);
         } else if (Objects.equals(this.currentToolType, "selection")) {
+			// Remove outer selection rectangle
             this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().applySelectionToCanvas(this.imageView);
         }
 
