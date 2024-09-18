@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.collections.*?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.input.*?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.*?>
-
-<HBox id="toolbarMainWrapper" minHeight="60.0" prefHeight="80.0" prefWidth="1007.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.ToolMenuController">
+<?import java.lang.*?>
+<HBox id="toolbarMainWrapper" minHeight="60.0" prefHeight="80.0" prefWidth="1007.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.ToolMenuController">
    <VBox id="SelectionVBoxTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
       <children>
          <VBox prefHeight="200.0" prefWidth="100.0">
@@ -257,6 +256,11 @@
                               <Tooltip text="Choose Shape Line Width" />
                           </tooltip>
                       </ComboBox>
+                     <CheckBox id="dashed" fx:id="dashCheckbox" onMouseClicked="#onMouseClickedDash" alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" mnemonicParsing="false" text="Dash?">
+                        <font>
+                           <Font size="10.0" />
+                        </font>
+                     </CheckBox>
                   </children>
                </VBox>
             </children>

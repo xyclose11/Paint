@@ -15,7 +15,7 @@
             </cursor>
             <Group fx:id="canvasGroup">
                 <!-- Shape Event Handlers added to the StackPane to avoid overlap issues with canvas and drawingPane -->
-                <StackPane fx:id="canvasDrawingStackPane" onMouseDragged="#handleMouseDragged" onMouseMoved="#onMouseOverCanvas" onMousePressed="#handleMousePressed" onMouseReleased="#handleMouseReleased" onScroll="#scaleCanvasOnScroll" prefHeight="111.0" prefWidth="200.0">
+                <StackPane fx:id="canvasDrawingStackPane" onMouseDragged="#handleMouseDragged" onMouseMoved="#onMouseOverCanvas" onMousePressed="#handleMousePressed" onMouseReleased="#handleMouseReleased" prefHeight="111.0" prefWidth="200.0">
                     <ResizeableCanvas fx:id="mainCanvas" height="600" onMouseDragged="#onMouseOverCanvas" width="900">
 
                     </ResizeableCanvas>

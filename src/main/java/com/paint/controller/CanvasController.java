@@ -6,9 +6,11 @@ import com.paint.resource.RightTriangle;
 import com.paint.resource.Star;
 import com.paint.resource.Triangle;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
@@ -20,7 +22,6 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 
 import javax.imageio.ImageIO;
@@ -32,7 +33,6 @@ import java.util.Objects;
 public class CanvasController {
     @FXML
     public HBox canvasContainer;
-
 
     @FXML
     private ResizeableCanvas mainCanvas;
@@ -56,6 +56,15 @@ public class CanvasController {
     private ToolController toolController;
     private SelectionHandler selectionHandler;
     private TabModel tabModel;
+    private CurrentWorkspaceModel currentWorkspaceModel;
+
+    public CurrentWorkspaceModel getCurrentWorkspaceModel() {
+        return currentWorkspaceModel;
+    }
+
+    public void setCurrentWorkspaceModel(CurrentWorkspaceModel currentWorkspaceModel) {
+        this.currentWorkspaceModel = currentWorkspaceModel;
+    }
 
     public SelectionHandler getSelectionHandler() {
         return selectionHandler;
@@ -98,6 +107,10 @@ public class CanvasController {
         this.infoCanvasModel.setResolutionLblText(canvasModel.getCanvasWidth(), canvasModel.getCanvasHeight());
     }
 
+    public GraphicsContext getGraphicsContext() {
+        return graphicsContext;
+    }
+
     // Handles zoom state
     private double scaleFactor = 1;
 
@@ -137,18 +150,20 @@ public class CanvasController {
 
         String currentTool = this.paintStateModel.getCurrentTool();
         String currentToolType = this.paintStateModel.getCurrentToolType();
-        Shape currentShape = null;
+
+        // Empty redo stack
+        this.currentWorkspaceModel.getCurrentWorkspace().getRedoStack().clear();
 
         if (!this.paintStateModel.isTransformable()) {
             switch (currentToolType) {
                 case "shape":
-                    handleToolShapeOnPress(currentShape, currentTool);
+                    handleToolShapeOnPress(null, currentTool);
                     break;
                 case "brush":
                     handleToolBrushOnPress();
                     break;
                 case "general":
-                    toolController.handleToolGeneralOnPress(currentShape, currentTool, mouseEvent);
+                    toolController.handleToolGeneralOnPress(null, currentTool, mouseEvent);
                     break;
                 case "selection":
                     System.out.println("SELECTION");
@@ -201,6 +216,8 @@ public class CanvasController {
 
             // Set current shape in model
             this.paintStateModel.setCurrentShape(currentShape);
+
+
         } else {
             // Error for if the currentShape is null (Ideally there should always be a tool selected)
             Alert noToolSelectedAlert = new Alert(Alert.AlertType.ERROR, "NO TOOL SELECTED. Please select a tool in the tool bar above. FROM SHAPE HANDLER");
@@ -215,7 +232,12 @@ public class CanvasController {
         currentShape.setStrokeWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
         currentShape.setFill(null); // Set this to null to get 'outline' of shapes
         currentShape.setMouseTransparent(false);
-        currentShape.setStrokeType(StrokeType.OUTSIDE);
+        currentShape.setStrokeType(StrokeType.CENTERED);
+
+        if (this.paintStateModel.getDashed()) {
+            // Setup dashed lines for shapes
+            currentShape.getStrokeDashArray().addAll(9.5);
+        }
 
         // Set current shape in model
         this.paintStateModel.setCurrentShape(currentShape);
@@ -392,6 +414,8 @@ public class CanvasController {
 
     @FXML
     private void handleMouseReleased(MouseEvent mouseEvent) {
+        // Add previous canvas snapshot to undo stack
+
         String currentToolType = this.paintStateModel.getCurrentToolType();
 
 
@@ -402,8 +426,8 @@ public class CanvasController {
                 setCanvasDrawingStackPaneHandlerState(false);
                 handleToolShapeReleased(this.paintStateModel.getCurrentShape());
                 break;
-            case ("brush"):
-                // TBD
+            case ("brush"), ("general"), ("selection"):
+                this.currentWorkspaceModel.getCurrentWorkspace().getUndoStack().push(getCurrentCanvasSnapshot());
                 break;
             case ("selection"):
                 // Disable StackPane Mouse Event Handlers
@@ -411,6 +435,8 @@ public class CanvasController {
                 selectionHandler.handleSelectionReleased();
                 break;
         }
+
+        this.canvasModel.setChangesMade(true);
 
         // Canvas has been altered adjust state of canvasModel
         this.canvasModel.setFileBlank(false);
@@ -457,6 +483,17 @@ public class CanvasController {
         double maxY;
         double w = shape.getBoundsInParent().getWidth();
         double h = shape.getBoundsInParent().getHeight();
+
+        // Check for dashed lines
+        if (this.paintStateModel.getDashed()) {
+            graphicsContext.setLineDashes(9.5);
+        } else {
+            graphicsContext.setLineDashes(0);
+        }
+
+
+        graphicsContext.setLineWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
+        graphicsContext.setFill(null);
 
         // Translation state
         double xT, yT;
@@ -546,8 +583,11 @@ public class CanvasController {
 
         }
 
-        graphicsContext.setLineWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
-        graphicsContext.setFill(null);
+
+
+        // Add shape creation to the undo stack on applied 2 canvas
+        WritableImage writableImage = new WritableImage((int)(mainCanvas.getWidth()), (int) (mainCanvas.getHeight()));
+        this.currentWorkspaceModel.getCurrentWorkspace().getUndoStack().push(mainCanvas.snapshot(null, writableImage));
 
 
         // Reinitialize drawingPane to remove shape
@@ -621,6 +661,8 @@ public class CanvasController {
     // TRANSLATION SECTION START
     // TRANSLATION SECTION END
 
+    boolean ctrlPressed = false;
+
     @FXML
     private void initialize() {
         // Initialize canvas sizing
@@ -634,10 +676,28 @@ public class CanvasController {
         toolController = new ToolController();
         toolController.setGraphicsContext(graphicsContext);
 
-        // Set default background color -> white
-        graphicsContext.setFill(Color.WHITE);
-        graphicsContext.fillRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
+        // Bind infobar properties to canvasDrawingStackPane since we remove the event listeners from the mainCanvas
+        canvasDrawingStackPane.addEventFilter(MouseEvent.MOUSE_MOVED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                infoCanvasModel.setMousePosLbl(event);
+            }
+        });
 
+        canvasDrawingStackPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                infoCanvasModel.setMousePosLbl(event);
+            }
+        });
+
+        // Setup CTRL + Scroll handler
+        canvasContainer.addEventFilter(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle(ScrollEvent event) {
+                scaleCanvasOnScroll(event);
+            }
+        });
     }
 
     @FXML
@@ -776,25 +836,25 @@ public class CanvasController {
     }
 
     public boolean isFileSavedRecently() throws IOException {
-        if (!canvasModel.isChangesMade()) {
+        if (!this.canvasModel.isChangesMade()) {
             return true;
         }
-
         return false;
     }
 
 
     @FXML
-    private void scaleCanvasOnScroll(ScrollEvent scrollEvent) { // TODO add CTRL + SCROLL zoom effect to infobar
+    private void scaleCanvasOnScroll(ScrollEvent scrollEvent) {
         if (!scrollEvent.isControlDown()) {
             // Ensure that CTRL is held down
             return;
         }
+        CanvasModel cm = this.currentWorkspaceModel.getCurrentWorkspace().getCanvasModel();
 
         double zoomFactor = 1.25; // Handles zoom factor
-        double scaleFactor = this.canvasModel.getZoomScale();
-        double maxScale = this.canvasModel.getMaxScale();
-        double minScale = this.canvasModel.getMinScale();
+        double scaleFactor = cm.getZoomScale();
+        double maxScale = cm.getMaxScale();
+        double minScale = cm.getMinScale();
 
         // Check if user is scrolling in or out
         if (scrollEvent.getDeltaY() > 0) {
@@ -807,10 +867,10 @@ public class CanvasController {
             return;
         }
 
-        this.canvasModel.setZoomScale(scaleFactor);
+        cm.setZoomScale(scaleFactor);
 
-        this.canvasModel.getCanvasGroup().setScaleX(scaleFactor);
-        this.canvasModel.getCanvasGroup().setScaleY(scaleFactor);
+        cm.getCanvasGroup().setScaleX(scaleFactor);
+        cm.getCanvasGroup().setScaleY(scaleFactor);
     }
 
     public void setSettingStateModel(SettingStateModel settingStateModel) {
@@ -824,5 +884,11 @@ public class CanvasController {
         this.infoCanvasModel.setMousePosLbl(mouseEvent);
     }
 
+    public WritableImage getCurrentCanvasSnapshot() {
+        WritableImage image = new WritableImage((int) mainCanvas.getWidth(), (int) mainCanvas.getHeight());
+        SnapshotParameters snapshotParameters = new SnapshotParameters();
+        mainCanvas.getGraphicsContext2D().setImageSmoothing(false);
+        return mainCanvas.snapshot(snapshotParameters, image);
+    }
 
 }

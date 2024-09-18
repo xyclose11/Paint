@@ -11,7 +11,7 @@ public class InfoCanvasModel {
 
 	private Label mousePosLbl = new Label("");
 
-	private Label currentLineWidthLbl = new Label("");
+	private Label currentLineWidthLbl = new Label("1px");
 
 	public Label getCurrentLineWidthLbl() {
 		return currentLineWidthLbl;
@@ -27,7 +27,7 @@ public class InfoCanvasModel {
 	}
 
 	public void setMousePosLbl(MouseEvent mouseEvent) {
-		mousePosLbl.setText("X: " + mouseEvent.getX() + " Y: " + mouseEvent.getY());
+		mousePosLbl.setText("X: " + Math.round(mouseEvent.getX()) + " Y: " + Math.round(mouseEvent.getY()));
 	}
 
 	public Label getResolutionLbl() {

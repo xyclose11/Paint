@@ -1,6 +1,5 @@
 package com.paint.model;
 
-import com.paint.controller.CanvasController;
 import com.paint.resource.ResizeableCanvas;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -16,7 +15,6 @@ public class CanvasModel {
     private Group canvasGroup;
     private boolean isFileBlank = true; // On open file is blank
     private boolean changesMade;
-    private CanvasController currentCanvasController;
     private HBox canvasView;
 
     public HBox getCanvasView() {
@@ -37,18 +35,10 @@ public class CanvasModel {
         clearCanvasAlert.setHeaderText("");
         clearCanvasAlert.showAndWait();
 
-        StackPane stackPane = (StackPane) this.getCanvasGroup().getChildren().get(0);
+        StackPane stackPane = (StackPane) this.canvasGroup.getChildren().get(0);
         ResizeableCanvas resizeableCanvas = (ResizeableCanvas) stackPane.getChildren().get(0);
         resizeableCanvas.getGraphicsContext2D().clearRect(0, 0, resizeableCanvas.getWidth(), resizeableCanvas.getHeight());
 
-    }
-
-    public CanvasController getCurrentCanvasController() {
-        return currentCanvasController;
-    }
-
-    public void setCurrentCanvasController(CanvasController currentCanvasController) {
-        this.currentCanvasController = currentCanvasController;
     }
 
     private final DoubleProperty zoomScale = new SimpleDoubleProperty(1.0); // 1.0 = 100%
@@ -80,6 +70,13 @@ public class CanvasModel {
     }
 
     public void setZoomScale(double zoomScale) {
+        if (zoomScale > maxScale) {
+            this.zoomScale.setValue(maxScale);
+            return;
+        } else if (zoomScale < minScale) {
+            this.zoomScale.setValue(minScale);
+            return;
+        }
         this.zoomScale.setValue(zoomScale);
     }
 

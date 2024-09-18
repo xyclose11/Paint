@@ -11,7 +11,6 @@ public class CurrentWorkspaceModel {
 	private SettingStateModel settingStateModel;
 	private PaintStateModel paintStateModel;
 	private InfoCanvasModel infoCanvasModel;
-	private CanvasModel canvasModel;
 
 	private File currentFile;
 	private Workspace currentWorkspace;
@@ -78,12 +77,8 @@ public class CurrentWorkspaceModel {
 		this.infoCanvasModel = infoCanvasModel;
 	}
 
-	public CanvasModel getCanvasModel() {
-		return canvasModel;
-	}
-
-	public void setCanvasModel(CanvasModel canvasModel) {
-		this.canvasModel = canvasModel;
+	public int getSize() {
+		return this.workspaceList.size();
 	}
 
 }

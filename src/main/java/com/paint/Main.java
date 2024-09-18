@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -35,8 +34,15 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        final int INITIAL_RES_X = 1200; // Initial resolution vals
+        final int INITIAL_RES_Y = 900;
+
+
+
         BorderPane rootLayout = new BorderPane(); // Contains the main scene/content
 
+        rootLayout.setPrefWidth(INITIAL_RES_X);
+        rootLayout.setPrefHeight(INITIAL_RES_Y);
         // Set Center
         FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/view/CanvasView.fxml"));
 
@@ -94,6 +100,7 @@ public class Main extends Application {
         canvasController.setSettingStateModel(settingStateModel);
         canvasController.setSceneStateModel(sceneStateModel);
         canvasController.setTabModel(tabModel);
+        canvasController.setCurrentWorkspaceModel(currentWorkspaceModel);
 
         selectionHandler.setPaintStateModel(paintStateModel);
         canvasController.setSelectionHandler(selectionHandler);
@@ -123,22 +130,18 @@ public class Main extends Application {
 
         tabModel.setTabPane(canvasWrapper);
 
-        canvasModel.setCurrentCanvasController(canvasController);
-
         infoController.setCanvasModel(canvasModel);
         infoController.setInfoCanvasModel(infoCanvasModel);
         infoController.setPaintStateModel(paintStateModel);
+        infoController.setCurrentWorkspaceModel(currentWorkspaceModel);
 
         paintStateModel.setInfoCanvasModel(infoCanvasModel);
         paintStateModel.setCurrentWorkspaceModel(currentWorkspaceModel);
 
-        // TESTING START
-        currentWorkspaceModel.setCanvasModel(canvasModel);
         currentWorkspaceModel.setSettingStateModel(settingStateModel);
         currentWorkspaceModel.setInfoCanvasModel(infoCanvasModel);
         currentWorkspaceModel.setTabModel(tabModel);
         currentWorkspaceModel.setPaintStateModel(paintStateModel);
-        // TESTING END
 
         // Add style sheets
         try {
@@ -148,18 +151,38 @@ public class Main extends Application {
             e.printStackTrace();
         }
 
+        // UNDO SETUP START
+        // UNDO SETUP END
+
         // Setup key binding event listeners
         scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
-                if (keyEvent.isControlDown() && keyEvent.getCode() == KeyCode.N) { // Create new file/canvas
-                    try {
-                        tabController.onKeyPressedNewFileTab(keyEvent);
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+                // CTRL related key events
+                if (keyEvent.isControlDown()) {
+                    switch (keyEvent.getCode()) {
+                        case N: // Create new tab -> file
+                            try {
+                                tabController.onKeyPressedNewFileTab(keyEvent);
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                            keyEvent.consume(); // This prevents the event from going any further
+                            break;
+                        case Z: // Undo
+                            utilityController.onKeyPressedUndoBtn(keyEvent);
+                            // When undoing add to redo stack
+                            keyEvent.consume();
+                            break;
+                        case Y: // Redo
+                            utilityController.onKeyPressedRedoBtn(keyEvent);
+                            // When redoing add to undo stack
+                            keyEvent.consume();
+                            break;
                     }
-                    keyEvent.consume(); // This prevents the event from going any further
+
                 }
+
             }
         });
 
@@ -173,11 +196,17 @@ public class Main extends Application {
                  // Check if file has been saved
 	            boolean isSaved = false;
 	            try {
-		            isSaved = canvasController.isFileSavedRecently();
+                    // If no tabs active allow user to exit without alerting
+                    if (currentWorkspaceModel.getSize() == 0) {
+                        primaryStage.close();
+                    } else {
+                        CanvasController currentCanvasController = currentWorkspaceModel.getCurrentWorkspace().getCanvasController();
+		                isSaved = currentCanvasController.isFileSavedRecently();
+                    }
 	            } catch (IOException e) {
 		            throw new RuntimeException(e);
 	            }
-	            if (isSaved || canvasModel.isFileBlank()) {
+	            if (isSaved) {
                     // File saved recently -> OK to close || no file opened (blank)
                     primaryStage.close();
                 } else {
@@ -217,20 +246,6 @@ public class Main extends Application {
             }
         });
     }
-
-    // LAST WORKING ON FINISHING TABS
-    // LIST
-    // 1. CLEAN UP TABS
-    // 2. GO THROUGH TODOS
-    // 3. CONDENSE MODELS
-    // 4. SEPARATE CONTROLLER RESPONSIBILITY
-    //
-    // ETC:
-    // - ADD UPPER LIMIT TO AMOUNT OF OPEN TABS
-    // - LRU CACHE FOR TABS
-    // - MEMORY DISPLAY (OPTIONAL)
-
-
 
     public static void main(String[] args) {
         launch();

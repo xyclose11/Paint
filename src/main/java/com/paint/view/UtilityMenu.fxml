@@ -32,7 +32,7 @@
               </Menu>
             <Menu mnemonicParsing="false" text="Edit">
               <items>
-                <MenuItem id="clearCanvasMenuItem" mnemonicParsing="false" text="Clear Canvas" onAction="#onCanvasClearMouseClick">
+                <MenuItem id="clearCanvasMenuItem" mnemonicParsing="false" onAction="#onCanvasClearMouseClick" text="Clear Canvas">
                      <accelerator>
                         <KeyCodeCombination alt="DOWN" code="W" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
@@ -65,15 +65,15 @@
 
                   </children>
          </HBox>
-         <HBox disable="true" prefHeight="32.0" prefWidth="514.0" HBox.hgrow="SOMETIMES">
+         <HBox prefHeight="32.0" prefWidth="514.0" spacing="5.0" HBox.hgrow="SOMETIMES">
             <children>
                <Separator orientation="VERTICAL" prefHeight="200.0" />
-                <Button mnemonicParsing="false">
+                <Button fx:id="undoBtn" mnemonicParsing="false" onMouseClicked="#onKeyPressedUndoBtn">
                     <graphic>
                         <FontIcon id="utilityBarIconBtn" fontSmoothingType="LCD" iconLiteral="fltral-arrow-undo-20" iconSize="22" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                     </graphic>
                 </Button>
-                <Button mnemonicParsing="false">
+                <Button fx:id="redoBtn" mnemonicParsing="false" onMouseClicked="#onKeyPressedRedoBtn">
                     <graphic>
                         <FontIcon id="utilityBarIconBtn" fontSmoothingType="LCD" iconLiteral="fltral-arrow-redo-20" iconSize="22" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                     </graphic>

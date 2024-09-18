@@ -8,7 +8,9 @@ import com.paint.resource.Workspace;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -18,6 +20,12 @@ import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
 
 public class UtilityController {
+
+	@FXML
+	public Button undoBtn;
+
+	@FXML
+	public Button redoBtn;
 
 	private CurrentWorkspaceModel currentWorkspaceModel;
 
@@ -71,7 +79,7 @@ public class UtilityController {
 		try  {
 			// Create base Image
 			Image image = new Image(selectedFile.toURI().toURL().toExternalForm(),true);
-			waitForImageLoad(image);
+			waitForImageLoad(image, selectedFile);
 		} catch (IOException e) {
 			new Alert(Alert.AlertType.ERROR, "Unable to create an image: ERROR: " + e.getMessage());
 			e.printStackTrace();
@@ -79,7 +87,7 @@ public class UtilityController {
 
 	}
 
-	private void waitForImageLoad(Image image) {
+	private void waitForImageLoad(Image image, File selectedFile) {
 		// Wait for image to load
 		image.progressProperty().addListener((obs, oldProgress, newProgress) -> {
 			if (newProgress.doubleValue() == 1.0) { // -> Image is loaded
@@ -88,6 +96,7 @@ public class UtilityController {
 				// Apply image to the current open workspace
 				temp.getCanvasController().setCanvas(image);
 				temp.getCanvasModel().setChangesMade(true);
+				temp.setWorkspaceFile(selectedFile);
 			}
 		});
 
@@ -103,14 +112,13 @@ public class UtilityController {
 	@FXML
 	public void handleFileSave(ActionEvent event) throws IOException {
 		// Check if there is a current file opened
-		System.out.println(this.currentWorkspaceModel.getCurrentFile());
-		if (this.currentWorkspaceModel.getCurrentFile() == null) {
+		if (this.currentWorkspaceModel.getCurrentWorkspace().getWorkspaceFile() == null) {
 			// Redirect request to handleFileSaveAs
 			handleFileSaveAs(event);
 			return;
 		}
 
-		String filePath = this.currentWorkspaceModel.getCurrentFile().getAbsolutePath();
+		String filePath = this.currentWorkspaceModel.getCurrentWorkspace().getWorkspaceFile().getAbsolutePath();
 		String fileExt = getFileExt(filePath);
 		File file = new File(filePath); // Find the previously saved file
 
@@ -195,6 +203,26 @@ public class UtilityController {
 
 	@FXML
 	private void onCanvasClearMouseClick() {
-		this.canvasModel.clearCanvas();
+		// Get current workspaces' canvasModel
+		this.currentWorkspaceModel.getCurrentWorkspace().getCanvasModel().clearCanvas();
+	}
+
+	@FXML
+	private void onMouseClickedUndo() {
+		this.currentWorkspaceModel.getCurrentWorkspace().handleUndoAction();
+	}
+
+	@FXML
+	private void onMouseClickedRedo() {
+		this.currentWorkspaceModel.getCurrentWorkspace().handleRedoAction();
+	}
+
+	public void onKeyPressedUndoBtn(KeyEvent keyEvent) {
+		this.currentWorkspaceModel.getCurrentWorkspace().handleUndoAction();
+	}
+
+	public void onKeyPressedRedoBtn(KeyEvent keyEvent) {
+		this.currentWorkspaceModel.getCurrentWorkspace().handleRedoAction();
+
 	}
 }

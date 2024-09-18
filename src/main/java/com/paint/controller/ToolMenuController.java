@@ -25,6 +25,9 @@ public class ToolMenuController {
     public Label toolMenuColorLbl;
 
     @FXML
+    public CheckBox dashCheckbox;
+
+    @FXML
     public ToggleButton selection;
 
     private CanvasModel canvasModel;
@@ -220,6 +223,11 @@ public class ToolMenuController {
                 }
             }
         }));
+    }
+
+    @FXML
+    private void onMouseClickedDash(MouseEvent mouseEvent) {
+        this.paintStateModel.setDashed(dashCheckbox.isSelected());
     }
 
     public void updateSelectionToolState(MouseEvent mouseEvent) {
