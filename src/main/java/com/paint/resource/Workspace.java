@@ -40,6 +40,9 @@ public class Workspace {
 		canvasController.setSceneStateModel(sceneStateModel);
 		canvasController.setTabModel(tabModel);
 		canvasController.setCurrentWorkspaceModel(paintStateModel.getCurrentWorkspaceModel());
+		SelectionHandler selectionHandler = new SelectionHandler();
+		selectionHandler.setPaintStateModel(paintStateModel);
+		canvasController.setSelectionHandler(selectionHandler);
 
 		this.undoStack.push(canvasController.getCurrentCanvasSnapshot()); // Set initial state as base action for undo
 	}
@@ -50,9 +53,6 @@ public class Workspace {
 
 	public Stack<WritableImage> getRedoStack() {
 		return this.redoStack;
-		SelectionHandler selectionHandler = new SelectionHandler();
-		selectionHandler.setPaintStateModel(paintStateModel);
-		canvasController.setSelectionHandler(selectionHandler);
 	}
 
 	public HBox getCanvasView() {

@@ -426,11 +426,12 @@ public class CanvasController {
                 setCanvasDrawingStackPaneHandlerState(false);
                 handleToolShapeReleased(this.paintStateModel.getCurrentShape());
                 break;
-            case ("brush"), ("general"), ("selection"):
+            case ("brush"), ("general"):
                 this.currentWorkspaceModel.getCurrentWorkspace().getUndoStack().push(getCurrentCanvasSnapshot());
                 break;
             case ("selection"):
                 // Disable StackPane Mouse Event Handlers
+                this.currentWorkspaceModel.getCurrentWorkspace().getUndoStack().push(getCurrentCanvasSnapshot());
                 setCanvasDrawingStackPaneHandlerState(false);
                 selectionHandler.handleSelectionReleased();
                 break;

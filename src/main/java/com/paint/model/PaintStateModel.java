@@ -45,6 +45,7 @@ public class PaintStateModel {
 	//    private CanvasController canvasController;
 	private CurrentWorkspaceModel currentWorkspaceModel;
 	private InfoCanvasModel infoCanvasModel;
+	private ImageView imageView;
 
     private double startX;
     private double startY;
@@ -79,9 +80,6 @@ public class PaintStateModel {
 		this.infoCanvasModel = infoCanvasModel;
 	}
 
-	public CurrentWorkspaceModel getCurrentWorkspaceModel() {
-		return this.currentWorkspaceModel;
-	}
     public void setCurrentSelection(ImageView imageView) {
         this.imageView = imageView;
     }
@@ -143,19 +141,6 @@ public class PaintStateModel {
                 this.shapeTransformationGroup.setTranslateX( + (dragEvent.getSceneX() - startX));
                 this.shapeTransformationGroup.setTranslateY( + (dragEvent.getSceneY() - startY));
 			});
-            this.shapeTransformationGroup.setOnMouseDragged(dragEvent -> {
-                double[] initialValues = (double[]) this.shapeTransformationGroup.getUserData();
-                if (initialValues != null) {
-                    double startX = initialValues[0];
-                    double startY = initialValues[1];
-
-                    // Update shape position
-                    this.shapeTransformationGroup.setTranslateX(this.shapeTransformationGroup.getTranslateX() + (dragEvent.getX() - startX));
-                    this.shapeTransformationGroup.setTranslateY(this.shapeTransformationGroup.getTranslateY() + (dragEvent.getY() - startY));
-                    // Update UserData with the new mouse position
-                    this.shapeTransformationGroup.setUserData(new double[]{dragEvent.getX(), dragEvent.getY()});
-                }
-            });
 
 			// Translation handler (XY Movement) SECTION END
 
@@ -175,12 +160,6 @@ public class PaintStateModel {
 		}
 	}
 
-	private void handleMousePressed(MouseEvent mouseEvent, Parent parent) {
-		if (!this.shapeTransformationGroup.getBoundsInParent().contains(mouseEvent.getX(), mouseEvent.getY())) {
-			exitTransformMode(parent);
-		} else {
-            startX = mouseEvent.getSceneX();
-		    startY = mouseEvent.getSceneY();
     private void handleMousePressed(MouseEvent mouseEvent, Parent parent) {
         if (!this.shapeTransformationGroup.getBoundsInParent().contains(mouseEvent.getX(), mouseEvent.getY())) {
             exitTransformMode(parent);
@@ -189,8 +168,8 @@ public class PaintStateModel {
                 this.imageView.translateXProperty().bind(this.shapeTransformationGroup.translateXProperty());
                 this.imageView.translateYProperty().bind(this.shapeTransformationGroup.translateYProperty());
             }
-
-            this.shapeTransformationGroup.setUserData(new double[]{mouseEvent.getX(), mouseEvent.getY()});
+	        startX = mouseEvent.getSceneX();
+	        startY = mouseEvent.getSceneY();
         }
 
 	}

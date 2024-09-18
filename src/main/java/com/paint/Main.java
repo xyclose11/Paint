@@ -170,12 +170,12 @@ public class Main extends Application {
                             keyEvent.consume(); // This prevents the event from going any further
                             break;
                         case Z: // Undo
-                            utilityController.onKeyPressedUndoBtn(keyEvent);
+                            currentWorkspaceModel.getCurrentWorkspace().handleUndoAction();
                             // When undoing add to redo stack
                             keyEvent.consume();
                             break;
                         case Y: // Redo
-                            utilityController.onKeyPressedRedoBtn(keyEvent);
+                            currentWorkspaceModel.getCurrentWorkspace().handleRedoAction();
                             // When redoing add to undo stack
                             keyEvent.consume();
                             break;
