@@ -70,6 +70,13 @@ public class CanvasModel {
     }
 
     public void setZoomScale(double zoomScale) {
+        if (zoomScale > maxScale) {
+            this.zoomScale.setValue(maxScale);
+            return;
+        } else if (zoomScale < minScale) {
+            this.zoomScale.setValue(minScale);
+            return;
+        }
         this.zoomScale.setValue(zoomScale);
     }
 

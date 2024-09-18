@@ -134,9 +134,6 @@ public class PaintStateModel {
                 // Update shape position
                 this.shapeTransformationGroup.setTranslateX( + (dragEvent.getSceneX() - startX));
                 this.shapeTransformationGroup.setTranslateY( + (dragEvent.getSceneY() - startY));
-
-                // Update UserData with the new mouse position
-                this.shapeTransformationGroup.setUserData(new double[]{dragEvent.getX(), dragEvent.getY()});
 			});
 
 			// Translation handler (XY Movement) SECTION END

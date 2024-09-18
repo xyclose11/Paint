@@ -129,6 +129,7 @@ public class Main extends Application {
         infoController.setCanvasModel(canvasModel);
         infoController.setInfoCanvasModel(infoCanvasModel);
         infoController.setPaintStateModel(paintStateModel);
+        infoController.setCurrentWorkspaceModel(currentWorkspaceModel);
 
         paintStateModel.setInfoCanvasModel(infoCanvasModel);
         paintStateModel.setCurrentWorkspaceModel(currentWorkspaceModel);

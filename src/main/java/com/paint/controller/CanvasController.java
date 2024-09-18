@@ -623,6 +623,8 @@ public class CanvasController {
     // TRANSLATION SECTION START
     // TRANSLATION SECTION END
 
+    boolean ctrlPressed = false;
+
     @FXML
     private void initialize() {
         // Initialize canvas sizing
@@ -648,6 +650,14 @@ public class CanvasController {
             @Override
             public void handle(MouseEvent event) {
                 infoCanvasModel.setMousePosLbl(event);
+            }
+        });
+
+        // Setup CTRL + Scroll handler
+        canvasContainer.addEventFilter(ScrollEvent.SCROLL, new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle(ScrollEvent event) {
+                scaleCanvasOnScroll(event);
             }
         });
     }
@@ -796,16 +806,17 @@ public class CanvasController {
 
 
     @FXML
-    private void scaleCanvasOnScroll(ScrollEvent scrollEvent) { // TODO add CTRL + SCROLL zoom effect to infobar
+    private void scaleCanvasOnScroll(ScrollEvent scrollEvent) {
         if (!scrollEvent.isControlDown()) {
             // Ensure that CTRL is held down
             return;
         }
+        CanvasModel cm = this.currentWorkspaceModel.getCurrentWorkspace().getCanvasModel();
 
         double zoomFactor = 1.25; // Handles zoom factor
-        double scaleFactor = this.canvasModel.getZoomScale();
-        double maxScale = this.canvasModel.getMaxScale();
-        double minScale = this.canvasModel.getMinScale();
+        double scaleFactor = cm.getZoomScale();
+        double maxScale = cm.getMaxScale();
+        double minScale = cm.getMinScale();
 
         // Check if user is scrolling in or out
         if (scrollEvent.getDeltaY() > 0) {
@@ -818,10 +829,10 @@ public class CanvasController {
             return;
         }
 
-        this.canvasModel.setZoomScale(scaleFactor);
+        cm.setZoomScale(scaleFactor);
 
-        this.canvasModel.getCanvasGroup().setScaleX(scaleFactor);
-        this.canvasModel.getCanvasGroup().setScaleY(scaleFactor);
+        cm.getCanvasGroup().setScaleX(scaleFactor);
+        cm.getCanvasGroup().setScaleY(scaleFactor);
     }
 
     public void setSettingStateModel(SettingStateModel settingStateModel) {

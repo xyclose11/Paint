@@ -1,6 +1,7 @@
 package com.paint.controller;
 
 import com.paint.model.CanvasModel;
+import com.paint.model.CurrentWorkspaceModel;
 import com.paint.model.InfoCanvasModel;
 import com.paint.model.PaintStateModel;
 import javafx.event.ActionEvent;
@@ -39,6 +40,24 @@ public class InfoController {
 	private InfoCanvasModel infoCanvasModel;
 
 	private PaintStateModel paintStateModel;
+
+	private CurrentWorkspaceModel currentWorkspaceModel;
+
+	public CurrentWorkspaceModel getCurrentWorkspaceModel() {
+		return currentWorkspaceModel;
+	}
+
+	public void setCurrentWorkspaceModel(CurrentWorkspaceModel currentWorkspaceModel) {
+		this.currentWorkspaceModel = currentWorkspaceModel;
+	}
+
+	public ComboBox<String> getInfoBarZoomCB() {
+		return infoBarZoomCB;
+	}
+
+	public void setInfoBarZoomCB(ComboBox<String> infoBarZoomCB) {
+		this.infoBarZoomCB = infoBarZoomCB;
+	}
 
 	public PaintStateModel getPaintStateModel() {
 		return paintStateModel;
@@ -80,7 +99,7 @@ public class InfoController {
 			double sliderVal = Double.parseDouble(cbVal); // Convert string -> double to set slider POS
 			this.infoBarZoomSlider.setValue(sliderVal);
 
-			this.canvasModel.setZoomScale(sliderVal);
+			this.currentWorkspaceModel.getCurrentWorkspace().getCanvasModel().setZoomScale(sliderVal / 100.0);
 
 		} catch (Exception e) {
 			System.out.println("ERROR");
@@ -93,22 +112,15 @@ public class InfoController {
 	@FXML
 	private void onZoomSliderChange(MouseEvent mouseEvent) {
 		// Set zoom combo box to zoom value
-		this.infoBarZoomCB.setValue(String.valueOf(infoBarZoomSlider.getValue()));
-		this.canvasModel.setZoomScale(infoBarZoomSlider.getValue());
-		this.infoBarZoomCB.setValue(String.valueOf(infoBarZoomSlider.getValue()));
-
-		this.infoBarZoomSlider.valueProperty().bindBidirectional(this.canvasModel.zoomScaleProperty());
-
+		this.infoBarZoomCB.setValue(String.valueOf(this.infoBarZoomSlider.getValue()));
+		this.currentWorkspaceModel.getCurrentWorkspace().getCanvasModel().setZoomScale(infoBarZoomSlider.getValue() / 100.0);
 		handleZoom();
 	}
 
 	// Handle scaling/zoom
 	private void handleZoom() {
-		canvasGroup = canvasModel.getCanvasGroup();
-		double newZoomScale = this.canvasModel.getZoomScale() / 100.0; // Divide by 100.0 to get proper format for setScaleX/Y
-
-		this.infoBarZoomSlider.valueProperty().bindBidirectional(this.canvasModel.zoomScaleProperty());
-
+		canvasGroup = this.currentWorkspaceModel.getCurrentWorkspace().getCanvasModel().getCanvasGroup();
+		double newZoomScale = this.currentWorkspaceModel.getCurrentWorkspace().getCanvasModel().getZoomScale(); // Divide by 100.0 to get proper format for setScaleX/Y
 		canvasGroup.setScaleX(newZoomScale);
 		canvasGroup.setScaleY(newZoomScale);
 	}
