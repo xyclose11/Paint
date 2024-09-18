@@ -103,6 +103,7 @@ public class Main extends Application {
         canvasController.setCurrentWorkspaceModel(currentWorkspaceModel);
 
         selectionHandler.setPaintStateModel(paintStateModel);
+        selectionHandler.setCurrentWorkspaceModel(currentWorkspaceModel);
         canvasController.setSelectionHandler(selectionHandler);
 
         tabController.setCanvasModel(canvasModel);
@@ -181,6 +182,10 @@ public class Main extends Application {
                             break;
                         case C:
                             selectionHandler.copySelectionContent();
+                            keyEvent.consume();
+                            break;
+                        case V:
+                            selectionHandler.pasteClipboardImage(); // TODO handle different types of paste i.e. text, HTML, etc.
                             keyEvent.consume();
                             break;
                     }

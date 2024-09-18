@@ -117,6 +117,9 @@ public class PaintStateModel {
 	public void setTransformable(boolean transformable, Pane draw) {
 		isTransformable = transformable;
 
+		System.out.println(transformable);
+		System.out.println(currentShape);
+
 		if (transformable && currentShape != null) {
 			// Add dashed outline
 			createSelectionBox(this.currentShape, draw);
@@ -128,13 +131,26 @@ public class PaintStateModel {
 			}
 
 			Scene parentScene = parent.getScene();
-			// Set keybinding for ESC to exit transform mode
-			parentScene.setOnKeyPressed(keyEvent -> {
-				// Check key type
-				if (keyEvent.getCode() == KeyCode.ESCAPE) {
-					exitTransformMode(parent);
-				}
-			});
+			if (parentScene == null) {
+				// Attach key listener directly to parent
+				parent.setOnKeyPressed(keyEvent -> {
+					// Check key type
+					if (keyEvent.getCode() == KeyCode.ESCAPE) {
+						exitTransformMode(parent);
+					}
+				});
+			} else {
+				// Set keybinding for ESC to exit transform mode
+				parentScene.setOnKeyPressed(keyEvent -> {
+					// Check key type
+					if (keyEvent.getCode() == KeyCode.ESCAPE) {
+						exitTransformMode(parent);
+					}
+				});
+			}
+
+
+
 
 			// Translation handler (XY Movement) SECTION START
 
@@ -270,8 +286,6 @@ public class PaintStateModel {
 		shapeTransformationGroup.setOnMouseEntered(mouseE -> {
 			shapeTransformationGroup.setCursor(Cursor.MOVE);
 		});
-
-		// TODO remove selectionbox when saving since it willcapture the selectionbox in the file
 
 		drawing.getChildren().add(shapeTransformationGroup);
 	}

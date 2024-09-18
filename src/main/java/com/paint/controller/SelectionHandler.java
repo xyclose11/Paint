@@ -1,10 +1,12 @@
 package com.paint.controller;
 
+import com.paint.model.CurrentWorkspaceModel;
 import com.paint.model.PaintStateModel;
 import com.paint.resource.ResizeableCanvas;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
@@ -25,6 +27,15 @@ public class SelectionHandler {
 	private final Clipboard clipboard = Clipboard.getSystemClipboard();
 	private final ClipboardContent clipboardContent = new ClipboardContent();
 	private ImageView selectionImage;
+	private CurrentWorkspaceModel currentWorkspaceModel;
+
+	public CurrentWorkspaceModel getCurrentWorkspaceModel() {
+		return currentWorkspaceModel;
+	}
+
+	public void setCurrentWorkspaceModel(CurrentWorkspaceModel currentWorkspaceModel) {
+		this.currentWorkspaceModel = currentWorkspaceModel;
+	}
 
 	private PaintStateModel paintStateModel;
 
@@ -47,10 +58,7 @@ public class SelectionHandler {
 	}
 
 	public void handleSelectionDragged(double curX, double curY) {
-		selectionRect.getStrokeDashArray().setAll(2d, 10d);
-		selectionRect.setStroke(Color.GRAY);
-		selectionRect.setFill(Color.TRANSPARENT);
-		selectionRect.setStrokeType(StrokeType.OUTSIDE);
+		applySelectionRectAttributes(selectionRect);
 
 		/*
 			   2   |   1
@@ -80,7 +88,8 @@ public class SelectionHandler {
 			selectionRect.setY(curY);
 			selectionRect.setWidth(Math.abs(curX - startX));
 			selectionRect.setHeight(Math.abs(startY - curY));
-		}	}
+		}
+	}
 
 	public void handleSelectionReleased() {
 		// On release transfer everything inside the rect into a new draggable rect
@@ -109,7 +118,13 @@ public class SelectionHandler {
 
 		// Enable transformations
 		this.paintStateModel.setTransformable(true, drawingPane);
+	}
 
+	private void applySelectionRectAttributes(Rectangle rectangle) {
+		rectangle.getStrokeDashArray().setAll(2d, 10d);
+		rectangle.setStroke(Color.GRAY);
+		rectangle.setFill(Color.TRANSPARENT);
+		rectangle.setStrokeType(StrokeType.OUTSIDE);
 	}
 
 
@@ -127,6 +142,37 @@ public class SelectionHandler {
 			Alert copyError = new Alert(Alert.AlertType.ERROR, "ERROR COPYING SELECTION. PLEASE TRY AGAIN: " + e.getMessage());
 			copyError.show();
 			e.getMessage();
+		}
+	}
+
+	public void pasteClipboardImage() {
+		// System clipboard IMG -> canvas selection
+		Image image = Clipboard.getSystemClipboard().getImage();
+		if (image != null) {
+			double width = image.getWidth();
+			double height = image.getHeight();
+			double x = 0;
+			double y = 0;
+
+			// Create selection Rectangle
+			selectionRect = new Rectangle(x,y,width,height);
+			applySelectionRectAttributes(selectionRect);
+
+			PixelReader pixelReader = image.getPixelReader();
+
+			WritableImage selectImg = new WritableImage(pixelReader, 0, 0,(int) image.getWidth(), (int) image.getHeight());
+
+			ImageView imageView = new ImageView(selectImg);
+
+			this.paintStateModel.setCurrentShape(selectionRect);
+			this.paintStateModel.setCurrentSelection(imageView);
+
+			this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().getDrawingPane().getChildren().add(imageView);
+			this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().getDrawingPane().getChildren().add(selectionRect);
+
+
+			// Enable transformations
+			this.paintStateModel.setTransformable(true, this.drawingPane);
 		}
 	}
 
