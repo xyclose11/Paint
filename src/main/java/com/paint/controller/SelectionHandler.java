@@ -46,6 +46,13 @@ public class SelectionHandler {
 		selectionRect.setFill(Color.TRANSPARENT);
 		selectionRect.setStrokeType(StrokeType.OUTSIDE);
 
+		/*
+			   2   |   1
+			-------|------
+			   3   |   4
+		*/
+
+
 		// Check if cursor is going in Quadrant 4 (Meaning that it doesn't require any calculation swaps)
 		if (curX >= startX && curY >= startY) {
 			selectionRect.setWidth((curX - startX));
@@ -75,16 +82,19 @@ public class SelectionHandler {
 		canvas.snapshot(null, image);
 
 		PixelReader pixelReader = image.getPixelReader();
-		// Take a snapshot within the selection box
 
-		WritableImage selectImg = new WritableImage(pixelReader, (int) startX, (int) startY, (int) selectionRect.getWidth(), (int) selectionRect.getHeight());
+		int selectX = (int) selectionRect.getX();
+		int selectY = (int) selectionRect.getY();
+
+
+		WritableImage selectImg = new WritableImage(pixelReader, selectX, selectY, (int) selectionRect.getWidth(), (int) selectionRect.getHeight());
 
 		ImageView imageView = new ImageView(selectImg);
-		imageView.setX(startX);
-		imageView.setY(startY);
+		imageView.setX(selectX);
+		imageView.setY(selectY);
 
 		// Remove a rect of same size from canvas
-		canvas.getGraphicsContext2D().clearRect(startX, startY, selectionRect.getWidth(), selectionRect.getHeight());
+		canvas.getGraphicsContext2D().clearRect(selectX, selectY, selectionRect.getWidth(), selectionRect.getHeight());
 
 		this.paintStateModel.setCurrentShape(selectionRect);
 		this.paintStateModel.setCurrentSelection(imageView);

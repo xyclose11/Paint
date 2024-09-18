@@ -22,6 +22,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 
 import javax.imageio.ImageIO;
@@ -166,7 +167,6 @@ public class CanvasController {
                     toolController.handleToolGeneralOnPress(null, currentTool, mouseEvent);
                     break;
                 case "selection":
-                    System.out.println("SELECTION");
                     selectionHandler.handleSelectionPressed(startX, startY);
                     break;
             }
@@ -602,8 +602,18 @@ public class CanvasController {
         double x = selection.getX() + selection.getTranslateX();
         double y = selection.getY() + selection.getTranslateY();
 
+        // Save Graphics Context state
+        graphicsContext.save();
+
+        // Reset GC settings
+        graphicsContext.setLineDashes(null);
+        graphicsContext.setStroke(Color.TRANSPARENT);
+        graphicsContext.setFill(Color.TRANSPARENT);
+
         // Set canvas to the image
         mainCanvas.getGraphicsContext2D().drawImage(image, x, y);
+
+        graphicsContext.restore();
 
         this.canvasModel.setChangesMade(true);
     }
