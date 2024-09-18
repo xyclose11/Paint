@@ -179,6 +179,10 @@ public class Main extends Application {
                             // When redoing add to undo stack
                             keyEvent.consume();
                             break;
+                        case C:
+                            selectionHandler.copySelectionContent();
+                            keyEvent.consume();
+                            break;
                     }
 
                 }

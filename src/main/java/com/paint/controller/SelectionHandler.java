@@ -4,9 +4,12 @@ import com.paint.model.PaintStateModel;
 import com.paint.resource.ResizeableCanvas;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.Clipboard;
+import javafx.scene.input.ClipboardContent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -19,6 +22,9 @@ public class SelectionHandler {
 	private Canvas canvas;
 	private Pane drawingPane;
 	private Rectangle selectionRect;
+	private final Clipboard clipboard = Clipboard.getSystemClipboard();
+	private final ClipboardContent clipboardContent = new ClipboardContent();
+	private ImageView selectionImage;
 
 	private PaintStateModel paintStateModel;
 
@@ -54,7 +60,7 @@ public class SelectionHandler {
 
 
 		// Check if cursor is going in Quadrant 4 (Meaning that it doesn't require any calculation swaps)
-		if (curX >= startX && curY >= startY) {
+		if (curX >= startX && curY >= startY) { // TODO replace this when you integrate with a shapeManager
 			selectionRect.setWidth((curX - startX));
 			selectionRect.setHeight((curY - startY));
 			return;
@@ -104,6 +110,24 @@ public class SelectionHandler {
 		// Enable transformations
 		this.paintStateModel.setTransformable(true, drawingPane);
 
+	}
+
+
+	public void copySelectionContent() {
+		// Check if there is a selection made
+		if (this.paintStateModel.getImageView() == null) {
+			return;
+		}
+
+		// Copies the selection content into an image on the systems clipboard
+		try {
+			clipboardContent.putImage(this.paintStateModel.getImageView().getImage());
+			clipboard.setContent(clipboardContent);
+		} catch (Exception e) {
+			Alert copyError = new Alert(Alert.AlertType.ERROR, "ERROR COPYING SELECTION. PLEASE TRY AGAIN: " + e.getMessage());
+			copyError.show();
+			e.getMessage();
+		}
 	}
 
 	public Group getCanvasGroup() {

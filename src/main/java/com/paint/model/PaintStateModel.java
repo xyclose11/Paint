@@ -84,7 +84,11 @@ public class PaintStateModel {
         this.imageView = imageView;
     }
 
-    public CurrentWorkspaceModel getCurrentWorkspaceModel() { return  this.currentWorkspaceModel; }
+	public ImageView getImageView() {
+		return imageView;
+	}
+
+	public CurrentWorkspaceModel getCurrentWorkspaceModel() { return  this.currentWorkspaceModel; }
 
 	public void setCurrentWorkspaceModel(CurrentWorkspaceModel currentWorkspaceModel) {
 		this.currentWorkspaceModel = currentWorkspaceModel;
@@ -205,8 +209,6 @@ public class PaintStateModel {
 
 		// Reset shapeGroup
 		setShapeTransformationGroup(null);
-
-
 	}
 
 	private void createSelectionBox(Shape currentShape, Pane drawing) {
