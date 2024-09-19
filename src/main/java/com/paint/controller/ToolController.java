@@ -68,7 +68,7 @@ public class ToolController {
         dialog.setTitle("Polygon Input");
         dialog.setHeaderText("Enter the polygon parameters");
 
-        // Create a grid pane for the dialog content
+        // Grid pane for the dialog content
         GridPane grid = new GridPane();
         grid.setHgap(10);
         grid.setVgap(10);
@@ -138,7 +138,9 @@ public class ToolController {
             double y = centerY + radius * Math.sin(angle);
             polygon.getPoints().addAll(x, y);
         }
-
+        System.out.println(polygon.getPoints().size());
+        this.paintStateModel.setCurrentShape(polygon);
+        this.paintStateModel.setTransformable(true, drawingPane);
     }
 
     public GraphicsContext getGraphicsContext() {

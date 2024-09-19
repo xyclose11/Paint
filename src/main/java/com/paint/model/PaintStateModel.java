@@ -11,10 +11,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
-import javafx.scene.shape.StrokeLineCap;
-import javafx.scene.shape.StrokeType;
+import javafx.scene.shape.*;
 
 // Hold info about currently selected brush, image, color, shape, etc. settings.
 public class PaintStateModel {
@@ -132,8 +129,8 @@ public class PaintStateModel {
 
 			this.shapeTransformationGroup.setOnMouseDragged(dragEvent -> {
                 // Update shape position
-                this.shapeTransformationGroup.setTranslateX( + (dragEvent.getSceneX() - startX));
-                this.shapeTransformationGroup.setTranslateY( + (dragEvent.getSceneY() - startY));
+                this.shapeTransformationGroup.setTranslateX((dragEvent.getSceneX() - startX));
+                this.shapeTransformationGroup.setTranslateY((dragEvent.getSceneY() - startY));
 			});
 
 			// Translation handler (XY Movement) SECTION END

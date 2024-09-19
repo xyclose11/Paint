@@ -194,7 +194,7 @@ public class CanvasController {
                 currentShape = new CubicCurve(startX, startY, startX, startY, startX + 1, startY + 1, startX + 1, startY + 1);
                 break;
             case "regularPolygon":
-                currentShape = new Polyline();
+                currentShape = new Polygon();
                 toolController.showInputDialog(this.drawingPane);
                 break;
         }
@@ -388,14 +388,6 @@ public class CanvasController {
             double r = (curX + curY) / 7.6;
             star.updateStar(startX, startY, r);
         }
-//
-//        if (Objects.equals(this.paintStateModel.getCurrentTool(), "regularPolygon")) {
-//            Line tempLine = (Line) currentShape;
-//            assert tempLine != null;
-//            tempLine.setEndX(curX);
-//            tempLine.setEndY(curY);
-//        }
-
 
     }
 
@@ -446,6 +438,9 @@ public class CanvasController {
                     timesAdjusted++;
                 }
             });
+        } else if (this.paintStateModel.getCurrentTool() == "regularPolygon") {
+            System.out.println("POLY");
+
         } else {
             // Allow shape to be selected via mouse select
             currentShape.setPickOnBounds(true);
@@ -566,6 +561,22 @@ public class CanvasController {
 
             handleStar(xT, yT, star);
 
+        }
+
+        if (currentShape instanceof Polygon) {
+            Polygon polygon = (Polygon) selectionGroup.getChildren().get(1);
+            double[] xPoints = new double[polygon.getPoints().size() / 2];
+            double[] yPoints = new double[polygon.getPoints().size() / 2];
+
+            for (int i = 0; i < polygon.getPoints().size(); i++) {
+                if (i % 2 == 0) {
+                    xPoints[i / 2] = polygon.getPoints().get(i);
+                } else {
+                    yPoints[i / 2] = polygon.getPoints().get(i);
+                }
+            }
+            // TODO fix issue where if regular poly is moved it won't be applied to the canvas
+            graphicsContext.strokePolygon(xPoints, yPoints, xPoints.length);
         }
 
 
