@@ -6,7 +6,6 @@ import com.paint.model.SceneStateModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -232,7 +231,7 @@ public class ToolMenuController {
                     // Load the FXML for the Font controls
                     try {
                         AnchorPane dialogPane = fontToolBarLoader.load();
-                        Parent root = sceneStateModel.getCurrentScene().getRoot();
+//                        Parent root = sceneStateModel.getCurrentScene().getRoot();
 
                     } catch (IOException e) {
                         throw new RuntimeException(e);

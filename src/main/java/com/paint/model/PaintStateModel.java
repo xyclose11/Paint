@@ -193,7 +193,6 @@ public class PaintStateModel {
 
         // Convert shape -> canvas
         this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().applyPaneShapeToCanvas(this.currentShape);
-        System.out.println("HIT");
         // Enable CanvasController handlers
         this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().setCanvasDrawingStackPaneHandlerState(true);
 

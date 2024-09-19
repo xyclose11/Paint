@@ -383,7 +383,6 @@ public class CanvasController {
                 // TBD
                 break;
             case "general":
-                this.toolController.applyTextToCanvas("This is a text", mouseEvent.getX(), mouseEvent.getY());
                 break;
         }
 

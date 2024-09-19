@@ -1,16 +1,18 @@
 package com.paint.controller;
 
 import com.paint.model.PaintStateModel;
+import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.TextArea;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeType;
-import javafx.scene.text.Font;
 
 public class ToolController {
     private PaintStateModel paintStateModel;
@@ -36,13 +38,33 @@ public class ToolController {
                 textArea.setPrefColumnCount(6);
                 textArea.setPrefRowCount(1);
                 textArea.setWrapText(true);
+                textArea.setBackground(null);
+                textArea.setLayoutX(mouseEvent.getX()); // Places the text area
+                textArea.setLayoutY(mouseEvent.getY() - 15);
+
 
                 // listener to alert whenever the text area is in focus
                 textArea.focusedProperty().addListener(((observableValue, aBoolean, t1) -> {
-                    System.out.println(Font.getFontNames());
 //                    textArea.setFont();
                 }));
+
+
+                textArea.requestFocus();
+
                 drawingPane.getChildren().add(textArea);
+
+                textArea.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent event) {
+                        if (event.getCode() == KeyCode.ESCAPE) {
+                            // Apply text to canvas
+                            applyTextToCanvas(textArea.getText(), mouseEvent.getX(), mouseEvent.getY());
+
+                            // Remove text area from pane
+                            drawingPane.getChildren().clear();
+                        }
+                    }
+                });
 
                 break;
 
@@ -65,7 +87,6 @@ public class ToolController {
     }
 
     public void applyTextToCanvas(String text, double x, double y) {
-        System.out.println();
         graphicsContext.strokeText(text, x, y);
     }
 
