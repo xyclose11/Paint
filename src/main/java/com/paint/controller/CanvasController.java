@@ -22,6 +22,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.*;
+import javafx.scene.paint.Color;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -152,7 +153,7 @@ public class CanvasController {
                     handleToolBrushOnPress();
                     break;
                 case "general":
-                    toolController.handleToolGeneralOnPress(null, currentTool, mouseEvent);
+                    toolController.handleToolGeneralOnPress(null, currentTool, mouseEvent, drawingPane);
                     break;
             }
         }

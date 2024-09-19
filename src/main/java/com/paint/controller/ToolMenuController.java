@@ -9,6 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -37,6 +38,8 @@ public class ToolMenuController {
 
     private HBox lwView;
 
+    private FXMLLoader fontToolBarLoader;
+
     @FXML
     private ColorPicker colorPicker;
 
@@ -48,6 +51,14 @@ public class ToolMenuController {
 
     @FXML
     private ComboBox<String> toolMenuShapeLineWidthCB;
+
+    public FXMLLoader getFontToolBarLoader() {
+        return fontToolBarLoader;
+    }
+
+    public void setFontToolBarLoader(FXMLLoader fontToolBarLoader) {
+        this.fontToolBarLoader = fontToolBarLoader;
+    }
 
     // Set models
     public void setPaintStateModel(PaintStateModel paintStateModel) {
@@ -207,17 +218,34 @@ public class ToolMenuController {
         ToolSelect.selectedToggleProperty().addListener(((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 String val = newValue.toString();
+                System.out.println(val);
                 if (val.contains("regular") || val.contains("eraser")) { // Looks for 'regular' brush type
                     // Show Line Width Slider
 	                try {
 		                showLWSlider();
+                        return;
 	                } catch (IOException e) {
 		                throw new RuntimeException(e);
 	                }
-                } else {
-                    // Hide Line Width Slider
-                    hideLWSlider();
                 }
+
+                // Check for Text Tool selection -> show tool menu for Font
+                if (val.contains("TextTool")) {
+                    // Load the FXML for the Font controls
+                    try {
+                        AnchorPane dialogPane = fontToolBarLoader.load();
+//                        Parent root = sceneStateModel.getCurrentScene().getRoot();
+
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
+                    }
+
+                }
+
+                // Hide Line Width Slider
+                hideLWSlider();
+
+
             }
         }));
     }
