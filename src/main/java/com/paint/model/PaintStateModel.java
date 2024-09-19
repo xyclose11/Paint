@@ -240,10 +240,6 @@ public class PaintStateModel {
 //        middleBox.setPickOnBounds(true);
 		// END TEST
 
-		// Setup mouse event handlers
-//        selectionRect.setOnMouseEntered(mouseEvent -> {
-//            selectionRect.setCursor(Cursor.H_RESIZE);
-//        });
 
 		Group group = new Group(selectionRect, currentShape);
 		setShapeTransformationGroup(group);

@@ -194,7 +194,7 @@ public class CanvasController {
                 currentShape = new CubicCurve(startX, startY, startX, startY, startX + 1, startY + 1, startX + 1, startY + 1);
                 break;
             case "regularPolygon":
-//                currentShape = new Line(startX, startY, 1, 1);
+                currentShape = new Polyline();
                 toolController.showInputDialog(this.drawingPane);
                 break;
         }
