@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.collections.FXCollections?>
+<?import java.lang.*?>
+<?import javafx.collections.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.input.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.Color?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
 <?import org.kordamp.ikonli.javafx.*?>
-<?import java.lang.*?>
-<HBox id="toolbarMainWrapper" minHeight="60.0" prefHeight="80.0" prefWidth="1007.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.ToolMenuController">
+
+<HBox id="toolbarMainWrapper" minHeight="60.0" prefHeight="80.0" prefWidth="1007.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.ToolMenuController">
    <VBox id="SelectionVBoxTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
       <children>
          <VBox prefHeight="200.0" prefWidth="100.0">
@@ -233,6 +234,14 @@
                                  <FontIcon fontSmoothingType="LCD" iconLiteral="mdi2s-star-outline" iconSize="18" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                               </graphic>
                            </ToggleButton>
+                           <ToggleButton fx:id="regularPolygon" ellipsisString="" layoutX="59.0" layoutY="39.0" mnemonicParsing="false" onMouseClicked="#updateShapeToolState" textFill="#c63131" toggleGroup="$ToolSelect" GridPane.columnIndex="3" GridPane.rowIndex="1">
+                              <tooltip>
+                                 <Tooltip text="Star" />
+                              </tooltip>
+                              <graphic>
+                                 <FontIcon fontSmoothingType="LCD" iconLiteral="mdi2s-star-outline" iconSize="18" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                              </graphic>
+                           </ToggleButton>
                         </children>
                         <padding>
                            <Insets left="8.0" right="8.0" top="8.0" />
@@ -262,7 +271,7 @@
                               <Tooltip text="Choose Shape Line Width" />
                           </tooltip>
                       </ComboBox>
-                     <CheckBox id="dashed" fx:id="dashCheckbox" onMouseClicked="#onMouseClickedDash" alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" mnemonicParsing="false" text="Dash?">
+                     <CheckBox id="dashed" fx:id="dashCheckbox" alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" mnemonicParsing="false" onMouseClicked="#onMouseClickedDash" text="Dash?">
                         <font>
                            <Font size="10.0" />
                         </font>

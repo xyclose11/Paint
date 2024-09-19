@@ -71,6 +71,7 @@ public class Main extends Application {
 
         // Load ToolMenuController after load
         ToolMenuController toolMenuController = toolMenuLoader.getController();
+        toolMenuController.setCurrentWorkspaceModel(currentWorkspaceModel);
 
         UtilityController utilityController = utilityMenuLoader.getController();
         utilityController.setCurrentWorkspaceModel(currentWorkspaceModel);
@@ -91,7 +92,6 @@ public class Main extends Application {
 
         toolMenuController.setPaintStateModel(paintStateModel);
         toolMenuController.setSceneStateModel(sceneStateModel);
-        toolMenuController.setCanvasModel(canvasModel);
 
         canvasController.setCanvasModel(canvasModel);
         canvasController.setPaintStateModel(paintStateModel);

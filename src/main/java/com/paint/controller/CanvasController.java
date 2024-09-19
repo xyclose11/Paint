@@ -193,6 +193,10 @@ public class CanvasController {
                 timesAdjusted = 0;
                 currentShape = new CubicCurve(startX, startY, startX, startY, startX + 1, startY + 1, startX + 1, startY + 1);
                 break;
+            case "regularPolygon":
+//                currentShape = new Line(startX, startY, 1, 1);
+                toolController.showInputDialog(this.drawingPane);
+                break;
         }
 
         if (currentShape != null) {
@@ -384,6 +388,13 @@ public class CanvasController {
             double r = (curX + curY) / 7.6;
             star.updateStar(startX, startY, r);
         }
+//
+//        if (Objects.equals(this.paintStateModel.getCurrentTool(), "regularPolygon")) {
+//            Line tempLine = (Line) currentShape;
+//            assert tempLine != null;
+//            tempLine.setEndX(curX);
+//            tempLine.setEndY(curY);
+//        }
 
 
     }
@@ -414,7 +425,7 @@ public class CanvasController {
         this.canvasModel.setFileBlank(false);
     }
 
-    private int timesAdjusted = 0;
+    private int timesAdjusted = 0; // Cubic curve
     private void handleToolShapeReleased(Shape currentShape) {
         // Disable StackPane Mouse Event Handlers
         setCanvasDrawingStackPaneHandlerState(false);

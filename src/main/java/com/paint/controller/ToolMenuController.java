@@ -1,6 +1,6 @@
 package com.paint.controller;
 
-import com.paint.model.CanvasModel;
+import com.paint.model.CurrentWorkspaceModel;
 import com.paint.model.PaintStateModel;
 import com.paint.model.SceneStateModel;
 import javafx.event.ActionEvent;
@@ -27,7 +27,7 @@ public class ToolMenuController {
     @FXML
     public CheckBox dashCheckbox;
 
-    private CanvasModel canvasModel;
+    private CurrentWorkspaceModel currentWorkspaceModel;
 
     private PaintStateModel paintStateModel;
 
@@ -57,12 +57,12 @@ public class ToolMenuController {
         this.sceneStateModel = sceneStateModel;
     }
 
-    public CanvasModel getCanvasModel() {
-        return canvasModel;
+    public CurrentWorkspaceModel getCurrentWorkspaceModel() {
+        return currentWorkspaceModel;
     }
 
-    public void setCanvasModel(CanvasModel canvasModel) {
-        this.canvasModel = canvasModel;
+    public void setCurrentWorkspaceModel(CurrentWorkspaceModel currentWorkspaceModel) {
+        this.currentWorkspaceModel = currentWorkspaceModel;
     }
 
     public void setLineWidthController(LineWidthController lineWidthController) {
@@ -226,4 +226,6 @@ public class ToolMenuController {
     private void onMouseClickedDash(MouseEvent mouseEvent) {
         this.paintStateModel.setDashed(dashCheckbox.isSelected());
     }
+
+
 }
