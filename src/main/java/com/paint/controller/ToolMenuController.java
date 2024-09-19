@@ -9,7 +9,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -231,14 +230,14 @@ public class ToolMenuController {
 
                 // Check for Text Tool selection -> show tool menu for Font
                 if (val.contains("TextTool")) {
-                    // Load the FXML for the Font controls
-                    try {
-                        AnchorPane dialogPane = fontToolBarLoader.load();
-//                        Parent root = sceneStateModel.getCurrentScene().getRoot();
-
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+//                    // Load the FXML for the Font controls
+//                    try {
+////                        AnchorPane dialogPane = fontToolBarLoader.load();
+////                        Parent root = sceneStateModel.getCurrentScene().getRoot();
+//
+//                    } catch (IOException e) {
+//                        throw new RuntimeException(e);
+//                    }
 
                 }
 
