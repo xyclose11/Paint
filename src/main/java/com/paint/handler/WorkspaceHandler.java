@@ -1,11 +1,15 @@
-package com.paint.model;
+package com.paint.handler;
 
+import com.paint.model.InfoCanvasModel;
+import com.paint.model.PaintStateModel;
+import com.paint.model.SettingStateModel;
+import com.paint.model.TabModel;
 import com.paint.resource.Workspace;
 
 import java.io.File;
 import java.util.HashMap;
 
-public class CurrentWorkspaceModel {
+public class WorkspaceHandler {
 	// Store models for new file creation
 	private TabModel tabModel;
 	private SettingStateModel settingStateModel;

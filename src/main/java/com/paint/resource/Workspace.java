@@ -1,7 +1,7 @@
 package com.paint.resource;
 
 import com.paint.controller.CanvasController;
-import com.paint.controller.SelectionHandler;
+import com.paint.handler.SelectionHandler;
 import com.paint.model.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.WritableImage;

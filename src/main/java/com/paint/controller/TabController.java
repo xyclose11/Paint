@@ -1,5 +1,6 @@
 package com.paint.controller;
 
+import com.paint.handler.WorkspaceHandler;
 import com.paint.model.*;
 import com.paint.resource.Workspace;
 import javafx.fxml.FXML;
@@ -18,7 +19,7 @@ public class TabController {
 	private PaintStateModel paintStateModel;
 	private InfoCanvasModel infoCanvasModel;
 	private SettingStateModel settingStateModel;
-	private CurrentWorkspaceModel currentWorkspaceModel;
+	private WorkspaceHandler workspaceHandler;
 
 	@FXML
 	public TabPane fileTabPane;
@@ -49,7 +50,7 @@ public class TabController {
 		Tab newTab = new Tab("New File");
 
 		newTab.setOnCloseRequest(closeEvent -> {
-			this.currentWorkspaceModel.getWorkspaceList().remove(tabPane.getTabs().size() - 1);
+			this.workspaceHandler.getWorkspaceList().remove(tabPane.getTabs().size() - 1);
 		});
 
 		HBox canvasView = this.canvasModel.getCanvasView();
@@ -57,10 +58,10 @@ public class TabController {
 		Workspace workspace = new Workspace(canvasView, true, paintStateModel, infoCanvasModel, settingStateModel, tabModel);
 
 		// Set the current workspace in focus
-		this.currentWorkspaceModel.setCurrentWorkspace(workspace);
+		this.workspaceHandler.setCurrentWorkspace(workspace);
 
 		// Add to total workspace list
-		this.currentWorkspaceModel.addToEndOfWorkspaceList(workspace);
+		this.workspaceHandler.addToEndOfWorkspaceList(workspace);
 
 		newTab.setContent(workspace.getCanvasView());
 
@@ -86,8 +87,8 @@ public class TabController {
 	// TAB Handler SECTION END
 
 
-	public void setCurrentWorkspaceModel(CurrentWorkspaceModel currentWorkspaceModel) {
-		this.currentWorkspaceModel = currentWorkspaceModel;
+	public void setCurrentWorkspaceModel(WorkspaceHandler workspaceHandler) {
+		this.workspaceHandler = workspaceHandler;
 	}
 
 	public void setTabModel(TabModel tabModel) {

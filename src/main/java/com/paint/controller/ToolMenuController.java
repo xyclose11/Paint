@@ -1,6 +1,6 @@
 package com.paint.controller;
 
-import com.paint.model.CurrentWorkspaceModel;
+import com.paint.handler.WorkspaceHandler;
 import com.paint.model.PaintStateModel;
 import com.paint.model.SceneStateModel;
 import javafx.event.ActionEvent;
@@ -27,7 +27,7 @@ public class ToolMenuController {
     @FXML
     public CheckBox dashCheckbox;
 
-    private CurrentWorkspaceModel currentWorkspaceModel;
+    private WorkspaceHandler workspaceHandler;
     @FXML
     public ToggleButton selection;
 
@@ -69,12 +69,12 @@ public class ToolMenuController {
         this.sceneStateModel = sceneStateModel;
     }
 
-    public CurrentWorkspaceModel getCurrentWorkspaceModel() {
-        return currentWorkspaceModel;
+    public WorkspaceHandler getCurrentWorkspaceModel() {
+        return workspaceHandler;
     }
 
-    public void setCurrentWorkspaceModel(CurrentWorkspaceModel currentWorkspaceModel) {
-        this.currentWorkspaceModel = currentWorkspaceModel;
+    public void setCurrentWorkspaceModel(WorkspaceHandler workspaceHandler) {
+        this.workspaceHandler = workspaceHandler;
     }
 
     public void setLineWidthController(LineWidthController lineWidthController) {

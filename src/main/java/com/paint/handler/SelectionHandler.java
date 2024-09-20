@@ -1,6 +1,5 @@
-package com.paint.controller;
+package com.paint.handler;
 
-import com.paint.model.CurrentWorkspaceModel;
 import com.paint.model.PaintStateModel;
 import com.paint.resource.ResizeableCanvas;
 import javafx.scene.Group;
@@ -27,14 +26,14 @@ public class SelectionHandler {
 	private final Clipboard clipboard = Clipboard.getSystemClipboard();
 	private final ClipboardContent clipboardContent = new ClipboardContent();
 	private ImageView selectionImage;
-	private CurrentWorkspaceModel currentWorkspaceModel;
+	private WorkspaceHandler workspaceHandler;
 
-	public CurrentWorkspaceModel getCurrentWorkspaceModel() {
-		return currentWorkspaceModel;
+	public WorkspaceHandler getCurrentWorkspaceModel() {
+		return workspaceHandler;
 	}
 
-	public void setCurrentWorkspaceModel(CurrentWorkspaceModel currentWorkspaceModel) {
-		this.currentWorkspaceModel = currentWorkspaceModel;
+	public void setCurrentWorkspaceModel(WorkspaceHandler workspaceHandler) {
+		this.workspaceHandler = workspaceHandler;
 	}
 
 	private PaintStateModel paintStateModel;
@@ -170,7 +169,7 @@ public class SelectionHandler {
 //			this.paintStateModel.setCurrentShape(selectionRect);
 			this.paintStateModel.setCurrentSelection(imageView);
 
-			this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().getDrawingPane().getChildren().add(imageView);
+			this.workspaceHandler.getCurrentWorkspace().getCanvasController().getDrawingPane().getChildren().add(imageView);
 //			this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().getDrawingPane().getChildren().add(selectionRect);
 
 

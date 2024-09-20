@@ -1,7 +1,7 @@
 package com.paint.controller;
 
 import com.paint.model.CanvasModel;
-import com.paint.model.CurrentWorkspaceModel;
+import com.paint.handler.WorkspaceHandler;
 import com.paint.model.InfoCanvasModel;
 import com.paint.model.PaintStateModel;
 import javafx.event.ActionEvent;
@@ -41,14 +41,14 @@ public class InfoController {
 
 	private PaintStateModel paintStateModel;
 
-	private CurrentWorkspaceModel currentWorkspaceModel;
+	private WorkspaceHandler workspaceHandler;
 
-	public CurrentWorkspaceModel getCurrentWorkspaceModel() {
-		return currentWorkspaceModel;
+	public WorkspaceHandler getCurrentWorkspaceModel() {
+		return workspaceHandler;
 	}
 
-	public void setCurrentWorkspaceModel(CurrentWorkspaceModel currentWorkspaceModel) {
-		this.currentWorkspaceModel = currentWorkspaceModel;
+	public void setCurrentWorkspaceModel(WorkspaceHandler workspaceHandler) {
+		this.workspaceHandler = workspaceHandler;
 	}
 
 	public ComboBox<String> getInfoBarZoomCB() {
@@ -99,7 +99,7 @@ public class InfoController {
 			double sliderVal = Double.parseDouble(cbVal); // Convert string -> double to set slider POS
 			this.infoBarZoomSlider.setValue(sliderVal);
 
-			this.currentWorkspaceModel.getCurrentWorkspace().getCanvasModel().setZoomScale(sliderVal / 100.0);
+			this.workspaceHandler.getCurrentWorkspace().getCanvasModel().setZoomScale(sliderVal / 100.0);
 
 		} catch (Exception e) {
 			System.out.println("ERROR");
@@ -113,14 +113,14 @@ public class InfoController {
 	private void onZoomSliderChange(MouseEvent mouseEvent) {
 		// Set zoom combo box to zoom value
 		this.infoBarZoomCB.setValue(String.valueOf(this.infoBarZoomSlider.getValue()));
-		this.currentWorkspaceModel.getCurrentWorkspace().getCanvasModel().setZoomScale(infoBarZoomSlider.getValue() / 100.0);
+		this.workspaceHandler.getCurrentWorkspace().getCanvasModel().setZoomScale(infoBarZoomSlider.getValue() / 100.0);
 		handleZoom();
 	}
 
 	// Handle scaling/zoom
 	private void handleZoom() {
-		canvasGroup = this.currentWorkspaceModel.getCurrentWorkspace().getCanvasModel().getCanvasGroup();
-		double newZoomScale = this.currentWorkspaceModel.getCurrentWorkspace().getCanvasModel().getZoomScale(); // Divide by 100.0 to get proper format for setScaleX/Y
+		canvasGroup = this.workspaceHandler.getCurrentWorkspace().getCanvasModel().getCanvasGroup();
+		double newZoomScale = this.workspaceHandler.getCurrentWorkspace().getCanvasModel().getZoomScale(); // Divide by 100.0 to get proper format for setScaleX/Y
 		canvasGroup.setScaleX(newZoomScale);
 		canvasGroup.setScaleY(newZoomScale);
 	}

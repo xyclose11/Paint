@@ -1,5 +1,7 @@
 package com.paint.controller;
 
+import com.paint.handler.SelectionHandler;
+import com.paint.handler.WorkspaceHandler;
 import com.paint.model.*;
 import com.paint.resource.ResizeableCanvas;
 import com.paint.resource.RightTriangle;
@@ -57,14 +59,14 @@ public class CanvasController {
     private ToolController toolController;
     private SelectionHandler selectionHandler;
     private TabModel tabModel;
-    private CurrentWorkspaceModel currentWorkspaceModel;
+    private WorkspaceHandler workspaceHandler;
 
-    public CurrentWorkspaceModel getCurrentWorkspaceModel() {
-        return currentWorkspaceModel;
+    public WorkspaceHandler getCurrentWorkspaceModel() {
+        return workspaceHandler;
     }
 
-    public void setCurrentWorkspaceModel(CurrentWorkspaceModel currentWorkspaceModel) {
-        this.currentWorkspaceModel = currentWorkspaceModel;
+    public void setCurrentWorkspaceModel(WorkspaceHandler workspaceHandler) {
+        this.workspaceHandler = workspaceHandler;
     }
 
     public SelectionHandler getSelectionHandler() {
@@ -153,7 +155,7 @@ public class CanvasController {
         String currentToolType = this.paintStateModel.getCurrentToolType();
 
         // Empty redo stack
-        this.currentWorkspaceModel.getCurrentWorkspace().getRedoStack().clear();
+        this.workspaceHandler.getCurrentWorkspace().getRedoStack().clear();
 
         if (!this.paintStateModel.isTransformable()) {
             switch (currentToolType) {
@@ -430,11 +432,11 @@ public class CanvasController {
                 handleToolShapeReleased(this.paintStateModel.getCurrentShape());
                 break;
             case ("brush"), ("general"):
-                this.currentWorkspaceModel.getCurrentWorkspace().getUndoStack().push(getCurrentCanvasSnapshot());
+                this.workspaceHandler.getCurrentWorkspace().getUndoStack().push(getCurrentCanvasSnapshot());
                 break;
             case ("selection"):
                 // Disable StackPane Mouse Event Handlers
-                this.currentWorkspaceModel.getCurrentWorkspace().getUndoStack().push(getCurrentCanvasSnapshot());
+                this.workspaceHandler.getCurrentWorkspace().getUndoStack().push(getCurrentCanvasSnapshot());
                 setCanvasDrawingStackPaneHandlerState(false);
                 selectionHandler.handleSelectionReleased();
                 break;
@@ -613,7 +615,7 @@ public class CanvasController {
 
         // Add shape creation to the undo stack on applied 2 canvas
         WritableImage writableImage = new WritableImage((int)(mainCanvas.getWidth()), (int) (mainCanvas.getHeight()));
-        this.currentWorkspaceModel.getCurrentWorkspace().getUndoStack().push(mainCanvas.snapshot(null, writableImage));
+        this.workspaceHandler.getCurrentWorkspace().getUndoStack().push(mainCanvas.snapshot(null, writableImage));
 
 
         // Reinitialize drawingPane to remove shape
@@ -885,7 +887,7 @@ public class CanvasController {
             // Ensure that CTRL is held down
             return;
         }
-        CanvasModel cm = this.currentWorkspaceModel.getCurrentWorkspace().getCanvasModel();
+        CanvasModel cm = this.workspaceHandler.getCurrentWorkspace().getCanvasModel();
 
         double zoomFactor = 1.25; // Handles zoom factor
         double scaleFactor = cm.getZoomScale();

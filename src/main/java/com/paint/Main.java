@@ -1,7 +1,10 @@
 package com.paint;
 
 import com.paint.controller.*;
+import com.paint.handler.SelectionHandler;
+import com.paint.handler.WorkspaceHandler;
 import com.paint.model.*;
+import com.paint.resource.TransformableNode;
 import com.paint.resource.Workspace;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -13,6 +16,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -29,7 +34,7 @@ public class Main extends Application {
     private InfoCanvasModel infoCanvasModel = new InfoCanvasModel();
     private SettingStateModel settingStateModel = new SettingStateModel();
     private TabModel tabModel = new TabModel();
-    private CurrentWorkspaceModel currentWorkspaceModel = new CurrentWorkspaceModel();
+    private WorkspaceHandler workspaceHandler = new WorkspaceHandler();
     private SelectionHandler selectionHandler = new SelectionHandler();
 
     @Override
@@ -72,10 +77,10 @@ public class Main extends Application {
 
         // Load ToolMenuController after load
         ToolMenuController toolMenuController = toolMenuLoader.getController();
-        toolMenuController.setCurrentWorkspaceModel(currentWorkspaceModel);
+        toolMenuController.setCurrentWorkspaceModel(workspaceHandler);
 
         UtilityController utilityController = utilityMenuLoader.getController();
-        utilityController.setCurrentWorkspaceModel(currentWorkspaceModel);
+        utilityController.setCurrentWorkspaceModel(workspaceHandler);
 
         // Set bottom
         FXMLLoader infoBarLoader = new FXMLLoader(getClass().getResource("/view/InfoBar.fxml"));
@@ -105,10 +110,10 @@ public class Main extends Application {
         canvasController.setSettingStateModel(settingStateModel);
         canvasController.setSceneStateModel(sceneStateModel);
         canvasController.setTabModel(tabModel);
-        canvasController.setCurrentWorkspaceModel(currentWorkspaceModel);
+        canvasController.setCurrentWorkspaceModel(workspaceHandler);
 
         selectionHandler.setPaintStateModel(paintStateModel);
-        selectionHandler.setCurrentWorkspaceModel(currentWorkspaceModel);
+        selectionHandler.setCurrentWorkspaceModel(workspaceHandler);
         canvasController.setSelectionHandler(selectionHandler);
 
         tabController.setCanvasModel(canvasModel);
@@ -116,19 +121,19 @@ public class Main extends Application {
         tabController.setPaintStateModel(paintStateModel);
         tabController.setInfoCanvasModel(infoCanvasModel);
         tabController.setSettingStateModel(settingStateModel);
-        tabController.setCurrentWorkspaceModel(currentWorkspaceModel);
+        tabController.setCurrentWorkspaceModel(workspaceHandler);
 
         // Maintains the state of the current workspace in focus
         canvasWrapper.getSelectionModel().selectedIndexProperty().addListener(((observable, oldValue, newValue) -> {
             // Change active workspace
-            Workspace workspace = this.currentWorkspaceModel.getWorkspaceList().get(newValue);
-            this.currentWorkspaceModel.setCurrentWorkspace(workspace);
+            Workspace workspace = this.workspaceHandler.getWorkspaceList().get(newValue);
+            this.workspaceHandler.setCurrentWorkspace(workspace);
 
             File currentWorkspaceFile = workspace.getWorkspaceFile();
-            this.currentWorkspaceModel.setCurrentFile(currentWorkspaceFile);
+            this.workspaceHandler.setCurrentFile(currentWorkspaceFile);
 
             // Exit user from transformation mode
-            this.paintStateModel.setTransformable(false, this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().getDrawingPane());
+            this.paintStateModel.setTransformable(false, this.workspaceHandler.getCurrentWorkspace().getCanvasController().getDrawingPane());
 
             // Set active tab
             this.tabModel.setCurrentTab(canvasWrapper.getTabs().get((Integer) newValue));
@@ -139,16 +144,23 @@ public class Main extends Application {
         infoController.setCanvasModel(canvasModel);
         infoController.setInfoCanvasModel(infoCanvasModel);
         infoController.setPaintStateModel(paintStateModel);
-        infoController.setCurrentWorkspaceModel(currentWorkspaceModel);
+        infoController.setCurrentWorkspaceModel(workspaceHandler);
 
         paintStateModel.setInfoCanvasModel(infoCanvasModel);
-        paintStateModel.setCurrentWorkspaceModel(currentWorkspaceModel);
+        paintStateModel.setCurrentWorkspaceModel(workspaceHandler);
 
-        currentWorkspaceModel.setSettingStateModel(settingStateModel);
-        currentWorkspaceModel.setInfoCanvasModel(infoCanvasModel);
-        currentWorkspaceModel.setTabModel(tabModel);
-        currentWorkspaceModel.setPaintStateModel(paintStateModel);
+        workspaceHandler.setSettingStateModel(settingStateModel);
+        workspaceHandler.setInfoCanvasModel(infoCanvasModel);
+        workspaceHandler.setTabModel(tabModel);
+        workspaceHandler.setPaintStateModel(paintStateModel);
 
+        // Create a simple Rectangle Node
+        Circle rect = new Circle(100, 100, 200);
+        rect.setFill(Color.LIGHTBLUE);
+
+        // Create the TransformableNode by wrapping the Rectangle
+        TransformableNode transformableRect = new TransformableNode(rect);
+        canvasView.getChildren().add(transformableRect);
         // Add style sheets
         try {
             scene.getStylesheets().add(getClass().getResource("/styles/styles.css").toString());
@@ -176,12 +188,12 @@ public class Main extends Application {
                             keyEvent.consume(); // This prevents the event from going any further
                             break;
                         case Z: // Undo
-                            currentWorkspaceModel.getCurrentWorkspace().handleUndoAction();
+                            workspaceHandler.getCurrentWorkspace().handleUndoAction();
                             // When undoing add to redo stack
                             keyEvent.consume();
                             break;
                         case Y: // Redo
-                            currentWorkspaceModel.getCurrentWorkspace().handleRedoAction();
+                            workspaceHandler.getCurrentWorkspace().handleRedoAction();
                             // When redoing add to undo stack
                             keyEvent.consume();
                             break;
@@ -211,10 +223,10 @@ public class Main extends Application {
 	            boolean isSaved = false;
 	            try {
                     // If no tabs active allow user to exit without alerting
-                    if (currentWorkspaceModel.getSize() == 0) {
+                    if (workspaceHandler.getSize() == 0) {
                         primaryStage.close();
                     } else {
-                        CanvasController currentCanvasController = currentWorkspaceModel.getCurrentWorkspace().getCanvasController();
+                        CanvasController currentCanvasController = workspaceHandler.getCurrentWorkspace().getCanvasController();
 		                isSaved = currentCanvasController.isFileSavedRecently();
                     }
 	            } catch (IOException e) {

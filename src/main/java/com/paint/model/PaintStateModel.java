@@ -1,5 +1,6 @@
 package com.paint.model;
 
+import com.paint.handler.WorkspaceHandler;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -40,7 +41,7 @@ public class PaintStateModel {
 	private Rectangle selectionRectangle;
 	private boolean isDashed;
 	//    private CanvasController canvasController;
-	private CurrentWorkspaceModel currentWorkspaceModel;
+	private WorkspaceHandler workspaceHandler;
 	private InfoCanvasModel infoCanvasModel;
 	private ImageView imageView;
 
@@ -85,10 +86,10 @@ public class PaintStateModel {
 		return imageView;
 	}
 
-	public CurrentWorkspaceModel getCurrentWorkspaceModel() { return  this.currentWorkspaceModel; }
+	public WorkspaceHandler getCurrentWorkspaceModel() { return  this.workspaceHandler; }
 
-	public void setCurrentWorkspaceModel(CurrentWorkspaceModel currentWorkspaceModel) {
-		this.currentWorkspaceModel = currentWorkspaceModel;
+	public void setCurrentWorkspaceModel(WorkspaceHandler workspaceHandler) {
+		this.workspaceHandler = workspaceHandler;
 	}
 
 	public Rectangle getSelectionRectangle() {
@@ -207,15 +208,15 @@ public class PaintStateModel {
 		// Convert shape -> canvas
         // Check if current object is a shape
         if (Objects.equals(this.currentToolType, "shape")) { // TODO convert this into a switch/case statement
-            this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().applyPaneShapeToCanvas(this.currentShape);
+            this.workspaceHandler.getCurrentWorkspace().getCanvasController().applyPaneShapeToCanvas(this.currentShape);
         } else if (Objects.equals(this.currentToolType, "selection")) {
 			// Remove outer selection rectangle
-            this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().applySelectionToCanvas(this.imageView);
+            this.workspaceHandler.getCurrentWorkspace().getCanvasController().applySelectionToCanvas(this.imageView);
         }
 
 
 		// Enable CanvasController handlers
-		this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().setCanvasDrawingStackPaneHandlerState(true);
+		this.workspaceHandler.getCurrentWorkspace().getCanvasController().setCanvasDrawingStackPaneHandlerState(true);
 
 		// Reset shapeGroup
 		setShapeTransformationGroup(null);

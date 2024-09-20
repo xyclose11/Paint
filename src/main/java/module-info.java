@@ -15,4 +15,6 @@ module com.paint {
 	exports com.paint.resource;
 	exports com.paint.model;
 	opens com.paint.controller to javafx.fxml;
+	exports com.paint.handler;
+	opens com.paint.handler to javafx.fxml;
 }

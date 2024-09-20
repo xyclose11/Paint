@@ -2,7 +2,7 @@ package com.paint.controller;
 
 
 import com.paint.model.CanvasModel;
-import com.paint.model.CurrentWorkspaceModel;
+import com.paint.handler.WorkspaceHandler;
 import com.paint.model.HelpAboutModel;
 import com.paint.resource.Workspace;
 import javafx.event.ActionEvent;
@@ -27,7 +27,7 @@ public class UtilityController {
 	@FXML
 	public Button redoBtn;
 
-	private CurrentWorkspaceModel currentWorkspaceModel;
+	private WorkspaceHandler workspaceHandler;
 
 	private HelpAboutModel helpAboutModel;
 	private CanvasModel canvasModel;
@@ -44,8 +44,8 @@ public class UtilityController {
 		this.helpAboutModel = helpAboutModel;
 	}
 
-	public void setCurrentWorkspaceModel(CurrentWorkspaceModel currentWorkspaceModel) {
-		this.currentWorkspaceModel = currentWorkspaceModel;
+	public void setCurrentWorkspaceModel(WorkspaceHandler workspaceHandler) {
+		this.workspaceHandler = workspaceHandler;
 	}
 
 	@FXML
@@ -91,7 +91,7 @@ public class UtilityController {
 		// Wait for image to load
 		image.progressProperty().addListener((obs, oldProgress, newProgress) -> {
 			if (newProgress.doubleValue() == 1.0) { // -> Image is loaded
-				Workspace temp = this.currentWorkspaceModel.getCurrentWorkspace();
+				Workspace temp = this.workspaceHandler.getCurrentWorkspace();
 
 				// Apply image to the current open workspace
 				temp.getCanvasController().setCanvas(image);
@@ -112,17 +112,17 @@ public class UtilityController {
 	@FXML
 	public void handleFileSave(ActionEvent event) throws IOException {
 		// Check if there is a current file opened
-		if (this.currentWorkspaceModel.getCurrentWorkspace().getWorkspaceFile() == null) {
+		if (this.workspaceHandler.getCurrentWorkspace().getWorkspaceFile() == null) {
 			// Redirect request to handleFileSaveAs
 			handleFileSaveAs(event);
 			return;
 		}
 
-		String filePath = this.currentWorkspaceModel.getCurrentWorkspace().getWorkspaceFile().getAbsolutePath();
+		String filePath = this.workspaceHandler.getCurrentWorkspace().getWorkspaceFile().getAbsolutePath();
 		String fileExt = getFileExt(filePath);
 		File file = new File(filePath); // Find the previously saved file
 
-		Workspace temp = this.currentWorkspaceModel.getCurrentWorkspace();
+		Workspace temp = this.workspaceHandler.getCurrentWorkspace();
 		temp.getCanvasController().saveImageFromCanvas(file, fileExt);
 
 		temp.setWorkspaceFile(file);
@@ -157,7 +157,7 @@ public class UtilityController {
 		}
 		String fileExt = getFileExt(file.getAbsolutePath());
 
-		Workspace temp = this.currentWorkspaceModel.getCurrentWorkspace();
+		Workspace temp = this.workspaceHandler.getCurrentWorkspace();
 		temp.getCanvasController().saveImageFromCanvas(file, fileExt);
 
 		temp.setWorkspaceFile(file);
@@ -198,31 +198,31 @@ public class UtilityController {
 		Path tempFile = Files.createTempFile(Files.createTempDirectory("temp-dir"), "testData-", ".txt");
 
 		File newFile = tempFile.toFile();
-		this.currentWorkspaceModel.setCurrentFile(newFile);
+		this.workspaceHandler.setCurrentFile(newFile);
 	}
 
 	@FXML
 	private void onCanvasClearMouseClick() {
 		// Get current workspaces' canvasModel
-		this.currentWorkspaceModel.getCurrentWorkspace().getCanvasModel().clearCanvas();
+		this.workspaceHandler.getCurrentWorkspace().getCanvasModel().clearCanvas();
 	}
 
 	@FXML
 	private void onMouseClickedUndo() {
-		this.currentWorkspaceModel.getCurrentWorkspace().handleUndoAction();
+		this.workspaceHandler.getCurrentWorkspace().handleUndoAction();
 	}
 
 	@FXML
 	private void onMouseClickedRedo() {
-		this.currentWorkspaceModel.getCurrentWorkspace().handleRedoAction();
+		this.workspaceHandler.getCurrentWorkspace().handleRedoAction();
 	}
 
 	public void onKeyPressedUndoBtn(KeyEvent keyEvent) {
-		this.currentWorkspaceModel.getCurrentWorkspace().handleUndoAction();
+		this.workspaceHandler.getCurrentWorkspace().handleUndoAction();
 	}
 
 	public void onKeyPressedRedoBtn(KeyEvent keyEvent) {
-		this.currentWorkspaceModel.getCurrentWorkspace().handleRedoAction();
+		this.workspaceHandler.getCurrentWorkspace().handleRedoAction();
 
 	}
 }
