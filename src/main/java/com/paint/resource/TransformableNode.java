@@ -37,7 +37,7 @@ public class TransformableNode extends Group {
 		isTransformable = true;
 		Pane parentPane = canvasController.getDrawingPane();
 
-		parentPane.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+		parentPane.getParent().getScene().addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
 				System.out.println("HIT: " + event.getCode());

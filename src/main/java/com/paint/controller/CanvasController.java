@@ -186,7 +186,7 @@ public class CanvasController {
         switch (currentTool) {
             case "StLine":
                 Line line = new Line(startX, startY, startX + 1, startY + 1);
-                currentShape = new TransformableNode(line, this.workspaceHandler.getCurrentWorkspace().getCanvasController());
+                currentShape = new TransformableNode(line, this);
                 break;
 //            case "Rectangle":
 //                // x, y, width, height, Paint fill

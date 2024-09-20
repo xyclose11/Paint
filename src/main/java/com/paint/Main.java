@@ -141,7 +141,6 @@ public class Main extends Application {
             this.workspaceHandler.setCurrentFile(currentWorkspaceFile);
 
             // Exit user from transformation mode
-//            this.paintStateModel.enableTransformations(false, this.workspaceHandler.getCurrentWorkspace().getCanvasController().getDrawingPane());
 
             // Set active tab
             this.tabModel.setCurrentTab(canvasWrapper.getTabs().get((Integer) newValue));
