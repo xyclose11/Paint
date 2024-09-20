@@ -148,6 +148,7 @@ public class SelectionHandler {
 	public void pasteClipboardImage() {
 		// System clipboard IMG -> canvas selection
 		Image image = Clipboard.getSystemClipboard().getImage();
+
 		if (image != null) {
 			double width = image.getWidth();
 			double height = image.getHeight();
@@ -155,8 +156,10 @@ public class SelectionHandler {
 			double y = 0;
 
 			// Create selection Rectangle
-			selectionRect = new Rectangle(x,y,width,height);
+			this.selectionRect = new Rectangle(x,y,width,height);
 			applySelectionRectAttributes(selectionRect);
+
+			this.drawingPane.getChildren().add(this.selectionRect);
 
 			PixelReader pixelReader = image.getPixelReader();
 
@@ -164,11 +167,11 @@ public class SelectionHandler {
 
 			ImageView imageView = new ImageView(selectImg);
 
-			this.paintStateModel.setCurrentShape(selectionRect);
+//			this.paintStateModel.setCurrentShape(selectionRect);
 			this.paintStateModel.setCurrentSelection(imageView);
 
 			this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().getDrawingPane().getChildren().add(imageView);
-			this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().getDrawingPane().getChildren().add(selectionRect);
+//			this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().getDrawingPane().getChildren().add(selectionRect);
 
 
 			// Enable transformations

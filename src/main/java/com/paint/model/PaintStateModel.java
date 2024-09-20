@@ -117,9 +117,6 @@ public class PaintStateModel {
 	public void setTransformable(boolean transformable, Pane draw) {
 		isTransformable = transformable;
 
-		System.out.println(transformable);
-		System.out.println(currentShape);
-
 		if (transformable && currentShape != null) {
 			// Add dashed outline
 			createSelectionBox(this.currentShape, draw);
