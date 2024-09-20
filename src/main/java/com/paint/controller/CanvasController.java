@@ -14,6 +14,7 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
@@ -21,6 +22,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
 import javafx.scene.paint.Color;
 
@@ -54,6 +56,7 @@ public class CanvasController {
     private SettingStateModel settingStateModel;
     private SceneStateModel sceneStateModel;
     private ToolController toolController;
+    private SelectionHandler selectionHandler;
     private TabModel tabModel;
     private CurrentWorkspaceModel currentWorkspaceModel;
 
@@ -63,6 +66,15 @@ public class CanvasController {
 
     public void setCurrentWorkspaceModel(CurrentWorkspaceModel currentWorkspaceModel) {
         this.currentWorkspaceModel = currentWorkspaceModel;
+    }
+
+    public SelectionHandler getSelectionHandler() {
+        return selectionHandler;
+    }
+
+    public void setSelectionHandler(SelectionHandler selectionHandler) {
+        this.selectionHandler = selectionHandler;
+        this.selectionHandler.setCanvasGroup(canvasGroup);
     }
 
     public void setTabModel(TabModel tabModel) {
@@ -154,6 +166,9 @@ public class CanvasController {
                     break;
                 case "general":
                     toolController.handleToolGeneralOnPress(null, currentTool, mouseEvent, drawingPane);
+                    break;
+                case "selection":
+                    selectionHandler.handleSelectionPressed(startX, startY);
                     break;
             }
         }
@@ -271,6 +286,9 @@ public class CanvasController {
                 break;
             case "general":
                 handleToolGeneralOnDragged(curX, curY);
+                break;
+            case "selection":
+                selectionHandler.handleSelectionDragged(curX, curY);
                 break;
         }
 
@@ -403,12 +421,23 @@ public class CanvasController {
         // Add previous canvas snapshot to undo stack
 
         String currentToolType = this.paintStateModel.getCurrentToolType();
+
+
+
         switch (currentToolType) {
             case ("shape"):
+                // Disable StackPane Mouse Event Handlers
+                setCanvasDrawingStackPaneHandlerState(false);
                 handleToolShapeReleased(this.paintStateModel.getCurrentShape());
                 break;
-            case ("brush"), ("general"), ("selection"):
+            case ("brush"), ("general"):
                 this.currentWorkspaceModel.getCurrentWorkspace().getUndoStack().push(getCurrentCanvasSnapshot());
+                break;
+            case ("selection"):
+                // Disable StackPane Mouse Event Handlers
+                this.currentWorkspaceModel.getCurrentWorkspace().getUndoStack().push(getCurrentCanvasSnapshot());
+                setCanvasDrawingStackPaneHandlerState(false);
+                selectionHandler.handleSelectionReleased();
                 break;
         }
 
@@ -420,9 +449,6 @@ public class CanvasController {
 
     private int timesAdjusted = 0; // Cubic curve
     private void handleToolShapeReleased(Shape currentShape) {
-        // Disable StackPane Mouse Event Handlers
-        setCanvasDrawingStackPaneHandlerState(false);
-
         // Check if currentShape is a curve
         if (currentShape instanceof CubicCurve curve) {
             // Enable mouse click handler for control XY location
@@ -430,6 +456,7 @@ public class CanvasController {
                 if (timesAdjusted >= 2) {
                     curve.setControlX2(event.getX());
                     curve.setControlY2(event.getY());
+
                     // Enable transformations
                     this.paintStateModel.setTransformable(true, drawingPane);
                     this.canvasGroup.setOnMouseClicked(null);
@@ -590,6 +617,28 @@ public class CanvasController {
         // Reinitialize drawingPane to remove shape
         drawingPane.getChildren().clear();
 
+    }
+
+    public void applySelectionToCanvas(ImageView selection) {
+        Image image = selection.getImage();
+
+        double x = selection.getX() + selection.getTranslateX();
+        double y = selection.getY() + selection.getTranslateY();
+
+        // Save Graphics Context state
+        graphicsContext.save();
+
+        // Reset GC settings
+        this.selectionHandler.removeSelectionRectangle();
+        graphicsContext.setLineDashes(null);
+        graphicsContext.setStroke(Color.TRANSPARENT);
+        graphicsContext.setFill(Color.TRANSPARENT);
+
+        // Set canvas to the image
+        mainCanvas.getGraphicsContext2D().drawImage(image, x, y);
+
+
+        this.canvasModel.setChangesMade(true);
     }
 
     private void handleStar(double xT, double yT, Star star) {

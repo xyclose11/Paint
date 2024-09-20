@@ -1,6 +1,7 @@
 package com.paint.resource;
 
 import com.paint.controller.CanvasController;
+import com.paint.controller.SelectionHandler;
 import com.paint.model.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.WritableImage;
@@ -39,6 +40,9 @@ public class Workspace {
 		canvasController.setSceneStateModel(sceneStateModel);
 		canvasController.setTabModel(tabModel);
 		canvasController.setCurrentWorkspaceModel(paintStateModel.getCurrentWorkspaceModel());
+		SelectionHandler selectionHandler = new SelectionHandler();
+		selectionHandler.setPaintStateModel(paintStateModel);
+		canvasController.setSelectionHandler(selectionHandler);
 
 		this.undoStack.push(canvasController.getCurrentCanvasSnapshot()); // Set initial state as base action for undo
 	}

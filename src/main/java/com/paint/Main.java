@@ -30,6 +30,7 @@ public class Main extends Application {
     private SettingStateModel settingStateModel = new SettingStateModel();
     private TabModel tabModel = new TabModel();
     private CurrentWorkspaceModel currentWorkspaceModel = new CurrentWorkspaceModel();
+    private SelectionHandler selectionHandler = new SelectionHandler();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -106,6 +107,10 @@ public class Main extends Application {
         canvasController.setTabModel(tabModel);
         canvasController.setCurrentWorkspaceModel(currentWorkspaceModel);
 
+        selectionHandler.setPaintStateModel(paintStateModel);
+        selectionHandler.setCurrentWorkspaceModel(currentWorkspaceModel);
+        canvasController.setSelectionHandler(selectionHandler);
+
         tabController.setCanvasModel(canvasModel);
         tabController.setTabModel(tabModel);
         tabController.setPaintStateModel(paintStateModel);
@@ -171,13 +176,21 @@ public class Main extends Application {
                             keyEvent.consume(); // This prevents the event from going any further
                             break;
                         case Z: // Undo
-                            utilityController.onKeyPressedUndoBtn(keyEvent);
+                            currentWorkspaceModel.getCurrentWorkspace().handleUndoAction();
                             // When undoing add to redo stack
                             keyEvent.consume();
                             break;
                         case Y: // Redo
-                            utilityController.onKeyPressedRedoBtn(keyEvent);
+                            currentWorkspaceModel.getCurrentWorkspace().handleRedoAction();
                             // When redoing add to undo stack
+                            keyEvent.consume();
+                            break;
+                        case C:
+                            selectionHandler.copySelectionContent();
+                            keyEvent.consume();
+                            break;
+                        case V:
+                            selectionHandler.pasteClipboardImage(); // TODO handle different types of paste i.e. text, HTML, etc.
                             keyEvent.consume();
                             break;
                     }

@@ -28,6 +28,10 @@ public class ToolMenuController {
     public CheckBox dashCheckbox;
 
     private CurrentWorkspaceModel currentWorkspaceModel;
+    @FXML
+    public ToggleButton selection;
+
+    private CanvasModel canvasModel;
 
     private PaintStateModel paintStateModel;
 
@@ -252,6 +256,17 @@ public class ToolMenuController {
     @FXML
     private void onMouseClickedDash(MouseEvent mouseEvent) {
         this.paintStateModel.setDashed(dashCheckbox.isSelected());
+    }
+
+    public void updateSelectionToolState(MouseEvent mouseEvent) {
+        String sourceId = ((Control)mouseEvent.getSource()).getId();
+
+        if (sourceId == null) {
+            showToolIsNullAlert();
+        }
+        // Update paintStateModel current tool when a new tool is selected
+        this.paintStateModel.setCurrentTool(sourceId);
+        this.paintStateModel.setCurrentToolType("selection");
     }
 
 

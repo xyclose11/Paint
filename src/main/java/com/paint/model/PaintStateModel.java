@@ -7,11 +7,14 @@ import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+
+import java.util.Objects;
 
 // Hold info about currently selected brush, image, color, shape, etc. settings.
 public class PaintStateModel {
@@ -39,6 +42,7 @@ public class PaintStateModel {
 	//    private CanvasController canvasController;
 	private CurrentWorkspaceModel currentWorkspaceModel;
 	private InfoCanvasModel infoCanvasModel;
+	private ImageView imageView;
 
     private double startX;
     private double startY;
@@ -73,9 +77,15 @@ public class PaintStateModel {
 		this.infoCanvasModel = infoCanvasModel;
 	}
 
-	public CurrentWorkspaceModel getCurrentWorkspaceModel() {
-		return this.currentWorkspaceModel;
+    public void setCurrentSelection(ImageView imageView) {
+        this.imageView = imageView;
+    }
+
+	public ImageView getImageView() {
+		return imageView;
 	}
+
+	public CurrentWorkspaceModel getCurrentWorkspaceModel() { return  this.currentWorkspaceModel; }
 
 	public void setCurrentWorkspaceModel(CurrentWorkspaceModel currentWorkspaceModel) {
 		this.currentWorkspaceModel = currentWorkspaceModel;
@@ -115,13 +125,26 @@ public class PaintStateModel {
 			}
 
 			Scene parentScene = parent.getScene();
-			// Set keybinding for ESC to exit transform mode
-			parentScene.setOnKeyPressed(keyEvent -> {
-				// Check key type
-				if (keyEvent.getCode() == KeyCode.ESCAPE) {
-					exitTransformMode(parent);
-				}
-			});
+			if (parentScene == null) {
+				// Attach key listener directly to parent
+				parent.setOnKeyPressed(keyEvent -> {
+					// Check key type
+					if (keyEvent.getCode() == KeyCode.ESCAPE) {
+						exitTransformMode(parent);
+					}
+				});
+			} else {
+				// Set keybinding for ESC to exit transform mode
+				parentScene.setOnKeyPressed(keyEvent -> {
+					// Check key type
+					if (keyEvent.getCode() == KeyCode.ESCAPE) {
+						exitTransformMode(parent);
+					}
+				});
+			}
+
+
+
 
 			// Translation handler (XY Movement) SECTION START
 
@@ -151,12 +174,16 @@ public class PaintStateModel {
 		}
 	}
 
-	private void handleMousePressed(MouseEvent mouseEvent, Parent parent) {
-		if (!this.shapeTransformationGroup.getBoundsInParent().contains(mouseEvent.getX(), mouseEvent.getY())) {
-			exitTransformMode(parent);
-		} else {
-            startX = mouseEvent.getSceneX();
-		    startY = mouseEvent.getSceneY();
+    private void handleMousePressed(MouseEvent mouseEvent, Parent parent) {
+        if (!this.shapeTransformationGroup.getBoundsInParent().contains(mouseEvent.getX(), mouseEvent.getY())) {
+            exitTransformMode(parent);
+        }else {
+            if (Objects.equals(this.currentToolType, "selection")) {
+                this.imageView.translateXProperty().bind(this.shapeTransformationGroup.translateXProperty());
+                this.imageView.translateYProperty().bind(this.shapeTransformationGroup.translateYProperty());
+            }
+	        startX = mouseEvent.getSceneX();
+	        startY = mouseEvent.getSceneY();
         }
 
 	}
@@ -178,15 +205,20 @@ public class PaintStateModel {
 		this.shapeTransformationGroup.setOnMouseEntered(null);
 
 		// Convert shape -> canvas
-		this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().applyPaneShapeToCanvas(this.currentShape);
+        // Check if current object is a shape
+        if (Objects.equals(this.currentToolType, "shape")) { // TODO convert this into a switch/case statement
+            this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().applyPaneShapeToCanvas(this.currentShape);
+        } else if (Objects.equals(this.currentToolType, "selection")) {
+			// Remove outer selection rectangle
+            this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().applySelectionToCanvas(this.imageView);
+        }
+
 
 		// Enable CanvasController handlers
 		this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().setCanvasDrawingStackPaneHandlerState(true);
 
 		// Reset shapeGroup
 		setShapeTransformationGroup(null);
-
-
 	}
 
 	private void createSelectionBox(Shape currentShape, Pane drawing) {
@@ -244,8 +276,6 @@ public class PaintStateModel {
 		shapeTransformationGroup.setOnMouseEntered(mouseE -> {
 			shapeTransformationGroup.setCursor(Cursor.MOVE);
 		});
-
-		// TODO remove selectionbox when saving since it willcapture the selectionbox in the file
 
 		drawing.getChildren().add(shapeTransformationGroup);
 	}
