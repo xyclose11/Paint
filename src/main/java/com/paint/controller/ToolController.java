@@ -49,12 +49,13 @@ public class ToolController {
                 break;
             case "TextTool": // Create a textarea for user to type into and use that for String input -> strokeText
                 TextArea textArea = new TextArea();
-                textArea.setPrefColumnCount(6);
-                textArea.setPrefRowCount(1);
+                textArea.setPrefColumnCount(9);
+                textArea.setPrefRowCount(2);
                 textArea.setWrapText(true);
                 textArea.setBackground(null);
                 textArea.setLayoutX(mouseEvent.getX()); // Places the text area
                 textArea.setLayoutY(mouseEvent.getY() - 15);
+                textArea.positionCaret(0);
 
 
                 // listener to alert whenever the text area is in focus
@@ -62,6 +63,19 @@ public class ToolController {
 //                    textArea.setFont();
                 }));
 
+                textArea.lengthProperty().addListener(((observable, oldValue, newValue) -> {
+                    if (newValue.doubleValue() > textArea.getWidth()) {
+                        // Extend the textbox
+                        textArea.setPrefWidth(newValue.doubleValue());
+                    }
+                }));
+
+
+//                textArea.widthProperty().addListener(((observable, oldValue, newValue) -> {
+//                    System.out.println(observable);
+//                    System.out.println(oldValue);
+//                    System.out.println(newValue);
+//                }));
 
                 textArea.requestFocus();
 
