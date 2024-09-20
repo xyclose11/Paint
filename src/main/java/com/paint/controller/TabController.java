@@ -44,7 +44,7 @@ public class TabController {
 		createNewTab();
 	}
 
-	private void createNewTab() throws IOException {
+	public void createNewTab() throws IOException {
 		TabPane tabPane = this.tabModel.getTabPane();
 		Tab newTab = new Tab("New File");
 

@@ -118,6 +118,7 @@ public class Main extends Application {
         tabController.setSettingStateModel(settingStateModel);
         tabController.setCurrentWorkspaceModel(currentWorkspaceModel);
 
+
         // Maintains the state of the current workspace in focus
         canvasWrapper.getSelectionModel().selectedIndexProperty().addListener(((observable, oldValue, newValue) -> {
             // Change active workspace
@@ -148,6 +149,10 @@ public class Main extends Application {
         currentWorkspaceModel.setInfoCanvasModel(infoCanvasModel);
         currentWorkspaceModel.setTabModel(tabModel);
         currentWorkspaceModel.setPaintStateModel(paintStateModel);
+
+        // Load blank tab on startup
+        tabController.createNewTab();
+
 
         // Add style sheets
         try {
