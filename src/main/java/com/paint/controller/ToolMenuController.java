@@ -31,8 +31,6 @@ public class ToolMenuController {
     @FXML
     public ToggleButton selection;
 
-    private CanvasModel canvasModel;
-
     private PaintStateModel paintStateModel;
 
     private SceneStateModel sceneStateModel;

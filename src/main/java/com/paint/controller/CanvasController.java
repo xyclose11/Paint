@@ -24,7 +24,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
-import javafx.scene.paint.Color;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -449,6 +448,9 @@ public class CanvasController {
 
     private int timesAdjusted = 0; // Cubic curve
     private void handleToolShapeReleased(Shape currentShape) {
+        if (currentShape == null) {
+            return;
+        }
         // Check if currentShape is a curve
         if (currentShape instanceof CubicCurve curve) {
             // Enable mouse click handler for control XY location
