@@ -125,6 +125,14 @@ public class Main extends Application {
 
         // Maintains the state of the current workspace in focus
         canvasWrapper.getSelectionModel().selectedIndexProperty().addListener(((observable, oldValue, newValue) -> {
+            // Create a simple Rectangle Node
+            Circle rect = new Circle(350, 350, 45);
+            rect.setFill(Color.PINK);
+
+            // Create the TransformableNode by wrapping the Rectangle
+            TransformableNode transformableRect = new TransformableNode(rect, this.workspaceHandler.getCurrentWorkspace().getCanvasController());
+            this.workspaceHandler.getCurrentWorkspace().getCanvasController().getDrawingPane().getChildren().add(transformableRect);
+
             // Change active workspace
             Workspace workspace = this.workspaceHandler.getWorkspaceList().get(newValue);
             this.workspaceHandler.setCurrentWorkspace(workspace);
@@ -133,7 +141,7 @@ public class Main extends Application {
             this.workspaceHandler.setCurrentFile(currentWorkspaceFile);
 
             // Exit user from transformation mode
-            this.paintStateModel.setTransformable(false, this.workspaceHandler.getCurrentWorkspace().getCanvasController().getDrawingPane());
+//            this.paintStateModel.enableTransformations(false, this.workspaceHandler.getCurrentWorkspace().getCanvasController().getDrawingPane());
 
             // Set active tab
             this.tabModel.setCurrentTab(canvasWrapper.getTabs().get((Integer) newValue));
@@ -154,13 +162,7 @@ public class Main extends Application {
         workspaceHandler.setTabModel(tabModel);
         workspaceHandler.setPaintStateModel(paintStateModel);
 
-        // Create a simple Rectangle Node
-        Circle rect = new Circle(100, 100, 200);
-        rect.setFill(Color.LIGHTBLUE);
 
-        // Create the TransformableNode by wrapping the Rectangle
-        TransformableNode transformableRect = new TransformableNode(rect);
-        canvasView.getChildren().add(transformableRect);
         // Add style sheets
         try {
             scene.getStylesheets().add(getClass().getResource("/styles/styles.css").toString());

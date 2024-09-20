@@ -3,10 +3,7 @@ package com.paint.controller;
 import com.paint.handler.SelectionHandler;
 import com.paint.handler.WorkspaceHandler;
 import com.paint.model.*;
-import com.paint.resource.ResizeableCanvas;
-import com.paint.resource.RightTriangle;
-import com.paint.resource.Star;
-import com.paint.resource.Triangle;
+import com.paint.resource.*;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -157,7 +154,16 @@ public class CanvasController {
         // Empty redo stack
         this.workspaceHandler.getCurrentWorkspace().getRedoStack().clear();
 
-        if (!this.paintStateModel.isTransformable()) {
+        boolean isNotTransformable = true;
+        if (this.paintStateModel.getCurrentShape() != null) {
+            if (this.paintStateModel.getCurrentShape().isTransformable()) {
+                isNotTransformable = false;
+            } else {
+                isNotTransformable = true;
+            }
+        }
+
+        if (isNotTransformable) {
             switch (currentToolType) {
                 case "shape":
                     handleToolShapeOnPress(null, currentTool);
@@ -176,44 +182,45 @@ public class CanvasController {
 
     }
 
-    private void handleToolShapeOnPress(Shape currentShape, String currentTool) {
+    private void handleToolShapeOnPress(TransformableNode currentShape, String currentTool) {
         switch (currentTool) {
             case "StLine":
-                currentShape = new Line(startX, startY, startX + 1, startY + 1);
+                Line line = new Line(startX, startY, startX + 1, startY + 1);
+                currentShape = new TransformableNode(line, this.workspaceHandler.getCurrentWorkspace().getCanvasController());
                 break;
-            case "Rectangle":
-                // x, y, width, height, Paint fill
-                currentShape = new Rectangle(startX, startY, 1, 2);
-                break;
-            case "Circle":
-                currentShape = new Circle(startX, startY, 1);
-                break;
-            case "Square":
-                currentShape = new Rectangle(startX, startY, 1, 1);
-                break;
-            case "Ellipse":
-                // Center X Center Y | Radius X Radius Y
-                currentShape = new Ellipse(startX, startY, 1, 1);
-                break;
-            case "Triangle":
-                currentShape = new Triangle(startX, startX, startX, startY, startY, startY);
-                break;
-            case "RightTriangle":
-                currentShape = new RightTriangle(startX, startX, startX, startY, startY, startY);
-                break;
-            case "Star":
-                currentShape = new Star(startX, startY, 1);
-                break;
-            case "Hexagon":
-                break;
-            case "Curve":
-                timesAdjusted = 0;
-                currentShape = new CubicCurve(startX, startY, startX, startY, startX + 1, startY + 1, startX + 1, startY + 1);
-                break;
-            case "regularPolygon":
-                currentShape = new Polygon();
-                toolController.showInputDialog(this.drawingPane);
-                break;
+//            case "Rectangle":
+//                // x, y, width, height, Paint fill
+//                currentShape = new Rectangle(startX, startY, 1, 2);
+//                break;
+//            case "Circle":
+//                currentShape = new Circle(startX, startY, 1);
+//                break;
+//            case "Square":
+//                currentShape = new Rectangle(startX, startY, 1, 1);
+//                break;
+//            case "Ellipse":
+//                // Center X Center Y | Radius X Radius Y
+//                currentShape = new Ellipse(startX, startY, 1, 1);
+//                break;
+//            case "Triangle":
+//                currentShape = new Triangle(startX, startX, startX, startY, startY, startY);
+//                break;
+//            case "RightTriangle":
+//                currentShape = new RightTriangle(startX, startX, startX, startY, startY, startY);
+//                break;
+//            case "Star":
+//                currentShape = new Star(startX, startY, 1);
+//                break;
+//            case "Hexagon":
+//                break;
+//            case "Curve":
+//                timesAdjusted = 0;
+//                currentShape = new CubicCurve(startX, startY, startX, startY, startX + 1, startY + 1, startX + 1, startY + 1);
+//                break;
+//            case "regularPolygon":
+//                currentShape = new Polygon();
+//                toolController.showInputDialog(this.drawingPane);
+//                break;
         }
 
         if (currentShape != null) {
@@ -233,20 +240,22 @@ public class CanvasController {
         }
     }
 
-    private void loadDefaultShapeAttributes(Shape currentShape) {
-        currentShape.setStroke(this.paintStateModel.getCurrentPaintColor()); // This controls the outline color
-        currentShape.setStrokeWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
-        currentShape.setFill(null); // Set this to null to get 'outline' of shapes
-        currentShape.setMouseTransparent(false);
-        currentShape.setStrokeType(StrokeType.CENTERED);
+    private void loadDefaultShapeAttributes(TransformableNode currentShape) {
+        Shape shape = (Shape) currentShape.getOriginalNode();
+
+        shape.setStroke(this.paintStateModel.getCurrentPaintColor()); // This controls the outline color
+        shape.setStrokeWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
+        shape.setFill(null); // Set this to null to get 'outline' of shapes
+        shape.setMouseTransparent(false);
+        shape.setStrokeType(StrokeType.CENTERED);
 
         if (this.paintStateModel.getDashed()) {
             // Setup dashed lines for shapes
-            currentShape.getStrokeDashArray().addAll(9.5);
+            shape.getStrokeDashArray().addAll(9.5);
         }
 
         // Set current shape in model
-        this.paintStateModel.setCurrentShape(currentShape);
+//        this.paintStateModel.setCurrentShape(currentShape.getOri);
     }
 
     private void handleToolBrushOnPress() {
@@ -265,14 +274,14 @@ public class CanvasController {
     @FXML
     private void handleMouseDragged(MouseEvent mouseEvent) {
         // Verify mode
-        if (this.paintStateModel.isTransformable()) {
+        if (this.paintStateModel.getCurrentShape().isTransformable()) {
             // If in transform mode, ignore drag events
             return;
         }
 
         // Update mouse POS lbl
         this.infoCanvasModel.setMousePosLbl(mouseEvent);
-        Shape currentShape = this.paintStateModel.getCurrentShape();
+        TransformableNode currentShape = this.paintStateModel.getCurrentShape();
         String currentToolType = this.paintStateModel.getCurrentToolType();
 
         double curX = mouseEvent.getX();
@@ -313,8 +322,8 @@ public class CanvasController {
         graphicsContext.clearRect(eraserX, eraserY, eraserStrokeWidth, eraserStrokeWidth);
     }
 
-    private void handleToolShapeOnDragged(Shape currentShape, double curX, double curY) {
-        if (this.paintStateModel.isTransformable()) {
+    private void handleToolShapeOnDragged(TransformableNode currentShape, double curX, double curY) {
+        if (this.paintStateModel.getCurrentShape().isTransformable()) {
             return;
         }
 
@@ -326,35 +335,44 @@ public class CanvasController {
             noToolSelectedAlert.showAndWait();
         }
 
+        Shape shape = null;
+        if (currentShape.isShape()) {
+            shape = (Shape) currentShape.getOriginalNode();
+            System.out.println(shape);
+        } else {
+            System.out.println("NOT A SHAPE");
+        }
+
 
         // Check if shape is off the canvas
         if (curX >= mainCanvas.getWidth() || curY >= mainCanvas.getHeight() || curX < 0 || curY < 0) {
             return;
         }
 
-        if (currentShape instanceof Line line) {
+        if (shape instanceof Line line) {
+            System.out.println("LINE");
             line.setEndX(curX);
             line.setEndY(curY);
             return;
         }
 
-        if (currentShape instanceof CubicCurve curve) {
+        if (shape instanceof CubicCurve curve) {
             // Drag starting line -> wait for user click 1 or 2 times for control location
             curve.setEndX(curX);
             curve.setEndY(curY);
         }
 
-        if (currentShape instanceof Triangle triangle) {
+        if (shape instanceof Triangle triangle) {
             // X1 stays same | Y1 changes | X2 changes | Y2 stays same | X3 & Y3 are the cursor
             double topVertex = ((curX - startX) / 2) + startX;
             triangle.setVertices(startX, curY, topVertex, startY, curX, curY);
         }
 
-        if (currentShape instanceof RightTriangle rightTriangle) {
+        if (shape instanceof RightTriangle rightTriangle) {
             rightTriangle.setVertices(startX, curY, curX, startY, curX, curY); // TODO Update ToolMenu UI Icon with right triangle icon
         }
 
-        if (currentShape instanceof Rectangle rect) {
+        if (shape instanceof Rectangle rect) {
             // Check if obj is a Square
             if (Objects.equals(this.paintStateModel.getCurrentTool(), "Square")) {
                 // Ensure that W x H stay the same
@@ -389,7 +407,7 @@ public class CanvasController {
 
         }
 
-        if (currentShape instanceof Circle circle) {
+        if (shape instanceof Circle circle) {
 
             circle.setCenterX(startX);
             circle.setCenterY(startY);
@@ -397,14 +415,14 @@ public class CanvasController {
 
         }
 
-        if (currentShape instanceof Ellipse ellipse) {
+        if (shape instanceof Ellipse ellipse) {
             ellipse.setCenterX(startX);
             ellipse.setCenterY(startY);
             ellipse.setRadiusX(Math.abs(curX - startX));
             ellipse.setRadiusY(Math.abs(curY - startY));
         }
 
-        if (currentShape instanceof Star star) {
+        if (shape instanceof Star star) {
             double r = (curX + curY) / 7.6;
             star.updateStar(startX, startY, r);
         }
@@ -449,12 +467,17 @@ public class CanvasController {
     }
 
     private int timesAdjusted = 0; // Cubic curve
-    private void handleToolShapeReleased(Shape currentShape) {
+    private void handleToolShapeReleased(TransformableNode currentShape) {
         if (currentShape == null) {
             return;
         }
+
+        Shape shape = null;
+        if (currentShape.isShape()) {
+            shape = (Shape) currentShape.getOriginalNode();
+        }
         // Check if currentShape is a curve
-        if (currentShape instanceof CubicCurve curve) {
+        if (shape instanceof CubicCurve curve) {
             // Enable mouse click handler for control XY location
             this.canvasGroup.setOnMouseClicked(event -> {
                 if (timesAdjusted >= 2) {
@@ -462,7 +485,7 @@ public class CanvasController {
                     curve.setControlY2(event.getY());
 
                     // Enable transformations
-                    this.paintStateModel.setTransformable(true, drawingPane);
+                    currentShape.enableTransformations();
                     this.canvasGroup.setOnMouseClicked(null);
                 } else {
                     curve.setControlX1(event.getX());
@@ -477,17 +500,16 @@ public class CanvasController {
             // Allow shape to be selected via mouse select
             currentShape.setPickOnBounds(true);
             // Enable transformations
-            this.paintStateModel.setTransformable(true, drawingPane);
-
+            currentShape.enableTransformations();
             this.paintStateModel.setCurrentShape(currentShape);
         }
     }
 
     public void applyPaneShapeToCanvas(Shape currentShape) {
         graphicsContext.setStroke(this.paintStateModel.getCurrentPaintColor()); // Responsible for the color of shapes
-
-        Group selectionGroup = this.paintStateModel.getShapeTransformationGroup();
-        Shape shape = (Shape) selectionGroup.getChildren().get(1);
+        System.out.println(currentShape);
+        Group selectionGroup = this.paintStateModel.getCurrentShape();
+        Shape shape = (Shape) selectionGroup.getChildren().get(0);
 
         double minX;
         double minY;
@@ -533,7 +555,7 @@ public class CanvasController {
 
         if (currentShape instanceof Line) {
             // You don't need to use the bounded XY since that will only indicate the bounding box & translations
-            Line line = (Line) selectionGroup.getChildren().get(1);
+            Line line = (Line) selectionGroup.getChildren().get(0);
             double lX = line.getStartX() + xT;
             double lY = line.getStartY() + yT;
             double eX = line.getEndX() + xT;

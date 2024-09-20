@@ -97,7 +97,7 @@ public class ToolController {
         currentShape.setStrokeType(StrokeType.OUTSIDE);
 
         // Set current shape in model
-        this.paintStateModel.setCurrentShape(currentShape);
+//        this.paintStateModel.setCurrentShape(currentShape);
     }
 
     public void applyTextToCanvas(String text, double x, double y) {
@@ -181,8 +181,8 @@ public class ToolController {
             polygon.getPoints().addAll(x, y);
         }
         System.out.println(polygon.getPoints().size());
-        this.paintStateModel.setCurrentShape(polygon);
-        this.paintStateModel.setTransformable(true, drawingPane);
+//        this.paintStateModel.setCurrentShape(polygon);
+//        this.paintStateModel.enableTransformations(true, drawingPane);
     }
 
     public GraphicsContext getGraphicsContext() {

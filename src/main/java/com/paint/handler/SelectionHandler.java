@@ -110,13 +110,13 @@ public class SelectionHandler {
 		// Remove a rect of same size from canvas
 		canvas.getGraphicsContext2D().clearRect(selectX, selectY, selectionRect.getWidth(), selectionRect.getHeight());
 
-		this.paintStateModel.setCurrentShape(selectionRect);
+//		this.paintStateModel.setCurrentShape(selectionRect);
 		this.paintStateModel.setCurrentSelection(imageView);
 
 		this.drawingPane.getChildren().add(imageView);
 
 		// Enable transformations
-		this.paintStateModel.setTransformable(true, drawingPane);
+//		this.paintStateModel.enableTransformations(true, drawingPane);
 	}
 
 	private void applySelectionRectAttributes(Rectangle rectangle) {
@@ -174,7 +174,7 @@ public class SelectionHandler {
 
 
 			// Enable transformations
-			this.paintStateModel.setTransformable(true, this.drawingPane);
+//			this.paintStateModel.enableTransformations(true, this.drawingPane);
 		}
 	}
 
