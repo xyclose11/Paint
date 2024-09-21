@@ -2,6 +2,7 @@ package com.paint;
 
 import com.paint.controller.*;
 import com.paint.model.*;
+import com.paint.resource.AutoSave;
 import com.paint.resource.Workspace;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -18,6 +19,7 @@ import javafx.stage.WindowEvent;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Main extends Application {
 
@@ -31,6 +33,9 @@ public class Main extends Application {
     private TabModel tabModel = new TabModel();
     private CurrentWorkspaceModel currentWorkspaceModel = new CurrentWorkspaceModel();
     private SelectionHandler selectionHandler = new SelectionHandler();
+
+    // Threading
+    private final AutoSave autoSaveService = new AutoSave();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -118,6 +123,8 @@ public class Main extends Application {
         tabController.setSettingStateModel(settingStateModel);
         tabController.setCurrentWorkspaceModel(currentWorkspaceModel);
 
+        autoSaveService.setUtilityController(utilityController);
+        autoSaveService.startTimer();
 
         // Maintains the state of the current workspace in focus
         canvasWrapper.getSelectionModel().selectedIndexProperty().addListener(((observable, oldValue, newValue) -> {
@@ -248,7 +255,7 @@ public class Main extends Application {
                     if (alertResult == ButtonType.OK) { // User wants to close without saving
                         primaryStage.close();
                     }
-                    if (alertResult.getText() == "Save") { // Save file
+                    if (Objects.equals(alertResult.getText(), "Save")) { // Save file
 	                    try {
 		                    utilityController.handleFileSave(null);
 	                    } catch (IOException e) {

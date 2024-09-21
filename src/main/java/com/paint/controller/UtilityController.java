@@ -126,6 +126,8 @@ public class UtilityController {
 			return;
 		}
 
+		System.out.println("SAVED");
+
 		String filePath = this.currentWorkspaceModel.getCurrentWorkspace().getWorkspaceFile().getAbsolutePath();
 		String fileExt = getFileExt(filePath);
 		File file = new File(filePath); // Find the previously saved file
@@ -232,8 +234,6 @@ public class UtilityController {
 
 	private void handleAutoSaveRefresh(MouseEvent mouseEvent) {
 		// Show very cool & awesome animation
-
-
 		// Reset timer thread
 	}
 
