@@ -149,7 +149,6 @@ public class Main extends Application {
         currentWorkspaceModel.setInfoCanvasModel(infoCanvasModel);
         currentWorkspaceModel.setTabModel(tabModel);
         currentWorkspaceModel.setPaintStateModel(paintStateModel);
-
         // Load blank tab on startup
         tabController.createNewTab();
 

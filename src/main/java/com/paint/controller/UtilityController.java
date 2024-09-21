@@ -9,8 +9,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 
 import java.io.File;
@@ -18,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
 
 public class UtilityController {
 
@@ -27,8 +30,13 @@ public class UtilityController {
 	@FXML
 	public Button redoBtn;
 
-	private CurrentWorkspaceModel currentWorkspaceModel;
+	@FXML
+	public Button refreshIcon;
 
+	@FXML
+	public Label timerLabel;
+
+	private CurrentWorkspaceModel currentWorkspaceModel;
 	private HelpAboutModel helpAboutModel;
 	private CanvasModel canvasModel;
 
@@ -199,6 +207,34 @@ public class UtilityController {
 
 		File newFile = tempFile.toFile();
 		this.currentWorkspaceModel.setCurrentFile(newFile);
+	}
+
+	@FXML
+	public void initialize() {
+		// Setup event handlers for autosave
+
+		// Refresh icon clicked -> reset timer to current val from settings
+		refreshIcon.setOnMouseClicked(this::handleAutoSaveRefresh);
+
+		// Hide timer
+		timerLabel.setOnMouseClicked(this::handleTimerLabelVisibility);
+	}
+
+	private void handleTimerLabelVisibility(MouseEvent mouseEvent) {
+		if (!Objects.equals(timerLabel.getText(), "Timer")) {
+			timerLabel.setText("Timer");
+		} else {
+			// original timer content
+			double t = this.currentWorkspaceModel.getSettingStateModel().getAutoSaveInterval();
+			timerLabel.setText("5:00");
+		}
+	}
+
+	private void handleAutoSaveRefresh(MouseEvent mouseEvent) {
+		// Show very cool & awesome animation
+
+
+		// Reset timer thread
 	}
 
 	@FXML

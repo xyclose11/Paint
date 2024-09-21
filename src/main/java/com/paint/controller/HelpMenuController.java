@@ -1,6 +1,7 @@
 package com.paint.controller;
 
 import com.paint.model.HelpAboutModel;
+import com.paint.model.SettingStateModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +24,15 @@ public class HelpMenuController {
     private Stage stage;
     private static Scene mainScene; // Must be static to remember prev scene
     private Dialog<String> aboutDialog;
+    private SettingStateModel settingStateModel;
+
+    public SettingStateModel getSettingStateModel() {
+        return settingStateModel;
+    }
+
+    public void setSettingStateModel(SettingStateModel settingStateModel) {
+        this.settingStateModel = settingStateModel;
+    }
 
     private HelpAboutModel helpAboutModel;
 
