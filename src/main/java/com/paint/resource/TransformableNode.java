@@ -21,7 +21,7 @@ import java.util.Objects;
 public class TransformableNode extends Group {
 	private Node originalNode;
 	private Rectangle selectionRect;
-	private boolean isTransformable;
+	private boolean isTransformable = false;
 	private WorkspaceHandler workspaceHandler;
 	private double startX;
 	private double startY;
@@ -38,11 +38,13 @@ public class TransformableNode extends Group {
 
 	public void enableTransformations() {
 
-		isTransformable = true;
+		if (!isTransformable) {
+			return;
+		}
 
 		Pane parentPane = this.canvasController.getDrawingPane();
 
-		parentPane.getScene().addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+		parentPane.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
 				if (event.getCode() == KeyCode.ESCAPE) {
@@ -89,7 +91,6 @@ public class TransformableNode extends Group {
 		this.setOnMousePressed(null);
 		this.setOnMouseEntered(null);
 		Pane parentPane = this.canvasController.getDrawingPane();
-		System.out.println("CONTROLLER: " + this.canvasController);
 		parentPane.setOnMousePressed(null);
 		// Remove selectionRectangle
 		if (!this.getChildren().isEmpty()) {
@@ -98,9 +99,7 @@ public class TransformableNode extends Group {
 		// Convert shape -> canvas
 		// Check if current object is a shape
 		if (Objects.equals(this.workspaceHandler.getPaintStateModel().getCurrentToolType(), "shape")) { // TODO convert this into a switch/case statement
-			System.out.println("TOOL");
-			System.out.println(this.workspaceHandler.getPaintStateModel().getCurrentShape());
-			this.workspaceHandler.getPaintStateModel().setCurrentShape(this);
+//			this.workspaceHandler.getPaintStateModel().setCurrentShape(this);
 			this.canvasController.applyPaneShapeToCanvas((Shape) this.getChildren().get(0));
 		} else if (Objects.equals(this.workspaceHandler.getPaintStateModel().getCurrentToolType(), "selection")) {
 			// Remove outer selection rectangle
@@ -177,9 +176,6 @@ public class TransformableNode extends Group {
 		this.setOnMouseEntered(mouseE -> {
 			this.setCursor(Cursor.MOVE);
 		});
-
-		// TODO remove selectionbox when saving since it willcapture the selectionbox in the file
-
 	}
 
 	public boolean isShape() {
@@ -198,4 +194,7 @@ public class TransformableNode extends Group {
 		return isTransformable;
 	}
 
+	public void setTransformable(boolean transformable) {
+		isTransformable = transformable;
+	}
 }

@@ -219,7 +219,6 @@ public class ToolMenuController {
         ToolSelect.selectedToggleProperty().addListener(((observable, oldValue, newValue) -> {
             if (newValue != null) {
                 String val = newValue.toString();
-                System.out.println(val);
                 if (val.contains("regular") || val.contains("eraser")) { // Looks for 'regular' brush type
                     // Show Line Width Slider
 	                try {

@@ -102,7 +102,6 @@ public class InfoController {
 			this.workspaceHandler.getCurrentWorkspace().getCanvasModel().setZoomScale(sliderVal / 100.0);
 
 		} catch (Exception e) {
-			System.out.println("ERROR");
 			e.printStackTrace();
 		}
 

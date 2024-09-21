@@ -176,7 +176,6 @@ public class ToolController {
             double y = centerY + radius * Math.sin(angle);
             polygon.getPoints().addAll(x, y);
         }
-        System.out.println(polygon.getPoints().size());
 //        this.paintStateModel.setCurrentShape(polygon);
 //        this.paintStateModel.enableTransformations(true, drawingPane);
     }

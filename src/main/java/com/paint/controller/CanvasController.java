@@ -443,16 +443,12 @@ public class CanvasController {
     @FXML
     private void handleMouseReleased(MouseEvent mouseEvent) {
         // Add previous canvas snapshot to undo stack
-
         String currentToolType = this.paintStateModel.getCurrentToolType();
-
-
 
         switch (currentToolType) {
             case ("shape"):
                 // Disable StackPane Mouse Event Handlers
                 setCanvasDrawingStackPaneHandlerState(false);
-                System.out.println(this.paintStateModel.getCurrentShape().getOriginalNode());
                 handleToolShapeReleased(this.paintStateModel.getCurrentShape());
                 break;
             case ("brush"), ("general"):
@@ -483,8 +479,6 @@ public class CanvasController {
             shape = (Shape) currentShape.getOriginalNode();
         }
 
-        System.out.println("PRESS CURRENTSHAPE: " + currentShape.getOriginalNode());
-
         // Check if currentShape is a curve
         if (shape instanceof CubicCurve curve) {
             // Enable mouse click handler for control XY location
@@ -503,12 +497,12 @@ public class CanvasController {
                 }
             });
         } else if (this.paintStateModel.getCurrentTool() == "regularPolygon") {
-            System.out.println("POLY");
 
         } else {
             // Allow shape to be selected via mouse select
             currentShape.setPickOnBounds(true);
             // Enable transformations
+            this.paintStateModel.getCurrentShape().setTransformable(true);
             currentShape.enableTransformations();
             this.paintStateModel.setCurrentShape(currentShape);
         }
@@ -516,10 +510,10 @@ public class CanvasController {
 
     public void applyPaneShapeToCanvas(Shape currentShape) {
         graphicsContext.setStroke(this.paintStateModel.getCurrentPaintColor()); // Responsible for the color of shapes
-        System.out.println(currentShape);
         TransformableNode transformableNode = this.paintStateModel.getCurrentShape();
-        Shape shape = (Shape) transformableNode.getChildren().get(0);
-
+//        Shape shape = (Shape) transformableNode.getChildren().get(0);
+        Shape shape = currentShape;
+        System.out.println("CURRENT SHAPE:" + currentShape);
         double minX;
         double minY;
         double maxX;
@@ -561,86 +555,77 @@ public class CanvasController {
             maxY = shape.getBoundsInParent().getMaxY();
         }
 
+        String currentTool = this.paintStateModel.getCurrentTool();
 
-        if (currentShape instanceof Line line) {
-            // You don't need to use the bounded XY since that will only indicate the bounding box & translations
-//            Line line = (Line) transformableNode.getChildren().get(0);
-            double lX = line.getStartX() + xT;
-            double lY = line.getStartY() + yT;
-            double eX = line.getEndX() + xT;
-            double eY = line.getEndY() + yT;
+        System.out.println(currentTool);
+        switch (currentTool) {
+            case "StLine":
+                // You don't need to use the bounded XY since that will only indicate the bounding box & translations
+                Line line = (Line) shape;
+                double lX = line.getStartX() + xT;
+                double lY = line.getStartY() + yT;
+                double eX = line.getEndX() + xT;
+                double eY = line.getEndY() + yT;
 
-            graphicsContext.strokeLine(lX, lY, eX, eY);
-        }
+                graphicsContext.strokeLine(lX, lY, eX, eY);
+                break;
+            case "Curve":
+                // control point XY 2x -> end XY
+                CubicCurve curve = (CubicCurve) shape;
 
-        if (currentShape instanceof CubicCurve curve) {
-            // control point XY 2x -> end XY
-//            CubicCurve curve = (CubicCurve) transformableNode.getChildren().get(0);
+                double px1 = curve.getControlX1() + xT;
+                double py1 = curve.getControlY1() + yT;
+                double px2 = curve.getControlX2() + xT;
+                double py2 = curve.getControlY2() + yT;
+                double endX = curve.getEndX() + xT;
+                double endY = curve.getEndY() + yT;
 
-            double px1 = curve.getControlX1() + xT;
-            double py1 = curve.getControlY1() + yT;
-            double px2 = curve.getControlX2() + xT;
-            double py2 = curve.getControlY2() + yT;
-            double eX = curve.getEndX() + xT;
-            double eY = curve.getEndY() + yT;
+                double startX = curve.getStartX() + xT;
+                double startY = curve.getStartY() + yT;
 
-            double startX = curve.getStartX() + xT;
-            double startY = curve.getStartY() + yT;
+                graphicsContext.beginPath();
+                graphicsContext.moveTo(startX, startY);
+                graphicsContext.bezierCurveTo(px1, py1, px2, py2, endX, endY);
+                graphicsContext.stroke();
+                graphicsContext.closePath();
+                break;
+            case "Rectangle":
+                graphicsContext.strokeRect(minX, minY,w,h);
+                break;
+            case "Square":
+                break;
+            case "Triangle":
+                // X1 stays same | Y1 changes | X2 changes | Y2 stays same | X3 & Y3 are the cursor
+                Triangle triangle = (Triangle) shape;
+                handleTriangles(xT, yT, triangle);
+                break;
+            case "RightTriangle":
+                RightTriangle rightTriangle = (RightTriangle) currentShape;
+                handleTriangles(xT, yT, rightTriangle);
+                break;
+            case "Circle", "Ellipse":
+                graphicsContext.strokeOval(minX, minY, w, h);
+                break;
+            case "Star":
+                Star star = (Star) transformableNode.getChildren().get(0);
+                handleStar(xT, yT, star);
+                break;
+            case "RegularPolygon":
+                Polygon polygon = (Polygon) transformableNode.getChildren().get(0);
+                double[] xPoints = new double[polygon.getPoints().size() / 2];
+                double[] yPoints = new double[polygon.getPoints().size() / 2];
 
-            graphicsContext.beginPath();
-            graphicsContext.moveTo(startX, startY);
-            graphicsContext.bezierCurveTo(px1, py1, px2, py2, eX, eY);
-            graphicsContext.stroke();
-            graphicsContext.closePath();
-        }
-
-        if (currentShape instanceof Triangle triangle) {
-            // X1 stays same | Y1 changes | X2 changes | Y2 stays same | X3 & Y3 are the cursor
-//            Triangle triangle = (Triangle) transformableNode.getOriginalNode();
-            handleTriangles(xT, yT, triangle);
-        }
-
-        if (currentShape instanceof RightTriangle rightTriangle) {
-//            RightTriangle rightTriangle = (RightTriangle) transformableNode.getChildren().get(0);
-
-            handleTriangles(xT, yT, rightTriangle);
-        }
-
-        if (currentShape instanceof Circle) {
-            graphicsContext.strokeOval(minX, minY, w, h);
-        }
-
-        if (currentShape instanceof Ellipse) {
-            graphicsContext.strokeOval(minX, minY, w, h);
-        }
-
-        if (currentShape instanceof Rectangle) {
-            graphicsContext.strokeRect(minX, minY,w,h);
-        }
-
-        if (currentShape instanceof Star star) {
-//            Star star = (Star) transformableNode.getChildren().get(0);
-            handleStar(xT, yT, star);
-
-        }
-
-        if (currentShape instanceof Polygon polygon) {
-//            Polygon polygon = (Polygon) transformableNode.getChildren().get(0);
-            double[] xPoints = new double[polygon.getPoints().size() / 2];
-            double[] yPoints = new double[polygon.getPoints().size() / 2];
-
-            for (int i = 0; i < polygon.getPoints().size(); i++) {
-                if (i % 2 == 0) {
-                    xPoints[i / 2] = polygon.getPoints().get(i);
-                } else {
-                    yPoints[i / 2] = polygon.getPoints().get(i);
+                for (int i = 0; i < polygon.getPoints().size(); i++) {
+                    if (i % 2 == 0) {
+                        xPoints[i / 2] = polygon.getPoints().get(i);
+                    } else {
+                        yPoints[i / 2] = polygon.getPoints().get(i);
+                    }
                 }
-            }
-            // TODO fix issue where if regular poly is moved it won't be applied to the canvas
-            graphicsContext.strokePolygon(xPoints, yPoints, xPoints.length);
+                // TODO fix issue where if regular poly is moved it won't be applied to the canvas
+                graphicsContext.strokePolygon(xPoints, yPoints, xPoints.length);
+                break;
         }
-
-
 
         // Add shape creation to the undo stack on applied 2 canvas
         WritableImage writableImage = new WritableImage((int)(mainCanvas.getWidth()), (int) (mainCanvas.getHeight()));
