@@ -1,6 +1,7 @@
 package com.paint.resource;
 
 import com.paint.controller.CanvasController;
+import com.paint.handler.WorkspaceHandler;
 import javafx.beans.binding.Bindings;
 import javafx.event.EventHandler;
 import javafx.scene.Cursor;
@@ -15,34 +16,36 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeType;
 
+import java.util.Objects;
+
 public class TransformableNode extends Group {
 	private Node originalNode;
 	private Rectangle selectionRect;
 	private boolean isTransformable;
-//	private WorkspaceHandler workspaceHandler;
+	private WorkspaceHandler workspaceHandler;
 	private double startX;
 	private double startY;
 	private CanvasController canvasController;
 
 	// creates a transformableNode around a previous node
-	public TransformableNode(Node node, CanvasController canvasController) {
+	public TransformableNode(Node node, WorkspaceHandler workspaceHandler) {
 		super(node);
 		this.originalNode = node;
-//		this.workspaceHandler = workspaceHandler;
-		this.canvasController = canvasController;
+		this.workspaceHandler = workspaceHandler;
+		this.canvasController = workspaceHandler.getCurrentWorkspace().getCanvasController();
 		createSelectionBox();
 	}
 
 	public void enableTransformations() {
+
 		isTransformable = true;
+
 		Pane parentPane = canvasController.getDrawingPane();
 
 		parentPane.getParent().getScene().addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
-				System.out.println("HIT: " + event.getCode());
 				if (event.getCode() == KeyCode.ESCAPE) {
-					System.out.println("ESCAPE");
 					event.consume();
 					exitTransformMode();
 				}
@@ -50,7 +53,7 @@ public class TransformableNode extends Group {
 		});
 		// Translation handler (XY Movement) SECTION START
 
-		parentPane.setOnMousePressed(mousePressed -> handleMousePressed(mousePressed));
+		parentPane.setOnMousePressed(this::handleMousePressed);
 
 		this.setOnMouseDragged(dragEvent -> {
 			// Update shape position
@@ -68,10 +71,10 @@ public class TransformableNode extends Group {
 		if (!this.getBoundsInParent().contains(mouseEvent.getX(), mouseEvent.getY())) {
 			exitTransformMode();
 		}else {
-//			if (Objects.equals(this.workspaceHandler.getPaintStateModel().getCurrentToolType(), "selection")) {
-//				this.workspaceHandler.getPaintStateModel().getImageView().translateXProperty().bind(this.translateXProperty());
-//				this.workspaceHandler.getPaintStateModel().getImageView().translateYProperty().bind(this.translateYProperty());
-//			}
+			if (Objects.equals(this.workspaceHandler.getPaintStateModel().getCurrentToolType(), "selection")) {
+				this.workspaceHandler.getPaintStateModel().getImageView().translateXProperty().bind(this.translateXProperty());
+				this.workspaceHandler.getPaintStateModel().getImageView().translateYProperty().bind(this.translateYProperty());
+			}
 			startX = mouseEvent.getSceneX();
 			startY = mouseEvent.getSceneY();
 		}
@@ -90,20 +93,25 @@ public class TransformableNode extends Group {
 			this.getChildren().get(1).setVisible(false);
 		}
 		// Convert shape -> canvas
-		canvasController.applyPaneShapeToCanvas((Shape) this.getChildren().get(0));
 		// Check if current object is a shape
-//		if (Objects.equals(this.workspaceHandler.getPaintStateModel().getCurrentToolType(), "shape")) { // TODO convert this into a switch/case statement
-//			System.out.println("TOOL");
-//			this.workspaceHandler.getCurrentWorkspace().getCanvasController().applyPaneShapeToCanvas((Shape) this.getChildren().get(0));
-//		} else if (Objects.equals(this.workspaceHandler.getPaintStateModel().getCurrentToolType(), "selection")) {
-//			// Remove outer selection rectangle
-//			this.workspaceHandler.getCurrentWorkspace().getCanvasController().applySelectionToCanvas(this.workspaceHandler.getPaintStateModel().getImageView());
-//		}
+		if (Objects.equals(this.workspaceHandler.getPaintStateModel().getCurrentToolType(), "shape")) { // TODO convert this into a switch/case statement
+			System.out.println("TOOL");
+			this.canvasController.applyPaneShapeToCanvas((Shape) this.getChildren().get(0));
+		} else if (Objects.equals(this.workspaceHandler.getPaintStateModel().getCurrentToolType(), "selection")) {
+			// Remove outer selection rectangle
+			this.canvasController.applySelectionToCanvas(this.workspaceHandler.getPaintStateModel().getImageView());
+		}
 
 
 		// Enable CanvasController handlers
-//		this.workspaceHandler.getCurrentWorkspace().getCanvasController().setCanvasDrawingStackPaneHandlerState(true);
 		canvasController.setCanvasDrawingStackPaneHandlerState(true);
+
+		// Notify handler that user is no longer editing
+//		this.workspaceHandler.setEditing(false);
+		// TODO figure out a way to exit user from transform mode when switching tabs
+		// LAST WORKING ON IMPLEMENTING THE REST OF THE SHAPES
+		// CURRENT ISSUE IS THAT CURRENTSHAPE IS NOT BEING UPDATED CORRECTLY
+		// TODO CHANGE NAME OF CURRENTSHAPE TO SOMETHING BETTER
 	}
 
 

@@ -186,28 +186,34 @@ public class CanvasController {
         switch (currentTool) {
             case "StLine":
                 Line line = new Line(startX, startY, startX + 1, startY + 1);
-                currentShape = new TransformableNode(line, this);
+                currentShape = new TransformableNode(line, this.workspaceHandler);
                 break;
-//            case "Rectangle":
-//                // x, y, width, height, Paint fill
-//                currentShape = new Rectangle(startX, startY, 1, 2);
-//                break;
-//            case "Circle":
-//                currentShape = new Circle(startX, startY, 1);
-//                break;
-//            case "Square":
-//                currentShape = new Rectangle(startX, startY, 1, 1);
-//                break;
-//            case "Ellipse":
-//                // Center X Center Y | Radius X Radius Y
-//                currentShape = new Ellipse(startX, startY, 1, 1);
-//                break;
-//            case "Triangle":
-//                currentShape = new Triangle(startX, startX, startX, startY, startY, startY);
-//                break;
-//            case "RightTriangle":
-//                currentShape = new RightTriangle(startX, startX, startX, startY, startY, startY);
-//                break;
+            case "Rectangle":
+                // x, y, width, height, Paint fill
+                Rectangle rectangle = new Rectangle(startX, startY, 1, 2);
+                currentShape = new TransformableNode(rectangle, this.workspaceHandler);
+                break;
+            case "Circle":
+                Circle circle = new Circle(startX, startY, 1);
+                currentShape = new TransformableNode(circle, this.workspaceHandler);
+                break;
+            case "Square":
+                Rectangle square = new Rectangle(startX, startY, 1, 1);
+                currentShape = new TransformableNode(square, this.workspaceHandler);
+                break;
+            case "Ellipse":
+                // Center X Center Y | Radius X Radius Y
+                Ellipse ellipse = new Ellipse(startX, startY, 1, 1);
+                currentShape = new TransformableNode(ellipse, this.workspaceHandler);
+                break;
+            case "Triangle":
+                Triangle triangle = new Triangle(startX, startX, startX, startY, startY, startY);
+                currentShape = new TransformableNode(triangle, this.workspaceHandler);
+                break;
+            case "RightTriangle":
+                RightTriangle rightTriangle = new RightTriangle(startX, startX, startX, startY, startY, startY);
+                currentShape = new TransformableNode(rightTriangle, this.workspaceHandler);
+                break;
 //            case "Star":
 //                currentShape = new Star(startX, startY, 1);
 //                break;
@@ -338,9 +344,6 @@ public class CanvasController {
         Shape shape = null;
         if (currentShape.isShape()) {
             shape = (Shape) currentShape.getOriginalNode();
-            System.out.println(shape);
-        } else {
-            System.out.println("NOT A SHAPE");
         }
 
 
@@ -350,7 +353,6 @@ public class CanvasController {
         }
 
         if (shape instanceof Line line) {
-            System.out.println("LINE");
             line.setEndX(curX);
             line.setEndY(curY);
             return;

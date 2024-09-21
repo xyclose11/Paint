@@ -4,7 +4,6 @@ import com.paint.controller.*;
 import com.paint.handler.SelectionHandler;
 import com.paint.handler.WorkspaceHandler;
 import com.paint.model.*;
-import com.paint.resource.TransformableNode;
 import com.paint.resource.Workspace;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -16,8 +15,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 
@@ -125,14 +122,6 @@ public class Main extends Application {
 
         // Maintains the state of the current workspace in focus
         canvasWrapper.getSelectionModel().selectedIndexProperty().addListener(((observable, oldValue, newValue) -> {
-            // Create a simple Rectangle Node
-            Circle rect = new Circle(350, 350, 45);
-            rect.setFill(Color.PINK);
-
-            // Create the TransformableNode by wrapping the Rectangle
-            TransformableNode transformableRect = new TransformableNode(rect, this.workspaceHandler.getCurrentWorkspace().getCanvasController());
-            this.workspaceHandler.getCurrentWorkspace().getCanvasController().getDrawingPane().getChildren().add(transformableRect);
-
             // Change active workspace
             Workspace workspace = this.workspaceHandler.getWorkspaceList().get(newValue);
             this.workspaceHandler.setCurrentWorkspace(workspace);
@@ -141,6 +130,7 @@ public class Main extends Application {
             this.workspaceHandler.setCurrentFile(currentWorkspaceFile);
 
             // Exit user from transformation mode
+            this.paintStateModel.getCurrentShape().exitTransformMode();
 
             // Set active tab
             this.tabModel.setCurrentTab(canvasWrapper.getTabs().get((Integer) newValue));
