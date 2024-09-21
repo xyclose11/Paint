@@ -40,9 +40,9 @@ public class TransformableNode extends Group {
 
 		isTransformable = true;
 
-		Pane parentPane = canvasController.getDrawingPane();
+		Pane parentPane = this.canvasController.getDrawingPane();
 
-		parentPane.getParent().getScene().addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+		parentPane.getScene().addEventHandler(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
 				if (event.getCode() == KeyCode.ESCAPE) {
@@ -60,6 +60,8 @@ public class TransformableNode extends Group {
 			this.setTranslateX((dragEvent.getSceneX() - startX));
 			this.setTranslateY((dragEvent.getSceneY() - startY));
 		});
+
+		this.workspaceHandler.getPaintStateModel().setCurrentShape(this);
 
 		// Translation handler (XY Movement) SECTION END
 
@@ -86,7 +88,8 @@ public class TransformableNode extends Group {
 		this.setOnMouseDragged(null);
 		this.setOnMousePressed(null);
 		this.setOnMouseEntered(null);
-		Pane parentPane = canvasController.getDrawingPane();
+		Pane parentPane = this.canvasController.getDrawingPane();
+		System.out.println("CONTROLLER: " + this.canvasController);
 		parentPane.setOnMousePressed(null);
 		// Remove selectionRectangle
 		if (!this.getChildren().isEmpty()) {
@@ -96,6 +99,8 @@ public class TransformableNode extends Group {
 		// Check if current object is a shape
 		if (Objects.equals(this.workspaceHandler.getPaintStateModel().getCurrentToolType(), "shape")) { // TODO convert this into a switch/case statement
 			System.out.println("TOOL");
+			System.out.println(this.workspaceHandler.getPaintStateModel().getCurrentShape());
+			this.workspaceHandler.getPaintStateModel().setCurrentShape(this);
 			this.canvasController.applyPaneShapeToCanvas((Shape) this.getChildren().get(0));
 		} else if (Objects.equals(this.workspaceHandler.getPaintStateModel().getCurrentToolType(), "selection")) {
 			// Remove outer selection rectangle
@@ -105,7 +110,6 @@ public class TransformableNode extends Group {
 
 		// Enable CanvasController handlers
 		canvasController.setCanvasDrawingStackPaneHandlerState(true);
-
 		// Notify handler that user is no longer editing
 //		this.workspaceHandler.setEditing(false);
 		// TODO figure out a way to exit user from transform mode when switching tabs
@@ -168,7 +172,6 @@ public class TransformableNode extends Group {
 //            selectionRect.setCursor(Cursor.H_RESIZE);
 //        });
 
-
 		this.getChildren().addAll(selectionRect);
 
 		this.setOnMouseEntered(mouseE -> {
@@ -181,11 +184,7 @@ public class TransformableNode extends Group {
 
 	public boolean isShape() {
 		// Check if originalNode is a shape
-		if (originalNode instanceof Shape) {
-			return true;
-		} else {
-			return false;
-		}
+        return originalNode instanceof Shape;
 	}
 	public Node getOriginalNode() {
 		return originalNode;

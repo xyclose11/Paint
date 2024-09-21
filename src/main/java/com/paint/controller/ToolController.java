@@ -1,6 +1,7 @@
 package com.paint.controller;
 
 import com.paint.model.PaintStateModel;
+import com.paint.resource.TransformableNode;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.GraphicsContext;
@@ -35,7 +36,7 @@ public class ToolController {
     private double startX = 0;
     private double startY = 0;
 
-    public void handleToolGeneralOnPress(Shape currentShape, String currentTool, MouseEvent mouseEvent, Pane drawingPane) {
+    public void handleToolGeneralOnPress(TransformableNode currentShape, String currentTool, MouseEvent mouseEvent, Pane drawingPane) {
         switch (currentTool){
             case "Eraser":
                 graphicsContext.clearRect(startX, startY, 60, 60);
@@ -55,17 +56,12 @@ public class ToolController {
                 textArea.setBackground(null);
                 textArea.setLayoutX(mouseEvent.getX()); // Places the text area
                 textArea.setLayoutY(mouseEvent.getY() - 15);
-
-
-                // listener to alert whenever the text area is in focus
-                textArea.focusedProperty().addListener(((observableValue, aBoolean, t1) -> {
-//                    textArea.setFont();
-                }));
-
+                currentShape = new TransformableNode(textArea, this.paintStateModel.getCurrentWorkspaceModel());
+                this.paintStateModel.setCurrentShape(currentShape);
 
                 textArea.requestFocus();
 
-                drawingPane.getChildren().add(textArea);
+                drawingPane.getChildren().add(currentShape);
 
                 textArea.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
                     @Override
@@ -85,7 +81,7 @@ public class ToolController {
         }
 
         if (currentShape != null) {
-            loadDefaultShapeAttributes(currentShape);
+//            loadDefaultShapeAttributes((Shape) currentShape.getOriginalNode());
         }
     }
 

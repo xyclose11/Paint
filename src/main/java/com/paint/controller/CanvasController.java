@@ -158,8 +158,6 @@ public class CanvasController {
         if (this.paintStateModel.getCurrentShape() != null) {
             if (this.paintStateModel.getCurrentShape().isTransformable()) {
                 isNotTransformable = false;
-            } else {
-                isNotTransformable = true;
             }
         }
 
@@ -214,19 +212,19 @@ public class CanvasController {
                 RightTriangle rightTriangle = new RightTriangle(startX, startX, startX, startY, startY, startY);
                 currentShape = new TransformableNode(rightTriangle, this.workspaceHandler);
                 break;
-//            case "Star":
-//                currentShape = new Star(startX, startY, 1);
-//                break;
-//            case "Hexagon":
-//                break;
-//            case "Curve":
-//                timesAdjusted = 0;
-//                currentShape = new CubicCurve(startX, startY, startX, startY, startX + 1, startY + 1, startX + 1, startY + 1);
-//                break;
-//            case "regularPolygon":
-//                currentShape = new Polygon();
-//                toolController.showInputDialog(this.drawingPane);
-//                break;
+            case "Star":
+                Star star = new Star(startX, startY, 1);
+                currentShape = new TransformableNode(star, this.workspaceHandler);
+                break;
+            case "Curve":
+                timesAdjusted = 0;
+                CubicCurve curve = new CubicCurve(startX, startY, startX, startY, startX + 1, startY + 1, startX + 1, startY + 1);
+                currentShape = new TransformableNode(curve, this.workspaceHandler);
+                break;
+            case "regularPolygon":
+                currentShape = new TransformableNode(new Polygon(), this.workspaceHandler);
+                toolController.showInputDialog(this.drawingPane);
+                break;
         }
 
         if (currentShape != null) {
@@ -235,8 +233,6 @@ public class CanvasController {
 
             // Set current shape in model
             this.paintStateModel.setCurrentShape(currentShape);
-
-
         } else {
             // Error for if the currentShape is null (Ideally there should always be a tool selected)
             Alert noToolSelectedAlert = new Alert(Alert.AlertType.ERROR, "NO TOOL SELECTED. Please select a tool in the tool bar above. FROM SHAPE HANDLER");
@@ -321,6 +317,12 @@ public class CanvasController {
             noToolSelectedAlert.showAndWait();
         }
 
+        switch (paintStateModel.getCurrentTool()){
+            case "TextTool":
+                paintStateModel.getCurrentShape().enableTransformations();
+                break;
+        }
+
         double eraserStrokeWidth = this.paintStateModel.getCurrentLineWidth();
         double eraserX = curX - (eraserStrokeWidth / 2);
         double eraserY = curY - (eraserStrokeWidth / 2);
@@ -339,6 +341,7 @@ public class CanvasController {
             noToolSelectedAlert.setTitle("No Tool Selected: DRAGGED");
             noToolSelectedAlert.setHeaderText("");
             noToolSelectedAlert.showAndWait();
+            return;
         }
 
         Shape shape = null;
@@ -449,6 +452,7 @@ public class CanvasController {
             case ("shape"):
                 // Disable StackPane Mouse Event Handlers
                 setCanvasDrawingStackPaneHandlerState(false);
+                System.out.println(this.paintStateModel.getCurrentShape().getOriginalNode());
                 handleToolShapeReleased(this.paintStateModel.getCurrentShape());
                 break;
             case ("brush"), ("general"):
@@ -478,6 +482,9 @@ public class CanvasController {
         if (currentShape.isShape()) {
             shape = (Shape) currentShape.getOriginalNode();
         }
+
+        System.out.println("PRESS CURRENTSHAPE: " + currentShape.getOriginalNode());
+
         // Check if currentShape is a curve
         if (shape instanceof CubicCurve curve) {
             // Enable mouse click handler for control XY location
@@ -510,8 +517,8 @@ public class CanvasController {
     public void applyPaneShapeToCanvas(Shape currentShape) {
         graphicsContext.setStroke(this.paintStateModel.getCurrentPaintColor()); // Responsible for the color of shapes
         System.out.println(currentShape);
-        Group selectionGroup = this.paintStateModel.getCurrentShape();
-        Shape shape = (Shape) selectionGroup.getChildren().get(0);
+        TransformableNode transformableNode = this.paintStateModel.getCurrentShape();
+        Shape shape = (Shape) transformableNode.getChildren().get(0);
 
         double minX;
         double minY;
@@ -534,9 +541,9 @@ public class CanvasController {
         // Translation state
         double xT, yT;
 
-        if (checkForTranslation(selectionGroup)) {
-            xT = selectionGroup.getTranslateX();
-            yT = selectionGroup.getTranslateY();
+        if (checkForTranslation(transformableNode)) {
+            xT = transformableNode.getTranslateX();
+            yT = transformableNode.getTranslateY();
 
             minX = shape.getBoundsInParent().getMinX() + xT;
             maxX = shape.getBoundsInParent().getMaxX() + xT;
@@ -555,9 +562,9 @@ public class CanvasController {
         }
 
 
-        if (currentShape instanceof Line) {
+        if (currentShape instanceof Line line) {
             // You don't need to use the bounded XY since that will only indicate the bounding box & translations
-            Line line = (Line) selectionGroup.getChildren().get(0);
+//            Line line = (Line) transformableNode.getChildren().get(0);
             double lX = line.getStartX() + xT;
             double lY = line.getStartY() + yT;
             double eX = line.getEndX() + xT;
@@ -566,9 +573,9 @@ public class CanvasController {
             graphicsContext.strokeLine(lX, lY, eX, eY);
         }
 
-        if (currentShape instanceof CubicCurve) {
+        if (currentShape instanceof CubicCurve curve) {
             // control point XY 2x -> end XY
-            CubicCurve curve = (CubicCurve) selectionGroup.getChildren().get(1);
+//            CubicCurve curve = (CubicCurve) transformableNode.getChildren().get(0);
 
             double px1 = curve.getControlX1() + xT;
             double py1 = curve.getControlY1() + yT;
@@ -587,15 +594,14 @@ public class CanvasController {
             graphicsContext.closePath();
         }
 
-        if (currentShape instanceof Triangle) {
+        if (currentShape instanceof Triangle triangle) {
             // X1 stays same | Y1 changes | X2 changes | Y2 stays same | X3 & Y3 are the cursor
-            Triangle triangle = (Triangle) selectionGroup.getChildren().get(1);
-
+//            Triangle triangle = (Triangle) transformableNode.getOriginalNode();
             handleTriangles(xT, yT, triangle);
         }
 
-        if (currentShape instanceof RightTriangle) {
-            RightTriangle rightTriangle = (RightTriangle) selectionGroup.getChildren().get(1);
+        if (currentShape instanceof RightTriangle rightTriangle) {
+//            RightTriangle rightTriangle = (RightTriangle) transformableNode.getChildren().get(0);
 
             handleTriangles(xT, yT, rightTriangle);
         }
@@ -612,15 +618,14 @@ public class CanvasController {
             graphicsContext.strokeRect(minX, minY,w,h);
         }
 
-        if (currentShape instanceof Star) {
-            Star star = (Star) selectionGroup.getChildren().get(1);
-
+        if (currentShape instanceof Star star) {
+//            Star star = (Star) transformableNode.getChildren().get(0);
             handleStar(xT, yT, star);
 
         }
 
-        if (currentShape instanceof Polygon) {
-            Polygon polygon = (Polygon) selectionGroup.getChildren().get(1);
+        if (currentShape instanceof Polygon polygon) {
+//            Polygon polygon = (Polygon) transformableNode.getChildren().get(0);
             double[] xPoints = new double[polygon.getPoints().size() / 2];
             double[] yPoints = new double[polygon.getPoints().size() / 2];
 
@@ -695,11 +700,7 @@ public class CanvasController {
 
     private boolean checkForTranslation(Group selectionGroup) {
         // Check translation XY movement
-        if (selectionGroup.getTranslateX() == 0.0 && selectionGroup.getTranslateY() == 0.0) {
-            return false;
-        } else {
-            return true;
-        }
+        return selectionGroup.getTranslateX() != 0.0 || selectionGroup.getTranslateY() != 0.0;
     }
 
     public void setCanvasDrawingStackPaneHandlerState(boolean bool) {
