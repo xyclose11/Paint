@@ -9,6 +9,8 @@ import javafx.scene.layout.HBox;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Stack;
 
 /*
@@ -43,8 +45,13 @@ public class Workspace {
 		SelectionHandler selectionHandler = new SelectionHandler();
 		selectionHandler.setPaintStateModel(paintStateModel);
 		canvasController.setSelectionHandler(selectionHandler);
-
+//		createTempFile();
 		this.undoStack.push(canvasController.getCurrentCanvasSnapshot()); // Set initial state as base action for undo
+	}
+
+	public void createTempFile() throws IOException {
+		Path tempFile = Files.createTempFile(Files.createTempDirectory("temp-dir"), "testData-", ".txt");
+        this.workspaceFile = tempFile.toFile();
 	}
 
 	public Stack<WritableImage> getUndoStack() {

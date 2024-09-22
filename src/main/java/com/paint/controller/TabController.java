@@ -55,7 +55,7 @@ public class TabController {
 		HBox canvasView = this.canvasModel.getCanvasView();
 
 		Workspace workspace = new Workspace(canvasView, true, paintStateModel, infoCanvasModel, settingStateModel, tabModel);
-
+//		workspace.createTempFile();
 		// Set the current workspace in focus
 		this.currentWorkspaceModel.setCurrentWorkspace(workspace);
 

@@ -5,6 +5,7 @@ import com.paint.model.CanvasModel;
 import com.paint.model.CurrentWorkspaceModel;
 import com.paint.model.HelpAboutModel;
 import com.paint.resource.Workspace;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -126,16 +127,24 @@ public class UtilityController {
 			return;
 		}
 
-		System.out.println("SAVED");
+		try {
+			String filePath = this.currentWorkspaceModel.getCurrentWorkspace().getWorkspaceFile().getAbsolutePath();
+			String fileExt = getFileExt(filePath);
+			File file = new File(filePath); // Find the previously saved file
 
-		String filePath = this.currentWorkspaceModel.getCurrentWorkspace().getWorkspaceFile().getAbsolutePath();
-		String fileExt = getFileExt(filePath);
-		File file = new File(filePath); // Find the previously saved file
+			Workspace temp = this.currentWorkspaceModel.getCurrentWorkspace();
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					temp.getCanvasController().saveImageFromCanvas(file, fileExt);
+				}
+			});
 
-		Workspace temp = this.currentWorkspaceModel.getCurrentWorkspace();
-		temp.getCanvasController().saveImageFromCanvas(file, fileExt);
+			temp.setWorkspaceFile(file);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-		temp.setWorkspaceFile(file);
 	}
 
 	@FXML

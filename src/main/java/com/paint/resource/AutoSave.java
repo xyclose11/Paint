@@ -1,8 +1,10 @@
 package com.paint.resource;
 
 import com.paint.controller.UtilityController;
+import javafx.concurrent.ScheduledService;
+import javafx.concurrent.Task;
+import javafx.util.Duration;
 
-import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -21,24 +23,42 @@ public class AutoSave {
     public void beepForAnHour() {
         Runnable beeper = () -> System.out.println("beep");
         ScheduledFuture<?> beeperHandle =
-                autoSaveScheduler.scheduleAtFixedRate(beeper, 5, 10, SECONDS);
+                autoSaveScheduler.scheduleAtFixedRate(beeper, 20, 10, SECONDS);
 //        Runnable canceller = () -> beeperHandle.cancel(false);
 //        autoSaveScheduler.schedule(canceller, 1, HOURS);
     }
 
     public void startTimer() {
-        Runnable timer = () -> {
-            System.out.println("TRYING");
-            try {
-                System.out.println("SAVING");
-                this.utilityController.handleFileSave(null);
-            } catch (IOException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
+        ScheduledService<?> scheduledService = new ScheduledService() {
+            @Override
+            protected Task<?> createTask() {
+                Task<?> task = new Task<>() {
+                    @Override
+                    protected Object call() throws Exception {
+                        utilityController.handleFileSave(null);
+                        return null;
+                    }
+                };
+                return task;
             }
         };
-        autoSaveScheduler.scheduleAtFixedRate(timer, 15, 10, SECONDS);
+        scheduledService.setPeriod(Duration.millis(10000));
+        scheduledService.start();
+//        Runnable timer = () -> {
+//            System.out.println("TRYING");
+//            try {
+//                System.out.println("SAVING");
+//                this.utilityController.handleFileSave(null);
+//            } catch (Exception e) {
+//                System.out.println("EXCEPTION");
+//                e.printStackTrace();
+//                throw new RuntimeException(e);
+//            }
+//        };
+//        autoSaveScheduler.scheduleAtFixedRate(timer, 15, 10, SECONDS);
     }
+
+
 
     public double getTimerLenInSeconds() {
         return timerLenInSeconds;

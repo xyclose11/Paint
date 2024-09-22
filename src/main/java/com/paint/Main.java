@@ -125,7 +125,6 @@ public class Main extends Application {
 
         autoSaveService.setUtilityController(utilityController);
         autoSaveService.startTimer();
-
         // Maintains the state of the current workspace in focus
         canvasWrapper.getSelectionModel().selectedIndexProperty().addListener(((observable, oldValue, newValue) -> {
             // Change active workspace
@@ -156,6 +155,7 @@ public class Main extends Application {
         currentWorkspaceModel.setInfoCanvasModel(infoCanvasModel);
         currentWorkspaceModel.setTabModel(tabModel);
         currentWorkspaceModel.setPaintStateModel(paintStateModel);
+
         // Load blank tab on startup
         tabController.createNewTab();
 
