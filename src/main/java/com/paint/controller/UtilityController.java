@@ -6,6 +6,9 @@ import com.paint.model.CurrentWorkspaceModel;
 import com.paint.model.HelpAboutModel;
 import com.paint.model.SettingStateModel;
 import com.paint.resource.Workspace;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
@@ -271,6 +275,50 @@ public class UtilityController {
 		stateModel.setAutosaveEnabled(autoSaveController.getAutoSaveEnabledCB().isSelected());
 		stateModel.setTimerVisible(autoSaveController.getAutoSaveTimerVisibleCB().isSelected());
 		stateModel.setAutoSaveInterval((long) autoSaveController.getAutoSaveIntervalSlider().getValue());
+
+		hideAutoSaveTimer(autoSaveController.autoSaveTimerVisibleCB.isSelected());
+
+	}
+
+	private int seconds = 0;
+	private Timeline timer;
+	private int prevTimerLen = -1;
+
+	public Timeline getTimer() {
+		return timer;
+	}
+
+	public void setTimer(Timeline timer) {
+		this.timer = timer;
+	}
+
+	private void hideAutoSaveTimer(boolean hide) {
+		if (!hide) { // user wants timer hidden
+			timerLabel.setText("Auto Save");
+		} else { // user wants timer visible
+			if (prevTimerLen < 0) { // First init
+				prevTimerLen = (int) autoSaveController.getSettingStateModel().getAutoSaveInterval() * 60;
+			}
+
+			if(timer != null) {
+				if (timer.getStatus() == Animation.Status.RUNNING && prevTimerLen == (int) autoSaveController.getSettingStateModel().getAutoSaveInterval() * 60) { // Use previous timer if val hasn't changed
+					return;
+				} else {
+					timer.stop();
+					prevTimerLen = (int) autoSaveController.getSettingStateModel().getAutoSaveInterval() * 60;
+				}
+			}
+
+			seconds = (int) autoSaveController.getSettingStateModel().getAutoSaveInterval() * 60;
+			timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+				seconds--;
+				timerLabel.setText("" + seconds);
+			}));
+
+			timer.setCycleCount((int) autoSaveController.getSettingStateModel().getAutoSaveInterval() * 60); // seconds -> minutes
+
+			timer.play();
+		}
 	}
 
 	private void handleAutoSaveRefresh(MouseEvent mouseEvent) {

@@ -7,12 +7,12 @@ import javafx.util.Duration;
 
 public final class AutoSave {
     private UtilityController utilityController;
-    private long timerLenInMinutes;
+    private Duration timerLenInMinutes;
 
     private ScheduledService<Void> scheduledService;
 
     public AutoSave() {
-        timerLenInMinutes = 10;
+        timerLenInMinutes = Duration.minutes(10);
     }
 
     public void startTimer() {
@@ -28,7 +28,7 @@ public final class AutoSave {
                 };
             }
         };
-        scheduledService.setPeriod(Duration.minutes(timerLenInMinutes));
+        scheduledService.setPeriod(timerLenInMinutes);
         scheduledService.start();
     }
 
@@ -42,14 +42,13 @@ public final class AutoSave {
 
     public void enableAutoSaveService() {
         try {
-            System.out.println(this.scheduledService.getPeriod());
             this.scheduledService.start();
         } catch (Exception e) {
             e.getMessage();
         }
     }
 
-    public double getTimerLenInMinutes() {
+    public Duration getTimerLenInMinutes() {
         return timerLenInMinutes;
     }
 
@@ -59,8 +58,9 @@ public final class AutoSave {
             return;
         }
 
-        this.timerLenInMinutes = timerLenInMinutes;
-        this.scheduledService.setPeriod(Duration.minutes(timerLenInMinutes));
+        this.timerLenInMinutes = Duration.minutes(timerLenInMinutes);
+        this.scheduledService.cancel();
+        startTimer();
     }
 
     public UtilityController getUtilityController() {
