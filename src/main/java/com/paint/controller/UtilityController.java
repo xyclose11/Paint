@@ -4,15 +4,13 @@ package com.paint.controller;
 import com.paint.model.CanvasModel;
 import com.paint.model.CurrentWorkspaceModel;
 import com.paint.model.HelpAboutModel;
+import com.paint.model.SettingStateModel;
 import com.paint.resource.Workspace;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -23,6 +21,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 public class UtilityController {
 
@@ -41,6 +40,15 @@ public class UtilityController {
 	private CurrentWorkspaceModel currentWorkspaceModel;
 	private HelpAboutModel helpAboutModel;
 	private CanvasModel canvasModel;
+	private AutoSaveController autoSaveController;
+
+	public AutoSaveController getAutoSaveController() {
+		return autoSaveController;
+	}
+
+	public void setAutoSaveController(AutoSaveController autoSaveController) {
+		this.autoSaveController = autoSaveController;
+	}
 
 	public CanvasModel getCanvasModel() {
 		return canvasModel;
@@ -236,23 +244,33 @@ public class UtilityController {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AutoSaveSetting.fxml"));
 			DialogPane dialogPane = fxmlLoader.load();
+
+			// Load autoSaveController from view
+			autoSaveController = fxmlLoader.getController();
+			autoSaveController.setSettingStateModel(this.currentWorkspaceModel.getSettingStateModel());
+
 			Alert aboutAlert = new Alert(Alert.AlertType.INFORMATION);
 			aboutAlert.setTitle("AutoSave Settings");
 			aboutAlert.setDialogPane(dialogPane);
-			aboutAlert.show();
+			Optional<ButtonType> result = aboutAlert.showAndWait();
+			ButtonType buttonType = result.orElse(ButtonType.CANCEL);
+			handleAutoSaveDialogResult(buttonType);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
 
+	private void handleAutoSaveDialogResult(ButtonType result) {
+		if (result != ButtonType.APPLY) { // don't apply settings
+			return;
+		}
 
-
-//		if (!Objects.equals(timerLabel.getText(), "Timer")) {
-//			timerLabel.setText("Timer");
-//		} else {
-//			// original timer content
-//			double t = this.currentWorkspaceModel.getSettingStateModel().getAutoSaveInterval();
-//			timerLabel.setText("5:00");
-//		}
+		// Apply settings
+		SettingStateModel stateModel = this.currentWorkspaceModel.getSettingStateModel();
+		// When apply is selected determine what vals have changed and apply
+		stateModel.setAutosaveEnabled(autoSaveController.getAutoSaveEnabledCB().isSelected());
+		stateModel.setTimerVisible(autoSaveController.getAutoSaveTimerVisibleCB().isSelected());
+		stateModel.setAutoSaveInterval((long) autoSaveController.getAutoSaveIntervalSlider().getValue());
 	}
 
 	private void handleAutoSaveRefresh(MouseEvent mouseEvent) {
