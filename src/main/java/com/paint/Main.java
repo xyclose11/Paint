@@ -156,6 +156,8 @@ public class Main extends Application {
         currentWorkspaceModel.setTabModel(tabModel);
         currentWorkspaceModel.setPaintStateModel(paintStateModel);
 
+        settingStateModel.setAutoSave(autoSaveService);
+
         // Load blank tab on startup
         tabController.createNewTab();
 

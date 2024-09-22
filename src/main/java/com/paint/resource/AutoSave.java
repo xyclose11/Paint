@@ -5,16 +5,18 @@ import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
 import javafx.util.Duration;
 
-public class AutoSave {
+public final class AutoSave {
     private UtilityController utilityController;
-    private long timerLenInMillis;
+    private long timerLenInMinutes;
+
+    private ScheduledService<Void> scheduledService;
 
     public AutoSave() {
-        timerLenInMillis = 10000;
+        timerLenInMinutes = 10;
     }
 
     public void startTimer() {
-        ScheduledService<Void> scheduledService = new ScheduledService<Void>() {
+        scheduledService = new ScheduledService<Void>() {
             @Override
             protected Task<Void> createTask() {
                 return new Task<Void>() {
@@ -26,16 +28,39 @@ public class AutoSave {
                 };
             }
         };
-        scheduledService.setPeriod(Duration.millis(timerLenInMillis));
+        scheduledService.setPeriod(Duration.minutes(timerLenInMinutes));
         scheduledService.start();
     }
 
-    public double getTimerLenInMillis() {
-        return timerLenInMillis;
+    public void disableAutoSaveService() {
+        try {
+            this.scheduledService.cancel();
+        } catch (Exception e) {
+            e.getMessage();
+        }
     }
 
-    public void setTimerLenInMillis(long timerLenInMillis) {
-        this.timerLenInMillis = timerLenInMillis;
+    public void enableAutoSaveService() {
+        try {
+            System.out.println(this.scheduledService.getPeriod());
+            this.scheduledService.start();
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+
+    public double getTimerLenInMinutes() {
+        return timerLenInMinutes;
+    }
+
+    public void setTimerLenInMinutes(long timerLenInMinutes) {
+        // Validate input
+        if (timerLenInMinutes > 60 || timerLenInMinutes < 0) {
+            return;
+        }
+
+        this.timerLenInMinutes = timerLenInMinutes;
+        this.scheduledService.setPeriod(Duration.minutes(timerLenInMinutes));
     }
 
     public UtilityController getUtilityController() {
