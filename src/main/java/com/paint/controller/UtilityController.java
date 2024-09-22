@@ -237,7 +237,7 @@ public class UtilityController {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AutoSaveSetting.fxml"));
 			DialogPane dialogPane = fxmlLoader.load();
 			Alert aboutAlert = new Alert(Alert.AlertType.INFORMATION);
-			aboutAlert.setTitle("About Pain(t)");
+			aboutAlert.setTitle("AutoSave Settings");
 			aboutAlert.setDialogPane(dialogPane);
 			aboutAlert.show();
 		} catch (IOException e) {
