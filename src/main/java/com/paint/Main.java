@@ -89,7 +89,7 @@ public class Main extends Application {
 
         InfoController infoController = infoBarLoader.getController();
 
-        Scene scene = new Scene(rootLayout, 1225, 735);
+        Scene scene = new Scene(rootLayout, INITIAL_RES_X, INITIAL_RES_Y);
         sceneStateModel = new SceneStateModel(scene);
 
         // Set controller models

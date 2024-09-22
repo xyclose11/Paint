@@ -8,8 +8,10 @@ import com.paint.resource.Workspace;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
@@ -21,7 +23,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
-import java.util.Objects;
 
 public class UtilityController {
 
@@ -232,13 +233,26 @@ public class UtilityController {
 	}
 
 	private void handleTimerLabelVisibility(MouseEvent mouseEvent) {
-		if (!Objects.equals(timerLabel.getText(), "Timer")) {
-			timerLabel.setText("Timer");
-		} else {
-			// original timer content
-			double t = this.currentWorkspaceModel.getSettingStateModel().getAutoSaveInterval();
-			timerLabel.setText("5:00");
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AutoSaveSetting.fxml"));
+			DialogPane dialogPane = fxmlLoader.load();
+			Alert aboutAlert = new Alert(Alert.AlertType.INFORMATION);
+			aboutAlert.setTitle("About Pain(t)");
+			aboutAlert.setDialogPane(dialogPane);
+			aboutAlert.show();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
+
+
+
+//		if (!Objects.equals(timerLabel.getText(), "Timer")) {
+//			timerLabel.setText("Timer");
+//		} else {
+//			// original timer content
+//			double t = this.currentWorkspaceModel.getSettingStateModel().getAutoSaveInterval();
+//			timerLabel.setText("5:00");
+//		}
 	}
 
 	private void handleAutoSaveRefresh(MouseEvent mouseEvent) {

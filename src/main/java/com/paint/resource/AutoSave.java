@@ -7,10 +7,10 @@ import javafx.util.Duration;
 
 public class AutoSave {
     private UtilityController utilityController;
-    private long timerLenInSeconds;
+    private long timerLenInMillis;
 
     public AutoSave() {
-        timerLenInSeconds = 10;
+        timerLenInMillis = 10000;
     }
 
     public void startTimer() {
@@ -26,16 +26,16 @@ public class AutoSave {
                 };
             }
         };
-        scheduledService.setPeriod(Duration.millis(10000));
+        scheduledService.setPeriod(Duration.millis(timerLenInMillis));
         scheduledService.start();
     }
 
-    public double getTimerLenInSeconds() {
-        return timerLenInSeconds;
+    public double getTimerLenInMillis() {
+        return timerLenInMillis;
     }
 
-    public void setTimerLenInSeconds(long timerLenInSeconds) {
-        this.timerLenInSeconds = timerLenInSeconds;
+    public void setTimerLenInMillis(long timerLenInMillis) {
+        this.timerLenInMillis = timerLenInMillis;
     }
 
     public UtilityController getUtilityController() {
