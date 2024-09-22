@@ -5,6 +5,7 @@ import com.paint.model.CanvasModel;
 import com.paint.model.CurrentWorkspaceModel;
 import com.paint.model.HelpAboutModel;
 import com.paint.model.SettingStateModel;
+import com.paint.resource.AutoSave;
 import com.paint.resource.Workspace;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -45,6 +46,7 @@ public class UtilityController {
 	private HelpAboutModel helpAboutModel;
 	private CanvasModel canvasModel;
 	private AutoSaveController autoSaveController;
+	private AutoSave autoSave;
 
 	public AutoSaveController getAutoSaveController() {
 		return autoSaveController;
@@ -52,6 +54,14 @@ public class UtilityController {
 
 	public void setAutoSaveController(AutoSaveController autoSaveController) {
 		this.autoSaveController = autoSaveController;
+	}
+
+	public AutoSave getAutoSave() {
+		return autoSave;
+	}
+
+	public void setAutoSave(AutoSave autoSave) {
+		this.autoSave = autoSave;
 	}
 
 	public CanvasModel getCanvasModel() {
@@ -154,6 +164,10 @@ public class UtilityController {
 			});
 
 			temp.setWorkspaceFile(file);
+
+			// Reset timer on save
+			seconds = (int) autoSaveController.getSettingStateModel().getAutoSaveInterval() * 60;
+			autoSave.restartAutoSaveService();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -283,14 +297,6 @@ public class UtilityController {
 	private int seconds = 0;
 	private Timeline timer;
 	private int prevTimerLen = -1;
-
-	public Timeline getTimer() {
-		return timer;
-	}
-
-	public void setTimer(Timeline timer) {
-		this.timer = timer;
-	}
 
 	private void hideAutoSaveTimer(boolean hide) {
 		if (!hide) { // user wants timer hidden

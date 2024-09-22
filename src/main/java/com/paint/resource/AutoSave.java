@@ -32,6 +32,15 @@ public final class AutoSave {
         scheduledService.start();
     }
 
+    public void restartAutoSaveService() {
+        try {
+            this.scheduledService.cancel();
+            this.startTimer();
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+
     public void disableAutoSaveService() {
         try {
             this.scheduledService.cancel();

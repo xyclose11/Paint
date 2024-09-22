@@ -124,6 +124,7 @@ public class Main extends Application {
         tabController.setCurrentWorkspaceModel(currentWorkspaceModel);
 
         autoSaveService.setUtilityController(utilityController);
+        utilityController.setAutoSave(autoSaveService);
         autoSaveService.startTimer();
         // Maintains the state of the current workspace in focus
         canvasWrapper.getSelectionModel().selectedIndexProperty().addListener(((observable, oldValue, newValue) -> {
