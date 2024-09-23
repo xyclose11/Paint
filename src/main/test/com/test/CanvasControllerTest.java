@@ -1,13 +1,12 @@
 package com.test;
 
-import com.paint.controller.CanvasController;
+import com.paint.model.CanvasModel;
 import org.junit.jupiter.api.Test;
 
 public class CanvasControllerTest {
-	private final CanvasController canvasController = new CanvasController();
+	private final CanvasModel canvasModel = new CanvasModel();
 
 	@Test
-	void getCurrentSnapshotTest() {
-
+	void SetZoomScale() {
 	}
 }
