@@ -3,6 +3,7 @@ package com.paint;
 import com.paint.controller.*;
 import com.paint.model.*;
 import com.paint.resource.AutoSave;
+import com.paint.resource.WebServerHandler;
 import com.paint.resource.Workspace;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -41,8 +42,6 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         final int INITIAL_RES_X = 1200; // Initial resolution vals
         final int INITIAL_RES_Y = 900;
-
-
 
         BorderPane rootLayout = new BorderPane(); // Contains the main scene/content
 
@@ -216,6 +215,11 @@ public class Main extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        WebServerHandler webServerHandler = new WebServerHandler();
+        webServerHandler.createNewServer();
+        webServerHandler.startHttpServer();
+
 
         // Set 'smart-save' event handlers on main stage
         primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
