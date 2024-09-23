@@ -261,6 +261,7 @@ public class Main extends Application {
 
                     if (alertResult == ButtonType.OK) { // User wants to close without saving
                         primaryStage.close();
+                        webServerHandler.stopHttpServer();// Stop httpServer
                     }
                     if (Objects.equals(alertResult.getText(), "Save")) { // Save file
 	                    try {
