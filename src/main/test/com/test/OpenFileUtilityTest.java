@@ -21,4 +21,15 @@ public class OpenFileUtilityTest {
 		File testFile = new File(System.getProperty("user.home"), ".paint/projects");
 		assertEquals(fileWithNoParam, testFile);
 	}
+
+	@Test
+	void getFileExt() {
+		String testFile1 = "testFile1.exe";
+		String testFile2 = "9218409nt_.png";
+		String testFile3 = "_as23.jpg.png";
+
+		assertEquals("exe", utilityController.getFileExt(testFile1));
+		assertEquals("png", utilityController.getFileExt(testFile2));
+		assertEquals("png", utilityController.getFileExt(testFile3));
+	}
 }

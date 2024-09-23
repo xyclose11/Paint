@@ -213,7 +213,7 @@ public class UtilityController {
 	}
 
 
-	private String getFileExt(String filePath) {
+	public String getFileExt(String filePath) {
 		return filePath.substring(filePath.lastIndexOf(".") + 1); // Get string val after the last '.'
 	}
 
