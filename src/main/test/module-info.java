@@ -4,4 +4,7 @@ module com.test {
 	requires org.testfx;
 	requires com.paint;
 	requires javafx.graphics;
+
+	opens com.test to org.junit.platform.commons;
+	exports com.test;
 }

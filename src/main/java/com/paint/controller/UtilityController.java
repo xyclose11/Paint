@@ -30,6 +30,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
 public class UtilityController {
+	private final String DEFAULT_DIRNAME = ".paint/projects";
+	private final String DEFAULT_ROOT_NAME = "user.home";
 
 	@FXML
 	public Button undoBtn;
@@ -205,6 +207,7 @@ public class UtilityController {
 		);
 
 		File paintFileDir = createFileChooserDir(null, null);
+		System.out.println(paintFileDir);
 		fileChooser.setInitialDirectory(paintFileDir);
 		fileChooser.setTitle("Save Image");
 		fileChooser.setInitialFileName("Untitled"); // Default filename // TODO use filenameFilter to check if the name already exists
@@ -228,17 +231,17 @@ public class UtilityController {
 	}
 
 
-	private String getFileExt(String filePath) {
+	public String getFileExt(String filePath) {
 		return filePath.substring(filePath.lastIndexOf(".") + 1); // Get string val after the last '.'
 	}
 
-	private File createFileChooserDir(String rootName, String dirName) {
+	public File createFileChooserDir(String rootName, String dirName) {
 		if (rootName == null) { // TODO adjust to catch empty strings
-			rootName = "user.home";
+			rootName = DEFAULT_ROOT_NAME;
 		}
 
 		if (dirName == null) {
-			dirName = ".paint/projects";
+			dirName = DEFAULT_DIRNAME;
 		}
 
 		File paintFileDir = new File(System.getProperty(rootName), dirName);
@@ -248,6 +251,10 @@ public class UtilityController {
 
 		return paintFileDir;
 	}
+
+	public String getDEFAULT_DIRNAME() { return DEFAULT_DIRNAME; }
+
+	public String getDEFAULT_ROOT_NAME() { return DEFAULT_ROOT_NAME; }
 
 
 	public void getLoadHelpDialog(ActionEvent actionEvent) throws IOException {

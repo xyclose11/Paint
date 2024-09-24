@@ -91,7 +91,6 @@ public class InfoController {
 			String cbVal = this.infoBarZoomCB.getValue();
 
 			// Check if there is a '%' symbol
-			// TODO implement more thorough validation since this test passes if there is simply a '%' anywhere
 			if (cbVal.lastIndexOf("%") != -1) { // Eval -> true means that there is a '%' symbol
 				cbVal = cbVal.substring(0, cbVal.length() - 1); // Remove '%' symbol
 			}
