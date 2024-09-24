@@ -2,6 +2,7 @@ package com.paint.handler;
 
 import com.paint.model.PaintStateModel;
 import com.paint.resource.ResizeableCanvas;
+import com.paint.resource.TransformableNode;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
@@ -166,15 +167,14 @@ public class SelectionHandler {
 
 			ImageView imageView = new ImageView(selectImg);
 
-//			this.paintStateModel.setCurrentShape(selectionRect);
+			TransformableNode pasteImageNode = new TransformableNode(imageView, workspaceHandler);
+			pasteImageNode.setTransformable(true);
+			pasteImageNode.enableTransformations();
+
 			this.paintStateModel.setCurrentSelection(imageView);
 
 			this.workspaceHandler.getCurrentWorkspace().getCanvasController().getDrawingPane().getChildren().add(imageView);
 //			this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().getDrawingPane().getChildren().add(selectionRect);
-
-
-			// Enable transformations
-//			this.paintStateModel.enableTransformations(true, this.drawingPane);
 		}
 	}
 

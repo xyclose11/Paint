@@ -47,7 +47,6 @@ public class UtilityController {
 	@FXML
 	public Label timerLabel;
 
-	private CurrentWorkspaceModel currentWorkspaceModel;
 	private HelpAboutModel helpAboutModel;
 	private CanvasModel canvasModel;
 	private AutoSaveController autoSaveController;
@@ -186,7 +185,7 @@ public class UtilityController {
 			webServerHandler.updateCurrentFile(file);
 
 			// Reset timer on save
-			seconds = (int) this.currentWorkspaceModel.getSettingStateModel().getAutoSaveInterval() * 60;
+			seconds = (int) this.workspaceHandler.getSettingStateModel().getAutoSaveInterval() * 60;
 			autoSave.restartAutoSaveService();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -223,7 +222,7 @@ public class UtilityController {
 		}
 
 		String fileExt = getFileExt(file.getAbsolutePath());
-		Workspace currentWorkspace = this.currentWorkspaceModel.getCurrentWorkspace();
+		Workspace currentWorkspace = this.workspaceHandler.getCurrentWorkspace();
 
 		boolean allowSave = true;
 		if (currentWorkspace.getWorkspaceFile() != null) { // File has been saved previously
@@ -242,7 +241,7 @@ public class UtilityController {
 	}
 
 	private boolean handleSaveAsDiffExt(String newFileExt) {
-		Workspace currentWorkspace = this.currentWorkspaceModel.getCurrentWorkspace();
+		Workspace currentWorkspace = this.workspaceHandler.getCurrentWorkspace();
 		String currentFileExt = getFileExt(currentWorkspace.getWorkspaceFile().getAbsolutePath());
 
 		// Check if file is being saved with a different extension
@@ -336,7 +335,7 @@ public class UtilityController {
 
 			// Load autoSaveController from view
 			autoSaveController = fxmlLoader.getController();
-			autoSaveController.setSettingStateModel(this.currentWorkspaceModel.getSettingStateModel());
+			autoSaveController.setSettingStateModel(this.workspaceHandler.getSettingStateModel());
 
 			Alert aboutAlert = new Alert(Alert.AlertType.INFORMATION);
 			aboutAlert.setTitle("AutoSave Settings");
@@ -355,7 +354,7 @@ public class UtilityController {
 		}
 
 		// Apply settings
-		SettingStateModel stateModel = this.currentWorkspaceModel.getSettingStateModel();
+		SettingStateModel stateModel = this.workspaceHandler.getSettingStateModel();
 		// When apply is selected determine what vals have changed and apply
 		stateModel.setAutosaveEnabled(autoSaveController.getAutoSaveEnabledCB().isSelected());
 		stateModel.setTimerVisible(autoSaveController.getAutoSaveTimerVisibleCB().isSelected());
@@ -373,7 +372,7 @@ public class UtilityController {
 			timerLabel.setText("Auto Save");
 		} else { // user wants timer visible
 			if (prevTimerLen < 0) { // First init
-				prevTimerLen = (int) this.currentWorkspaceModel.getSettingStateModel().getAutoSaveInterval() * 60;
+				prevTimerLen = (int) this.workspaceHandler.getSettingStateModel().getAutoSaveInterval() * 60;
 			}
 			startAutoSaveTimer();
 		}
@@ -382,24 +381,24 @@ public class UtilityController {
 	private void startAutoSaveTimer() {
 		handleRunningTimer();
 
-		seconds = (int) this.currentWorkspaceModel.getSettingStateModel().getAutoSaveInterval() * 60;
+		seconds = (int) this.workspaceHandler.getSettingStateModel().getAutoSaveInterval() * 60;
 		timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
 			seconds--;
 			timerLabel.setText("" + seconds);
 		}));
 
-		timer.setCycleCount((int) this.currentWorkspaceModel.getSettingStateModel().getAutoSaveInterval() * 60); // seconds -> minutes
+		timer.setCycleCount((int) this.workspaceHandler.getSettingStateModel().getAutoSaveInterval() * 60); // seconds -> minutes
 		timer.play();
 	}
 
 	private void handleRunningTimer() {
 		if(timer != null) {
 			// Return early if timer is still running and the prev timer length is the same
-			if (timer.getStatus() == Animation.Status.RUNNING && prevTimerLen == (int) this.currentWorkspaceModel.getSettingStateModel().getAutoSaveInterval() * 60) { // Use previous timer if val hasn't changed
+			if (timer.getStatus() == Animation.Status.RUNNING && prevTimerLen == (int) this.workspaceHandler.getSettingStateModel().getAutoSaveInterval() * 60) { // Use previous timer if val hasn't changed
 				return;
 			} else {
 				timer.stop();
-				prevTimerLen = (int) this.currentWorkspaceModel.getSettingStateModel().getAutoSaveInterval() * 60;
+				prevTimerLen = (int) this.workspaceHandler.getSettingStateModel().getAutoSaveInterval() * 60;
 			}
 		}
 	}

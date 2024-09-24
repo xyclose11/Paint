@@ -29,29 +29,20 @@ public class Main extends Application {
 	// Instantiate models for future use
 	private final CanvasModel canvasModel = new CanvasModel();
 	private final PaintStateModel paintStateModel = new PaintStateModel();
-	// Threading
-	private final AutoSave autoSaveService = new AutoSave();
 	private SceneStateModel sceneStateModel = null;
 	private final HelpAboutModel helpAboutModel = new HelpAboutModel();
 	private final InfoCanvasModel infoCanvasModel = new InfoCanvasModel();
 	private final SettingStateModel settingStateModel = new SettingStateModel();
 	private final TabModel tabModel = new TabModel();
-	private final CurrentWorkspaceModel currentWorkspaceModel = new CurrentWorkspaceModel();
+	private final WorkspaceHandler workspaceHandler = new WorkspaceHandler();
 	private final SelectionHandler selectionHandler = new SelectionHandler();
+
+	// Threading
+	private final AutoSave autoSaveService = new AutoSave();
 
 	public static void main(String[] args) {
 		launch();
 	}
-    // Instantiate models for future use
-    private final CanvasModel canvasModel = new CanvasModel();
-    private final PaintStateModel paintStateModel = new PaintStateModel();
-    private SceneStateModel sceneStateModel = null;
-    private HelpAboutModel helpAboutModel = new HelpAboutModel();
-    private InfoCanvasModel infoCanvasModel = new InfoCanvasModel();
-    private SettingStateModel settingStateModel = new SettingStateModel();
-    private TabModel tabModel = new TabModel();
-    private WorkspaceHandler workspaceHandler = new WorkspaceHandler();
-    private SelectionHandler selectionHandler = new SelectionHandler();
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
