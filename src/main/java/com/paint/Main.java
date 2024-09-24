@@ -40,6 +40,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        final WebServerHandler webServerHandler = new WebServerHandler();
+
         final int INITIAL_RES_X = 1200; // Initial resolution vals
         final int INITIAL_RES_Y = 900;
 
@@ -94,7 +96,7 @@ public class Main extends Application {
         // Set controller models
         utilityController.setHelpAboutModel(helpAboutModel);
         utilityController.setCanvasModel(canvasModel);
-
+        utilityController.setWebServerHandler(webServerHandler);
         toolMenuController.setPaintStateModel(paintStateModel);
         toolMenuController.setSceneStateModel(sceneStateModel);
 
@@ -125,6 +127,8 @@ public class Main extends Application {
         autoSaveService.setUtilityController(utilityController);
         utilityController.setAutoSave(autoSaveService);
         autoSaveService.startTimer();
+
+
         // Maintains the state of the current workspace in focus
         canvasWrapper.getSelectionModel().selectedIndexProperty().addListener(((observable, oldValue, newValue) -> {
             // Change active workspace
@@ -139,6 +143,10 @@ public class Main extends Application {
 
             // Set active tab
             this.tabModel.setCurrentTab(canvasWrapper.getTabs().get((Integer) newValue));
+
+            // Update web server file on tab switch
+            webServerHandler.updateCurrentFile(currentWorkspaceFile);
+
         }));
 
         tabModel.setTabPane(canvasWrapper);
@@ -216,7 +224,6 @@ public class Main extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
-        WebServerHandler webServerHandler = new WebServerHandler();
         webServerHandler.createNewServer();
         webServerHandler.startHttpServer();
 

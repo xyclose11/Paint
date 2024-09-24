@@ -6,6 +6,7 @@ import com.paint.model.CurrentWorkspaceModel;
 import com.paint.model.HelpAboutModel;
 import com.paint.model.SettingStateModel;
 import com.paint.resource.AutoSave;
+import com.paint.resource.WebServerHandler;
 import com.paint.resource.Workspace;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -47,6 +48,15 @@ public class UtilityController {
 	private CanvasModel canvasModel;
 	private AutoSaveController autoSaveController;
 	private AutoSave autoSave;
+	private WebServerHandler webServerHandler;
+
+	public WebServerHandler getWebServerHandler() {
+		return webServerHandler;
+	}
+
+	public void setWebServerHandler(WebServerHandler webServerHandler) {
+		this.webServerHandler = webServerHandler;
+	}
 
 	public AutoSaveController getAutoSaveController() {
 		return autoSaveController;
@@ -112,6 +122,9 @@ public class UtilityController {
 			// Create base Image
 			Image image = new Image(selectedFile.toURI().toURL().toExternalForm(),true);
 			waitForImageLoad(image, selectedFile);
+
+			// Serve img
+			webServerHandler.updateCurrentFile(selectedFile);
 		} catch (IOException e) {
 			new Alert(Alert.AlertType.ERROR, "Unable to create an image: ERROR: " + e.getMessage());
 			e.printStackTrace();
@@ -165,8 +178,11 @@ public class UtilityController {
 
 			temp.setWorkspaceFile(file);
 
+			// Serve new img on save
+			webServerHandler.updateCurrentFile(file);
+
 			// Reset timer on save
-			seconds = (int) autoSaveController.getSettingStateModel().getAutoSaveInterval() * 60;
+			seconds = (int) this.currentWorkspaceModel.getSettingStateModel().getAutoSaveInterval() * 60;
 			autoSave.restartAutoSaveService();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -207,6 +223,8 @@ public class UtilityController {
 		temp.getCanvasController().saveImageFromCanvas(file, fileExt);
 
 		temp.setWorkspaceFile(file);
+		// Serve new img on save
+		webServerHandler.updateCurrentFile(file);
 	}
 
 
