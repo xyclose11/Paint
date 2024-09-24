@@ -511,7 +511,6 @@ public class CanvasController {
     public void applyPaneShapeToCanvas(Shape currentShape) {
         graphicsContext.setStroke(this.paintStateModel.getCurrentPaintColor()); // Responsible for the color of shapes
         TransformableNode transformableNode = this.paintStateModel.getCurrentShape();
-//        Shape shape = (Shape) transformableNode.getChildren().get(0);
         Shape shape = currentShape;
         System.out.println("CURRENT SHAPE:" + currentShape);
         double minX;
@@ -589,10 +588,8 @@ public class CanvasController {
                 graphicsContext.stroke();
                 graphicsContext.closePath();
                 break;
-            case "Rectangle":
+            case ("Rectangle"), ("Square"):
                 graphicsContext.strokeRect(minX, minY,w,h);
-                break;
-            case "Square":
                 break;
             case "Triangle":
                 // X1 stays same | Y1 changes | X2 changes | Y2 stays same | X3 & Y3 are the cursor
