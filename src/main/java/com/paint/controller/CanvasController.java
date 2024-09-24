@@ -52,7 +52,6 @@ public class CanvasController {
     private CanvasModel canvasModel;
     private InfoCanvasModel infoCanvasModel;
     private SettingStateModel settingStateModel;
-    private SceneStateModel sceneStateModel;
     private ToolController toolController;
     private SelectionHandler selectionHandler;
     private TabModel tabModel;
@@ -91,15 +90,7 @@ public class CanvasController {
         return toolController;
     }
 
-    public SceneStateModel getSceneStateModel() {
-        return sceneStateModel;
-    }
-
     public Pane getDrawingPane() { return this.drawingPane; }
-
-    public void setSceneStateModel(SceneStateModel sceneStateModel) {
-        this.sceneStateModel = sceneStateModel;
-    }
 
     public void setInfoCanvasModel(InfoCanvasModel infoCanvasModel) {
         this.infoCanvasModel = infoCanvasModel;

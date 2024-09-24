@@ -5,6 +5,7 @@ import com.paint.model.PaintStateModel;
 import com.paint.model.SettingStateModel;
 import com.paint.model.TabModel;
 import com.paint.resource.Workspace;
+import javafx.scene.Scene;
 
 import java.io.File;
 import java.util.HashMap;
@@ -15,6 +16,7 @@ public class WorkspaceHandler {
 	private SettingStateModel settingStateModel;
 	private PaintStateModel paintStateModel;
 	private InfoCanvasModel infoCanvasModel;
+	private Scene currentScene; // Merged from SceneStateModel
 
 	private File currentFile;
 	private Workspace currentWorkspace;
@@ -27,6 +29,14 @@ public class WorkspaceHandler {
 
 	public void setWorkspaceList(HashMap<Integer, Workspace> workspaceList) {
 		this.workspaceList = workspaceList;
+	}
+
+	public Scene getCurrentScene() {
+		return currentScene;
+	}
+
+	public void setCurrentScene(Scene currentScene) {
+		this.currentScene = currentScene;
 	}
 
 	public void addToEndOfWorkspaceList(Workspace workspace) {

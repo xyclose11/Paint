@@ -2,7 +2,6 @@ package com.paint.controller;
 
 import com.paint.handler.WorkspaceHandler;
 import com.paint.model.PaintStateModel;
-import com.paint.model.SceneStateModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -33,8 +32,6 @@ public class ToolMenuController {
 
     private PaintStateModel paintStateModel;
 
-    private SceneStateModel sceneStateModel;
-
     private LineWidthController lineWidthController;
 
     private HBox lwView;
@@ -64,9 +61,6 @@ public class ToolMenuController {
     // Set models
     public void setPaintStateModel(PaintStateModel paintStateModel) {
         this.paintStateModel = paintStateModel;
-    }
-    public void setSceneStateModel(SceneStateModel sceneStateModel) {
-        this.sceneStateModel = sceneStateModel;
     }
 
     public WorkspaceHandler getCurrentWorkspaceModel() {
@@ -154,7 +148,7 @@ public class ToolMenuController {
             setLineWidthController(fxmlLoader.getController());
         }
 
-        Stage stage = (Stage) this.sceneStateModel.getCurrentScene().getWindow();
+        Stage stage = (Stage) this.workspaceHandler.getCurrentScene().getWindow();
 
         // Set LWSlider to left side of the main BorderPane
         BorderPane bp = (BorderPane) stage.getScene().getRoot();
@@ -165,7 +159,7 @@ public class ToolMenuController {
     }
 
     private void hideLWSlider() {
-        Scene scene = sceneStateModel.getCurrentScene(); // Get primary stage
+        Scene scene = workspaceHandler.getCurrentScene(); // Get primary stage
         BorderPane bp = (BorderPane) scene.getRoot();
         bp.setLeft(null);
     }
@@ -234,7 +228,7 @@ public class ToolMenuController {
 //                    // Load the FXML for the Font controls
 //                    try {
 ////                        AnchorPane dialogPane = fontToolBarLoader.load();
-////                        Parent root = sceneStateModel.getCurrentScene().getRoot();
+////                        Parent root = workspaceHandler.getCurrentScene().getRoot();
 //
 //                    } catch (IOException e) {
 //                        throw new RuntimeException(e);

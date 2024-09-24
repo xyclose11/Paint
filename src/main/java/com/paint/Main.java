@@ -29,7 +29,6 @@ public class Main extends Application {
 	// Instantiate models for future use
 	private final CanvasModel canvasModel = new CanvasModel();
 	private final PaintStateModel paintStateModel = new PaintStateModel();
-	private SceneStateModel sceneStateModel = null;
 	private final HelpAboutModel helpAboutModel = new HelpAboutModel();
 	private final InfoCanvasModel infoCanvasModel = new InfoCanvasModel();
 	private final SettingStateModel settingStateModel = new SettingStateModel();
@@ -97,14 +96,12 @@ public class Main extends Application {
 		InfoController infoController = infoBarLoader.getController();
 
 		Scene scene = new Scene(rootLayout, INITIAL_RES_X, INITIAL_RES_Y);
-		sceneStateModel = new SceneStateModel(scene);
 
 		// Set controller models
 		utilityController.setHelpAboutModel(helpAboutModel);
 		utilityController.setCanvasModel(canvasModel);
 		utilityController.setWebServerHandler(webServerHandler);
 		toolMenuController.setPaintStateModel(paintStateModel);
-		toolMenuController.setSceneStateModel(sceneStateModel);
 
 		// Set the FXMLLoader for the Font tool menu
 		FXMLLoader fontToolBarLoader = new FXMLLoader(getClass().getResource("/view/FontToolBar.fxml"));
@@ -115,7 +112,6 @@ public class Main extends Application {
 		canvasController.setPaintStateModel(paintStateModel);
 		canvasController.setInfoCanvasModel(infoCanvasModel);
 		canvasController.setSettingStateModel(settingStateModel);
-		canvasController.setSceneStateModel(sceneStateModel);
 		canvasController.setTabModel(tabModel);
 		canvasController.setCurrentWorkspaceModel(workspaceHandler);
 
@@ -169,6 +165,7 @@ public class Main extends Application {
 		workspaceHandler.setInfoCanvasModel(infoCanvasModel);
 		workspaceHandler.setTabModel(tabModel);
 		workspaceHandler.setPaintStateModel(paintStateModel);
+		workspaceHandler.setCurrentScene(scene);
 
 		settingStateModel.setAutoSave(autoSaveService);
 

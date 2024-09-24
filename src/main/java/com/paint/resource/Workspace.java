@@ -26,7 +26,6 @@ public class Workspace {
 	private CanvasModel canvasModel;
 	private CanvasController canvasController;
 	private boolean isActive = false; // A new workspace is not viewable
-	private SceneStateModel sceneStateModel;
 	private HBox canvasView;
 
 	public Workspace(HBox canvasView, boolean isActive, PaintStateModel paintStateModel, InfoCanvasModel infoCanvasModel, SettingStateModel settingStateModel, TabModel tabModel) throws IOException {
@@ -42,7 +41,6 @@ public class Workspace {
 		canvasController.setPaintStateModel(paintStateModel);
 		canvasController.setInfoCanvasModel(infoCanvasModel);
 		canvasController.setSettingStateModel(settingStateModel);
-		canvasController.setSceneStateModel(sceneStateModel);
 		canvasController.setTabModel(tabModel);
 		canvasController.setCurrentWorkspaceModel(paintStateModel.getCurrentWorkspaceModel());
 		SelectionHandler selectionHandler = new SelectionHandler();
@@ -70,14 +68,6 @@ public class Workspace {
 
 	public void setCanvasView(HBox canvasView) {
 		this.canvasView = canvasView;
-	}
-
-	public SceneStateModel getSceneStateModel() {
-		return sceneStateModel;
-	}
-
-	public void setSceneStateModel(SceneStateModel sceneStateModel) {
-		this.sceneStateModel = sceneStateModel;
 	}
 
 	public boolean isActive() {
