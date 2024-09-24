@@ -6,7 +6,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
-import javafx.scene.control.TextArea;
 import javafx.scene.image.PixelReader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.KeyCode;
@@ -57,9 +56,10 @@ public class ToolController {
                 textArea.setLayoutX(mouseEvent.getX()); // Places the text area
                 textArea.setLayoutY(mouseEvent.getY() - 15);
                 currentShape = new TransformableNode(textArea, this.paintStateModel.getCurrentWorkspaceModel());
+                currentShape.setTransformable(true);
+                currentShape.enableTransformations();
                 this.paintStateModel.setCurrentShape(currentShape);
 
-                textArea.requestFocus();
 
                 drawingPane.getChildren().add(currentShape);
 
@@ -68,7 +68,7 @@ public class ToolController {
                     public void handle(KeyEvent event) {
                         if (event.getCode() == KeyCode.ESCAPE) {
                             // Apply text to canvas
-                            applyTextToCanvas(textArea.getText(), mouseEvent.getX(), mouseEvent.getY());
+                            applyTextToCanvas(textArea.getText());
 
                             // Remove text area from pane
                             drawingPane.getChildren().clear();
@@ -93,11 +93,11 @@ public class ToolController {
         currentShape.setStrokeType(StrokeType.OUTSIDE);
 
         // Set current shape in model
-//        this.paintStateModel.setCurrentShape(currentShape);
     }
 
-    public void applyTextToCanvas(String text, double x, double y) {
-        graphicsContext.strokeText(text, x, y);
+    public void applyTextToCanvas(String text) {
+        TransformableNode transformableNode = this.paintStateModel.getCurrentShape();
+        graphicsContext.strokeText(text, transformableNode.getTranslatedX(), transformableNode.getTranslatedY());
     }
 
     public void showInputDialog(Pane drawingPane) {

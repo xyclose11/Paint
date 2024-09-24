@@ -319,7 +319,7 @@ public class CanvasController {
 
         switch (paintStateModel.getCurrentTool()){
             case "TextTool":
-                paintStateModel.getCurrentShape().enableTransformations();
+//                paintStateModel.getCurrentShape().enableTransformations();
                 break;
         }
 
@@ -590,7 +590,6 @@ public class CanvasController {
                 graphicsContext.bezierCurveTo(px1, py1, px2, py2, endX, endY);
                 graphicsContext.stroke();
                 graphicsContext.closePath();
-                System.out.println("CURVE HIT");
                 break;
             case ("Rectangle"), ("Square"):
                 graphicsContext.strokeRect(minX, minY,w,h);

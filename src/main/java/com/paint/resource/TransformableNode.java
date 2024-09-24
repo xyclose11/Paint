@@ -6,6 +6,7 @@ import javafx.beans.binding.Bindings;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -43,7 +44,7 @@ public class TransformableNode extends Group {
 	}
 
 	public void enableTransformations() {
-
+		System.out.println("a" + isTransformable);
 		if (!isTransformable) {
 			return;
 		}
@@ -77,6 +78,12 @@ public class TransformableNode extends Group {
 				this.workspaceHandler.getPaintStateModel().getImageView().translateXProperty().bind(this.translateXProperty());
 				this.workspaceHandler.getPaintStateModel().getImageView().translateYProperty().bind(this.translateYProperty());
 			}
+			if (this.originalNode instanceof TextArea) {
+				// Handle TextTool
+				startX = mouseEvent.getX();
+				startY = mouseEvent.getY();
+				return;
+			}
 			startX = mouseEvent.getSceneX();
 			startY = mouseEvent.getSceneY();
 		}
@@ -84,6 +91,7 @@ public class TransformableNode extends Group {
 	}
 
 	public void exitTransformMode() {
+		System.out.println("HIT");
 		isTransformable = false;
 		Pane parentPane = this.canvasController.getDrawingPane();
 
@@ -197,5 +205,17 @@ public class TransformableNode extends Group {
 
 	public void setTransformable(boolean transformable) {
 		isTransformable = transformable;
+	}
+
+	public double getTranslatedX () {
+		System.out.println("SX: " + startX);
+		System.out.println("TX: " + this.getTranslateX());
+		double x = this.getTranslateX() + this.startX;
+		return x;
+	}
+
+	public double getTranslatedY () {
+		double y = this.getTranslateY() + this.startY;
+		return y;
 	}
 }
