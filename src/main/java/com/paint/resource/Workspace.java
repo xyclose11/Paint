@@ -13,8 +13,11 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Stack;
 
-/*
- * Each Workspace requires its own unique CanvasModel & CanvasController
+/**
+ * This class represents what the user will interact with. Allows the
+ * user to have multiple projects open simultaneously with their own respective
+ * undo and redo features.
+ * Each Workspace requires its own unique CanvasModel and CanvasController
  * */
 public class Workspace {
 	private final Stack<WritableImage> undoStack = new Stack<>();
@@ -45,7 +48,6 @@ public class Workspace {
 		SelectionHandler selectionHandler = new SelectionHandler();
 		selectionHandler.setPaintStateModel(paintStateModel);
 		canvasController.setSelectionHandler(selectionHandler);
-//		createTempFile();
 		this.undoStack.push(canvasController.getCurrentCanvasSnapshot()); // Set initial state as base action for undo
 	}
 
@@ -110,6 +112,12 @@ public class Workspace {
 		this.workspaceFile = workspaceFile;
 	}
 
+	/**
+	 * This method handles the <strong>Redo</strong> functionality
+	 *
+	 * NOTE: Both <strong>redo</strong> and <strong>undo</strong> function
+	 * by taking {canvas snapshots}
+	 * */
 	public void handleRedoAction() {
 		if (getRedoStack().size() >= 1) {
 			WritableImage img = getRedoStack().pop();
@@ -119,6 +127,12 @@ public class Workspace {
 		}
 	}
 
+	/**
+	 * This method handles the <strong>Undo</strong> functionality
+	 *
+	 * NOTE: Both <strong>redo</strong> and <strong>undo</strong> function
+	 * by taking {canvas snapshots}
+	 * */
 	public void handleUndoAction() {
 		if (getUndoStack().size() >= 1) {
 			WritableImage currentState = getUndoStack().pop(); // Remove last applied change
