@@ -207,7 +207,6 @@ public class UtilityController {
 		);
 
 		File paintFileDir = createFileChooserDir(null, null);
-		System.out.println(paintFileDir);
 		fileChooser.setInitialDirectory(paintFileDir);
 		fileChooser.setTitle("Save Image");
 		fileChooser.setInitialFileName("Untitled"); // Default filename // TODO use filenameFilter to check if the name already exists
@@ -220,14 +219,57 @@ public class UtilityController {
 			alert.show();
 			return;
 		}
+
 		String fileExt = getFileExt(file.getAbsolutePath());
+		Workspace currentWorkspace = this.currentWorkspaceModel.getCurrentWorkspace();
 
-		Workspace temp = this.currentWorkspaceModel.getCurrentWorkspace();
-		temp.getCanvasController().saveImageFromCanvas(file, fileExt);
+		boolean allowSave = true;
+		if (currentWorkspace.getWorkspaceFile() != null) { // File has been saved previously
+			allowSave = handleSaveAsDiffExt(fileExt);
+		}
 
-		temp.setWorkspaceFile(file);
-		// Serve new img on save
-		webServerHandler.updateCurrentFile(file);
+		if (allowSave) {
+			currentWorkspace.getCanvasController().saveImageFromCanvas(file, fileExt);
+
+			currentWorkspace.setWorkspaceFile(file);
+			// Serve new img on save
+			webServerHandler.updateCurrentFile(file);
+		}
+	}
+
+	private boolean handleSaveAsDiffExt(String newFileExt) {
+		Workspace currentWorkspace = this.currentWorkspaceModel.getCurrentWorkspace();
+		String currentFileExt = getFileExt(currentWorkspace.getWorkspaceFile().getAbsolutePath());
+
+		// Check if file is being saved with a different extension
+		if (!newFileExt.equals(currentFileExt)) {
+			// Show alert that data may be lost
+			ButtonType bT = showDataLossAlert(currentFileExt, newFileExt);
+			if (bT == ButtonType.OK) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			// Extensions are the same, allow user to save
+			return true;
+		}
+	}
+
+	private ButtonType showDataLossAlert(String currFile, String newFile) {
+		Alert dataLossAlert = new Alert(Alert.AlertType.WARNING);
+		dataLossAlert.setTitle("WARNING: POTENTIAL DATA LOSS");
+		dataLossAlert.setContentText("" +
+				"ALERT: You are about to save a new file with different extension than that of the original file." +
+				"This action may lead to the irreversible loss of image data, going from extension: " + currFile +
+				" to extension: " + newFile + " If you wish to continue press OK."
+		);
+		dataLossAlert.getButtonTypes().add(ButtonType.CANCEL);
+		Optional<ButtonType> userResponse =  dataLossAlert.showAndWait();
+		ButtonType buttonType = userResponse.orElse(ButtonType.CANCEL);
+		dataLossAlert.showAndWait();
+
+		return buttonType;
 	}
 
 
