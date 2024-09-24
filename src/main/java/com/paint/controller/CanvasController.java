@@ -488,7 +488,10 @@ public class CanvasController {
                     curve.setControlY2(event.getY());
 
                     // Enable transformations
+                    currentShape.setPickOnBounds(true);
+                    this.paintStateModel.getCurrentShape().setTransformable(true);
                     currentShape.enableTransformations();
+                    this.paintStateModel.setCurrentShape(currentShape);
                     this.canvasGroup.setOnMouseClicked(null);
                 } else {
                     curve.setControlX1(event.getX());
@@ -587,6 +590,7 @@ public class CanvasController {
                 graphicsContext.bezierCurveTo(px1, py1, px2, py2, endX, endY);
                 graphicsContext.stroke();
                 graphicsContext.closePath();
+                System.out.println("CURVE HIT");
                 break;
             case ("Rectangle"), ("Square"):
                 graphicsContext.strokeRect(minX, minY,w,h);

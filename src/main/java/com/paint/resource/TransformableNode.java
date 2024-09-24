@@ -95,8 +95,8 @@ public class TransformableNode extends Group {
 		parentPane.setOnMousePressed(null);
 		parentPane.getScene().setOnKeyPressed(null);
 		// Remove selectionRectangle
-		if (!this.getChildren().isEmpty()) {
-			this.getChildren().remove(1);
+		if (this.getChildren().contains(selectionRect)) {
+			this.getChildren().remove(selectionRect);
 		}
 		// Convert shape -> canvas
 		// Check if current object is a shape
