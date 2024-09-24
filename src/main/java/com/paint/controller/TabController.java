@@ -45,7 +45,7 @@ public class TabController {
 		createNewTab();
 	}
 
-	private void createNewTab() throws IOException {
+	public void createNewTab() throws IOException {
 		TabPane tabPane = this.tabModel.getTabPane();
 		Tab newTab = new Tab("New File");
 
@@ -56,7 +56,7 @@ public class TabController {
 		HBox canvasView = this.canvasModel.getCanvasView();
 
 		Workspace workspace = new Workspace(canvasView, true, paintStateModel, infoCanvasModel, settingStateModel, tabModel);
-
+//		workspace.createTempFile();
 		// Set the current workspace in focus
 		this.workspaceHandler.setCurrentWorkspace(workspace);
 

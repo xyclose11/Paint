@@ -8,6 +8,7 @@ module com.paint {
 	requires org.kordamp.ikonli.core;
 	requires org.kordamp.ikonli.javafx;
 	requires org.kordamp.ikonli.fluentui;
+	requires jdk.httpserver;
 
 	opens com.paint to javafx.fxml;
     exports com.paint;

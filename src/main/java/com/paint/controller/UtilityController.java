@@ -4,22 +4,34 @@ package com.paint.controller;
 import com.paint.model.CanvasModel;
 import com.paint.handler.WorkspaceHandler;
 import com.paint.model.HelpAboutModel;
+import com.paint.model.SettingStateModel;
+import com.paint.resource.AutoSave;
+import com.paint.resource.WebServerHandler;
 import com.paint.resource.Workspace;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
+import javafx.util.Duration;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 public class UtilityController {
+	private final String DEFAULT_DIRNAME = ".paint/projects";
+	private final String DEFAULT_ROOT_NAME = "user.home";
 
 	@FXML
 	public Button undoBtn;
@@ -29,8 +41,42 @@ public class UtilityController {
 
 	private WorkspaceHandler workspaceHandler;
 
+	@FXML
+	public Button refreshIcon;
+
+	@FXML
+	public Label timerLabel;
+
+	private CurrentWorkspaceModel currentWorkspaceModel;
 	private HelpAboutModel helpAboutModel;
 	private CanvasModel canvasModel;
+	private AutoSaveController autoSaveController;
+	private AutoSave autoSave;
+	private WebServerHandler webServerHandler;
+
+	public WebServerHandler getWebServerHandler() {
+		return webServerHandler;
+	}
+
+	public void setWebServerHandler(WebServerHandler webServerHandler) {
+		this.webServerHandler = webServerHandler;
+	}
+
+	public AutoSaveController getAutoSaveController() {
+		return autoSaveController;
+	}
+
+	public void setAutoSaveController(AutoSaveController autoSaveController) {
+		this.autoSaveController = autoSaveController;
+	}
+
+	public AutoSave getAutoSave() {
+		return autoSave;
+	}
+
+	public void setAutoSave(AutoSave autoSave) {
+		this.autoSave = autoSave;
+	}
 
 	public CanvasModel getCanvasModel() {
 		return canvasModel;
@@ -80,6 +126,9 @@ public class UtilityController {
 			// Create base Image
 			Image image = new Image(selectedFile.toURI().toURL().toExternalForm(),true);
 			waitForImageLoad(image, selectedFile);
+
+			// Serve img
+			webServerHandler.updateCurrentFile(selectedFile);
 		} catch (IOException e) {
 			new Alert(Alert.AlertType.ERROR, "Unable to create an image: ERROR: " + e.getMessage());
 			e.printStackTrace();
@@ -118,14 +167,31 @@ public class UtilityController {
 			return;
 		}
 
-		String filePath = this.workspaceHandler.getCurrentWorkspace().getWorkspaceFile().getAbsolutePath();
-		String fileExt = getFileExt(filePath);
-		File file = new File(filePath); // Find the previously saved file
+		try {
+			String filePath = this.workspaceHandler.getCurrentWorkspace().getWorkspaceFile().getAbsolutePath();
+			String fileExt = getFileExt(filePath);
+			File file = new File(filePath); // Find the previously saved file
 
-		Workspace temp = this.workspaceHandler.getCurrentWorkspace();
-		temp.getCanvasController().saveImageFromCanvas(file, fileExt);
+			Workspace temp = this.workspaceHandler.getCurrentWorkspace();
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					temp.getCanvasController().saveImageFromCanvas(file, fileExt);
+				}
+			});
 
-		temp.setWorkspaceFile(file);
+			temp.setWorkspaceFile(file);
+
+			// Serve new img on save
+			webServerHandler.updateCurrentFile(file);
+
+			// Reset timer on save
+			seconds = (int) this.currentWorkspaceModel.getSettingStateModel().getAutoSaveInterval() * 60;
+			autoSave.restartAutoSaveService();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	@FXML
@@ -155,26 +221,73 @@ public class UtilityController {
 			alert.show();
 			return;
 		}
-		String fileExt = getFileExt(file.getAbsolutePath());
 
+		String fileExt = getFileExt(file.getAbsolutePath());
+		Workspace currentWorkspace = this.currentWorkspaceModel.getCurrentWorkspace();
+
+		boolean allowSave = true;
+		if (currentWorkspace.getWorkspaceFile() != null) { // File has been saved previously
+			allowSave = handleSaveAsDiffExt(fileExt);
+		}
+
+		if (allowSave) {
+			currentWorkspace.getCanvasController().saveImageFromCanvas(file, fileExt);
 		Workspace temp = this.workspaceHandler.getCurrentWorkspace();
 		temp.getCanvasController().saveImageFromCanvas(file, fileExt);
 
-		temp.setWorkspaceFile(file);
+			currentWorkspace.setWorkspaceFile(file);
+			// Serve new img on save
+			webServerHandler.updateCurrentFile(file);
+		}
+	}
+
+	private boolean handleSaveAsDiffExt(String newFileExt) {
+		Workspace currentWorkspace = this.currentWorkspaceModel.getCurrentWorkspace();
+		String currentFileExt = getFileExt(currentWorkspace.getWorkspaceFile().getAbsolutePath());
+
+		// Check if file is being saved with a different extension
+		if (!newFileExt.equals(currentFileExt)) {
+			// Show alert that data may be lost
+			ButtonType bT = showDataLossAlert(currentFileExt, newFileExt);
+			if (bT == ButtonType.OK) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			// Extensions are the same, allow user to save
+			return true;
+		}
+	}
+
+	private ButtonType showDataLossAlert(String currFile, String newFile) {
+		Alert dataLossAlert = new Alert(Alert.AlertType.WARNING);
+		dataLossAlert.setTitle("WARNING: POTENTIAL DATA LOSS");
+		dataLossAlert.setContentText("" +
+				"ALERT: You are about to save a new file with different extension than that of the original file." +
+				"This action may lead to the irreversible loss of image data, going from extension: " + currFile +
+				" to extension: " + newFile + " If you wish to continue press OK."
+		);
+		dataLossAlert.getButtonTypes().add(ButtonType.CANCEL);
+		Optional<ButtonType> userResponse =  dataLossAlert.showAndWait();
+		ButtonType buttonType = userResponse.orElse(ButtonType.CANCEL);
+		dataLossAlert.showAndWait();
+
+		return buttonType;
 	}
 
 
-	private String getFileExt(String filePath) {
+	public String getFileExt(String filePath) {
 		return filePath.substring(filePath.lastIndexOf(".") + 1); // Get string val after the last '.'
 	}
 
-	private File createFileChooserDir(String rootName, String dirName) {
+	public File createFileChooserDir(String rootName, String dirName) {
 		if (rootName == null) { // TODO adjust to catch empty strings
-			rootName = "user.home";
+			rootName = DEFAULT_ROOT_NAME;
 		}
 
 		if (dirName == null) {
-			dirName = ".paint/projects";
+			dirName = DEFAULT_DIRNAME;
 		}
 
 		File paintFileDir = new File(System.getProperty(rootName), dirName);
@@ -184,6 +297,10 @@ public class UtilityController {
 
 		return paintFileDir;
 	}
+
+	public String getDEFAULT_DIRNAME() { return DEFAULT_DIRNAME; }
+
+	public String getDEFAULT_ROOT_NAME() { return DEFAULT_ROOT_NAME; }
 
 
 	public void getLoadHelpDialog(ActionEvent actionEvent) throws IOException {
@@ -199,6 +316,97 @@ public class UtilityController {
 
 		File newFile = tempFile.toFile();
 		this.workspaceHandler.setCurrentFile(newFile);
+	}
+
+	@FXML
+	public void initialize() {
+		// Setup event handlers for autosave
+
+		// Refresh icon clicked -> reset timer to current val from settings
+		refreshIcon.setOnMouseClicked(this::handleAutoSaveRefresh);
+
+		// Hide timer
+		timerLabel.setOnMouseClicked(this::handleTimerLabelVisibility);
+	}
+
+	private void handleTimerLabelVisibility(MouseEvent mouseEvent) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AutoSaveSetting.fxml"));
+			DialogPane dialogPane = fxmlLoader.load();
+
+			// Load autoSaveController from view
+			autoSaveController = fxmlLoader.getController();
+			autoSaveController.setSettingStateModel(this.currentWorkspaceModel.getSettingStateModel());
+
+			Alert aboutAlert = new Alert(Alert.AlertType.INFORMATION);
+			aboutAlert.setTitle("AutoSave Settings");
+			aboutAlert.setDialogPane(dialogPane);
+			Optional<ButtonType> result = aboutAlert.showAndWait();
+			ButtonType buttonType = result.orElse(ButtonType.CANCEL);
+			handleAutoSaveDialogResult(buttonType);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void handleAutoSaveDialogResult(ButtonType result) {
+		if (result != ButtonType.APPLY) { // don't apply settings
+			return;
+		}
+
+		// Apply settings
+		SettingStateModel stateModel = this.currentWorkspaceModel.getSettingStateModel();
+		// When apply is selected determine what vals have changed and apply
+		stateModel.setAutosaveEnabled(autoSaveController.getAutoSaveEnabledCB().isSelected());
+		stateModel.setTimerVisible(autoSaveController.getAutoSaveTimerVisibleCB().isSelected());
+		stateModel.setAutoSaveInterval((long) autoSaveController.getAutoSaveIntervalSlider().getValue());
+
+		hideAutoSaveTimer(autoSaveController.autoSaveTimerVisibleCB.isSelected());
+	}
+
+	private int seconds = 0;
+	private Timeline timer;
+	private int prevTimerLen = -1;
+
+	public void hideAutoSaveTimer(boolean hide) {
+		if (!hide) { // user wants timer hidden
+			timerLabel.setText("Auto Save");
+		} else { // user wants timer visible
+			if (prevTimerLen < 0) { // First init
+				prevTimerLen = (int) this.currentWorkspaceModel.getSettingStateModel().getAutoSaveInterval() * 60;
+			}
+			startAutoSaveTimer();
+		}
+	}
+
+	private void startAutoSaveTimer() {
+		handleRunningTimer();
+
+		seconds = (int) this.currentWorkspaceModel.getSettingStateModel().getAutoSaveInterval() * 60;
+		timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+			seconds--;
+			timerLabel.setText("" + seconds);
+		}));
+
+		timer.setCycleCount((int) this.currentWorkspaceModel.getSettingStateModel().getAutoSaveInterval() * 60); // seconds -> minutes
+		timer.play();
+	}
+
+	private void handleRunningTimer() {
+		if(timer != null) {
+			// Return early if timer is still running and the prev timer length is the same
+			if (timer.getStatus() == Animation.Status.RUNNING && prevTimerLen == (int) this.currentWorkspaceModel.getSettingStateModel().getAutoSaveInterval() * 60) { // Use previous timer if val hasn't changed
+				return;
+			} else {
+				timer.stop();
+				prevTimerLen = (int) this.currentWorkspaceModel.getSettingStateModel().getAutoSaveInterval() * 60;
+			}
+		}
+	}
+
+	private void handleAutoSaveRefresh(MouseEvent mouseEvent) {
+		// Show very cool & awesome animation
+		// Reset timer thread
 	}
 
 	@FXML

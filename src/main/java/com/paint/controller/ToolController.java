@@ -49,8 +49,8 @@ public class ToolController {
                 break;
             case "TextTool": // Create a textarea for user to type into and use that for String input -> strokeText
                 TextArea textArea = new TextArea();
-                textArea.setPrefColumnCount(6);
-                textArea.setPrefRowCount(1);
+                textArea.setPrefColumnCount(9);
+                textArea.setPrefRowCount(2);
                 textArea.setWrapText(true);
                 textArea.setBackground(null);
                 textArea.setLayoutX(mouseEvent.getX()); // Places the text area
@@ -59,6 +59,8 @@ public class ToolController {
                 currentShape.setTransformable(true);
                 currentShape.enableTransformations();
                 this.paintStateModel.setCurrentShape(currentShape);
+                textArea.positionCaret(0);
+
 
 
                 drawingPane.getChildren().add(currentShape);

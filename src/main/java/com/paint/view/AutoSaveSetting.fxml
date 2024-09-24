@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ButtonType?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.DialogPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<DialogPane expanded="true" prefHeight="269.0" prefWidth="307.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.AutoSaveController">
+   <header>
+      <AnchorPane prefHeight="48.0" prefWidth="220.0">
+         <children>
+            <Label layoutX="76.0" layoutY="11.0" text="AutoSave Settings" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font></Label>
+         </children>
+      </AnchorPane>
+   </header>
+   <content>
+      <GridPane alignment="CENTER">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <Slider fx:id="autoSaveIntervalSlider" majorTickUnit="14.0" max="60.0" min="1.0" minorTickCount="5" showTickLabels="true" snapToTicks="true" value="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Label ellipsisString="" text="AutoSave Interval (Minutes)" wrapText="true" GridPane.rowIndex="1">
+               <tooltip>
+                  <Tooltip text="Time (in minutes) that autosave will wait before saving again" />
+               </tooltip></Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" ellipsisString="" text="Auto Save (Enable/Disable)" textAlignment="CENTER" wrapText="true">
+               <tooltip>
+                  <Tooltip text="AutoSave is Enabled by default (with 10 minute intervals))" />
+               </tooltip></Label>
+            <CheckBox fx:id="autoSaveEnabledCB"  ellipsisString="" mnemonicParsing="false" selected="true" GridPane.columnIndex="1" />
+            <Label alignment="CENTER" contentDisplay="CENTER" ellipsisString="" prefHeight="17.0" prefWidth="102.0" text="Timer Visibility" textAlignment="CENTER" wrapText="true" GridPane.rowIndex="2">
+               <tooltip>
+                  <Tooltip text="When checked the timer will be visible on the utility bar, when unchecked timer will be hidden but the autosave feature will still work." />
+               </tooltip>
+            </Label>
+            <CheckBox fx:id="autoSaveTimerVisibleCB" ellipsisString="" layoutX="120.0" layoutY="27.0" mnemonicParsing="false" selected="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
+   </content>
+   <graphic>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" />
+   </graphic>
+   <buttonTypes>
+      <ButtonType fx:constant="CANCEL" />
+      <ButtonType fx:id="autoSaveSettingsApplyBtn" fx:constant="APPLY" />
+   </buttonTypes>
+</DialogPane>
