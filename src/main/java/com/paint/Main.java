@@ -24,270 +24,269 @@ import java.util.Objects;
 
 public class Main extends Application {
 
-    // Instantiate models for future use
-    private final CanvasModel canvasModel = new CanvasModel();
-    private final PaintStateModel paintStateModel = new PaintStateModel();
-    private SceneStateModel sceneStateModel = null;
-    private HelpAboutModel helpAboutModel = new HelpAboutModel();
-    private InfoCanvasModel infoCanvasModel = new InfoCanvasModel();
-    private SettingStateModel settingStateModel = new SettingStateModel();
-    private TabModel tabModel = new TabModel();
-    private CurrentWorkspaceModel currentWorkspaceModel = new CurrentWorkspaceModel();
-    private SelectionHandler selectionHandler = new SelectionHandler();
+	// Instantiate models for future use
+	private final CanvasModel canvasModel = new CanvasModel();
+	private final PaintStateModel paintStateModel = new PaintStateModel();
+	// Threading
+	private final AutoSave autoSaveService = new AutoSave();
+	private SceneStateModel sceneStateModel = null;
+	private final HelpAboutModel helpAboutModel = new HelpAboutModel();
+	private final InfoCanvasModel infoCanvasModel = new InfoCanvasModel();
+	private final SettingStateModel settingStateModel = new SettingStateModel();
+	private final TabModel tabModel = new TabModel();
+	private final CurrentWorkspaceModel currentWorkspaceModel = new CurrentWorkspaceModel();
+	private final SelectionHandler selectionHandler = new SelectionHandler();
 
-    // Threading
-    private final AutoSave autoSaveService = new AutoSave();
+	public static void main(String[] args) {
+		launch();
+	}
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        final WebServerHandler webServerHandler = new WebServerHandler();
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		final WebServerHandler webServerHandler = new WebServerHandler();
 
-        final int INITIAL_RES_X = 1200; // Initial resolution vals
-        final int INITIAL_RES_Y = 900;
+		final int INITIAL_RES_X = 1200; // Initial resolution vals
+		final int INITIAL_RES_Y = 900;
 
-        BorderPane rootLayout = new BorderPane(); // Contains the main scene/content
+		BorderPane rootLayout = new BorderPane(); // Contains the main scene/content
 
-        rootLayout.setPrefWidth(INITIAL_RES_X);
-        rootLayout.setPrefHeight(INITIAL_RES_Y);
-        // Set Center
-        FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/view/CanvasView.fxml"));
+		rootLayout.setPrefWidth(INITIAL_RES_X);
+		rootLayout.setPrefHeight(INITIAL_RES_Y);
+		// Set Center
+		FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/view/CanvasView.fxml"));
 
-        HBox canvasView = canvasLoader.load();
-
-
-        FXMLLoader tabPaneWrapperLoader = new FXMLLoader(getClass().getResource("/view/TabPaneWrapper.fxml"));
-        TabPane canvasWrapper = tabPaneWrapperLoader.load();
-
-        rootLayout.setCenter(canvasWrapper);
-
-        canvasModel.setCanvasView(canvasView);
-
-        CanvasController canvasController = canvasLoader.getController();
-        TabController tabController = tabPaneWrapperLoader.getController();
-
-        // Wrap topper, and set top
-        FXMLLoader utilityMenuLoader = new FXMLLoader(getClass().getResource("/view/UtilityMenu.fxml"));
-        FXMLLoader toolMenuLoader = new FXMLLoader(getClass().getResource("/view/ToolMenu.fxml"));
-
-        VBox topWrapper = new VBox();
-        topWrapper.setPadding(new Insets(0, 5, 0, 0)); // Set spacing for top in borderPane
-
-        VBox utilityMenu = utilityMenuLoader.load();
-        topWrapper.getChildren().addAll(utilityMenu, toolMenuLoader.load());
-        rootLayout.setTop(topWrapper);
-
-        // Load ToolMenuController after load
-        ToolMenuController toolMenuController = toolMenuLoader.getController();
-        toolMenuController.setCurrentWorkspaceModel(currentWorkspaceModel);
-
-        UtilityController utilityController = utilityMenuLoader.getController();
-        utilityController.setCurrentWorkspaceModel(currentWorkspaceModel);
-
-        // Set bottom
-        FXMLLoader infoBarLoader = new FXMLLoader(getClass().getResource("/view/InfoBar.fxml"));
-
-        rootLayout.setBottom(infoBarLoader.load());
-
-        InfoController infoController = infoBarLoader.getController();
-
-        Scene scene = new Scene(rootLayout, INITIAL_RES_X, INITIAL_RES_Y);
-        sceneStateModel = new SceneStateModel(scene);
-
-        // Set controller models
-        utilityController.setHelpAboutModel(helpAboutModel);
-        utilityController.setCanvasModel(canvasModel);
-        utilityController.setWebServerHandler(webServerHandler);
-        toolMenuController.setPaintStateModel(paintStateModel);
-        toolMenuController.setSceneStateModel(sceneStateModel);
-
-        // Set the FXMLLoader for the Font tool menu
-        FXMLLoader fontToolBarLoader = new FXMLLoader(getClass().getResource("/view/FontToolBar.fxml"));
-        toolMenuController.setFontToolBarLoader(fontToolBarLoader);
+		HBox canvasView = canvasLoader.load();
 
 
-        canvasController.setCanvasModel(canvasModel);
-        canvasController.setPaintStateModel(paintStateModel);
-        canvasController.setInfoCanvasModel(infoCanvasModel);
-        canvasController.setSettingStateModel(settingStateModel);
-        canvasController.setSceneStateModel(sceneStateModel);
-        canvasController.setTabModel(tabModel);
-        canvasController.setCurrentWorkspaceModel(currentWorkspaceModel);
+		FXMLLoader tabPaneWrapperLoader = new FXMLLoader(getClass().getResource("/view/TabPaneWrapper.fxml"));
+		TabPane canvasWrapper = tabPaneWrapperLoader.load();
 
-        selectionHandler.setPaintStateModel(paintStateModel);
-        selectionHandler.setCurrentWorkspaceModel(currentWorkspaceModel);
-        canvasController.setSelectionHandler(selectionHandler);
+		rootLayout.setCenter(canvasWrapper);
 
-        tabController.setCanvasModel(canvasModel);
-        tabController.setTabModel(tabModel);
-        tabController.setPaintStateModel(paintStateModel);
-        tabController.setInfoCanvasModel(infoCanvasModel);
-        tabController.setSettingStateModel(settingStateModel);
-        tabController.setCurrentWorkspaceModel(currentWorkspaceModel);
+		canvasModel.setCanvasView(canvasView);
 
-        autoSaveService.setUtilityController(utilityController);
-        utilityController.setAutoSave(autoSaveService);
-        autoSaveService.startTimer();
+		CanvasController canvasController = canvasLoader.getController();
+		TabController tabController = tabPaneWrapperLoader.getController();
 
+		// Wrap topper, and set top
+		FXMLLoader utilityMenuLoader = new FXMLLoader(getClass().getResource("/view/UtilityMenu.fxml"));
+		FXMLLoader toolMenuLoader = new FXMLLoader(getClass().getResource("/view/ToolMenu.fxml"));
 
-        // Maintains the state of the current workspace in focus
-        canvasWrapper.getSelectionModel().selectedIndexProperty().addListener(((observable, oldValue, newValue) -> {
-            // Change active workspace
-            Workspace workspace = this.currentWorkspaceModel.getWorkspaceList().get(newValue);
-            this.currentWorkspaceModel.setCurrentWorkspace(workspace);
+		VBox topWrapper = new VBox();
+		topWrapper.setPadding(new Insets(0, 5, 0, 0)); // Set spacing for top in borderPane
 
-            File currentWorkspaceFile = workspace.getWorkspaceFile();
-            this.currentWorkspaceModel.setCurrentFile(currentWorkspaceFile);
+		VBox utilityMenu = utilityMenuLoader.load();
+		topWrapper.getChildren().addAll(utilityMenu, toolMenuLoader.load());
+		rootLayout.setTop(topWrapper);
 
-            // Exit user from transformation mode
-            this.paintStateModel.setTransformable(false, this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().getDrawingPane());
+		// Load ToolMenuController after load
+		ToolMenuController toolMenuController = toolMenuLoader.getController();
+		toolMenuController.setCurrentWorkspaceModel(currentWorkspaceModel);
 
-            // Set active tab
-            this.tabModel.setCurrentTab(canvasWrapper.getTabs().get((Integer) newValue));
+		UtilityController utilityController = utilityMenuLoader.getController();
+		utilityController.setCurrentWorkspaceModel(currentWorkspaceModel);
 
-            // Update web server file on tab switch
-            webServerHandler.updateCurrentFile(currentWorkspaceFile);
+		// Set bottom
+		FXMLLoader infoBarLoader = new FXMLLoader(getClass().getResource("/view/InfoBar.fxml"));
 
-        }));
+		rootLayout.setBottom(infoBarLoader.load());
 
-        tabModel.setTabPane(canvasWrapper);
+		InfoController infoController = infoBarLoader.getController();
 
-        infoController.setCanvasModel(canvasModel);
-        infoController.setInfoCanvasModel(infoCanvasModel);
-        infoController.setPaintStateModel(paintStateModel);
-        infoController.setCurrentWorkspaceModel(currentWorkspaceModel);
+		Scene scene = new Scene(rootLayout, INITIAL_RES_X, INITIAL_RES_Y);
+		sceneStateModel = new SceneStateModel(scene);
 
-        paintStateModel.setInfoCanvasModel(infoCanvasModel);
-        paintStateModel.setCurrentWorkspaceModel(currentWorkspaceModel);
+		// Set controller models
+		utilityController.setHelpAboutModel(helpAboutModel);
+		utilityController.setCanvasModel(canvasModel);
+		utilityController.setWebServerHandler(webServerHandler);
+		toolMenuController.setPaintStateModel(paintStateModel);
+		toolMenuController.setSceneStateModel(sceneStateModel);
 
-        currentWorkspaceModel.setSettingStateModel(settingStateModel);
-        currentWorkspaceModel.setInfoCanvasModel(infoCanvasModel);
-        currentWorkspaceModel.setTabModel(tabModel);
-        currentWorkspaceModel.setPaintStateModel(paintStateModel);
-
-        settingStateModel.setAutoSave(autoSaveService);
-
-        // Load blank tab on startup
-        tabController.createNewTab();
+		// Set the FXMLLoader for the Font tool menu
+		FXMLLoader fontToolBarLoader = new FXMLLoader(getClass().getResource("/view/FontToolBar.fxml"));
+		toolMenuController.setFontToolBarLoader(fontToolBarLoader);
 
 
-        // Add style sheets
-        try {
-            scene.getStylesheets().add(getClass().getResource("/styles/styles.css").toString());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            e.printStackTrace();
-        }
+		canvasController.setCanvasModel(canvasModel);
+		canvasController.setPaintStateModel(paintStateModel);
+		canvasController.setInfoCanvasModel(infoCanvasModel);
+		canvasController.setSettingStateModel(settingStateModel);
+		canvasController.setSceneStateModel(sceneStateModel);
+		canvasController.setTabModel(tabModel);
+		canvasController.setCurrentWorkspaceModel(currentWorkspaceModel);
 
-        // UNDO SETUP START
-        // UNDO SETUP END
+		selectionHandler.setPaintStateModel(paintStateModel);
+		selectionHandler.setCurrentWorkspaceModel(currentWorkspaceModel);
+		canvasController.setSelectionHandler(selectionHandler);
 
-        // Setup key binding event listeners
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent keyEvent) {
-                // CTRL related key events
-                if (keyEvent.isControlDown()) {
-                    switch (keyEvent.getCode()) {
-                        case N: // Create new tab -> file
-                            try {
-                                tabController.onKeyPressedNewFileTab(keyEvent);
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                            keyEvent.consume(); // This prevents the event from going any further
-                            break;
-                        case Z: // Undo
-                            currentWorkspaceModel.getCurrentWorkspace().handleUndoAction();
-                            // When undoing add to redo stack
-                            keyEvent.consume();
-                            break;
-                        case Y: // Redo
-                            currentWorkspaceModel.getCurrentWorkspace().handleRedoAction();
-                            // When redoing add to undo stack
-                            keyEvent.consume();
-                            break;
-                        case C:
-                            selectionHandler.copySelectionContent();
-                            keyEvent.consume();
-                            break;
-                        case V:
-                            selectionHandler.pasteClipboardImage(); // TODO handle different types of paste i.e. text, HTML, etc.
-                            keyEvent.consume();
-                            break;
-                    }
+		tabController.setCanvasModel(canvasModel);
+		tabController.setTabModel(tabModel);
+		tabController.setPaintStateModel(paintStateModel);
+		tabController.setInfoCanvasModel(infoCanvasModel);
+		tabController.setSettingStateModel(settingStateModel);
+		tabController.setCurrentWorkspaceModel(currentWorkspaceModel);
 
-                }
-
-            }
-        });
-
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
-        webServerHandler.createNewServer();
-        webServerHandler.startHttpServer();
+		autoSaveService.setUtilityController(utilityController);
+		utilityController.setAutoSave(autoSaveService);
+		autoSaveService.startTimer();
 
 
-        // Set 'smart-save' event handlers on main stage
-        primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-            @Override
-            public void handle(WindowEvent event) {
-                 // Check if file has been saved
-	            boolean isSaved = false;
-	            try {
-                    // If no tabs active allow user to exit without alerting
-                    if (currentWorkspaceModel.getSize() == 0) {
-                        primaryStage.close();
-                    } else {
-                        CanvasController currentCanvasController = currentWorkspaceModel.getCurrentWorkspace().getCanvasController();
-		                isSaved = currentCanvasController.isFileSavedRecently();
-                    }
-	            } catch (IOException e) {
-		            throw new RuntimeException(e);
-	            }
-	            if (isSaved) {
-                    // File saved recently -> OK to close || no file opened (blank)
-                    primaryStage.close();
-                } else {
-                    // File not saved recently -> Alert user
-                    Alert fileNotSavedAlert = new Alert(Alert.AlertType.WARNING, """
-                            WARNING: You are about to close a file that has not been saved with your most recent changes. Are
-                            you sure you want to close?
-                            """);
-                    fileNotSavedAlert.setTitle("WARNING: File not saved");
-                    fileNotSavedAlert.setHeaderText("");
+		// Maintains the state of the current workspace in focus
+		canvasWrapper.getSelectionModel().selectedIndexProperty().addListener(((observable, oldValue, newValue) -> {
+			// Change active workspace
+			Workspace workspace = this.currentWorkspaceModel.getWorkspaceList().get(newValue);
+			this.currentWorkspaceModel.setCurrentWorkspace(workspace);
 
-                    ButtonType saveFileBtn = new ButtonType("Save", ButtonBar.ButtonData.APPLY); // Add a 'save' btn on dialog
+			File currentWorkspaceFile = workspace.getWorkspaceFile();
+			this.currentWorkspaceModel.setCurrentFile(currentWorkspaceFile);
 
-                    fileNotSavedAlert.getButtonTypes().add(saveFileBtn);
-                    fileNotSavedAlert.getButtonTypes().add(ButtonType.CANCEL);
+			// Exit user from transformation mode
+			this.paintStateModel.setTransformable(false, this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().getDrawingPane());
 
-                    ((Button)fileNotSavedAlert.getDialogPane().lookupButton(ButtonType.OK)).setText("Don't Save"); // Change default btn text
+			// Set active tab
+			this.tabModel.setCurrentTab(canvasWrapper.getTabs().get((Integer) newValue));
 
-                    ButtonType alertResult = fileNotSavedAlert.showAndWait().orElse(ButtonType.CANCEL);
+			// Update web server file on tab switch
+			webServerHandler.updateCurrentFile(currentWorkspaceFile);
 
-                    if (alertResult == ButtonType.OK) { // User wants to close without saving
-                        primaryStage.close();
-                        webServerHandler.stopHttpServer();// Stop httpServer
-                    }
-                    if (Objects.equals(alertResult.getText(), "Save")) { // Save file
-	                    try {
-		                    utilityController.handleFileSave(null);
-	                    } catch (IOException e) {
-		                    throw new RuntimeException(e);
-	                    }
-	                    event.consume(); // Consuming the event here prevents the 'exit' event from closing the application
-                    }
+		}));
 
-                    if (alertResult == ButtonType.CANCEL) { // Cancel operation
-                        event.consume(); // Consuming the event here prevents the 'exit' event from closing the application
-                    }
-                }
-            }
-        });
-    }
+		tabModel.setTabPane(canvasWrapper);
 
-    public static void main(String[] args) {
-        launch();
-    }
+		infoController.setCanvasModel(canvasModel);
+		infoController.setInfoCanvasModel(infoCanvasModel);
+		infoController.setPaintStateModel(paintStateModel);
+		infoController.setCurrentWorkspaceModel(currentWorkspaceModel);
+
+		paintStateModel.setInfoCanvasModel(infoCanvasModel);
+		paintStateModel.setCurrentWorkspaceModel(currentWorkspaceModel);
+
+		currentWorkspaceModel.setSettingStateModel(settingStateModel);
+		currentWorkspaceModel.setInfoCanvasModel(infoCanvasModel);
+		currentWorkspaceModel.setTabModel(tabModel);
+		currentWorkspaceModel.setPaintStateModel(paintStateModel);
+
+		settingStateModel.setAutoSave(autoSaveService);
+
+		// Load blank tab on startup
+		tabController.createNewTab();
+
+
+		// Add style sheets
+		try {
+			scene.getStylesheets().add(getClass().getResource("/styles/styles.css").toString());
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			e.printStackTrace();
+		}
+
+		// UNDO SETUP START
+		// UNDO SETUP END
+
+		// Setup key binding event listeners
+		scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
+			@Override
+			public void handle(KeyEvent keyEvent) {
+				// CTRL related key events
+				if (keyEvent.isControlDown()) {
+					switch (keyEvent.getCode()) {
+						case N: // Create new tab -> file
+							try {
+								tabController.onKeyPressedNewFileTab(keyEvent);
+							} catch (IOException e) {
+								throw new RuntimeException(e);
+							}
+							keyEvent.consume(); // This prevents the event from going any further
+							break;
+						case Z: // Undo
+							currentWorkspaceModel.getCurrentWorkspace().handleUndoAction();
+							// When undoing add to redo stack
+							keyEvent.consume();
+							break;
+						case Y: // Redo
+							currentWorkspaceModel.getCurrentWorkspace().handleRedoAction();
+							// When redoing add to undo stack
+							keyEvent.consume();
+							break;
+						case C:
+							selectionHandler.copySelectionContent();
+							keyEvent.consume();
+							break;
+						case V:
+							selectionHandler.pasteClipboardImage(); // TODO handle different types of paste i.e. text, HTML, etc.
+							keyEvent.consume();
+							break;
+					}
+
+				}
+
+			}
+		});
+
+		primaryStage.setScene(scene);
+		primaryStage.show();
+
+		webServerHandler.createNewServer();
+		webServerHandler.startHttpServer();
+
+
+		// Set 'smart-save' event handlers on main stage
+		primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent event) {
+				// Check if file has been saved
+				boolean isSaved = false;
+				try {
+					// If no tabs active allow user to exit without alerting
+					if (currentWorkspaceModel.getSize() == 0) {
+						primaryStage.close();
+					} else {
+						CanvasController currentCanvasController = currentWorkspaceModel.getCurrentWorkspace().getCanvasController();
+						isSaved = currentCanvasController.isFileSavedRecently();
+					}
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+				if (isSaved) {
+					// File saved recently -> OK to close || no file opened (blank)
+					primaryStage.close();
+				} else {
+					// File not saved recently -> Alert user
+					Alert fileNotSavedAlert = new Alert(Alert.AlertType.WARNING, """
+							WARNING: You are about to close a file that has not been saved with your most recent changes. Are
+							you sure you want to close?
+							""");
+					fileNotSavedAlert.setTitle("WARNING: File not saved");
+					fileNotSavedAlert.setHeaderText("");
+
+					ButtonType saveFileBtn = new ButtonType("Save", ButtonBar.ButtonData.APPLY); // Add a 'save' btn on dialog
+
+					fileNotSavedAlert.getButtonTypes().add(saveFileBtn);
+					fileNotSavedAlert.getButtonTypes().add(ButtonType.CANCEL);
+
+					((Button) fileNotSavedAlert.getDialogPane().lookupButton(ButtonType.OK)).setText("Don't Save"); // Change default btn text
+
+					ButtonType alertResult = fileNotSavedAlert.showAndWait().orElse(ButtonType.CANCEL);
+
+					if (alertResult == ButtonType.OK) { // User wants to close without saving
+						primaryStage.close();
+						webServerHandler.stopHttpServer();// Stop httpServer
+					}
+					if (Objects.equals(alertResult.getText(), "Save")) { // Save file
+						try {
+							utilityController.handleFileSave(null);
+						} catch (IOException e) {
+							throw new RuntimeException(e);
+						}
+						event.consume(); // Consuming the event here prevents the 'exit' event from closing the application
+					}
+
+					if (alertResult == ButtonType.CANCEL) { // Cancel operation
+						event.consume(); // Consuming the event here prevents the 'exit' event from closing the application
+					}
+				}
+			}
+		});
+	}
 }
