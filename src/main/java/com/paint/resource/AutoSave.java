@@ -5,7 +5,7 @@ import javafx.concurrent.ScheduledService;
 import javafx.concurrent.Task;
 import javafx.util.Duration;
 
-public final class AutoSave {
+public class AutoSave {
     private UtilityController utilityController;
     private Duration timerLenInMinutes;
 

@@ -291,39 +291,45 @@ public class UtilityController {
 		stateModel.setAutoSaveInterval((long) autoSaveController.getAutoSaveIntervalSlider().getValue());
 
 		hideAutoSaveTimer(autoSaveController.autoSaveTimerVisibleCB.isSelected());
-
 	}
 
 	private int seconds = 0;
 	private Timeline timer;
 	private int prevTimerLen = -1;
 
-	private void hideAutoSaveTimer(boolean hide) {
+	public void hideAutoSaveTimer(boolean hide) {
 		if (!hide) { // user wants timer hidden
 			timerLabel.setText("Auto Save");
 		} else { // user wants timer visible
 			if (prevTimerLen < 0) { // First init
-				prevTimerLen = (int) autoSaveController.getSettingStateModel().getAutoSaveInterval() * 60;
+				prevTimerLen = (int) this.currentWorkspaceModel.getSettingStateModel().getAutoSaveInterval() * 60;
 			}
+			startAutoSaveTimer();
+		}
+	}
 
-			if(timer != null) {
-				if (timer.getStatus() == Animation.Status.RUNNING && prevTimerLen == (int) autoSaveController.getSettingStateModel().getAutoSaveInterval() * 60) { // Use previous timer if val hasn't changed
-					return;
-				} else {
-					timer.stop();
-					prevTimerLen = (int) autoSaveController.getSettingStateModel().getAutoSaveInterval() * 60;
-				}
+	private void startAutoSaveTimer() {
+		handleRunningTimer();
+
+		seconds = (int) this.currentWorkspaceModel.getSettingStateModel().getAutoSaveInterval() * 60;
+		timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+			seconds--;
+			timerLabel.setText("" + seconds);
+		}));
+
+		timer.setCycleCount((int) this.currentWorkspaceModel.getSettingStateModel().getAutoSaveInterval() * 60); // seconds -> minutes
+		timer.play();
+	}
+
+	private void handleRunningTimer() {
+		if(timer != null) {
+			// Return early if timer is still running and the prev timer length is the same
+			if (timer.getStatus() == Animation.Status.RUNNING && prevTimerLen == (int) this.currentWorkspaceModel.getSettingStateModel().getAutoSaveInterval() * 60) { // Use previous timer if val hasn't changed
+				return;
+			} else {
+				timer.stop();
+				prevTimerLen = (int) this.currentWorkspaceModel.getSettingStateModel().getAutoSaveInterval() * 60;
 			}
-
-			seconds = (int) autoSaveController.getSettingStateModel().getAutoSaveInterval() * 60;
-			timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-				seconds--;
-				timerLabel.setText("" + seconds);
-			}));
-
-			timer.setCycleCount((int) autoSaveController.getSettingStateModel().getAutoSaveInterval() * 60); // seconds -> minutes
-
-			timer.play();
 		}
 	}
 
