@@ -3,7 +3,6 @@ package com.paint.resource;
 import com.paint.controller.CanvasController;
 import com.paint.handler.WorkspaceHandler;
 import javafx.beans.binding.Bindings;
-import javafx.event.EventHandler;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -36,6 +35,13 @@ public class TransformableNode extends Group {
 		createSelectionBox();
 	}
 
+	private void handleKeyPress(KeyEvent event) {
+		if (event.getCode() == KeyCode.ESCAPE) {
+			exitTransformMode();
+			event.consume();
+		}
+	}
+
 	public void enableTransformations() {
 
 		if (!isTransformable) {
@@ -44,15 +50,7 @@ public class TransformableNode extends Group {
 
 		Pane parentPane = this.canvasController.getDrawingPane();
 
-		parentPane.getScene().addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {
-			@Override
-			public void handle(KeyEvent event) {
-				if (event.getCode() == KeyCode.ESCAPE) {
-					event.consume();
-					exitTransformMode();
-				}
-			}
-		});
+		parentPane.getScene().setOnKeyPressed(this::handleKeyPress);
 		// Translation handler (XY Movement) SECTION START
 
 		parentPane.setOnMousePressed(this::handleMousePressed);
@@ -87,44 +85,48 @@ public class TransformableNode extends Group {
 
 	public void exitTransformMode() {
 		isTransformable = false;
+		Pane parentPane = this.canvasController.getDrawingPane();
+
 		this.setOnMouseDragged(null);
 		this.setOnMousePressed(null);
 		this.setOnMouseEntered(null);
-		Pane parentPane = this.canvasController.getDrawingPane();
+		this.setOnKeyPressed(null);
+
 		parentPane.setOnMousePressed(null);
+		parentPane.getScene().setOnKeyPressed(null);
 		// Remove selectionRectangle
 		if (!this.getChildren().isEmpty()) {
-			this.getChildren().get(1).setVisible(false);
+			this.getChildren().remove(1);
 		}
 		// Convert shape -> canvas
 		// Check if current object is a shape
 		if (Objects.equals(this.workspaceHandler.getPaintStateModel().getCurrentToolType(), "shape")) { // TODO convert this into a switch/case statement
-//			this.workspaceHandler.getPaintStateModel().setCurrentShape(this);
 			this.canvasController.applyPaneShapeToCanvas((Shape) this.getChildren().get(0));
 		} else if (Objects.equals(this.workspaceHandler.getPaintStateModel().getCurrentToolType(), "selection")) {
 			// Remove outer selection rectangle
 			this.canvasController.applySelectionToCanvas(this.workspaceHandler.getPaintStateModel().getImageView());
 		}
 
+		selectionRect.heightProperty().unbind();
+		selectionRect.widthProperty().unbind();
+		selectionRect.xProperty().unbind();
+		selectionRect.yProperty().unbind();
+
 
 		// Enable CanvasController handlers
 		canvasController.setCanvasDrawingStackPaneHandlerState(true);
 		// Notify handler that user is no longer editing
 //		this.workspaceHandler.setEditing(false);
-		// TODO figure out a way to exit user from transform mode when switching tabs
-		// LAST WORKING ON IMPLEMENTING THE REST OF THE SHAPES
-		// CURRENT ISSUE IS THAT CURRENTSHAPE IS NOT BEING UPDATED CORRECTLY
-		// TODO CHANGE NAME OF CURRENTSHAPE TO SOMETHING BETTER
 	}
 
 
 	private void createSelectionBox () {
 		// Create a rect that will surround the currentShape
-		selectionRect = new Rectangle();
-		selectionRect.setId("selectionBox");
+		this.selectionRect = new Rectangle();
+		this.selectionRect.setId("selectionBox");
 
 		// Bind the rectangle's position to the current shape's bounds in parent
-		selectionRect.xProperty().bind(
+		this.selectionRect.xProperty().bind(
 				Bindings.createDoubleBinding(() -> originalNode.getBoundsInParent().getMinX(),
 						originalNode.boundsInParentProperty())
 		);
@@ -141,7 +143,6 @@ public class TransformableNode extends Group {
 				Bindings.createDoubleBinding(() -> originalNode.getBoundsInParent().getHeight(),
 						originalNode.boundsInParentProperty())
 		);
-
 		selectionRect.getStrokeDashArray().addAll(9.5);
 		selectionRect.setFill(Color.TRANSPARENT);
 		selectionRect.setStroke(Color.GRAY);
@@ -171,7 +172,7 @@ public class TransformableNode extends Group {
 //            selectionRect.setCursor(Cursor.H_RESIZE);
 //        });
 
-		this.getChildren().addAll(selectionRect);
+		this.getChildren().add(selectionRect);
 
 		this.setOnMouseEntered(mouseE -> {
 			this.setCursor(Cursor.MOVE);
