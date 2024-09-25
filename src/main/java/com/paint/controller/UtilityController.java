@@ -42,9 +42,6 @@ public class UtilityController {
 	private WorkspaceHandler workspaceHandler;
 
 	@FXML
-	public Button refreshIcon;
-
-	@FXML
 	public Label timerLabel;
 
 	private HelpAboutModel helpAboutModel;
@@ -320,10 +317,6 @@ public class UtilityController {
 	@FXML
 	public void initialize() {
 		// Setup event handlers for autosave
-
-		// Refresh icon clicked -> reset timer to current val from settings
-		refreshIcon.setOnMouseClicked(this::handleAutoSaveRefresh);
-
 		// Hide timer
 		timerLabel.setOnMouseClicked(this::handleTimerLabelVisibility);
 	}

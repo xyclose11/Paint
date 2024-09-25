@@ -65,14 +65,6 @@
                 </Button>
                <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                   <children>
-                     <Button fx:id="refreshIcon" ellipsisString="" mnemonicParsing="false">
-                         <graphic>
-                             <FontIcon id="refreshIconUtilityBar" fontSmoothingType="LCD" iconLiteral="mdi2r-refresh" iconSize="22" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
-                         </graphic>
-                        <HBox.margin>
-                           <Insets right="5.0" />
-                        </HBox.margin>
-                     </Button>
                      <Label fx:id="timerLabel" alignment="BASELINE_CENTER" ellipsisString="" text="Auto Save">
                         <font>
                            <Font size="12.0" />
