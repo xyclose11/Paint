@@ -1,8 +1,8 @@
 package com.paint.controller;
 
 
-import com.paint.model.CanvasModel;
 import com.paint.handler.WorkspaceHandler;
+import com.paint.model.CanvasModel;
 import com.paint.model.HelpAboutModel;
 import com.paint.model.SettingStateModel;
 import com.paint.resource.AutoSave;
@@ -363,9 +363,20 @@ public class UtilityController {
 	private final Timeline timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
 		seconds--;
 		if (!isTimerHidden) { // Check if the timer should be hidden, if hidden keep timer going
-			timerLabel.setText("" + seconds);
+			timerLabel.setText("" + formatTimerLength(seconds));
 		}
 	}));
+
+	private String formatTimerLength(int timeInSeconds) {
+		float time = (float) (timeInSeconds / 60.0);
+		int minutes = (int) time;
+		double timeDifference = (time - minutes);
+		int seconds = (int) Math.round(timeDifference * 60);
+
+		// Convert seconds to minutes
+		// i.e. timeInSeconds = 645 -> minutes = 10.75
+		return "" + minutes + ":" + seconds;
+	}
 
 	public void hideAutoSaveTimer(boolean hide) {
 		if (!hide) { // user wants timer hidden
