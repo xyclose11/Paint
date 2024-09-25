@@ -100,10 +100,6 @@ public class UtilityController {
 		fileChooser.getExtensionFilters().addAll(
 				new FileChooser.ExtensionFilter("PNG (*.png)", "*.png")
 				,new FileChooser.ExtensionFilter("JPEG (*.jpeg, *.jpg, *jpe)", "*.jpeg", "*.jpg", "*.jpe")
-//				,new FileChooser.ExtensionFilter("Monochrome Bitmap (*.bmp, *.dib)", "*.bmp", "*.dib") // TODO Add variations to bitmap quality
-//				,new FileChooser.ExtensionFilter("16 Color Bitmap (*.bmp, *.dib)", "*.bmp", "*.dib")
-//				,new FileChooser.ExtensionFilter("256 Color Bitmap (*.bmp, *.dib)", "*.bmp", "*.dib")
-//				,new FileChooser.ExtensionFilter("24-Bit Bitmap (*.bmp, *.dib)", "*.bmp", "*.dib")
 				,new FileChooser.ExtensionFilter("Bitmap (*.bmp, *.dib)", "*.bmp", "*.dib")
 		);
 
@@ -147,13 +143,18 @@ public class UtilityController {
 
 	}
 
-	// Save image process
-	// 1. Create an empty WritableImage object with desired dimensions
-	// 2. Take a canvas snapshot (This will capture every pixel on the canvas)
-	// 3. Create a BufferedImage object using SwingFXUtils.fromFXImage(writableImage, null)
-	// 4. Create a File object that contains the desired save path
-	// 5. Call ImageIO.write()
-
+	/**
+	 * This method handles the 'save' action.
+	 *
+	 *  Image Saving Process
+	 * 	1. Create an empty WritableImage object with desired dimensions
+	 * 	2. Take a canvas snapshot (This will capture every pixel on the canvas)
+	 * 	3. Create a BufferedImage object using SwingFXUtils.fromFXImage(writableImage, null)
+	 * 	4. Create a File object that contains the desired save path
+	 * 	5. Call ImageIO.write()
+	 *
+	 * @param event takes an ActionEvent in case method is used by UI component
+	 * */
 	@FXML
 	public void handleFileSave(ActionEvent event) throws IOException {
 		// Check if there is a current file opened
@@ -191,24 +192,34 @@ public class UtilityController {
 
 	}
 
+	/**
+	 * This method handles the 'save-as' action.
+	 * This differs from the 'save' action, in that it doesn't overwrite the current working file. Instead, it allows the user
+	 * to save the contents of the file into a new file with a different location, and/or a different file extension.
+	 *
+	 *  Image Saving Process
+	 * 	1. Create an empty WritableImage object with desired dimensions
+	 * 	2. Take a canvas snapshot (This will capture every pixel on the canvas)
+	 * 	3. Create a BufferedImage object using SwingFXUtils.fromFXImage(writableImage, null)
+	 * 	4. Create a File object that contains the desired save path
+	 * 	5. Call ImageIO.write()
+	 *
+	 * @param event takes an ActionEvent in case method is used by UI component
+	 * */
 	@FXML
 	private void handleFileSaveAs(ActionEvent event) throws IOException {
 		FileChooser fileChooser = new FileChooser();
 
 		fileChooser.getExtensionFilters().addAll(
 				new FileChooser.ExtensionFilter("PNG (*.png)", "*.png")
-				,new FileChooser.ExtensionFilter("JPEG (*.jpg)", "*.jpg") // TODO Add support for each variation of JPEG, JPG, JPE, etc
-//				,new FileChooser.ExtensionFilter("Monochrome Bitmap (*.bmp, *.dib)", "*.bmp", "*.dib") // TODO Add variations to bitmap quality Source (https://atlc.sourceforge.net/bmp.html)
-//				,new FileChooser.ExtensionFilter("16 Color Bitmap (*.bmp, *.dib)", "*.bmp", "*.dib")
-//				,new FileChooser.ExtensionFilter("256 Color Bitmap (*.bmp, *.dib)", "*.bmp", "*.dib")
-//				,new FileChooser.ExtensionFilter("24-Bit Bitmap (*.bmp, *.dib)", "*.bmp", "*.dib")
+				,new FileChooser.ExtensionFilter("JPEG (*.jpg)", "*.jpg")
 				,new FileChooser.ExtensionFilter("Bitmap (*.bmp, *.dib)", "*.bmp", "*.dib")
 		);
 
 		File paintFileDir = createFileChooserDir(null, null);
 		fileChooser.setInitialDirectory(paintFileDir);
 		fileChooser.setTitle("Save Image");
-		fileChooser.setInitialFileName("Untitled"); // Default filename // TODO use filenameFilter to check if the name already exists
+		fileChooser.setInitialFileName("Untitled"); // Default filename
 
 		File file = fileChooser.showSaveDialog(null);
 
