@@ -266,16 +266,19 @@ public class CanvasController {
 
     @FXML
     private void handleMouseDragged(MouseEvent mouseEvent) {
-        // Verify mode
-        if (this.paintStateModel.getCurrentShape().isTransformable()) {
-            // If in transform mode, ignore drag events
-            return;
-        }
-
         // Update mouse POS lbl
         this.infoCanvasModel.setMousePosLbl(mouseEvent);
         TransformableNode currentShape = this.paintStateModel.getCurrentShape();
         String currentToolType = this.paintStateModel.getCurrentToolType();
+
+        // Verify mode
+        if (this.paintStateModel.getCurrentShape() != null) {
+            if (this.paintStateModel.getCurrentShape().isTransformable()) {
+                // If in transform mode, ignore drag events
+                return;
+            }
+        }
+
 
         double curX = mouseEvent.getX();
         double curY = mouseEvent.getY();
