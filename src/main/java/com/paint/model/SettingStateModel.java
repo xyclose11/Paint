@@ -28,8 +28,11 @@ public class SettingStateModel {
     }
 
     public void setAutoSaveInterval(long autoSaveInterval) {
-        this.autoSaveInterval = autoSaveInterval;
-        autoSave.setTimerLenInMinutes(autoSaveInterval);
+        // Check if interval has changed
+        if (this.autoSaveInterval != autoSaveInterval) {
+            this.autoSaveInterval = autoSaveInterval;
+            autoSave.setTimerLenInMinutes(autoSaveInterval);
+        }
     }
 
     public boolean isAutosaveEnabled() {

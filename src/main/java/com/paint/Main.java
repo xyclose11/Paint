@@ -113,15 +113,15 @@ public class Main extends Application {
 		workspaceHandler.setPaintStateModel(paintStateModel);
 		workspaceHandler.setCurrentScene(scene);
 
+		selectionHandler.setPaintStateModel(paintStateModel);
+		selectionHandler.setCurrentWorkspaceModel(workspaceHandler);
+
 		canvasController.setCanvasModel(canvasModel);
 		canvasController.setPaintStateModel(paintStateModel);
 		canvasController.setInfoCanvasModel(infoCanvasModel);
 		canvasController.setSettingStateModel(settingStateModel);
 		canvasController.setTabModel(tabModel);
 		canvasController.setCurrentWorkspaceModel(workspaceHandler);
-
-		selectionHandler.setPaintStateModel(paintStateModel);
-		selectionHandler.setCurrentWorkspaceModel(workspaceHandler);
 		canvasController.setSelectionHandler(selectionHandler);
 
 		tabController.setCanvasModel(canvasModel);
@@ -167,8 +167,7 @@ public class Main extends Application {
 
 		paintStateModel.setInfoCanvasModel(infoCanvasModel);
 		paintStateModel.setCurrentWorkspaceModel(workspaceHandler);
-
-
+		
 		settingStateModel.setAutoSave(autoSaveService);
 
 		// Load blank tab on startup

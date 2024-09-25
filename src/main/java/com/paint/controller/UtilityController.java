@@ -318,10 +318,10 @@ public class UtilityController {
 	public void initialize() {
 		// Setup event handlers for autosave
 		// Hide timer
-		timerLabel.setOnMouseClicked(this::handleTimerLabelVisibility);
+		timerLabel.setOnMouseClicked(this::handleTimerDialog);
 	}
 
-	private void handleTimerLabelVisibility(MouseEvent mouseEvent) {
+	private void handleTimerDialog(MouseEvent mouseEvent) {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/view/AutoSaveSetting.fxml"));
 			DialogPane dialogPane = fxmlLoader.load();
@@ -359,25 +359,31 @@ public class UtilityController {
 	private int seconds = 0;
 	private Timeline timer;
 	private int prevTimerLen = -1;
+	private boolean isTimerHidden = false;
 
 	public void hideAutoSaveTimer(boolean hide) {
 		if (!hide) { // user wants timer hidden
+			isTimerHidden = true;
 			timerLabel.setText("Auto Save");
 		} else { // user wants timer visible
 			if (prevTimerLen < 0) { // First init
 				prevTimerLen = (int) this.workspaceHandler.getSettingStateModel().getAutoSaveInterval() * 60;
 			}
-			startAutoSaveTimer();
+
+			isTimerHidden = false;
 		}
 	}
 
-	private void startAutoSaveTimer() {
+	public void startAutoSaveTimer() {
+		System.out.println("HIASD");
 		handleRunningTimer();
 
 		seconds = (int) this.workspaceHandler.getSettingStateModel().getAutoSaveInterval() * 60;
 		timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
 			seconds--;
-			timerLabel.setText("" + seconds);
+			if (!isTimerHidden) { // Check if the timer should be hidden, if hidden keep timer going
+				timerLabel.setText("" + seconds);
+			}
 		}));
 
 		timer.setCycleCount((int) this.workspaceHandler.getSettingStateModel().getAutoSaveInterval() * 60); // seconds -> minutes
@@ -394,11 +400,6 @@ public class UtilityController {
 				prevTimerLen = (int) this.workspaceHandler.getSettingStateModel().getAutoSaveInterval() * 60;
 			}
 		}
-	}
-
-	private void handleAutoSaveRefresh(MouseEvent mouseEvent) {
-		// Show very cool & awesome animation
-		// Reset timer thread
 	}
 
 	@FXML
