@@ -50,16 +50,13 @@ public class SelectionHandler {
 		startX = x;
 		startY = y;
 
-		Rectangle rectangle = new Rectangle(x,y, 1, 1);
+        selectionRect = new Rectangle(x,y, 1, 1);
 
-		selectionRect = rectangle;
-
-		this.drawingPane.getChildren().add(rectangle);
+		this.drawingPane.getChildren().add(selectionRect);
 	}
 
 	public void handleSelectionDragged(double curX, double curY) {
 		applySelectionRectAttributes(selectionRect);
-
 		/*
 			   2   |   1
 			-------|------
@@ -91,7 +88,7 @@ public class SelectionHandler {
 		}
 	}
 
-	public void handleSelectionReleased() {
+	public void handleSelectionReleased(WorkspaceHandler workspaceHandler) {
 		// On release transfer everything inside the rect into a new draggable rect
 		WritableImage image = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());
 		canvas.snapshot(null, image);
@@ -100,7 +97,6 @@ public class SelectionHandler {
 
 		int selectX = (int) selectionRect.getX();
 		int selectY = (int) selectionRect.getY();
-
 
 		WritableImage selectImg = new WritableImage(pixelReader, selectX, selectY, (int) selectionRect.getWidth(), (int) selectionRect.getHeight());
 
@@ -111,13 +107,16 @@ public class SelectionHandler {
 		// Remove a rect of same size from canvas
 		canvas.getGraphicsContext2D().clearRect(selectX, selectY, selectionRect.getWidth(), selectionRect.getHeight());
 
-//		this.paintStateModel.setCurrentShape(selectionRect);
+		removeSelectionRectangle();
+
+		TransformableNode transformableNode = new TransformableNode(imageView, workspaceHandler);
+		transformableNode.setTransformable(true);
+		transformableNode.enableTransformations();
+		this.paintStateModel.setCurrentShape(transformableNode);
+
 		this.paintStateModel.setCurrentSelection(imageView);
 
-		this.drawingPane.getChildren().add(imageView);
-
-		// Enable transformations
-//		this.paintStateModel.enableTransformations(true, drawingPane);
+		this.drawingPane.getChildren().add(transformableNode);
 	}
 
 	private void applySelectionRectAttributes(Rectangle rectangle) {
@@ -171,7 +170,9 @@ public class SelectionHandler {
 			pasteImageNode.setTransformable(true);
 			pasteImageNode.enableTransformations();
 
+			this.paintStateModel.setCurrentShape(pasteImageNode);
 			this.paintStateModel.setCurrentSelection(imageView);
+
 
 			this.workspaceHandler.getCurrentWorkspace().getCanvasController().getDrawingPane().getChildren().add(imageView);
 //			this.currentWorkspaceModel.getCurrentWorkspace().getCanvasController().getDrawingPane().getChildren().add(selectionRect);

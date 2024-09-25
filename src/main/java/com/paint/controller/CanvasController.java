@@ -449,7 +449,7 @@ public class CanvasController {
                 // Disable StackPane Mouse Event Handlers
                 this.workspaceHandler.getCurrentWorkspace().getUndoStack().push(getCurrentCanvasSnapshot());
                 setCanvasDrawingStackPaneHandlerState(false);
-                selectionHandler.handleSelectionReleased();
+                this.selectionHandler.handleSelectionReleased(this.workspaceHandler);
                 break;
         }
 
@@ -506,7 +506,7 @@ public class CanvasController {
         graphicsContext.setStroke(this.paintStateModel.getCurrentPaintColor()); // Responsible for the color of shapes
         TransformableNode transformableNode = this.paintStateModel.getCurrentShape();
         Shape shape = currentShape;
-        System.out.println("CURRENT SHAPE:" + currentShape);
+
         double minX;
         double minY;
         double maxX;
@@ -550,7 +550,6 @@ public class CanvasController {
 
         String currentTool = this.paintStateModel.getCurrentTool();
 
-        System.out.println(currentTool);
         switch (currentTool) {
             case "StLine":
                 // You don't need to use the bounded XY since that will only indicate the bounding box & translations
@@ -639,7 +638,7 @@ public class CanvasController {
 
         // Reset GC settings
         this.selectionHandler.removeSelectionRectangle();
-        graphicsContext.setLineDashes(null);
+        graphicsContext.setLineDashes(0);
         graphicsContext.setStroke(Color.TRANSPARENT);
         graphicsContext.setFill(Color.TRANSPARENT);
 

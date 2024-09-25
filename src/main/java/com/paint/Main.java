@@ -107,6 +107,11 @@ public class Main extends Application {
 		FXMLLoader fontToolBarLoader = new FXMLLoader(getClass().getResource("/view/FontToolBar.fxml"));
 		toolMenuController.setFontToolBarLoader(fontToolBarLoader);
 
+		workspaceHandler.setSettingStateModel(settingStateModel);
+		workspaceHandler.setInfoCanvasModel(infoCanvasModel);
+		workspaceHandler.setTabModel(tabModel);
+		workspaceHandler.setPaintStateModel(paintStateModel);
+		workspaceHandler.setCurrentScene(scene);
 
 		canvasController.setCanvasModel(canvasModel);
 		canvasController.setPaintStateModel(paintStateModel);
@@ -141,7 +146,9 @@ public class Main extends Application {
 			this.workspaceHandler.setCurrentFile(currentWorkspaceFile);
 
 			// Exit user from transformation mode
-			this.paintStateModel.getCurrentShape().exitTransformMode();
+			if (this.paintStateModel.getCurrentShape() != null) {
+				this.paintStateModel.getCurrentShape().exitTransformMode();
+			}
 
 			// Set active tab
 			this.tabModel.setCurrentTab(canvasWrapper.getTabs().get((Integer) newValue));
@@ -161,11 +168,6 @@ public class Main extends Application {
 		paintStateModel.setInfoCanvasModel(infoCanvasModel);
 		paintStateModel.setCurrentWorkspaceModel(workspaceHandler);
 
-		workspaceHandler.setSettingStateModel(settingStateModel);
-		workspaceHandler.setInfoCanvasModel(infoCanvasModel);
-		workspaceHandler.setTabModel(tabModel);
-		workspaceHandler.setPaintStateModel(paintStateModel);
-		workspaceHandler.setCurrentScene(scene);
 
 		settingStateModel.setAutoSave(autoSaveService);
 

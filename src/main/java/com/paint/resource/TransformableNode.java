@@ -7,6 +7,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -22,10 +23,10 @@ public class TransformableNode extends Group {
 	private Node originalNode;
 	private Rectangle selectionRect;
 	private boolean isTransformable = false;
-	private WorkspaceHandler workspaceHandler;
+	private final WorkspaceHandler workspaceHandler;
 	private double startX;
 	private double startY;
-	private CanvasController canvasController;
+	private final CanvasController canvasController;
 
 	// creates a transformableNode around a previous node
 	public TransformableNode(Node node, WorkspaceHandler workspaceHandler) {
@@ -44,7 +45,6 @@ public class TransformableNode extends Group {
 	}
 
 	public void enableTransformations() {
-		System.out.println("a" + isTransformable);
 		if (!isTransformable) {
 			return;
 		}
@@ -91,7 +91,6 @@ public class TransformableNode extends Group {
 	}
 
 	public void exitTransformMode() {
-		System.out.println("HIT");
 		isTransformable = false;
 		Pane parentPane = this.canvasController.getDrawingPane();
 
@@ -112,7 +111,7 @@ public class TransformableNode extends Group {
 			this.canvasController.applyPaneShapeToCanvas((Shape) this.getChildren().get(0));
 		} else if (Objects.equals(this.workspaceHandler.getPaintStateModel().getCurrentToolType(), "selection")) {
 			// Remove outer selection rectangle
-			this.canvasController.applySelectionToCanvas(this.workspaceHandler.getPaintStateModel().getImageView());
+			this.canvasController.applySelectionToCanvas((ImageView) this.originalNode);
 		}
 
 		selectionRect.heightProperty().unbind();
@@ -123,8 +122,6 @@ public class TransformableNode extends Group {
 
 		// Enable CanvasController handlers
 		canvasController.setCanvasDrawingStackPaneHandlerState(true);
-		// Notify handler that user is no longer editing
-//		this.workspaceHandler.setEditing(false);
 	}
 
 
@@ -208,8 +205,6 @@ public class TransformableNode extends Group {
 	}
 
 	public double getTranslatedX () {
-		System.out.println("SX: " + startX);
-		System.out.println("TX: " + this.getTranslateX());
 		double x = this.getTranslateX() + this.startX;
 		return x;
 	}
