@@ -183,6 +183,7 @@ public class UtilityController {
 
 			// Reset timer on save
 			seconds = (int) this.workspaceHandler.getSettingStateModel().getAutoSaveInterval() * 60;
+			restartAutoSaveTimer();
 			autoSave.restartAutoSaveService();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -357,9 +358,14 @@ public class UtilityController {
 	}
 
 	private int seconds = 0;
-	private Timeline timer;
 	private int prevTimerLen = -1;
 	private boolean isTimerHidden = false;
+	private final Timeline timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
+		seconds--;
+		if (!isTimerHidden) { // Check if the timer should be hidden, if hidden keep timer going
+			timerLabel.setText("" + seconds);
+		}
+	}));
 
 	public void hideAutoSaveTimer(boolean hide) {
 		if (!hide) { // user wants timer hidden
@@ -374,18 +380,15 @@ public class UtilityController {
 		}
 	}
 
+	public void restartAutoSaveTimer() {
+		timer.stop();
+		timer.playFromStart();
+	}
+
 	public void startAutoSaveTimer() {
-		System.out.println("HIASD");
 		handleRunningTimer();
 
 		seconds = (int) this.workspaceHandler.getSettingStateModel().getAutoSaveInterval() * 60;
-		timer = new Timeline(new KeyFrame(Duration.seconds(1), event -> {
-			seconds--;
-			if (!isTimerHidden) { // Check if the timer should be hidden, if hidden keep timer going
-				timerLabel.setText("" + seconds);
-			}
-		}));
-
 		timer.setCycleCount((int) this.workspaceHandler.getSettingStateModel().getAutoSaveInterval() * 60); // seconds -> minutes
 		timer.play();
 	}
