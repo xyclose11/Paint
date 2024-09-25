@@ -17,8 +17,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeType;
 
-import java.util.Objects;
-
 public class TransformableNode extends Group {
 	private Node originalNode;
 	private Rectangle selectionRect;
@@ -74,7 +72,7 @@ public class TransformableNode extends Group {
 		if (!this.getBoundsInParent().contains(mouseEvent.getX(), mouseEvent.getY())) {
 			exitTransformMode();
 		}else {
-			if (Objects.equals(this.workspaceHandler.getPaintStateModel().getCurrentToolType(), "selection")) {
+			if (this.originalNode instanceof ImageView) {
 				this.workspaceHandler.getPaintStateModel().getImageView().translateXProperty().bind(this.translateXProperty());
 				this.workspaceHandler.getPaintStateModel().getImageView().translateYProperty().bind(this.translateYProperty());
 			}
@@ -107,11 +105,16 @@ public class TransformableNode extends Group {
 		}
 		// Convert shape -> canvas
 		// Check if current object is a shape
-		if (Objects.equals(this.workspaceHandler.getPaintStateModel().getCurrentToolType(), "shape")) { // TODO convert this into a switch/case statement
-			this.canvasController.applyPaneShapeToCanvas((Shape) this.getChildren().get(0));
-		} else if (Objects.equals(this.workspaceHandler.getPaintStateModel().getCurrentToolType(), "selection")) {
-			// Remove outer selection rectangle
-			this.canvasController.applySelectionToCanvas((ImageView) this.originalNode);
+
+		String currentToolType = this.workspaceHandler.getPaintStateModel().getCurrentToolType();
+		switch (currentToolType) {
+			case ("shape"):
+				this.canvasController.applyPaneShapeToCanvas((Shape) this.getChildren().get(0));
+				break;
+			case ("selection"), ("paste"):
+				this.canvasController.applySelectionToCanvas((ImageView) this.originalNode);
+				break;
+
 		}
 
 		selectionRect.heightProperty().unbind();

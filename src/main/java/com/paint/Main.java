@@ -216,6 +216,8 @@ public class Main extends Application {
 							keyEvent.consume();
 							break;
 						case V:
+							// Set tool to be selection
+							paintStateModel.setCurrentToolType("paste");
 							selectionHandler.pasteClipboardImage(); // TODO handle different types of paste i.e. text, HTML, etc.
 							keyEvent.consume();
 							break;

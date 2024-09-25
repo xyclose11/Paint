@@ -313,7 +313,6 @@ public class CanvasController {
 
         switch (paintStateModel.getCurrentTool()){
             case "TextTool":
-//                paintStateModel.getCurrentShape().enableTransformations();
                 break;
         }
 
@@ -636,9 +635,6 @@ public class CanvasController {
         double x = selection.getX() + selection.getTranslateX();
         double y = selection.getY() + selection.getTranslateY();
 
-        // Save Graphics Context state
-        graphicsContext.save();
-
         // Reset GC settings
         this.selectionHandler.removeSelectionRectangle();
         graphicsContext.setLineDashes(0);
@@ -647,7 +643,6 @@ public class CanvasController {
 
         // Set canvas to the image
         mainCanvas.getGraphicsContext2D().drawImage(image, x, y);
-
 
         this.canvasModel.setChangesMade(true);
     }
