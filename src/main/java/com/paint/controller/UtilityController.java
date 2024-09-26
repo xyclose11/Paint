@@ -291,6 +291,9 @@ public class UtilityController {
 
 
 	public String getFileExt(String filePath) {
+		if (filePath.lastIndexOf(".") == -1) { // no occurrence of '.' symbol
+			return "";
+		}
 		return filePath.substring(filePath.lastIndexOf(".") + 1); // Get string val after the last '.'
 	}
 
