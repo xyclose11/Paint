@@ -2,10 +2,10 @@ package com.paint;
 
 import com.paint.controller.*;
 import com.paint.handler.SelectionHandler;
+import com.paint.handler.WebServerHandler;
 import com.paint.handler.WorkspaceHandler;
 import com.paint.model.*;
 import com.paint.resource.AutoSave;
-import com.paint.handler.WebServerHandler;
 import com.paint.resource.Workspace;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -49,7 +49,6 @@ public class Main extends Application {
 
 		final int INITIAL_RES_X = 1200; // Initial resolution vals
 		final int INITIAL_RES_Y = 900;
-
 		BorderPane rootLayout = new BorderPane(); // Contains the main scene/content
 
 		rootLayout.setPrefWidth(INITIAL_RES_X);
@@ -114,6 +113,7 @@ public class Main extends Application {
 		workspaceHandler.setTabModel(tabModel);
 		workspaceHandler.setPaintStateModel(paintStateModel);
 		workspaceHandler.setCurrentScene(scene);
+		workspaceHandler.setWebServerHandler(webServerHandler);
 
 		selectionHandler.setPaintStateModel(paintStateModel);
 		selectionHandler.setCurrentWorkspaceModel(workspaceHandler);

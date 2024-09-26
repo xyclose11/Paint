@@ -15,6 +15,11 @@ import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import org.kordamp.ikonli.javafx.FontIcon;
 
+import java.awt.*;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+
 public class InfoController {
 	@FXML
 	public ComboBox<String> infoBarZoomCB;
@@ -146,7 +151,15 @@ public class InfoController {
 	}
 
 	private void handleLinkMouseClick(MouseEvent mouseEvent) {
-
+		try {
+			Desktop.getDesktop().browse(new URL(this.workspaceHandler.getWebServerHandler().getDefaultServerURL()).toURI());
+		} catch (IOException e) {
+			System.out.println(e.getMessage());
+			throw new RuntimeException("Desktop error: " + e.getMessage());
+		} catch (URISyntaxException e){
+			System.out.println(e.getMessage());
+			throw new RuntimeException("Desktop URI error: " + e.getMessage());
+		}
 	}
 
 	@FXML

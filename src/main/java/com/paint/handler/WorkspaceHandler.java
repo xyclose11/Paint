@@ -17,6 +17,7 @@ public class WorkspaceHandler {
 	private PaintStateModel paintStateModel;
 	private InfoCanvasModel infoCanvasModel;
 	private Scene currentScene; // Merged from SceneStateModel
+	private WebServerHandler webServerHandler;
 
 	private File currentFile;
 	private Workspace currentWorkspace;
@@ -95,4 +96,11 @@ public class WorkspaceHandler {
 		return this.workspaceList.size();
 	}
 
+	public WebServerHandler getWebServerHandler() {
+		return webServerHandler;
+	}
+
+	public void setWebServerHandler(WebServerHandler webServerHandler) {
+		this.webServerHandler = webServerHandler;
+	}
 }

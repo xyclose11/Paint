@@ -20,6 +20,9 @@ public class WebServerHandler {
 	private final String LOCAL_HOST_IP_ADDR = "localhost";
 	private final InetSocketAddress WEB_ADDRESS = new InetSocketAddress(DEVICE_IP_ADDR,8080);
 	private final String INITIAL_PROJECT_PATH = System.getProperty("user.home") + "/.paint/projects";
+	private final String DEFAULT_PROTOCOL = "http";
+	private final String DEFAULT_PORT = "8080";
+
 	private HttpServer server;
 	private FileHandler fileHandler;
 	private InfoController infoController;
@@ -66,7 +69,7 @@ public class WebServerHandler {
 			// Update status icon
 			this.infoController.getWebserverStatusIcon().setIconLiteral(CHECKMARK_ICON);
 			// update link
-			this.infoController.getWebserverStatusLink().setText("http://" + DEVICE_IP_ADDR.getHostAddress() + ":8080");
+			this.infoController.getWebserverStatusLink().setText(getDefaultServerURL());
 		}
 
 		if (fileHandler == null) {
@@ -94,6 +97,14 @@ public class WebServerHandler {
 			// update link
 			this.infoController.getWebserverStatusLink().setText("Web service is offline.");
 		}
+	}
+
+	public String formatURL (String protocol, String port) {
+		return protocol + "://" + DEVICE_IP_ADDR.getHostAddress() + ":" + port;
+	}
+
+	public String getDefaultServerURL() {
+		return formatURL(DEFAULT_PROTOCOL, DEFAULT_PORT);
 	}
 
 	public InfoController getInfoController() {
