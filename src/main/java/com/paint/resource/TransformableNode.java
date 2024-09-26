@@ -49,9 +49,11 @@ public class TransformableNode extends Group {
 
 		Pane parentPane = this.canvasController.getDrawingPane();
 
-		parentPane.getScene().setOnKeyPressed(this::handleKeyPress);
-		// Translation handler (XY Movement) SECTION START
+		if (parentPane.getScene() != null) {
+			parentPane.getScene().setOnKeyPressed(this::handleKeyPress);
+		}
 
+		// Translation handler (XY Movement) SECTION START
 		parentPane.setOnMousePressed(this::handleMousePressed);
 
 		this.setOnMouseDragged(dragEvent -> {
@@ -98,7 +100,9 @@ public class TransformableNode extends Group {
 		this.setOnKeyPressed(null);
 
 		parentPane.setOnMousePressed(null);
-		parentPane.getScene().setOnKeyPressed(null);
+		if (parentPane.getScene() != null) {
+			parentPane.getScene().setOnKeyPressed(null);
+		}
 		// Remove selectionRectangle
 		if (this.getChildren().contains(selectionRect)) {
 			this.getChildren().remove(selectionRect);
