@@ -6,7 +6,7 @@ import com.paint.model.CanvasModel;
 import com.paint.model.HelpAboutModel;
 import com.paint.model.SettingStateModel;
 import com.paint.resource.AutoSave;
-import com.paint.resource.WebServerHandler;
+import com.paint.handler.WebServerHandler;
 import com.paint.resource.Workspace;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;

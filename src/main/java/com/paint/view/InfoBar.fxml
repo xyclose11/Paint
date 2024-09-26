@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.collections.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import java.lang.String?>
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 
-<HBox maxHeight="35.0" minHeight="14" prefHeight="35.0" prefWidth="1186.0" spacing="200" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.InfoController">
+<?import org.kordamp.ikonli.javafx.FontIcon?>
+<HBox maxHeight="35.0" minHeight="14" prefHeight="35.0" prefWidth="1399.0" spacing="150" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.InfoController">
 
-    <HBox spacing="20">
+    <HBox prefHeight="35.0" prefWidth="800.0" spacing="20">
         <Label fx:id="mousePosLbl" text="Mouse POS">
             <tooltip>
                 <Tooltip text="Current XY location of the mouse" />
@@ -32,6 +40,24 @@
                 <Tooltip text="Current Line Width" />
             </tooltip>
         </Label>
+      <Separator orientation="VERTICAL" prefHeight="200.0" />
+      <HBox>
+         <children>
+            <Hyperlink fx:id="webserverStatusLink" alignment="CENTER" prefHeight="23.0" prefWidth="200.0" text="WebServer Status">
+               <tooltip>
+                  <Tooltip text="Pain(t) will automatically host the currently saved file on this devices IP address. Press this link to access." />
+               </tooltip>
+            </Hyperlink>
+            <Label fx:id="webserverStatusLabel" text="">
+                <graphic>
+                    <FontIcon fx:id="webserverStatusIcon" id="webserverStatusIcon" fontSmoothingType="LCD" iconLiteral="fltfal-checkmark-16" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                </graphic>
+               <HBox.margin>
+                  <Insets right="5.0" />
+               </HBox.margin>
+            </Label>
+         </children>
+      </HBox>
         <HBox.margin>
             <Insets bottom="0.0" left="5.0" right="0.0" top="0.0" />
         </HBox.margin>
@@ -40,7 +66,7 @@
         <!-- Used to space out the content to the sides -->
     </HBox>
 
-    <HBox spacing="20">
+    <HBox prefHeight="35.0" prefWidth="600" spacing="20">
       <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
          <children>
             <ToggleButton disable="true" mnemonicParsing="false" text="Fit" />

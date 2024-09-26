@@ -1,16 +1,19 @@
 package com.paint.controller;
 
-import com.paint.model.CanvasModel;
+import com.paint.handler.WebServerHandler;
 import com.paint.handler.WorkspaceHandler;
+import com.paint.model.CanvasModel;
 import com.paint.model.InfoCanvasModel;
 import com.paint.model.PaintStateModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 public class InfoController {
 	@FXML
@@ -22,7 +25,16 @@ public class InfoController {
 	@FXML
     public Label lineWidthLbl;
 
-    @FXML
+	@FXML
+	public Label webserverStatusLabel;
+
+	@FXML
+	public FontIcon webserverStatusIcon;
+
+	@FXML
+	public Hyperlink webserverStatusLink;
+
+	@FXML
 	private Label resolutionLbl;
 
 	@FXML
@@ -42,6 +54,16 @@ public class InfoController {
 	private PaintStateModel paintStateModel;
 
 	private WorkspaceHandler workspaceHandler;
+
+	private WebServerHandler webServerHandler;
+
+	public WebServerHandler getWebServerHandler() {
+		return webServerHandler;
+	}
+
+	public void setWebServerHandler(WebServerHandler webServerHandler) {
+		this.webServerHandler = webServerHandler;
+	}
 
 	public WorkspaceHandler getCurrentWorkspaceModel() {
 		return workspaceHandler;
@@ -123,4 +145,37 @@ public class InfoController {
 		canvasGroup.setScaleY(newZoomScale);
 	}
 
+	private void handleLinkMouseClick(MouseEvent mouseEvent) {
+
+	}
+
+	@FXML
+	public void initialize() {
+		// setup webServer hyperlink listeners
+		this.webserverStatusLink.setOnMouseClicked(this::handleLinkMouseClick);
+	}
+
+	public Label getWebserverStatusLabel() {
+		return webserverStatusLabel;
+	}
+
+	public void setWebserverStatusLabel(Label webserverStatusLabel) {
+		this.webserverStatusLabel = webserverStatusLabel;
+	}
+
+	public Hyperlink getWebserverStatusLink() {
+		return webserverStatusLink;
+	}
+
+	public void setWebserverStatusLink(Hyperlink webserverStatusLink) {
+		this.webserverStatusLink = webserverStatusLink;
+	}
+
+	public FontIcon getWebserverStatusIcon() {
+		return webserverStatusIcon;
+	}
+
+	public void setWebserverStatusIcon(FontIcon webserverStatusIcon) {
+		this.webserverStatusIcon = webserverStatusIcon;
+	}
 }

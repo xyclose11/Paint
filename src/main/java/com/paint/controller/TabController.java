@@ -1,5 +1,6 @@
 package com.paint.controller;
 
+import com.paint.handler.WebServerHandler;
 import com.paint.handler.WorkspaceHandler;
 import com.paint.model.*;
 import com.paint.resource.Workspace;
@@ -20,6 +21,7 @@ public class TabController {
 	private InfoCanvasModel infoCanvasModel;
 	private SettingStateModel settingStateModel;
 	private WorkspaceHandler workspaceHandler;
+	private WebServerHandler webServerHandler;
 
 	@FXML
 	public TabPane fileTabPane;
@@ -56,7 +58,6 @@ public class TabController {
 		HBox canvasView = this.canvasModel.getCanvasView();
 
 		Workspace workspace = new Workspace(canvasView, true, paintStateModel, infoCanvasModel, settingStateModel, tabModel);
-//		workspace.createTempFile();
 		// Set the current workspace in focus
 		this.workspaceHandler.setCurrentWorkspace(workspace);
 
@@ -82,6 +83,8 @@ public class TabController {
 		tabPane.getSelectionModel().select(newTab);
 
 		this.tabModel.setNewTab(newTab);
+
+		this.webServerHandler.updateCurrentFile(null);
 	}
 
 	// TAB Handler SECTION END
@@ -125,4 +128,11 @@ public class TabController {
 
 	public Button getAddNewFileTabBtn() { return this.addNewFileTabBtn; }
 
+	public WebServerHandler getWebServerHandler() {
+		return webServerHandler;
+	}
+
+	public void setWebServerHandler(WebServerHandler webServerHandler) {
+		this.webServerHandler = webServerHandler;
+	}
 }

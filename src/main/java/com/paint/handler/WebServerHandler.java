@@ -1,5 +1,6 @@
-package com.paint.resource;
+package com.paint.handler;
 
+import com.paint.controller.InfoController;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
@@ -21,6 +22,11 @@ public class WebServerHandler {
 	private final String INITIAL_PROJECT_PATH = System.getProperty("user.home") + "/.paint/projects";
 	private HttpServer server;
 	private FileHandler fileHandler;
+	private InfoController infoController;
+
+	private final String CHECKMARK_ICON = "fltfal-checkmark-16";
+	private final String DISMISS_ICON = "fltfal-dismiss-16";
+
 
 	public WebServerHandler() throws UnknownHostException {
 	}
@@ -53,6 +59,16 @@ public class WebServerHandler {
 	 * @param file a {File} object
 	 * */
 	public void updateCurrentFile(File file) {
+		if (file == null) {
+			this.infoController.getWebserverStatusIcon().setIconLiteral(DISMISS_ICON);
+			this.infoController.getWebserverStatusLink().setText("Web service offline");
+		} else {
+			// Update status icon
+			this.infoController.getWebserverStatusIcon().setIconLiteral(CHECKMARK_ICON);
+			// update link
+			this.infoController.getWebserverStatusLink().setText("http://" + DEVICE_IP_ADDR.getHostAddress() + ":8080");
+		}
+
 		if (fileHandler == null) {
 			return;
 		}
@@ -71,7 +87,21 @@ public class WebServerHandler {
 	 * Stops the HttpServer after a 2-second delay
 	 */
 	public void stopHttpServer() {
-		this.server.stop(2);
+		this.server.stop(0);
+		if (this.infoController != null) {
+			// Update status icon
+			this.infoController.getWebserverStatusIcon().setIconLiteral(DISMISS_ICON);
+			// update link
+			this.infoController.getWebserverStatusLink().setText("Web service is offline.");
+		}
+	}
+
+	public InfoController getInfoController() {
+		return infoController;
+	}
+
+	public void setInfoController(InfoController infoController) {
+		this.infoController = infoController;
 	}
 }
 

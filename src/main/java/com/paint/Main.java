@@ -5,7 +5,7 @@ import com.paint.handler.SelectionHandler;
 import com.paint.handler.WorkspaceHandler;
 import com.paint.model.*;
 import com.paint.resource.AutoSave;
-import com.paint.resource.WebServerHandler;
+import com.paint.handler.WebServerHandler;
 import com.paint.resource.Workspace;
 import javafx.application.Application;
 import javafx.event.EventHandler;
@@ -107,6 +107,8 @@ public class Main extends Application {
 		FXMLLoader fontToolBarLoader = new FXMLLoader(getClass().getResource("/view/FontToolBar.fxml"));
 		toolMenuController.setFontToolBarLoader(fontToolBarLoader);
 
+		webServerHandler.setInfoController(infoController);
+
 		workspaceHandler.setSettingStateModel(settingStateModel);
 		workspaceHandler.setInfoCanvasModel(infoCanvasModel);
 		workspaceHandler.setTabModel(tabModel);
@@ -130,6 +132,7 @@ public class Main extends Application {
 		tabController.setInfoCanvasModel(infoCanvasModel);
 		tabController.setSettingStateModel(settingStateModel);
 		tabController.setCurrentWorkspaceModel(workspaceHandler);
+		tabController.setWebServerHandler(webServerHandler);
 
 		autoSaveService.setUtilityController(utilityController);
 		utilityController.setAutoSave(autoSaveService);
