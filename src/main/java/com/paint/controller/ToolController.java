@@ -19,6 +19,12 @@ import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeType;
 import javafx.stage.Modality;
 
+/**
+ * This class controls general tools, -> Eraser, Color Grabber, and the Text Tool
+ *
+ * NOTE: Currently working on integrating more functionality for remaining tools into ToolController
+ * @since 1.3
+ * */
 public class ToolController {
     private PaintStateModel paintStateModel;
     private GraphicsContext graphicsContext;

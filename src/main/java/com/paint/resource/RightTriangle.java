@@ -2,6 +2,12 @@ package com.paint.resource;
 
 import java.util.Arrays;
 
+/**
+ * This class extends Triangle to add very cool and awesome trigonometry things to ensure
+ * that the less superior 'right-triangle' triangle will conform to their math laws
+ *
+ * @since 1.2
+ * */
 public class RightTriangle extends Triangle {
 
 	public RightTriangle(double x1, double x2, double x3, double y1, double y2, double y3) {

@@ -2,6 +2,12 @@ package com.paint.model;
 
 import com.paint.resource.AutoSave;
 
+/**
+ * This model stores the state of setting related values
+ *
+ * @deprecated This model is currently being phased out due to a lack of applicable settings that would not fall under another model
+ * @since 1.2
+ * */
 public class SettingStateModel {
     final long INITIAL_AUTOSAVE_INTERVAL = 10; // 10 minutes
 

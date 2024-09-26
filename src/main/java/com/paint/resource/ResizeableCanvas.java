@@ -2,6 +2,12 @@ package com.paint.resource;
 
 import javafx.scene.canvas.Canvas;
 
+/**
+ * This class extends JavaFX 22 Canvas to override and add methods that will allow for resize
+ * operations.
+ *
+ * @since 1.1
+ * */
 public class ResizeableCanvas extends Canvas {
 
 	public ResizeableCanvas() {

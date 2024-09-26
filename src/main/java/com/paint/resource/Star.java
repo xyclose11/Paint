@@ -2,7 +2,17 @@ package com.paint.resource;
 
 import javafx.scene.shape.Polygon;
 
-// Source: https://martiancraft.com/blog/2017/03/geometry-of-stars/
+/**
+ * This class extends Polygon and uses a bunch of confusing math concepts that I probably
+ * should have remembered from trigonometry, but at the time I decided that I surely
+ * would never need to know how to mathematically calculate the points for a star? Right?
+ *
+ * NOTE: The star is in fact off centered. Trust me. I know.
+ *
+ * Source: https://martiancraft.com/blog/2017/03/geometry-of-stars/
+ *
+ * @since 1.2
+ * */
 public class Star extends Polygon {
     public Star(double centerX, double centerY, double radius) {
         super();

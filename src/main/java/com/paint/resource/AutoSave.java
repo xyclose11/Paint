@@ -20,7 +20,7 @@ public class AutoSave {
     }
 
     /**
-     * This method instantiates a new ScheduledService<Void> object, which creates a new task called 'createTask'.
+     * This method instantiates a new ScheduledService object, which creates a new task called 'createTask'.
      * This task is responsible for invoking the method from the UtilityController to save the current working file.
      *
      * */

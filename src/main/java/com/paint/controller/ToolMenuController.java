@@ -16,6 +16,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.text.DecimalFormat;
 
+/**
+ * This class controls the UI state of the ToolMenu
+ * */
 public class ToolMenuController {
     @FXML
     public ToggleButton toggleEraser;

@@ -6,6 +6,11 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Slider;
 
+/**
+ * This class handles the UI state for the Auto Save Timer
+ *
+ * @since 1.5
+ * */
 public class AutoSaveController {
 	@FXML
 	public ButtonType autoSaveSettingsApplyBtn;

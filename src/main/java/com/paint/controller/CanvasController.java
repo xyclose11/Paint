@@ -30,6 +30,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
+/**
+ * This class is responsible for handling the UI state of a canvas
+ *
+ * NOTE: This is where objects/Nodes are applied to the canvas for further use
+ * @since 1.0
+ * */
 public class CanvasController {
     @FXML
     public HBox canvasContainer;
@@ -123,11 +129,6 @@ public class CanvasController {
             canvasModel.setCanvasHeight(mainCanvas.getHeight());
         }
     }
-
-    // RESIZE CANVAS HANDLERS START
-
-    // RESIZE CANVAS HANDLERS END
-
 
     // DRAWING EVENT HANDLERS SECTION START
     // stores the mouse starting POS

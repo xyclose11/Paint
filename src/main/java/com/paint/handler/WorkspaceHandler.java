@@ -10,6 +10,16 @@ import javafx.scene.Scene;
 import java.io.File;
 import java.util.HashMap;
 
+/**
+ * This class is responsible for Handling all the Workspace instances in the application.
+ *
+ * This is primarily used for the 'Tab' feature
+ *
+ * NOTE: All workspaces are held within the HashMap data structure for quick lookup
+ *
+ *
+ * @since 1.3
+ * */
 public class WorkspaceHandler {
 	// Store models for new file creation
 	private TabModel tabModel;

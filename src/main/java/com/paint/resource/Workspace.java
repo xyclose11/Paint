@@ -18,6 +18,8 @@ import java.util.Stack;
  * user to have multiple projects open simultaneously with their own respective
  * undo and redo features.
  * Each Workspace requires its own unique CanvasModel and CanvasController
+ *
+ * @since 1.4
  * */
 public class Workspace {
 	private final Stack<WritableImage> undoStack = new Stack<>();

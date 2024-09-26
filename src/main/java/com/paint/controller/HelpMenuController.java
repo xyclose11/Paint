@@ -13,6 +13,12 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+
+/**
+ * This class is used to handle the UI state for the settings view
+ *
+ * @since 1.1
+ * */
 public class HelpMenuController {
 
     @FXML

@@ -2,6 +2,12 @@ package com.paint.resource;
 
 import javafx.scene.shape.Polygon;
 
+
+/**
+ * This class extends Polygon to enforce an 'equilateral' triangle shape.
+ *
+ * @since 1.3
+ * */
 public class Triangle extends Polygon {
 	private double x1;
 	private double x2;

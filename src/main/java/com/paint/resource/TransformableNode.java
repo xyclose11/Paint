@@ -17,6 +17,15 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeType;
 
+
+/**
+ * This class extends Group and allows any JavaFX 22 Node to be Transformable.
+ *
+ * NOTE: Transformable in this application currently only supports:
+ * - Translation ((X,Y) Movement)
+ *
+ * @since 1.5
+ * */
 public class TransformableNode extends Group {
 	private Node originalNode;
 	private Rectangle selectionRect;
@@ -26,7 +35,10 @@ public class TransformableNode extends Group {
 	private double startY;
 	private final CanvasController canvasController;
 
-	// creates a transformableNode around a previous node
+	/**
+	 *
+	 * @param node currently supported Nodes include, extensions from Shape, TextArea, Canvas, Selection
+	 * */
 	public TransformableNode(Node node, WorkspaceHandler workspaceHandler) {
 		super(node);
 		this.originalNode = node;
@@ -42,6 +54,13 @@ public class TransformableNode extends Group {
 		}
 	}
 
+	/**
+	 * This method enables Transformations on a TransformableNode, which allows the user to interact with the Node via
+	 * transformations.
+	 *
+	 * NOTE: This method does setup multiple Events, which get removed at the end of the TransformableNodes'
+	 * lifecycle
+	 * */
 	public void enableTransformations() {
 		if (!isTransformable) {
 			return;
@@ -63,11 +82,7 @@ public class TransformableNode extends Group {
 		});
 
 		this.workspaceHandler.getPaintStateModel().setCurrentShape(this);
-
 		// Translation handler (XY Movement) SECTION END
-
-		// Resize handler SECTION START
-		// Resize handler SECTION END
 	}
 
 	private void handleMousePressed(MouseEvent mouseEvent) {
@@ -90,6 +105,14 @@ public class TransformableNode extends Group {
 
 	}
 
+	/**
+	 * This method exits a given TransformableNode from Transformation-Mode.
+	 * This removes all event listeners and handlers that were added in the 'enableTransformations' method.
+	 * Also removes the Selection-Rectangle (Dashed outline), unbinds properties, and calls appropriate
+	 * methods to apply the Node to the canvas based on its original node type
+	 *
+	 * NOTE: This method enables the event listeners in the current workspaces' canvasController instance
+	 * */
 	public void exitTransformMode() {
 		isTransformable = false;
 		Pane parentPane = this.canvasController.getDrawingPane();
@@ -191,10 +214,17 @@ public class TransformableNode extends Group {
 		});
 	}
 
+	/**
+	 * This method determines whether the Original Node (Node passed when first creating the
+	 * TransformableNode) is an instance of the 'Shape' class
+	 *
+	 * @return boolean True if the original node is a shape, False otherwise
+	 * */
 	public boolean isShape() {
 		// Check if originalNode is a shape
         return originalNode instanceof Shape;
 	}
+
 	public Node getOriginalNode() {
 		return originalNode;
 	}
@@ -211,11 +241,19 @@ public class TransformableNode extends Group {
 		isTransformable = transformable;
 	}
 
+	/**
+	 * This method takes the TransformableNodes' startX and {@code translateX()} and returns the SUM
+	 * @return the combination of StartX + TranslateX
+	 * */
 	public double getTranslatedX () {
 		double x = this.getTranslateX() + this.startX;
 		return x;
 	}
 
+	/**
+	 * This method takes the TransformableNodes' startY and {@code translateY()} and returns the SUM
+	 * @return the combination of StartY + TranslateY
+	 * */
 	public double getTranslatedY () {
 		double y = this.getTranslateY() + this.startY;
 		return y;

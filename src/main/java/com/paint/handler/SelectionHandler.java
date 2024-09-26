@@ -18,7 +18,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 
-// Defaults to rect selection // Disregard 'free-form' version
+/**
+ * This class is responsible for handling the 'Selection' and 'Paste' features.
+ *
+ * NOTE: Defaults to rect selection // Disregard 'free-form' version
+ * */
 public class SelectionHandler {
 	private Group canvasGroup;
 	private Canvas canvas;
@@ -45,6 +49,12 @@ public class SelectionHandler {
 
 	private double startX, startY;
 
+	/**
+	 * This method creates a new SelectionRectangle at the current mouse (X, Y) position
+	 *
+	 * @param x x position on current canvas
+	 * @param y y position on current canvas
+	 * */
 	public void handleSelectionPressed(double x, double y) {
 		// Save starting x,y
 		startX = x;
@@ -55,6 +65,15 @@ public class SelectionHandler {
 		this.drawingPane.getChildren().add(selectionRect);
 	}
 
+	/**
+	 * This method creates a 'live-preview' for when the User is moving their mouse
+	 *
+	 * NOTE: This has duplicate code from CanvasController -> create Rectangle. I am working to
+	 * create a ShapeManager that will handle all shapes to reduce duplication
+	 *
+	 * @param curX current X position on canvas
+	 * @param curY current Y position on canvas
+	 * */
 	public void handleSelectionDragged(double curX, double curY) {
 		applySelectionRectAttributes(selectionRect);
 		/*
@@ -88,6 +107,11 @@ public class SelectionHandler {
 		}
 	}
 
+	/**
+	 * This method handles the release of a user defined selection.
+	 *
+	 * @param workspaceHandler requires WorkspaceHandler for ability to apply selection
+	 * */
 	public void handleSelectionReleased(WorkspaceHandler workspaceHandler) {
 		// On release transfer everything inside the rect into a new draggable rect
 		WritableImage image = new WritableImage((int) canvas.getWidth(), (int) canvas.getHeight());

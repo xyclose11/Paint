@@ -10,7 +10,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
 
-// Hold info about currently selected brush, image, color, shape, etc. settings.
+/**
+ * This Model holds information about the current state of the selected brush, image, color, line-width, shape, {@code transformableNode} etc.
+ *
+ * The model is then used in situations where the 'state' of the users actions is required to be modified.
+ *
+ * @since 1.1
+ */
 public class PaintStateModel {
 	// Constant default values START
 	final String INITIAL_TOOL = "StLine";
@@ -37,9 +43,6 @@ public class PaintStateModel {
 	private WorkspaceHandler workspaceHandler;
 	private InfoCanvasModel infoCanvasModel;
 	private ImageView imageView;
-
-    private double startX;
-    private double startY;
 
 	public PaintStateModel() {
 		this.currentBrush = new BrushObj();
@@ -133,7 +136,6 @@ public class PaintStateModel {
 	}
 
 	public void setCurrentBrush(String currentBrush) {
-		// TODO add validation for the brush type
 		this.currentBrush.setBrushType(currentBrush);
 	}
 

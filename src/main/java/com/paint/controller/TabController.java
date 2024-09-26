@@ -14,6 +14,11 @@ import javafx.scene.layout.HBox;
 
 import java.io.IOException;
 
+/**
+ *
+ * This class is responsible for controlling the UI related to 'Tabs'
+ * @since 1.4
+ * */
 public class TabController {
 	private TabModel tabModel;
 	private CanvasModel canvasModel;
@@ -47,9 +52,16 @@ public class TabController {
 		createNewTab();
 	}
 
+	/**
+	 * This method creates a new tab, adds it to the tabPane, and sets applicable event handlers
+	 *
+	 * @throws IOException
+	 * */
 	public void createNewTab() throws IOException {
 		TabPane tabPane = this.tabModel.getTabPane();
 		Tab newTab = new Tab("New File");
+
+		// TODO split this up into multiple methods i.e. 1.) Create new Tab 2. set events 3. tabPane stuff etc.
 
 		newTab.setOnCloseRequest(closeEvent -> {
 			this.workspaceHandler.getWorkspaceList().remove(tabPane.getTabs().size() - 1);

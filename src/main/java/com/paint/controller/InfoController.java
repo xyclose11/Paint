@@ -20,6 +20,11 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+
+/**
+ * This class is used to control the UI state of the bottom most 'information-bar'
+ * @since 1.0
+ * */
 public class InfoController {
 	@FXML
 	public ComboBox<String> infoBarZoomCB;

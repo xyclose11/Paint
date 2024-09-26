@@ -29,6 +29,11 @@ import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 
+/**
+ * This class handles all File related operations (Save, Save-As, Open, etc.)
+ *
+ * @since 1.0
+ * */
 public class UtilityController {
 	private final String DEFAULT_DIRNAME = ".paint/projects";
 	private final String DEFAULT_ROOT_NAME = "user.home";

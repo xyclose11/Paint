@@ -5,6 +5,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 
+/**
+ * This class controls the Line Width view when a user has either the 'brush' or 'eraser' tool selected
+ *
+ * NOTE: This class loads a new instance of the same FXML file on each load
+ * @since 1.1
+ * */
 public class LineWidthController {
 	private PaintStateModel paintStateModel;
 

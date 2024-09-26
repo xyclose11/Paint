@@ -3,6 +3,11 @@ package com.paint.model;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 
+/**
+ * This model stores the state of Tab related values.
+ *
+ * @since 1.3
+ * */
 public class TabModel {
     private TabPane tabPane;
     private Tab newTab;

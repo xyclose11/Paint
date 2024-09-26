@@ -8,7 +8,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 
-// Model to hold canvas information
+/**
+ * This model holds the state of canvas related values, such as Canvas Height, Canvas Width,
+ * the CanvasView (FXML), and the state of changes made
+ *
+ * @since 1.1
+ * */
 public class CanvasModel {
     private final DoubleProperty canvasWidth = new SimpleDoubleProperty();
     private final DoubleProperty canvasHeight = new SimpleDoubleProperty();
