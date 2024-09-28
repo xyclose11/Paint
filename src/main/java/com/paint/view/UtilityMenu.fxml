@@ -23,7 +23,7 @@
                      <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                   </accelerator>
                </MenuItem>
-                  <MenuItem fx:id="SaveUtilityMenu" onAction="#handleFileSave" text="Save">
+                  <MenuItem fx:id="SaveUtilityMenu" onAction="#saveCurrentWorkspaceToFile" text="Save">
                   <accelerator>
                      <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                   </accelerator>

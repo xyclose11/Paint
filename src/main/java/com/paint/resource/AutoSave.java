@@ -32,7 +32,7 @@ public class AutoSave {
                     @Override
                     protected Void call() throws Exception {
                         utilityController.startAutoSaveTimer();
-                        utilityController.handleFileSave(null);
+                        utilityController.saveCurrentWorkspaceToFile(null);
                         return null;
                     }
                 };

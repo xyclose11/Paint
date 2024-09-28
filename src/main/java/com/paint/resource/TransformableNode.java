@@ -57,7 +57,6 @@ public class TransformableNode extends Group {
 	/**
 	 * This method enables Transformations on a TransformableNode, which allows the user to interact with the Node via
 	 * transformations.
-	 *
 	 * NOTE: This method does setup multiple Events, which get removed at the end of the TransformableNodes'
 	 * lifecycle
 	 * */
@@ -110,7 +109,6 @@ public class TransformableNode extends Group {
 	 * This removes all event listeners and handlers that were added in the 'enableTransformations' method.
 	 * Also removes the Selection-Rectangle (Dashed outline), unbinds properties, and calls appropriate
 	 * methods to apply the Node to the canvas based on its original node type
-	 *
 	 * NOTE: This method enables the event listeners in the current workspaces' canvasController instance
 	 * */
 	public void exitTransformMode() {
@@ -127,9 +125,8 @@ public class TransformableNode extends Group {
 			parentPane.getScene().setOnKeyPressed(null);
 		}
 		// Remove selectionRectangle
-		if (this.getChildren().contains(selectionRect)) {
-			this.getChildren().remove(selectionRect);
-		}
+        this.getChildren().remove(selectionRect);
+
 		// Convert shape -> canvas
 		// Check if current object is a shape
 

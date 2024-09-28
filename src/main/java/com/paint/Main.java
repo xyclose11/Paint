@@ -281,7 +281,7 @@ public class Main extends Application {
 					}
 					if (Objects.equals(alertResult.getText(), "Save")) { // Save file
 						try {
-							utilityController.handleFileSave(null);
+							utilityController.saveCurrentWorkspaceToFile(null);
 						} catch (IOException e) {
 							throw new RuntimeException(e);
 						}
