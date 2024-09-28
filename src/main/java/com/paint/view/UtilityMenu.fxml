@@ -57,7 +57,7 @@
          <HBox prefHeight="32.0" prefWidth="155.0" HBox.hgrow="SOMETIMES">
             <children>
                <Separator orientation="VERTICAL" prefHeight="32.0" prefWidth="16.0" />
-                <Button id="utilityBarIconBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleFileSave">
+                <Button id="utilityBarIconBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#saveCurrentWorkspaceToFile">
                     <graphic>
                         <FontIcon id="utilityBarIconBtn" fontSmoothingType="LCD" iconLiteral="fltrmz-save-20" iconSize="22" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                     </graphic>

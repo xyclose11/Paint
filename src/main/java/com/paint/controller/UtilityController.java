@@ -1,6 +1,7 @@
 package com.paint.controller;
 
 
+import com.paint.handler.NotificationsHandler;
 import com.paint.handler.WebServerHandler;
 import com.paint.handler.WorkspaceHandler;
 import com.paint.model.CanvasModel;
@@ -53,6 +54,7 @@ public class UtilityController {
 	private AutoSave autoSave;
 	private WorkspaceHandler workspaceHandler;
 	private WebServerHandler webServerHandler;
+	private NotificationsHandler notificationsHandler;
 
 	@FXML
 	private void handleFileOpen(ActionEvent event) throws IOException {
@@ -67,10 +69,10 @@ public class UtilityController {
 
 		try  {
 			loadImageAndUpdateWorkspace(selectedFile);
+			notificationsHandler.showFileOpenedNotification(selectedFile.getName(), this.workspaceHandler.getCurrentScene().getWindow());
 		} catch (IOException e) {
 			showErrorAlert("Unable to load image: ERROR: " + e.getMessage());
 		}
-
 	}
 
 	private File openFileChooser(String title) {
@@ -466,5 +468,13 @@ public class UtilityController {
 
 	public void setCurrentWorkspaceModel(WorkspaceHandler workspaceHandler) {
 		this.workspaceHandler = workspaceHandler;
+	}
+
+	public NotificationsHandler getNotificationsHandler() {
+		return notificationsHandler;
+	}
+
+	public void setNotificationsHandler(NotificationsHandler notificationsHandler) {
+		this.notificationsHandler = notificationsHandler;
 	}
 }

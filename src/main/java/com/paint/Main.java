@@ -1,6 +1,7 @@
 package com.paint;
 
 import com.paint.controller.*;
+import com.paint.handler.NotificationsHandler;
 import com.paint.handler.SelectionHandler;
 import com.paint.handler.WebServerHandler;
 import com.paint.handler.WorkspaceHandler;
@@ -35,7 +36,7 @@ public class Main extends Application {
 	private final TabModel tabModel = new TabModel();
 	private final WorkspaceHandler workspaceHandler = new WorkspaceHandler();
 	private final SelectionHandler selectionHandler = new SelectionHandler();
-
+	private final NotificationsHandler notificationsHandler = new NotificationsHandler();
 	// Threading
 	private final AutoSave autoSaveService = new AutoSave();
 
@@ -86,6 +87,7 @@ public class Main extends Application {
 
 		UtilityController utilityController = utilityMenuLoader.getController();
 		utilityController.setCurrentWorkspaceModel(workspaceHandler);
+		utilityController.setNotificationsHandler(notificationsHandler);
 
 		// Set bottom
 		FXMLLoader infoBarLoader = new FXMLLoader(getClass().getResource("/view/InfoBar.fxml"));
