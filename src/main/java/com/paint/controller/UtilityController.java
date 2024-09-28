@@ -127,6 +127,8 @@ public class UtilityController {
 			return;
 		}
 
+		notificationsHandler.showFileSavedNotification(currentFile.getName(), workspaceHandler.getCurrentScene().getWindow());
+
 		try {
 			// uses threading to run save task concurrently to JavaFX thread
 			Platform.runLater(new Runnable() {
@@ -180,6 +182,8 @@ public class UtilityController {
 		String fileExt = getFileExt(file.get());
 		Workspace currentWorkspace = this.workspaceHandler.getCurrentWorkspace();
 
+		notificationsHandler.showFileSavedNotification(file.get().getName(), workspaceHandler.getCurrentScene().getWindow());
+
 		if (currentWorkspace.getWorkspaceFile() != null && !handleSaveAsDiffExt(fileExt)) { // file has been previously saved
 			return;
 		}
@@ -187,7 +191,6 @@ public class UtilityController {
 		currentWorkspace.getCanvasController().saveImageFromCanvas(file.get(), fileExt);
 		currentWorkspace.setWorkspaceFile(file.get());
 		webServerHandler.updateCurrentFile(file.get());
-
 	}
 
 	private void showInfoAlert(String message) {
