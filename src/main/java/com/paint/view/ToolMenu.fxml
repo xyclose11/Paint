@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.collections.*?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.input.*?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.*?>
-
-<HBox id="toolbarMainWrapper" minHeight="60.0" prefHeight="80.0" prefWidth="1007.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.ToolMenuController">
+<?import java.lang.*?>
+<HBox id="toolbarMainWrapper" minHeight="60.0" prefHeight="80.0" prefWidth="1007.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.ToolMenuController">
    <VBox id="SelectionVBoxTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
       <children>
          <VBox prefHeight="200.0" prefWidth="100.0">
             <children>
-                <ToggleButton fx:id="selection" id="selection" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateSelectionToolState">
+                <ToggleButton id="selection" fx:id="selection" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateSelectionToolState">
                     <graphic>
                         <FontIcon id="toolBarSelectionRadio" fontSmoothingType="LCD" iconLiteral="mdi2s-selection" iconSize="22" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                     </graphic>
@@ -46,9 +45,18 @@
    <HBox prefHeight="80.0" prefWidth="136.0">
       <children>
          <Separator orientation="VERTICAL" prefHeight="200.0" />
-         <VBox id="ImageSectionTB" alignment="CENTER" prefHeight="200.0" prefWidth="50.0">
+         <VBox id="ImageSectionTB" alignment="CENTER" prefHeight="80.0" prefWidth="123.0" spacing="10.0">
             <children>
-               <Label text="Image" />
+                <ChoiceBox fx:id="rotateCBToolMenu" prefWidth="80.0" value="Rotate">
+                    <items>
+                        <FXCollections fx:factory="observableArrayList">
+                            <String fx:value="90 Right"/>
+                            <String fx:value="90 Left"/>
+                            <String fx:value="180"/>
+                        </FXCollections>
+                    </items>
+                </ChoiceBox>
+               <ChoiceBox fx:id="mirrorCBToolMenu" prefWidth="80.0" />
             </children>
          </VBox>
       </children>
@@ -71,7 +79,7 @@
                   <children>
                      <ToggleButton contentDisplay="CENTER" disable="true" mnemonicParsing="false" text="ToggleButton" toggleGroup="$ToolSelect" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
                      <ToggleButton contentDisplay="CENTER" disable="true" layoutX="7.0" layoutY="8.0" mnemonicParsing="false" text="ToggleButton" toggleGroup="$ToolSelect" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                      <ToggleButton id="TextTool" contentDisplay="CENTER" layoutX="27.0" layoutY="8.0" mnemonicParsing="false" toggleGroup="$ToolSelect" onMouseClicked="#updateGeneralToolState" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                      <ToggleButton id="TextTool" contentDisplay="CENTER" layoutX="27.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#updateGeneralToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                           <tooltip>
                               <Tooltip text="Text (T)" />
                           </tooltip>

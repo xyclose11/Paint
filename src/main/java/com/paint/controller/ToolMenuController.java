@@ -3,6 +3,7 @@ package com.paint.controller;
 import com.paint.handler.WorkspaceHandler;
 import com.paint.model.PaintStateModel;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -29,7 +30,13 @@ public class ToolMenuController {
     @FXML
     public CheckBox dashCheckbox;
 
-    private WorkspaceHandler workspaceHandler;
+    @FXML
+	public ChoiceBox rotateCBToolMenu;
+
+    @FXML
+	public ChoiceBox mirrorCBToolMenu;
+
+	private WorkspaceHandler workspaceHandler;
     @FXML
     public ToggleButton selection;
 
@@ -212,6 +219,7 @@ public class ToolMenuController {
 
     @FXML
     public void initialize() {
+        rotateCBToolMenu.setOnAction(this::handleRotateEvent);
         // Add event listener to check if a tool that has the line width property is selected
         ToolSelect.selectedToggleProperty().addListener(((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -226,25 +234,27 @@ public class ToolMenuController {
 	                }
                 }
 
-                // Check for Text Tool selection -> show tool menu for Font
-                if (val.contains("TextTool")) {
-//                    // Load the FXML for the Font controls
-//                    try {
-////                        AnchorPane dialogPane = fontToolBarLoader.load();
-////                        Parent root = workspaceHandler.getCurrentScene().getRoot();
-//
-//                    } catch (IOException e) {
-//                        throw new RuntimeException(e);
-//                    }
-
-                }
-
                 // Hide Line Width Slider
                 hideLWSlider();
-
-
             }
         }));
+    }
+
+    private void handleRotateEvent(Event event) {
+        if (this.paintStateModel.getCurrentShape() == null) {
+            return;
+        }
+
+        
+        if (this.rotateCBToolMenu.getValue().toString().contains("Right")) {
+            this.paintStateModel.getCurrentShape().rotate90Right();
+        } else if (this.rotateCBToolMenu.getValue().toString().contains("Left")) {
+            this.paintStateModel.getCurrentShape().rotate90Left();
+        } else if (this.rotateCBToolMenu.getValue().toString().contains("180")) {
+            this.paintStateModel.getCurrentShape().rotate180();
+        }
+
+
     }
 
     @FXML

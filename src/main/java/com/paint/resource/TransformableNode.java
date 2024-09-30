@@ -182,33 +182,30 @@ public class TransformableNode extends Group {
 		selectionRect.setStrokeType(StrokeType.OUTSIDE);
 		selectionRect.toFront();
 
-		// TEST for the impl of other transformations (scale/resize, rotate, etc) | need to work out the event handlers
-//        Rectangle middleBox = new Rectangle();
-//        middleBox.xProperty().bind(selectionRect.xProperty().add(selectionRect.widthProperty().subtract(middleBox.widthProperty()).divide(2)));
-//        middleBox.yProperty().bind(selectionRect.yProperty());
-//        middleBox.setWidth(10);
-//        middleBox.setHeight(10);
-//
-//        middleBox.xProperty().addListener(((observable, oldValue, newValue) -> updateSelection(selectionRect, middleBox)));
-//        middleBox.yProperty().addListener(((observable, oldValue, newValue) -> updateSelection(selectionRect, middleBox)));
-//        middleBox.heightProperty().addListener(((observable, oldValue, newValue) -> updateSelection(selectionRect, middleBox)));
-//
-//        middleBox.setFill(Color.ORANGE);
-//        middleBox.setStroke(Color.ORANGE);
-//
-//        middleBox.setPickOnBounds(true);
-		// END TEST
-
-		// Setup mouse event handlers
-//        selectionRect.setOnMouseEntered(mouseEvent -> {
-//            selectionRect.setCursor(Cursor.H_RESIZE);
-//        });
-
 		this.getChildren().add(selectionRect);
 
 		this.setOnMouseEntered(mouseE -> {
 			this.setCursor(Cursor.MOVE);
 		});
+	}
+
+	public void rotate90Right() {
+		// get previous rotation
+		double prevRotation = this.getRotate();
+		this.setRotate(prevRotation + 90);
+	}
+
+	public void rotate90Left() {
+		double prevRotation = this.getRotate();
+		this.setRotate(prevRotation - 90);
+	}
+
+	public void rotate180() {
+		if (this.getRotate() == 180) {
+			this.setRotate(0);
+		} else {
+			this.setRotate(180);
+		}
 	}
 
 	/**
