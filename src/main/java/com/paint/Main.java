@@ -20,12 +20,16 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
 public class Main extends Application {
+
+	private static final Logger LOGGER = LogManager.getLogger(Main.class);
 
 	// Instantiate models for future use
 	private final CanvasModel canvasModel = new CanvasModel();
@@ -46,6 +50,14 @@ public class Main extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+
+		LOGGER.info("MAIN INFO");
+		LOGGER.trace("MAIN TRACE");
+		LOGGER.debug("MAIN DEBUG");
+		LOGGER.warn("MAIN WARN");
+		LOGGER.error("MAIN ERROR");
+		LOGGER.fatal("MAIN FATAL");
+
 		final WebServerHandler webServerHandler = new WebServerHandler();
 
 		final int INITIAL_RES_X = 1200; // Initial resolution vals

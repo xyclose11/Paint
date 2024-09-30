@@ -22,6 +22,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +39,7 @@ import java.util.Optional;
 public class UtilityController {
 	private final String DEFAULT_DIRNAME = ".paint/projects";
 	private final String DEFAULT_ROOT_NAME = "user.home";
+	private static final Logger LOGGER = LogManager.getLogger();
 
 	@FXML
 	public Button undoBtn;
@@ -58,6 +61,8 @@ public class UtilityController {
 
 	@FXML
 	private void handleFileOpen(ActionEvent event) throws IOException {
+		LOGGER.info("Started File Open");
+		LOGGER.warn("WARN");
 		File selectedFile = openFileChooser("Select Image");
 
 		if (selectedFile == null) {
@@ -72,7 +77,10 @@ public class UtilityController {
 			notificationsHandler.showFileOpenedNotification(selectedFile.getName(), this.workspaceHandler.getCurrentScene().getWindow());
 		} catch (IOException e) {
 			showErrorAlert("Unable to load image: ERROR: " + e.getMessage());
+			LOGGER.error("Unable to open file");
 		}
+
+		LOGGER.info("Finished File Open");
 	}
 
 	private File openFileChooser(String title) {
@@ -259,6 +267,9 @@ public class UtilityController {
 
 
 	public String getFileExt(File file) {
+		LOGGER.info("INFO HERE");
+		LOGGER.warn("WARN HERE");
+		LOGGER.error("ERROR HERE");
 		String filePath = file.getAbsolutePath();
 		if (filePath.lastIndexOf(".") == -1) { // no occurrence of '.' symbol
 			return "";
