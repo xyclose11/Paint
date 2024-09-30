@@ -551,6 +551,15 @@ public class CanvasController {
             maxY = shape.getBoundsInParent().getMaxY();
         }
 
+        double rotation = transformableNode.getRotate();
+        double centerX = (minX + maxX) / 2;
+        double centerY = (minY + maxY) / 2;
+
+        graphicsContext.save(); // Save the current state
+        graphicsContext.translate(centerX, centerY); // Move to the rotation center
+        graphicsContext.rotate(rotation); // Rotate around the center
+        graphicsContext.translate(-centerX, -centerY); // Move back to original position
+
         String currentTool = this.paintStateModel.getCurrentTool();
 
         switch (currentTool) {
@@ -620,6 +629,8 @@ public class CanvasController {
                 break;
         }
 
+        graphicsContext.restore();
+
         // Add shape creation to the undo stack on applied 2 canvas
         WritableImage writableImage = new WritableImage((int)(mainCanvas.getWidth()), (int) (mainCanvas.getHeight()));
         this.workspaceHandler.getCurrentWorkspace().getUndoStack().push(mainCanvas.snapshot(null, writableImage));
@@ -633,17 +644,35 @@ public class CanvasController {
     public void applySelectionToCanvas(ImageView selection) {
         Image image = selection.getImage();
 
+        double minX = selection.getBoundsInParent().getMinX();
+        double maxX = selection.getBoundsInParent().getMaxX();
+
+        double minY = selection.getBoundsInParent().getMinY();
+        double maxY = selection.getBoundsInParent().getMaxY();
+
         double x = selection.getX() + selection.getTranslateX();
         double y = selection.getY() + selection.getTranslateY();
 
+        double rotation = selection.getParent().getRotate();
+        double centerX = (minX + maxX) / 2;
+        double centerY = (minY + maxY) / 2;
+
+        graphicsContext.save(); // Save the current state
+        graphicsContext.translate(centerX, centerY); // Move to the rotation center
+        graphicsContext.rotate(rotation); // Rotate around the center
+        graphicsContext.translate(-centerX, -centerY); // Move back to original position
+
         // Reset GC settings
         this.selectionHandler.removeSelectionRectangle();
+
+        // Set canvas to the image
+        graphicsContext.drawImage(image, x, y);
+
+        graphicsContext.restore();
+
         graphicsContext.setLineDashes(0);
         graphicsContext.setStroke(Color.TRANSPARENT);
         graphicsContext.setFill(Color.TRANSPARENT);
-
-        // Set canvas to the image
-        mainCanvas.getGraphicsContext2D().drawImage(image, x, y);
 
         this.canvasModel.setChangesMade(true);
     }

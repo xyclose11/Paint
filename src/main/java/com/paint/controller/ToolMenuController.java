@@ -2,6 +2,7 @@ package com.paint.controller;
 
 import com.paint.handler.WorkspaceHandler;
 import com.paint.model.PaintStateModel;
+import com.paint.resource.TransformableNode;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -245,15 +246,15 @@ public class ToolMenuController {
             return;
         }
 
-        
-        if (this.rotateCBToolMenu.getValue().toString().contains("Right")) {
-            this.paintStateModel.getCurrentShape().rotate90Right();
-        } else if (this.rotateCBToolMenu.getValue().toString().contains("Left")) {
-            this.paintStateModel.getCurrentShape().rotate90Left();
-        } else if (this.rotateCBToolMenu.getValue().toString().contains("180")) {
-            this.paintStateModel.getCurrentShape().rotate180();
-        }
+        TransformableNode currentNode = this.paintStateModel.getCurrentShape();
 
+        if (this.rotateCBToolMenu.getValue().toString().contains("Right")) {
+            currentNode.rotate90Right();
+        } else if (this.rotateCBToolMenu.getValue().toString().contains("Left")) {
+            currentNode.rotate90Left();
+        } else if (this.rotateCBToolMenu.getValue().toString().contains("180")) {
+            currentNode.rotate180();
+        }
 
     }
 
