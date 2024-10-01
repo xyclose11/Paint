@@ -101,7 +101,7 @@ public class ResizeableCanvas extends Canvas {
 		WritableImage writableImage = new WritableImage((int)(this.getWidth()), (int) (this.getHeight()));
 		this.snapshot(null, writableImage);
 
-		this.getGraphicsContext2D().drawImage(writableImage, 0, 0, writableImage.getWidth(), writableImage.getHeight(), writableImage.getWidth(), 0, -writableImage.getWidth(), writableImage.getHeight());
+		this.getGraphicsContext2D().drawImage(writableImage, 0, 0, writableImage.getWidth(), writableImage.getHeight(), 0, writableImage.getHeight(), writableImage.getWidth(), -writableImage.getHeight());
 	}
 
 
