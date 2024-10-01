@@ -65,7 +65,7 @@ public class ResizeableCanvas extends Canvas {
 		double rotateAmount = (this.getRotate() + 90) % 360;
 		this.setRotate(rotateAmount);
 
-		adjustResolutionOnRotation();
+		//		adjustResolutionOnRotation();
 	}
 
 	public void rotate90Left() {
@@ -74,8 +74,7 @@ public class ResizeableCanvas extends Canvas {
 			rotateAmount += 360;
 		}
 		this.setRotate(rotateAmount);
-		adjustResolutionOnRotation();
-
+//		adjustResolutionOnRotation();
 	}
 
 	public void rotate180() {
@@ -84,13 +83,10 @@ public class ResizeableCanvas extends Canvas {
 	}
 
 	private void adjustResolutionOnRotation() {
-		double currentRotation = this.getRotate() % 360;
-		if (currentRotation % 180 == 90) { // Only adjust resolution for 90° or 270°
 			originalHeight = this.getHeight();
 			originalWidth = this.getWidth();
 			this.setWidth(originalHeight);
 			this.setHeight(originalWidth);
-		}
 	}
 
 
