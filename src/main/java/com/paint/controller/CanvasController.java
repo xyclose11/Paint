@@ -902,10 +902,7 @@ public class CanvasController {
     }
 
     public boolean isFileSavedRecently() throws IOException {
-        if (!this.canvasModel.isChangesMade()) {
-            return true;
-        }
-        return false;
+        return !this.canvasModel.isChangesMade();
     }
 
 

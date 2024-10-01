@@ -60,4 +60,19 @@ public class ResizeableCanvas extends Canvas {
 			this.setHeight(newHeight);
 		}
 	}
+
+	public void rotate90Right() {
+		double rotateAmount = this.getRotate() + 90;
+		this.setRotate(rotateAmount);
+	}
+
+	public void rotate90Left() {
+		double rotateAmount = this.getRotate() - 90;
+		this.setRotate(rotateAmount);
+	}
+
+	public void rotate180() {
+		double rotateAmount = this.getRotate() + 180;
+		this.setRotate(rotateAmount);
+	}
 }

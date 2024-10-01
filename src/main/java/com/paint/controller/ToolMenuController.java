@@ -2,9 +2,9 @@ package com.paint.controller;
 
 import com.paint.handler.WorkspaceHandler;
 import com.paint.model.PaintStateModel;
+import com.paint.resource.ResizeableCanvas;
 import com.paint.resource.TransformableNode;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -37,7 +38,19 @@ public class ToolMenuController {
     @FXML
 	public ChoiceBox mirrorCBToolMenu;
 
-	private WorkspaceHandler workspaceHandler;
+    @FXML
+    public MenuItem rotateMenuItemRight;
+
+    @FXML
+    public MenuButton rotateMenu;
+
+    @FXML
+    public MenuItem rotateMenuItemLeft;
+
+    @FXML
+    public MenuItem rotateMenuItem180;
+
+    private WorkspaceHandler workspaceHandler;
     @FXML
     public ToggleButton selection;
 
@@ -220,7 +233,9 @@ public class ToolMenuController {
 
     @FXML
     public void initialize() {
-        rotateCBToolMenu.setOnAction(this::handleRotateEvent);
+        this.rotateMenuItemLeft.setOnAction(this::handleRotateLeftEvent);
+        this.rotateMenuItemRight.setOnAction(this::handleRotateRightEvent);
+        this.rotateMenuItem180.setOnAction(this::handleRotate180Event);
         // Add event listener to check if a tool that has the line width property is selected
         ToolSelect.selectedToggleProperty().addListener(((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -241,21 +256,51 @@ public class ToolMenuController {
         }));
     }
 
-    private void handleRotateEvent(Event event) {
+    private void handleRotateRightEvent(ActionEvent event) {
         if (this.paintStateModel.getCurrentShape() == null) {
+            rotateCanvas("right");
             return;
         }
 
         TransformableNode currentNode = this.paintStateModel.getCurrentShape();
 
-        if (this.rotateCBToolMenu.getValue().toString().contains("Right")) {
-            currentNode.rotate90Right();
-        } else if (this.rotateCBToolMenu.getValue().toString().contains("Left")) {
-            currentNode.rotate90Left();
-        } else if (this.rotateCBToolMenu.getValue().toString().contains("180")) {
-            currentNode.rotate180();
+        currentNode.rotate90Right();
+
+    }
+
+    private void handleRotateLeftEvent(ActionEvent event) {
+        if (this.paintStateModel.getCurrentShape() == null) {
+            rotateCanvas("left");
+            return;
         }
 
+        TransformableNode currentNode = this.paintStateModel.getCurrentShape();
+
+        currentNode.rotate90Left();
+    }
+
+    private void handleRotate180Event(ActionEvent event) {
+        if (this.paintStateModel.getCurrentShape() == null) {
+            rotateCanvas("180");
+            return;
+        }
+
+        TransformableNode currentNode = this.paintStateModel.getCurrentShape();
+
+        currentNode.rotate180();
+    }
+
+    private void rotateCanvas(String direction) {
+        StackPane stackPane = (StackPane) this.workspaceHandler.getCurrentWorkspace().getCanvasModel().getCanvasGroup().getChildren().get(0);
+        ResizeableCanvas resizeableCanvas = (ResizeableCanvas) stackPane.getChildren().get(0);
+        
+        if (direction.contains("right")) {
+            resizeableCanvas.rotate90Right();
+        } else if (direction.contains("left")) {
+            resizeableCanvas.rotate90Left();
+        } else if (direction.contains("180")){
+            resizeableCanvas.rotate180();
+        }
     }
 
     @FXML

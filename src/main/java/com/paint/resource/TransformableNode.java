@@ -149,6 +149,8 @@ public class TransformableNode extends Group {
 
 		// Enable CanvasController handlers
 		canvasController.setCanvasDrawingStackPaneHandlerState(true);
+
+		this.workspaceHandler.getPaintStateModel().setCurrentShape(null);
 	}
 
 
