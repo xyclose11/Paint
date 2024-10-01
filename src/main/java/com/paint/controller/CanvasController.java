@@ -205,8 +205,9 @@ public class CanvasController {
                 currentShape = new TransformableNode(rightTriangle, this.workspaceHandler);
                 break;
             case "Star":
-                Star star = new Star(startX, startY, 1);
+                Star star = toolController.showStarInputDialog(drawingPane);
                 currentShape = new TransformableNode(star, this.workspaceHandler);
+                // TODO make it so that the star gets applied to the canvas
                 break;
             case "Curve":
                 timesAdjusted = 0;
@@ -421,10 +422,6 @@ public class CanvasController {
             ellipse.setRadiusY(Math.abs(curY - startY));
         }
 
-        if (shape instanceof Star star) {
-            double r = (curX + curY) / 7.6;
-            star.updateStar(startX, startY, r);
-        }
 
     }
 

@@ -14,26 +14,30 @@ import javafx.scene.shape.Polygon;
  * @since 1.2
  * */
 public class Star extends Polygon {
-    public Star(double centerX, double centerY, double radius) {
+    public Star(int numPoints, double centerX, double centerY, double innerRadius, double outerRadius) {
         super();
-        updateStar(centerX, centerY, radius);
+        updateStar(numPoints, centerX, centerY, innerRadius, outerRadius);
     }
 
-    public void updateStar(double centerX, double centerY, double radius) {
+    public void updateStar(int numPoints, double centerX, double centerY, double innerRadius, double outerRadius) {
         getPoints().clear();
 
-        double[] xPoints = new double[10];
-        double[] yPoints = new double[10];
+        double angleStep = 2 * Math.PI / (numPoints * 2);
 
-        for (int i = 0; i < 10; i++) {
-            double angle = i * Math.PI / 5;
-            double r = (i % 2 == 0) ? radius : radius / 2;
-            xPoints[i] = centerX + r * Math.cos(angle);
-            yPoints[i] = centerY - r * Math.sin(angle);
-        }
+        // Loop through twice the number of points (alternating inner and outer vertices)
+        for (int i = 0; i < numPoints * 2; i++) {
+            // Calculate the angle for this vertex
+            double angle = i * angleStep;
 
-        for (int i = 0; i < 10; i++) {
-            getPoints().addAll(xPoints[i], yPoints[i]);
+            // Alternate between outer and inner radius
+            double r = (i % 2 == 0) ? outerRadius : innerRadius;
+
+            // Calculate the x and y coordinates for this vertex
+            double x = centerX + r * Math.cos(angle);
+            double y = centerY + r * Math.sin(angle);
+
+            // Add the vertex to the polygon
+            getPoints().addAll(x, y);
         }
     }
 

@@ -1,6 +1,7 @@
 package com.paint.controller;
 
 import com.paint.model.PaintStateModel;
+import com.paint.resource.Star;
 import com.paint.resource.TransformableNode;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -108,6 +109,75 @@ public class ToolController {
         graphicsContext.strokeText(text, transformableNode.getTranslatedX(), transformableNode.getTranslatedY());
     }
 
+    public Star showStarInputDialog(Pane drawingPane) {
+        // Create a dialog
+        Dialog<Void> dialog = new Dialog<>();
+        dialog.setTitle("Star Input");
+        dialog.setHeaderText("Enter the Star parameters");
+
+        // Grid pane for the dialog content
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        // Create input fields
+        TextField sidesField = new TextField();
+        sidesField.setPromptText("Number of points");
+        TextField innerRadiusField = new TextField();
+        innerRadiusField.setPromptText("Inner Radius");
+
+        TextField outerRadiusField = new TextField();
+        innerRadiusField.setPromptText("Outer Radius");
+
+        TextField centerXField = new TextField();
+        centerXField.setPromptText("Center X");
+        TextField centerYField = new TextField();
+        centerYField.setPromptText("Center Y");
+
+        grid.add(new Label("Number of points:"), 0, 0);
+        grid.add(sidesField, 1, 0);
+
+        grid.add(new Label("Inner Radius:"), 0, 1);
+        grid.add(innerRadiusField, 1, 1);
+
+        grid.add(new Label("Outer Radius:"), 0, 2);
+        grid.add(outerRadiusField, 1, 2);
+
+        grid.add(new Label("Center X:"), 0, 3);
+        grid.add(centerXField, 1, 3);
+
+        grid.add(new Label("Center Y:"), 0, 4);
+        grid.add(centerYField, 1, 4);
+
+        // Add buttons to the dialog
+        ButtonType submitButtonType = new ButtonType("Submit", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(submitButtonType, ButtonType.CANCEL);
+        dialog.getDialogPane().setContent(grid);
+
+        // Convert the result to a polygon and draw it
+        final Star[] star = {null};
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == submitButtonType) {
+                try {
+                    int numberOfSides = Integer.parseInt(sidesField.getText());
+                    double innerRadius = Double.parseDouble(innerRadiusField.getText());
+                    double outerRadius = Double.parseDouble(outerRadiusField.getText());
+                    double centerX = Double.parseDouble(centerXField.getText());
+                    double centerY = Double.parseDouble(centerYField.getText());
+                    star[0] = (new Star(numberOfSides, centerX, centerY, innerRadius, outerRadius));
+                } catch (NumberFormatException e) {
+                    showAlert("Invalid input", "Please enter valid numbers.");
+                }
+            }
+            return null;
+        });
+
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.showAndWait();
+        return star[0];
+    }
+
     public void showInputDialog(Pane drawingPane) {
         // Create a dialog
         Dialog<Void> dialog = new Dialog<>();
@@ -184,8 +254,6 @@ public class ToolController {
             double y = centerY + radius * Math.sin(angle);
             polygon.getPoints().addAll(x, y);
         }
-//        this.paintStateModel.setCurrentShape(polygon);
-//        this.paintStateModel.enableTransformations(true, drawingPane);
     }
 
     public GraphicsContext getGraphicsContext() {
