@@ -1,5 +1,6 @@
 package com.paint.controller;
 
+import com.paint.handler.NotificationsHandler;
 import com.paint.handler.WebServerHandler;
 import com.paint.handler.WorkspaceHandler;
 import com.paint.model.CanvasModel;
@@ -8,10 +9,8 @@ import com.paint.model.PaintStateModel;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Hyperlink;
+import javafx.scene.control.*;
 import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
 import javafx.scene.input.MouseEvent;
 import org.kordamp.ikonli.javafx.FontIcon;
 
@@ -45,6 +44,12 @@ public class InfoController {
 	public Hyperlink webserverStatusLink;
 
 	@FXML
+	public FontIcon notificationSettingIcon;
+
+	@FXML
+	public ToggleButton notificationToggle;
+
+	@FXML
 	private Label resolutionLbl;
 
 	@FXML
@@ -52,6 +57,9 @@ public class InfoController {
 
 	@FXML
 	private Label mousePosLbl;
+
+	private final String CHECKMARK_ICON = "fltfal-checkmark-16";
+	private final String DISMISS_ICON = "fltfal-dismiss-16";
 
 	private CanvasModel canvasModel;
 
@@ -66,6 +74,8 @@ public class InfoController {
 	private WorkspaceHandler workspaceHandler;
 
 	private WebServerHandler webServerHandler;
+
+	private NotificationsHandler notificationsHandler;
 
 	public WebServerHandler getWebServerHandler() {
 		return webServerHandler;
@@ -167,10 +177,22 @@ public class InfoController {
 		}
 	}
 
+	private void handleNotificationToggleClick(MouseEvent mouseEvent) {
+		this.notificationsHandler.setNotificationsActive(this.notificationToggle.isSelected());
+
+		if (this.notificationToggle.isSelected()) {
+			this.notificationSettingIcon.setIconLiteral(CHECKMARK_ICON);
+		} else {
+			this.notificationSettingIcon.setIconLiteral(DISMISS_ICON);
+		}
+	}
+
 	@FXML
 	public void initialize() {
 		// setup webServer hyperlink listeners
 		this.webserverStatusLink.setOnMouseClicked(this::handleLinkMouseClick);
+
+		this.notificationToggle.setOnMouseClicked(this::handleNotificationToggleClick);
 	}
 
 	public Label getWebserverStatusLabel() {
@@ -195,5 +217,13 @@ public class InfoController {
 
 	public void setWebserverStatusIcon(FontIcon webserverStatusIcon) {
 		this.webserverStatusIcon = webserverStatusIcon;
+	}
+
+	public NotificationsHandler getNotificationsHandler() {
+		return notificationsHandler;
+	}
+
+	public void setNotificationsHandler(NotificationsHandler notificationsHandler) {
+		this.notificationsHandler = notificationsHandler;
 	}
 }

@@ -8,12 +8,11 @@ public final class NotificationsHandler {
     private Notifications notifications;
 
     // track whether the user wants notifications enabled
-    private boolean isFileOpenNT = true;
-    private boolean isFileSaveNT = true;
-    private boolean isFileHostedNT = true;
+    private boolean notificationsActive = true;
+
 
     public void showFileOpenedNotification(String fileName, Window mainWindow) {
-        if (!isFileOpenNT) {
+        if (!notificationsActive) {
             return; // file open notification disabled
         }
 
@@ -25,7 +24,7 @@ public final class NotificationsHandler {
     }
 
     public void showFileSavedNotification(String fileName, Window mainWindow) {
-        if (!isFileSaveNT) {
+        if (!notificationsActive) {
             return;
         }
 
@@ -37,7 +36,7 @@ public final class NotificationsHandler {
     }
 
     public void showFileHostedNotification(String fileName, Window mainWindow, String webAddr) {
-        if (!isFileHostedNT) {
+        if (!notificationsActive) {
             return;
         }
 
@@ -46,5 +45,21 @@ public final class NotificationsHandler {
                 .hideAfter(new Duration(6000))
                 .owner(mainWindow) // used so that it shows in bottom of application not the screen
                 .showInformation();
+    }
+
+    public boolean isNotificationsActive() {
+        return notificationsActive;
+    }
+
+    public void setNotificationsActive(boolean notificationsActive) {
+        this.notificationsActive = notificationsActive;
+    }
+
+    public Notifications getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(Notifications notifications) {
+        this.notifications = notifications;
     }
 }

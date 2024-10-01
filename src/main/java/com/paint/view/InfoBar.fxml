@@ -16,7 +16,7 @@
 <?import org.kordamp.ikonli.javafx.FontIcon?>
 <HBox maxHeight="35.0" minHeight="14" prefHeight="35.0" prefWidth="1399.0" spacing="150" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.InfoController">
 
-    <HBox prefHeight="35.0" prefWidth="800.0" spacing="20">
+    <HBox prefHeight="35.0" prefWidth="1000.0" spacing="15">
         <Label fx:id="mousePosLbl" text="Mouse POS">
             <tooltip>
                 <Tooltip text="Current XY location of the mouse" />
@@ -67,12 +67,7 @@
     </HBox>
 
     <HBox prefHeight="35.0" prefWidth="600" spacing="20">
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-         <children>
-            <ToggleButton disable="true" mnemonicParsing="false" text="Fit" />
-         </children>
-      </VBox>
-      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+      <VBox alignment="CENTER" prefHeight="200.0" prefWidth="90.0">
          <children>
              <ComboBox id="infoBarZoomCB" fx:id="infoBarZoomCB" editable="true" onAction="#onZoomCBChange" prefHeight="1.0" prefWidth="85.0" value="100%">
                  <items>
@@ -101,6 +96,15 @@
             <Slider fx:id="infoBarZoomSlider" max="800.0" min="10.0" onMouseClicked="#onZoomSliderChange" onMouseDragged="#onZoomSliderChange" snapToTicks="false" value="100.0" />
          </children>
       </VBox>
+        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="50.0">
+            <children>
+                <ToggleButton fx:id="notificationToggle" mnemonicParsing="false" text="" selected="true">
+                    <graphic>
+                        <FontIcon fx:id="notificationSettingIcon" id="notificationSettingIcon" fontSmoothingType="LCD" iconLiteral="fltfal-checkmark-16" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                    </graphic>
+                </ToggleButton>
+            </children>
+        </VBox>
         <HBox.margin>
             <Insets bottom="0.0" left="0.0" right="5.0" top="0.0" />
         </HBox.margin>
