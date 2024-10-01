@@ -22,19 +22,10 @@
                   <toggleGroup>
                      <ToggleGroup fx:id="ToolSelect" />
                   </toggleGroup>
+                    <tooltip>
+                        <Tooltip text="Selection"></Tooltip>
+                    </tooltip>
                 </ToggleButton>
-               <MenuButton id="menuButtonSelector" alignment="CENTER" contentDisplay="RIGHT" ellipsisString="" mnemonicParsing="false" prefHeight="9.0" prefWidth="40.0" VBox.vgrow="ALWAYS">
-                 <items>
-                   <MenuItem mnemonicParsing="false" text="Action 1" />
-                   <MenuItem mnemonicParsing="false" text="Action 2" />
-                 </items>
-                  <VBox.margin>
-                     <Insets top="1.0" />
-                  </VBox.margin>
-                  <padding>
-                     <Insets bottom="-4.0" top="-4.0" />
-                  </padding>
-               </MenuButton>
             </children>
             <padding>
                <Insets left="5.0" right="5.0" />
@@ -54,12 +45,18 @@
                    <MenuItem fx:id="rotateMenuItemLeft" mnemonicParsing="false" text="90&#xB0; Left" />
                    <MenuItem fx:id="rotateMenuItem180" mnemonicParsing="false" text="180&#xB0;" />
                  </items>
+                   <tooltip>
+                       <Tooltip text="Adjust Rotation for canvas when no shape is selected"></Tooltip>
+                   </tooltip>
                </MenuButton>
                <MenuButton fx:id="mirrorMenuToolMenu" prefWidth="80.0" text="Mirror">
                    <items>
                        <MenuItem fx:id="horizontalFlip" text="Horizontal Flip"></MenuItem>
                        <MenuItem fx:id="verticalFlip" text="Vertical Flip"></MenuItem>
                    </items>
+                   <tooltip>
+                       <Tooltip text="Flips the current canvas either horizontally or vertically"></Tooltip>
+                   </tooltip>
                </MenuButton>
             </children>
          </VBox>
@@ -132,15 +129,18 @@
                              <KeyCodeCombination alt="DOWN" code="B" control="UP" meta="UP" shift="UP" shortcut="UP" />
                          </accelerator>
                      </RadioMenuItem>
-                     <MenuItem mnemonicParsing="false" text="Calligraphy Brush" />
-                     <MenuItem mnemonicParsing="false" text="Calligraphy Pen" />
-                   <MenuItem mnemonicParsing="false" text="Airbrush" />
-                   <MenuItem mnemonicParsing="false" text="Oil Brush" />
-                     <MenuItem mnemonicParsing="false" text="Crayon" />
-                     <MenuItem mnemonicParsing="false" text="Marker" />
-                     <MenuItem mnemonicParsing="false" text="Natural Pencil" />
-                     <MenuItem mnemonicParsing="false" text="Watercolor Brush" />
+<!--                     <MenuItem mnemonicParsing="false" text="Calligraphy Brush" />-->
+<!--                     <MenuItem mnemonicParsing="false" text="Calligraphy Pen" />-->
+<!--                   <MenuItem mnemonicParsing="false" text="Airbrush" />-->
+<!--                   <MenuItem mnemonicParsing="false" text="Oil Brush" />-->
+<!--                     <MenuItem mnemonicParsing="false" text="Crayon" />-->
+<!--                     <MenuItem mnemonicParsing="false" text="Marker" />-->
+<!--                     <MenuItem mnemonicParsing="false" text="Natural Pencil" />-->
+<!--                     <MenuItem mnemonicParsing="false" text="Watercolor Brush" />-->
                  </items>
+                   <tooltip>
+                       <Tooltip text="Brush ALT+B"></Tooltip>
+                   </tooltip>
                </MenuButton>
                <Label fx:id="BrushSectionId" text="Brushes" />
             </children>
@@ -249,7 +249,7 @@
                            </ToggleButton>
                            <ToggleButton fx:id="regularPolygon" ellipsisString="" layoutX="59.0" layoutY="39.0" mnemonicParsing="false" onMouseClicked="#updateShapeToolState" textFill="#c63131" toggleGroup="$ToolSelect" GridPane.columnIndex="3" GridPane.rowIndex="1">
                               <tooltip>
-                                 <Tooltip text="Star" />
+                                 <Tooltip text="Regular Sided Polygon" />
                               </tooltip>
                               <graphic>
                                  <FontIcon fontSmoothingType="LCD" iconLiteral="mdi2s-star-outline" iconSize="18" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
@@ -288,6 +288,9 @@
                         <font>
                            <Font size="10.0" />
                         </font>
+                         <tooltip>
+                             <Tooltip text="If enabled the outline of the shape will be dashed"></Tooltip>
+                         </tooltip>
                      </CheckBox>
                   </children>
                </VBox>
