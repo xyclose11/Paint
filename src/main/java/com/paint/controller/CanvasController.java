@@ -731,6 +731,8 @@ public class CanvasController {
 
     @FXML
     private void initialize() {
+        mainCanvas.setWidth(900);
+        mainCanvas.setHeight(600);
         // Initialize canvas sizing
         mainCanvas.widthProperty().addListener((obs, oldVal, newVal) -> updateCanvasSize());
         mainCanvas.heightProperty().addListener((obs, oldVal, newVal) -> updateCanvasSize());

@@ -295,6 +295,7 @@ public class ToolMenuController {
         ResizeableCanvas resizeableCanvas = (ResizeableCanvas) stackPane.getChildren().get(0);
         
         if (direction.contains("right")) {
+            stackPane.setRotate(90);
             resizeableCanvas.rotate90Right();
         } else if (direction.contains("left")) {
             resizeableCanvas.rotate90Left();
