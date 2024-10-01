@@ -33,10 +33,7 @@ public class ToolMenuController {
     public CheckBox dashCheckbox;
 
     @FXML
-	public ChoiceBox rotateCBToolMenu;
-
-    @FXML
-	public ChoiceBox mirrorCBToolMenu;
+	public MenuButton mirrorMenuToolMenu;
 
     @FXML
     public MenuItem rotateMenuItemRight;
@@ -49,6 +46,12 @@ public class ToolMenuController {
 
     @FXML
     public MenuItem rotateMenuItem180;
+
+    @FXML
+    public MenuItem horizontalFlip;
+
+    @FXML
+    public MenuItem verticalFlip;
 
     private WorkspaceHandler workspaceHandler;
     @FXML
@@ -233,9 +236,16 @@ public class ToolMenuController {
 
     @FXML
     public void initialize() {
+        // flip events
+        this.horizontalFlip.setOnAction(this::handleHorizontalFlip);
+        this.verticalFlip.setOnAction(this::handleVerticalFlip);
+
+
+        // rotate events
         this.rotateMenuItemLeft.setOnAction(this::handleRotateLeftEvent);
         this.rotateMenuItemRight.setOnAction(this::handleRotateRightEvent);
         this.rotateMenuItem180.setOnAction(this::handleRotate180Event);
+
         // Add event listener to check if a tool that has the line width property is selected
         ToolSelect.selectedToggleProperty().addListener(((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -295,7 +305,6 @@ public class ToolMenuController {
         ResizeableCanvas resizeableCanvas = (ResizeableCanvas) stackPane.getChildren().get(0);
         
         if (direction.contains("right")) {
-            stackPane.setRotate(90);
             resizeableCanvas.rotate90Right();
         } else if (direction.contains("left")) {
             resizeableCanvas.rotate90Left();
@@ -318,6 +327,23 @@ public class ToolMenuController {
         // Update paintStateModel current tool when a new tool is selected
         this.paintStateModel.setCurrentTool(sourceId);
         this.paintStateModel.setCurrentToolType("selection");
+    }
+
+    @FXML
+    private void handleHorizontalFlip(ActionEvent event) {
+        ResizeableCanvas resizeableCanvas = getResizeableCanvas();
+        resizeableCanvas.horizontalFlip();
+    }
+
+    @FXML
+    private void handleVerticalFlip(ActionEvent event) {
+        ResizeableCanvas resizeableCanvas = getResizeableCanvas();
+        resizeableCanvas.verticalFlip();
+    }
+
+    private ResizeableCanvas getResizeableCanvas() {
+        StackPane stackPane = (StackPane) this.workspaceHandler.getCurrentWorkspace().getCanvasModel().getCanvasGroup().getChildren().get(0);
+        return (ResizeableCanvas) stackPane.getChildren().get(0);
     }
 
 

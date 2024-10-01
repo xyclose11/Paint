@@ -1,6 +1,7 @@
 package com.paint.resource;
 
 import javafx.scene.canvas.Canvas;
+import javafx.scene.image.WritableImage;
 
 /**
  * This class extends JavaFX 22 Canvas to override and add methods that will allow for resize
@@ -88,6 +89,21 @@ public class ResizeableCanvas extends Canvas {
 			this.setWidth(originalHeight);
 			this.setHeight(originalWidth);
 	}
+
+	public void verticalFlip() {
+		WritableImage writableImage = new WritableImage((int)(this.getWidth()), (int) (this.getHeight()));
+		this.snapshot(null, writableImage);
+
+		this.getGraphicsContext2D().drawImage(writableImage, 0, 0, writableImage.getWidth(), writableImage.getHeight(), writableImage.getWidth(), 0, -writableImage.getWidth(), writableImage.getHeight());
+	}
+
+	public void horizontalFlip() {
+		WritableImage writableImage = new WritableImage((int)(this.getWidth()), (int) (this.getHeight()));
+		this.snapshot(null, writableImage);
+
+		this.getGraphicsContext2D().drawImage(writableImage, 0, 0, writableImage.getWidth(), writableImage.getHeight(), writableImage.getWidth(), 0, -writableImage.getWidth(), writableImage.getHeight());
+	}
+
 
 
 

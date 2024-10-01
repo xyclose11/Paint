@@ -55,7 +55,12 @@
                    <MenuItem fx:id="rotateMenuItem180" mnemonicParsing="false" text="180&#xB0;" />
                  </items>
                </MenuButton>
-               <ChoiceBox fx:id="mirrorCBToolMenu" prefWidth="80.0" />
+               <MenuButton fx:id="mirrorMenuToolMenu" prefWidth="80.0" text="Mirror">
+                   <items>
+                       <MenuItem fx:id="horizontalFlip" text="Horizontal Flip"></MenuItem>
+                       <MenuItem fx:id="verticalFlip" text="Vertical Flip"></MenuItem>
+                   </items>
+               </MenuButton>
             </children>
          </VBox>
       </children>
