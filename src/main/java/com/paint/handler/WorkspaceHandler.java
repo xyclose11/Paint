@@ -6,6 +6,8 @@ import com.paint.model.SettingStateModel;
 import com.paint.model.TabModel;
 import com.paint.resource.Workspace;
 import javafx.scene.Scene;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.util.HashMap;
@@ -21,6 +23,8 @@ import java.util.HashMap;
  * @since 1.3
  * */
 public class WorkspaceHandler {
+	private static final Logger LOGGER = LogManager.getLogger();
+
 	// Store models for new file creation
 	private TabModel tabModel;
 	private SettingStateModel settingStateModel;
@@ -52,10 +56,12 @@ public class WorkspaceHandler {
 
 	public void addToEndOfWorkspaceList(Workspace workspace) {
 		this.workspaceList.put(this.workspaceList.size(), workspace);
+		LOGGER.info("New Workspace Added to end of list: {}", workspace);
 	}
 
 	public void setCurrentWorkspace(Workspace currentWorkspace) {
 		this.currentWorkspace = currentWorkspace;
+		LOGGER.info("Current Workspace set to: {}", currentWorkspace);
 	}
 
 	public Workspace getCurrentWorkspace() {
@@ -68,6 +74,7 @@ public class WorkspaceHandler {
 
 	public void setCurrentFile(File currentFile) {
 		this.currentFile = currentFile;
+		LOGGER.info("Current File set to: {}", currentFile);
 	}
 
 	public TabModel getTabModel() {

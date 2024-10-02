@@ -20,12 +20,15 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
 public class Main extends Application {
+
 
 	// Instantiate models for future use
 	private final CanvasModel canvasModel = new CanvasModel();
@@ -39,6 +42,8 @@ public class Main extends Application {
 	private final NotificationsHandler notificationsHandler = new NotificationsHandler();
 	// Threading
 	private final AutoSave autoSaveService = new AutoSave();
+
+	protected static final Logger LOGGER = LogManager.getLogger();
 
 	public static void main(String[] args) {
 		launch();
@@ -147,16 +152,22 @@ public class Main extends Application {
 			Workspace workspace = this.workspaceHandler.getWorkspaceList().get(newValue);
 			this.workspaceHandler.setCurrentWorkspace(workspace);
 
+			LOGGER.info("Current Workspace Changed to {}", workspace);
+
 			File currentWorkspaceFile = workspace.getWorkspaceFile();
 			this.workspaceHandler.setCurrentFile(currentWorkspaceFile);
+
+			LOGGER.info("Current Workspace File: {}", currentWorkspaceFile);
 
 			// Exit user from transformation mode
 			if (this.paintStateModel.getCurrentShape() != null) {
 				this.paintStateModel.getCurrentShape().exitTransformMode();
+				LOGGER.info("Forcefully exited transform mode for current node");
 			}
 
 			// Set active tab
 			this.tabModel.setCurrentTab(canvasWrapper.getTabs().get((Integer) newValue));
+			LOGGER.info("Opened File: {} on Tab: {}", currentWorkspaceFile, newValue);
 
 			// Update web server file on tab switch
 			webServerHandler.updateCurrentFile(currentWorkspaceFile);
@@ -182,9 +193,11 @@ public class Main extends Application {
 		// Add style sheets
 		try {
 			scene.getStylesheets().add(getClass().getResource("/styles/styles.css").toString());
+			LOGGER.info("Loaded CSS Style Sheets");
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			e.printStackTrace();
+			LOGGER.fatal("Issue loading CSS Style Sheets in Main: {}",e);
 		}
 
 		// UNDO SETUP START
@@ -200,29 +213,35 @@ public class Main extends Application {
 						case N: // Create new tab -> file
 							try {
 								tabController.onKeyPressedNewFileTab(keyEvent);
+								LOGGER.info("CTRL + N Pressed -> New Tab/File: {}", keyEvent);
 							} catch (IOException e) {
+								LOGGER.error("CTRL + N Key-bind error: {}",e);
 								throw new RuntimeException(e);
 							}
 							keyEvent.consume(); // This prevents the event from going any further
 							break;
 						case Z: // Undo
 							workspaceHandler.getCurrentWorkspace().handleUndoAction();
+							LOGGER.info("CTRL + Z Pressed -> Undo Action: {}", keyEvent);
 							// When undoing add to redo stack
 							keyEvent.consume();
 							break;
 						case Y: // Redo
 							workspaceHandler.getCurrentWorkspace().handleRedoAction();
+							LOGGER.info("CTRL + Y Pressed -> Redo Action: {}", keyEvent);
 							// When redoing add to undo stack
 							keyEvent.consume();
 							break;
 						case C:
 							selectionHandler.copySelectionContent();
+							LOGGER.info("CTRL + C Pressed -> Copy Selection Action: {}", keyEvent);
 							keyEvent.consume();
 							break;
 						case V:
 							// Set tool to be selection
 							paintStateModel.setCurrentToolType("paste");
-							selectionHandler.pasteClipboardImage(); // TODO handle different types of paste i.e. text, HTML, etc.
+							selectionHandler.pasteClipboardImage();
+							LOGGER.info("CTRL + V Pressed -> Paste Action: {}", keyEvent);
 							keyEvent.consume();
 							break;
 					}
@@ -248,6 +267,7 @@ public class Main extends Application {
 				try {
 					// If no tabs active allow user to exit without alerting
 					if (workspaceHandler.getSize() == 0) {
+						LOGGER.info("Close application with current workspace size of {}", workspaceHandler.getSize());
 						primaryStage.close();
 					} else {
 						CanvasController currentCanvasController = workspaceHandler.getCurrentWorkspace().getCanvasController();

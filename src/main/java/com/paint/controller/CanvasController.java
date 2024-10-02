@@ -23,6 +23,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -37,6 +39,8 @@ import java.util.Objects;
  * @since 1.0
  * */
 public class CanvasController {
+    private static final Logger LOGGER = LogManager.getLogger();
+
     @FXML
     public HBox canvasContainer;
 
@@ -127,6 +131,7 @@ public class CanvasController {
         if (canvasModel != null) {
             canvasModel.setCanvasWidth(mainCanvas.getWidth());
             canvasModel.setCanvasHeight(mainCanvas.getHeight());
+            LOGGER.info("Canvas Size Updated: New Height: {} | New Width: {}", mainCanvas.getHeight(), mainCanvas.getWidth());
         }
     }
 
@@ -137,6 +142,8 @@ public class CanvasController {
 
     @FXML
     private void handleMousePressed(MouseEvent mouseEvent) {
+        LOGGER.info("Mouse Pressed on Canvas @ POS: X:{},Y:{}", mouseEvent.getX(), mouseEvent.getY());
+
         startX = mouseEvent.getX();
         startY = mouseEvent.getY();
 
@@ -247,14 +254,13 @@ public class CanvasController {
             // Setup dashed lines for shapes
             shape.getStrokeDashArray().addAll(9.5);
         }
-
-        // Set current shape in model
-//        this.paintStateModel.setCurrentShape(currentShape.getOri);
+        LOGGER.info("Loaded Default Shape Attributes for Node: {}", currentShape);
     }
 
     private void handleToolBrushOnPress() {
         switch (this.paintStateModel.getCurrentBrush()) {
             case "regular":
+                LOGGER.info("Brush Pressed");
                 GraphicsContext gc = mainCanvas.getGraphicsContext2D(); // TODO move graphicsContext, setStroke, setLineWidth -> PaintStateModel
                 gc.setStroke(this.paintStateModel.getCurrentPaintColor());
                 gc.setLineWidth(this.paintStateModel.getCurrentLineWidth());
@@ -438,6 +444,7 @@ public class CanvasController {
     private void handleMouseReleased(MouseEvent mouseEvent) {
         // Add previous canvas snapshot to undo stack
         String currentToolType = this.paintStateModel.getCurrentToolType();
+        LOGGER.info("Mouse Released at X:{},Y:{}", mouseEvent.getX(), mouseEvent.getY());
 
         switch (currentToolType) {
             case ("shape"):
@@ -639,6 +646,8 @@ public class CanvasController {
         // Reinitialize drawingPane to remove shape
         drawingPane.getChildren().clear();
 
+        LOGGER.info("Applied Shape: {} to canvas", currentShape);
+
     }
 
     public void applySelectionToCanvas(ImageView selection) {
@@ -675,6 +684,8 @@ public class CanvasController {
         graphicsContext.setFill(Color.TRANSPARENT);
 
         this.canvasModel.setChangesMade(true);
+
+        LOGGER.info("Applied Selection: {} to canvas", selection);
     }
 
     private void handleStar(double xT, double yT, Star star) {
@@ -766,6 +777,8 @@ public class CanvasController {
                 scaleCanvasOnScroll(event);
             }
         });
+
+        LOGGER.info("Canvas Controller Initialized");
     }
 
     @FXML
@@ -896,9 +909,12 @@ public class CanvasController {
             // Set tab name
             this.tabModel.setTabName(file.getName());
             this.tabModel.handleFileSavedTitle();
+
+            LOGGER.info("File: {} | Saved from canvas", file);
         } catch (IOException e) {
             new Alert(Alert.AlertType.ERROR, "Unable to save the image at this time. Stack Trace: " + e.getMessage() );
             e.printStackTrace();
+            LOGGER.error("UNABLE TO SAVE IMAGE FROM CANVAS: File {}", file);
         }
 
     }
@@ -950,10 +966,16 @@ public class CanvasController {
     }
 
     public WritableImage getCurrentCanvasSnapshot() {
-        WritableImage image = new WritableImage((int) mainCanvas.getWidth(), (int) mainCanvas.getHeight());
-        SnapshotParameters snapshotParameters = new SnapshotParameters();
-        mainCanvas.getGraphicsContext2D().setImageSmoothing(false);
-        return mainCanvas.snapshot(snapshotParameters, image);
+        try {
+            WritableImage image = new WritableImage((int) mainCanvas.getWidth(), (int) mainCanvas.getHeight());
+            SnapshotParameters snapshotParameters = new SnapshotParameters();
+            mainCanvas.getGraphicsContext2D().setImageSmoothing(false);
+            return mainCanvas.snapshot(snapshotParameters, image);
+        } catch (Exception e) {
+            LOGGER.error("Unable to snapshot current canvas. Exception: {}", e);
+        }
+
+        return null;
     }
 
 }
