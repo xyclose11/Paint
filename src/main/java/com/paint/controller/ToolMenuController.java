@@ -12,6 +12,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -20,6 +22,8 @@ import java.text.DecimalFormat;
  * This class controls the UI state of the ToolMenu
  * */
 public class ToolMenuController {
+    private static final Logger LOGGER = LogManager.getLogger();
+
     @FXML
     public ToggleButton toggleEraser;
 
@@ -149,6 +153,7 @@ public class ToolMenuController {
             HBox temp = fxmlLoader.load();
             setLwView(temp);
             setLineWidthController(fxmlLoader.getController());
+            LOGGER.info("Showing Line Width Slider");
         }
 
         Stage stage = (Stage) this.workspaceHandler.getCurrentScene().getWindow();

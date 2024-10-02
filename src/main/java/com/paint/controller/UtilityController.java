@@ -61,14 +61,15 @@ public class UtilityController {
 
 	@FXML
 	private void handleFileOpen(ActionEvent event) throws IOException {
-		LOGGER.info("Started File Open");
-		LOGGER.warn("WARN");
 		File selectedFile = openFileChooser("Select Image");
+
+		LOGGER.info("Started File Open File: {}", selectedFile);
 
 		if (selectedFile == null) {
 			// alert if the desired file had issues uploading & return early
 			Alert nullFileAlert = new Alert(Alert.AlertType.INFORMATION, "No File Selected");
 			nullFileAlert.show();
+			LOGGER.error("File Open Resulted in NULL.");
 			return;
 		}
 
@@ -80,7 +81,7 @@ public class UtilityController {
 			LOGGER.error("Unable to open file");
 		}
 
-		LOGGER.info("Finished File Open");
+		LOGGER.info("Finished File Open. Opened File: {}", selectedFile);
 	}
 
 	private File openFileChooser(String title) {

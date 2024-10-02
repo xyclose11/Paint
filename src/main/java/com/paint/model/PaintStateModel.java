@@ -9,6 +9,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeLineCap;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * This Model holds information about the current state of the selected brush, image, color, line-width, shape, {@code transformableNode} etc.
@@ -18,6 +20,8 @@ import javafx.scene.shape.StrokeLineCap;
  * @since 1.1
  */
 public class PaintStateModel {
+	private static final Logger LOGGER = LogManager.getLogger();
+
 	// Constant default values START
 	final String INITIAL_TOOL = "StLine";
 	final String INITIAL_TOOLTYPE = "shape";
@@ -63,6 +67,7 @@ public class PaintStateModel {
 	}
 
 	public void setDashed(boolean b) {
+		LOGGER.info("Is Dashed: {}", b);
 		this.isDashed = b;
 	}
 
@@ -76,6 +81,7 @@ public class PaintStateModel {
 
     public void setCurrentSelection(ImageView imageView) {
         this.imageView = imageView;
+		LOGGER.info("New Selection Set");
     }
 
 	public ImageView getImageView() {
@@ -96,6 +102,7 @@ public class PaintStateModel {
 		// Set infobar lbl
 		this.infoCanvasModel.setCurrentLineWidthLbl(currentShapeLineStrokeWidth);
 		this.currentShapeLineStrokeWidth = currentShapeLineStrokeWidth;
+		LOGGER.info("Line Stroke Width set to: {}px", currentShapeLineStrokeWidth);
 	}
 
 	public StrokeLineCap getCurrentStrokeLineCap() {
@@ -113,6 +120,7 @@ public class PaintStateModel {
 	public void setCurrentLineWidth(double currentLineWidth) {
 		this.infoCanvasModel.setCurrentLineWidthLbl(currentLineWidth);
 		this.currentLineWidth = currentLineWidth;
+		LOGGER.info("Line Width set to: {}px", currentLineWidth);
 	}
 
 	public TransformableNode getCurrentShape() {
@@ -128,6 +136,7 @@ public class PaintStateModel {
 	}
 
 	public void setCurrentTool(String currentTool) {
+		LOGGER.info("{} Tool Selected", currentTool);
 		this.currentTool = currentTool;
 	}
 
@@ -156,6 +165,7 @@ public class PaintStateModel {
 	}
 
 	public void setCurrentToolType(String currentToolType) {
+		LOGGER.info("{} Type Selected", currentToolType);
 		this.currentToolType = currentToolType;
 	}
 

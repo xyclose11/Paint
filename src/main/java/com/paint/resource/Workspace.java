@@ -6,6 +6,8 @@ import com.paint.model.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,6 +24,8 @@ import java.util.Stack;
  * @since 1.4
  * */
 public class Workspace {
+	private static final Logger LOGGER = LogManager.getLogger();
+
 	private final Stack<WritableImage> undoStack = new Stack<>();
 	private final Stack<WritableImage> redoStack = new Stack<>();
 	private File workspaceFile; // Used to hold the file representation of the current workspace
@@ -49,6 +53,7 @@ public class Workspace {
 		selectionHandler.setPaintStateModel(paintStateModel);
 		canvasController.setSelectionHandler(selectionHandler);
 		this.undoStack.push(canvasController.getCurrentCanvasSnapshot()); // Set initial state as base action for undo
+		LOGGER.info("New Workspace Created");
 	}
 
 	public void createTempFile() throws IOException {
@@ -112,10 +117,13 @@ public class Workspace {
 	 * */
 	public void handleRedoAction() {
 		if (getRedoStack().size() >= 1) {
+			LOGGER.info("Redo applied");
 			WritableImage img = getRedoStack().pop();
 			// Re-Add to undo stack
 			getUndoStack().push(img);
 			getCanvasController().setCanvas(img);
+		} else {
+			LOGGER.error("Redo Attempted but Redo Stack has current size: {}", getRedoStack().size());
 		}
 	}
 
@@ -127,9 +135,12 @@ public class Workspace {
 	 * */
 	public void handleUndoAction() {
 		if (getUndoStack().size() >= 1) {
+			LOGGER.info("Undo applied");
 			WritableImage currentState = getUndoStack().pop(); // Remove last applied change
 			getCanvasController().setCanvas(currentState); // Apply prev state to current canvas
 			getRedoStack().push(currentState); // Add to redo stack
+		} else {
+			LOGGER.error("Undo Attempted but Undo Stack has current size: {}", getUndoStack().size());
 		}
 	}
 }
