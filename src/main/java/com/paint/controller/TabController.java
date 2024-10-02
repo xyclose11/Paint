@@ -11,6 +11,8 @@ import javafx.scene.control.TabPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
@@ -27,6 +29,7 @@ public class TabController {
 	private SettingStateModel settingStateModel;
 	private WorkspaceHandler workspaceHandler;
 	private WebServerHandler webServerHandler;
+	private static final Logger LOGGER = LogManager.getLogger();
 
 	@FXML
 	public TabPane fileTabPane;
@@ -46,6 +49,7 @@ public class TabController {
 	@FXML
 	private void onMouseClickedNewFileTab(MouseEvent event) throws IOException {
 		createNewTab();
+		LOGGER.info("Mouse Click New File Tab: X:{}Y:{}", event.getX(), event.getY());
 	}
 
 	public void onKeyPressedNewFileTab(KeyEvent keyEvent) throws IOException {
@@ -99,6 +103,8 @@ public class TabController {
 		this.tabModel.setNewTab(newTab);
 
 		this.webServerHandler.updateCurrentFile(null);
+
+		LOGGER.info("New Tab Created: {} | At index: {}", newTab, tabPane.getTabs().size());
 	}
 	// TAB Handler SECTION END
 
