@@ -61,11 +61,4 @@ public final class NotificationsHandler {
         this.notificationsActive = notificationsActive;
     }
 
-    public Notifications getNotifications() {
-        return notifications;
-    }
-
-    public void setNotifications(Notifications notifications) {
-        this.notifications = notifications;
-    }
 }
