@@ -29,7 +29,6 @@ import java.util.Objects;
 
 public class Main extends Application {
 
-	private static final Logger LOGGER = LogManager.getLogger(Main.class);
 
 	// Instantiate models for future use
 	private final CanvasModel canvasModel = new CanvasModel();
@@ -44,19 +43,22 @@ public class Main extends Application {
 	// Threading
 	private final AutoSave autoSaveService = new AutoSave();
 
+	protected static final Logger LOGGER = LogManager.getLogger();
+
 	public static void main(String[] args) {
+		LOGGER.info("MAIN INFO");
+		LOGGER.trace("MAIN TRACE");
+		LOGGER.debug("MAIN DEBUG");
+		LOGGER.warn("MAIN WARN");
 		launch();
 	}
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
 		LOGGER.info("MAIN INFO");
 		LOGGER.trace("MAIN TRACE");
 		LOGGER.debug("MAIN DEBUG");
 		LOGGER.warn("MAIN WARN");
-		LOGGER.error("MAIN ERROR");
-		LOGGER.fatal("MAIN FATAL");
 
 		final WebServerHandler webServerHandler = new WebServerHandler();
 

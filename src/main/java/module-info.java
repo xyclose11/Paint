@@ -13,8 +13,9 @@ module com.paint {
     requires org.controlsfx.controls;
 	requires org.slf4j;
 	requires org.apache.logging.log4j;
+	requires org.apache.logging.log4j.core;
 
-	opens com.paint to javafx.fxml;
+	opens com.paint to javafx.fxml, org.apache.logging.log4j;
     exports com.paint;
 	exports com.paint.controller;
 	exports com.paint.resource;
