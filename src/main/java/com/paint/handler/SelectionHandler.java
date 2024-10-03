@@ -137,7 +137,7 @@ public class SelectionHandler {
 		TransformableNode transformableNode = new TransformableNode(imageView, workspaceHandler);
 		transformableNode.setTransformable(true);
 		transformableNode.enableTransformations();
-		this.paintStateModel.setCurrentShape(transformableNode);
+		this.paintStateModel.setCurrentNode(transformableNode);
 
 		this.paintStateModel.setCurrentSelection(imageView);
 
@@ -195,7 +195,7 @@ public class SelectionHandler {
 			pasteImageNode.setTransformable(true);
 			pasteImageNode.enableTransformations();
 
-			this.paintStateModel.setCurrentShape(pasteImageNode);
+			this.paintStateModel.setCurrentNode(pasteImageNode);
 			this.paintStateModel.setCurrentSelection(imageView);
 
 			this.workspaceHandler.getCurrentWorkspace().getCanvasController().getDrawingPane().getChildren().add(pasteImageNode);

@@ -272,35 +272,35 @@ public class ToolMenuController {
     }
 
     private void handleRotateRightEvent(ActionEvent event) {
-        if (this.paintStateModel.getCurrentShape() == null) {
+        if (this.paintStateModel.getCurrentNode() == null) {
             rotateCanvas("right");
             return;
         }
 
-        TransformableNode currentNode = this.paintStateModel.getCurrentShape();
+        TransformableNode currentNode = this.paintStateModel.getCurrentNode();
 
         currentNode.rotate90Right();
 
     }
 
     private void handleRotateLeftEvent(ActionEvent event) {
-        if (this.paintStateModel.getCurrentShape() == null) {
+        if (this.paintStateModel.getCurrentNode() == null) {
             rotateCanvas("left");
             return;
         }
 
-        TransformableNode currentNode = this.paintStateModel.getCurrentShape();
+        TransformableNode currentNode = this.paintStateModel.getCurrentNode();
 
         currentNode.rotate90Left();
     }
 
     private void handleRotate180Event(ActionEvent event) {
-        if (this.paintStateModel.getCurrentShape() == null) {
+        if (this.paintStateModel.getCurrentNode() == null) {
             rotateCanvas("180");
             return;
         }
 
-        TransformableNode currentNode = this.paintStateModel.getCurrentShape();
+        TransformableNode currentNode = this.paintStateModel.getCurrentNode();
 
         currentNode.rotate180();
     }

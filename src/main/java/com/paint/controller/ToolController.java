@@ -65,7 +65,7 @@ public class ToolController {
                 currentShape = new TransformableNode(textArea, this.paintStateModel.getCurrentWorkspaceModel());
                 currentShape.setTransformable(true);
                 currentShape.enableTransformations();
-                this.paintStateModel.setCurrentShape(currentShape);
+                this.paintStateModel.setCurrentNode(currentShape);
                 textArea.positionCaret(0);
 
 
@@ -105,7 +105,7 @@ public class ToolController {
     }
 
     public void applyTextToCanvas(String text) {
-        TransformableNode transformableNode = this.paintStateModel.getCurrentShape();
+        TransformableNode transformableNode = this.paintStateModel.getCurrentNode();
         graphicsContext.strokeText(text, transformableNode.getTranslatedX(), transformableNode.getTranslatedY());
     }
 

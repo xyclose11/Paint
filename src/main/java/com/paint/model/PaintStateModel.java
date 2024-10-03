@@ -35,7 +35,7 @@ public class PaintStateModel {
 	private final ObjectProperty<Color> currentPaintColor = new SimpleObjectProperty<>(Color.BLACK);
 	private String currentTool; // Holds the currentTool that the user has selected.
 	private String currentToolType; // Differentiates the differing tool types. i.e. (Select, brush, shape, etc.)
-	private TransformableNode currentShape;
+	private TransformableNode currentNode;
 	private double currentLineWidth;
 	private StrokeLineCap currentStrokeLineCap;
 	private double currentShapeLineStrokeWidth;
@@ -52,7 +52,7 @@ public class PaintStateModel {
 		this.currentBrush = new BrushObj();
 		this.currentTool = INITIAL_TOOL;
 		this.currentToolType = INITIAL_TOOLTYPE; // Tool Types include: shape, brush, image, selection, & general
-		this.currentShape = null;
+		this.currentNode = null;
 		this.currentLineWidth = INITIAL_LINE_WIDTH;
 		this.currentStrokeLineCap = INITIAL_LINE_CAP; // Default cap for lines
 		this.currentShapeLineStrokeWidth = INITIAL_SHAPE_LINE_WIDTH;
@@ -123,12 +123,12 @@ public class PaintStateModel {
 		LOGGER.info("Line Width set to: {}px", currentLineWidth);
 	}
 
-	public TransformableNode getCurrentShape() {
-		return this.currentShape;
+	public TransformableNode getCurrentNode() {
+		return this.currentNode;
 	}
 
-	public void setCurrentShape(TransformableNode currentShape) {
-		this.currentShape = currentShape;
+	public void setCurrentNode(TransformableNode currentNode) {
+		this.currentNode = currentNode;
 	}
 
 	public String getCurrentTool() {

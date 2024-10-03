@@ -28,8 +28,6 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Main extends Application {
-
-
 	// Instantiate models for future use
 	private final CanvasModel canvasModel = new CanvasModel();
 	private final PaintStateModel paintStateModel = new PaintStateModel();
@@ -37,12 +35,16 @@ public class Main extends Application {
 	private final InfoCanvasModel infoCanvasModel = new InfoCanvasModel();
 	private final SettingStateModel settingStateModel = new SettingStateModel();
 	private final TabModel tabModel = new TabModel();
+
+	// Handlers
 	private final WorkspaceHandler workspaceHandler = new WorkspaceHandler();
 	private final SelectionHandler selectionHandler = new SelectionHandler();
 	private final NotificationsHandler notificationsHandler = new NotificationsHandler();
+
 	// Threading
 	private final AutoSave autoSaveService = new AutoSave();
 
+	// Logging
 	protected static final Logger LOGGER = LogManager.getLogger();
 
 	public static void main(String[] args) {
@@ -53,25 +55,26 @@ public class Main extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		final WebServerHandler webServerHandler = new WebServerHandler();
 
-		final int INITIAL_RES_X = 1200; // Initial resolution vals
+		// Initial resolution vals
+		final int INITIAL_RES_X = 1200;
 		final int INITIAL_RES_Y = 900;
+
 		BorderPane rootLayout = new BorderPane(); // Contains the main scene/content
 
 		rootLayout.setPrefWidth(INITIAL_RES_X);
 		rootLayout.setPrefHeight(INITIAL_RES_Y);
-		// Set Center
-		FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/view/CanvasView.fxml"));
 
+		// CanvasView
+		FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/view/CanvasView.fxml"));
 		HBox canvasView = canvasLoader.load();
 
-
+		// TabPaneWrapper View
 		FXMLLoader tabPaneWrapperLoader = new FXMLLoader(getClass().getResource("/view/TabPaneWrapper.fxml"));
 		TabPane canvasWrapper = tabPaneWrapperLoader.load();
 
 		rootLayout.setCenter(canvasWrapper);
 
-		canvasModel.setCanvasView(canvasView);
-
+		// Controller instantiation
 		CanvasController canvasController = canvasLoader.getController();
 		TabController tabController = tabPaneWrapperLoader.getController();
 
@@ -86,24 +89,23 @@ public class Main extends Application {
 		topWrapper.getChildren().addAll(utilityMenu, toolMenuLoader.load());
 		rootLayout.setTop(topWrapper);
 
-        // Load ToolMenuController after load
+		// Controller instantiation
         ToolMenuController toolMenuController = toolMenuLoader.getController();
-        toolMenuController.setCurrentWorkspaceModel(workspaceHandler);
-
 		UtilityController utilityController = utilityMenuLoader.getController();
-		utilityController.setCurrentWorkspaceModel(workspaceHandler);
-		utilityController.setNotificationsHandler(notificationsHandler);
 
 		// Set bottom
 		FXMLLoader infoBarLoader = new FXMLLoader(getClass().getResource("/view/InfoBar.fxml"));
-
 		rootLayout.setBottom(infoBarLoader.load());
-
 		InfoController infoController = infoBarLoader.getController();
 
 		Scene scene = new Scene(rootLayout, INITIAL_RES_X, INITIAL_RES_Y);
 
 		// Set controller models
+		toolMenuController.setCurrentWorkspaceModel(workspaceHandler);
+
+		utilityController.setCurrentWorkspaceModel(workspaceHandler);
+		utilityController.setNotificationsHandler(notificationsHandler);
+
 		utilityController.setHelpAboutModel(helpAboutModel);
 		utilityController.setCanvasModel(canvasModel);
 		utilityController.setWebServerHandler(webServerHandler);
@@ -113,8 +115,8 @@ public class Main extends Application {
 		FXMLLoader fontToolBarLoader = new FXMLLoader(getClass().getResource("/view/FontToolBar.fxml"));
 		toolMenuController.setFontToolBarLoader(fontToolBarLoader);
 
+		// Handler model instantiation
 		webServerHandler.setInfoController(infoController);
-
 		workspaceHandler.setSettingStateModel(settingStateModel);
 		workspaceHandler.setInfoCanvasModel(infoCanvasModel);
 		workspaceHandler.setTabModel(tabModel);
@@ -125,10 +127,10 @@ public class Main extends Application {
 		selectionHandler.setPaintStateModel(paintStateModel);
 		selectionHandler.setCurrentWorkspaceModel(workspaceHandler);
 
+		// Controller model instantiation
 		canvasController.setCanvasModel(canvasModel);
 		canvasController.setPaintStateModel(paintStateModel);
 		canvasController.setInfoCanvasModel(infoCanvasModel);
-		canvasController.setSettingStateModel(settingStateModel);
 		canvasController.setTabModel(tabModel);
 		canvasController.setCurrentWorkspaceModel(workspaceHandler);
 		canvasController.setSelectionHandler(selectionHandler);
@@ -140,6 +142,12 @@ public class Main extends Application {
 		tabController.setSettingStateModel(settingStateModel);
 		tabController.setCurrentWorkspaceModel(workspaceHandler);
 		tabController.setWebServerHandler(webServerHandler);
+
+		infoController.setCanvasModel(canvasModel);
+		infoController.setInfoCanvasModel(infoCanvasModel);
+		infoController.setPaintStateModel(paintStateModel);
+		infoController.setCurrentWorkspaceModel(workspaceHandler);
+		infoController.setNotificationsHandler(notificationsHandler);
 
 		autoSaveService.setUtilityController(utilityController);
 		utilityController.setAutoSave(autoSaveService);
@@ -160,8 +168,8 @@ public class Main extends Application {
 			LOGGER.info("Current Workspace File: {}", currentWorkspaceFile);
 
 			// Exit user from transformation mode
-			if (this.paintStateModel.getCurrentShape() != null) {
-				this.paintStateModel.getCurrentShape().exitTransformMode();
+			if (this.paintStateModel.getCurrentNode() != null) {
+				this.paintStateModel.getCurrentNode().exitTransformMode();
 				LOGGER.info("Forcefully exited transform mode for current node");
 			}
 
@@ -176,20 +184,14 @@ public class Main extends Application {
 
 		tabModel.setTabPane(canvasWrapper);
 
-		infoController.setCanvasModel(canvasModel);
-		infoController.setInfoCanvasModel(infoCanvasModel);
-		infoController.setPaintStateModel(paintStateModel);
-		infoController.setCurrentWorkspaceModel(workspaceHandler);
-		infoController.setNotificationsHandler(notificationsHandler);
-
 		paintStateModel.setInfoCanvasModel(infoCanvasModel);
 		paintStateModel.setCurrentWorkspaceModel(workspaceHandler);
-		
+		canvasModel.setCanvasView(canvasView);
+
 		settingStateModel.setAutoSave(autoSaveService);
 
 		// Load blank tab on startup
 		tabController.createNewTab();
-
 
 		// Add style sheets
 		try {
@@ -200,9 +202,6 @@ public class Main extends Application {
 			e.printStackTrace();
 			LOGGER.fatal("Issue loading CSS Style Sheets in Main: {}",e);
 		}
-
-		// UNDO SETUP START
-		// UNDO SETUP END
 
 		// Setup key binding event listeners
 		scene.addEventFilter(KeyEvent.KEY_PRESSED, new EventHandler<KeyEvent>() {

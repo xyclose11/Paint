@@ -80,7 +80,7 @@ public class TransformableNode extends Group {
 			this.setTranslateY((dragEvent.getSceneY() - startY));
 		});
 
-		this.workspaceHandler.getPaintStateModel().setCurrentShape(this);
+		this.workspaceHandler.getPaintStateModel().setCurrentNode(this);
 		// Translation handler (XY Movement) SECTION END
 	}
 
@@ -149,7 +149,7 @@ public class TransformableNode extends Group {
 		// Enable CanvasController handlers
 		canvasController.setCanvasDrawingStackPaneHandlerState(true);
 
-		this.workspaceHandler.getPaintStateModel().setCurrentShape(null);
+		this.workspaceHandler.getPaintStateModel().setCurrentNode(null);
 	}
 
 

@@ -11,8 +11,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Stack;
 
 /**
@@ -38,7 +36,6 @@ public class Workspace {
 		FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/view/CanvasView.fxml"));
 		this.canvasView = canvasLoader.load();
 		this.canvasModel = new CanvasModel();
-
 		this.canvasController = canvasLoader.getController();
 		this.isActive = isActive;
 
@@ -46,9 +43,9 @@ public class Workspace {
 		canvasController.setCanvasModel(canvasModel);
 		canvasController.setPaintStateModel(paintStateModel);
 		canvasController.setInfoCanvasModel(infoCanvasModel);
-		canvasController.setSettingStateModel(settingStateModel);
 		canvasController.setTabModel(tabModel);
 		canvasController.setCurrentWorkspaceModel(paintStateModel.getCurrentWorkspaceModel());
+
 		SelectionHandler selectionHandler = new SelectionHandler();
 		selectionHandler.setPaintStateModel(paintStateModel);
 		canvasController.setSelectionHandler(selectionHandler);
@@ -56,10 +53,41 @@ public class Workspace {
 		LOGGER.info("New Workspace Created");
 	}
 
-	public void createTempFile() throws IOException {
-		Path tempFile = Files.createTempFile(Files.createTempDirectory("temp-dir"), "testData-", ".txt");
-        this.workspaceFile = tempFile.toFile();
+	/**
+	 * This method handles the <strong>Redo</strong> functionality
+	 *
+	 * NOTE: Both <strong>redo</strong> and <strong>undo</strong> function
+	 * by taking {canvas snapshots}
+	 * */
+	public void handleRedoAction() {
+		if (this.redoStack.size() >= 1) {
+			LOGGER.info("Redo applied");
+			WritableImage img = this.redoStack.pop();
+			// Re-Add to undo stack
+			this.undoStack.push(img);
+			getCanvasController().setCanvas(img);
+		} else {
+			LOGGER.error("Redo Attempted but Redo Stack has current size: {}", this.redoStack.size());
+		}
 	}
+
+	/**
+	 * This method handles the <strong>Undo</strong> functionality
+	 *
+	 * NOTE: Both <strong>redo</strong> and <strong>undo</strong> function
+	 * by taking {canvas snapshots}
+	 * */
+	public void handleUndoAction() {
+		if (this.undoStack.size() >= 1) {
+			LOGGER.info("Undo applied");
+			WritableImage currentState = this.undoStack.pop(); // Remove last applied change
+			getCanvasController().setCanvas(currentState); // Apply prev state to current canvas
+			this.redoStack.push(currentState); // Add to redo stack
+		} else {
+			LOGGER.error("Undo Attempted but Undo Stack has current size: {}", this.undoStack.size());
+		}
+	}
+
 
 	public Stack<WritableImage> getUndoStack() {
 		return this.undoStack;
@@ -107,40 +135,5 @@ public class Workspace {
 
 	public void setWorkspaceFile(File workspaceFile) {
 		this.workspaceFile = workspaceFile;
-	}
-
-	/**
-	 * This method handles the <strong>Redo</strong> functionality
-	 *
-	 * NOTE: Both <strong>redo</strong> and <strong>undo</strong> function
-	 * by taking {canvas snapshots}
-	 * */
-	public void handleRedoAction() {
-		if (getRedoStack().size() >= 1) {
-			LOGGER.info("Redo applied");
-			WritableImage img = getRedoStack().pop();
-			// Re-Add to undo stack
-			getUndoStack().push(img);
-			getCanvasController().setCanvas(img);
-		} else {
-			LOGGER.error("Redo Attempted but Redo Stack has current size: {}", getRedoStack().size());
-		}
-	}
-
-	/**
-	 * This method handles the <strong>Undo</strong> functionality
-	 *
-	 * NOTE: Both <strong>redo</strong> and <strong>undo</strong> function
-	 * by taking {canvas snapshots}
-	 * */
-	public void handleUndoAction() {
-		if (getUndoStack().size() >= 1) {
-			LOGGER.info("Undo applied");
-			WritableImage currentState = getUndoStack().pop(); // Remove last applied change
-			getCanvasController().setCanvas(currentState); // Apply prev state to current canvas
-			getRedoStack().push(currentState); // Add to redo stack
-		} else {
-			LOGGER.error("Undo Attempted but Undo Stack has current size: {}", getUndoStack().size());
-		}
 	}
 }
