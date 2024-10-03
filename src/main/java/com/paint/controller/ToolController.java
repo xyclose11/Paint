@@ -173,7 +173,7 @@ public class ToolController {
         return star[0];
     }
 
-    public void showInputDialog(Pane drawingPane) {
+    public Polygon showInputDialog(Pane drawingPane) {
         // Create a dialog
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle("Polygon Input");
@@ -210,6 +210,7 @@ public class ToolController {
         dialog.getDialogPane().setContent(grid);
 
         // Convert the result to a polygon and draw it
+        final Polygon[] regularPolygon = {null};
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == submitButtonType) {
                 try {
@@ -217,7 +218,7 @@ public class ToolController {
                     double radius = Double.parseDouble(radiusField.getText());
                     double centerX = Double.parseDouble(centerXField.getText());
                     double centerY = Double.parseDouble(centerYField.getText());
-                    createPolygon(numberOfSides, radius, centerX, centerY, drawingPane);
+                    regularPolygon[0] = createPolygon(numberOfSides, radius, centerX, centerY, drawingPane);
                 } catch (NumberFormatException e) {
                     showAlert("Invalid input", "Please enter valid numbers.");
                 }
@@ -227,6 +228,8 @@ public class ToolController {
 
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.showAndWait();
+
+        return regularPolygon[0];
     }
 
     private void showAlert(String title, String message) {
@@ -237,7 +240,7 @@ public class ToolController {
         alert.showAndWait();
     }
 
-    public void createPolygon(int numberOfSides, double radius, double centerX, double centerY, Pane drawingPane) {
+    public Polygon createPolygon(int numberOfSides, double radius, double centerX, double centerY, Pane drawingPane) {
         Polygon polygon = new Polygon();
         double angleStep = 360.0 / numberOfSides;
         loadDefaultShapeAttributes(polygon);
@@ -249,14 +252,8 @@ public class ToolController {
             double y = centerY + radius * Math.sin(angle);
             polygon.getPoints().addAll(x, y);
         }
-    }
 
-    private void handleStar(Star star) {
-        graphicsContext.strokePolygon(
-                star.getPoints().stream().filter(p -> star.getPoints().indexOf(p) % 2 == 0).mapToDouble(p -> p).toArray(),
-                star.getPoints().stream().filter(p -> star.getPoints().indexOf(p) % 2 == 1).mapToDouble(p -> p).toArray(),
-                star.getPoints().size() / 2
-        );
+        return polygon;
     }
 
     public GraphicsContext getGraphicsContext() {

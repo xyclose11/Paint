@@ -226,8 +226,13 @@ public class CanvasController {
                 currentShape = new TransformableNode(curve, this.workspaceHandler);
                 break;
             case "regularPolygon":
-                currentShape = new TransformableNode(new Polygon(), this.workspaceHandler);
-                toolController.showInputDialog(this.drawingPane);
+                Polygon regularPoly = toolController.showInputDialog(this.drawingPane);
+                if (regularPoly != null) {
+                    currentShape = new TransformableNode(regularPoly, this.workspaceHandler);
+                    currentShape.enableTransformations();
+                    this.paintStateModel.setCurrentShape(currentShape);
+                    handleToolShapeReleased(currentShape);
+                }
                 break;
         }
 
@@ -502,8 +507,6 @@ public class CanvasController {
                     timesAdjusted++;
                 }
             });
-        } else if (this.paintStateModel.getCurrentTool() == "regularPolygon") {
-
         } else {
             // Allow shape to be selected via mouse select
             currentShape.setPickOnBounds(true);
@@ -621,16 +624,16 @@ public class CanvasController {
                 Star star = (Star) transformableNode.getChildren().get(0);
                 handleStar(xT, yT, star);
                 break;
-            case "RegularPolygon":
+            case "regularPolygon":
                 Polygon polygon = (Polygon) transformableNode.getChildren().get(0);
                 double[] xPoints = new double[polygon.getPoints().size() / 2];
                 double[] yPoints = new double[polygon.getPoints().size() / 2];
 
                 for (int i = 0; i < polygon.getPoints().size(); i++) {
                     if (i % 2 == 0) {
-                        xPoints[i / 2] = polygon.getPoints().get(i);
+                        xPoints[i / 2] = polygon.getPoints().get(i) + xT;
                     } else {
-                        yPoints[i / 2] = polygon.getPoints().get(i);
+                        yPoints[i / 2] = polygon.getPoints().get(i) + yT;
                     }
                 }
                 graphicsContext.strokePolygon(xPoints, yPoints, xPoints.length);
