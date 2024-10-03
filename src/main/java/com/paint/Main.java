@@ -102,6 +102,8 @@ public class Main extends Application {
 
 		// Set controller models
 		toolMenuController.setCurrentWorkspaceModel(workspaceHandler);
+		toolMenuController.setPaintStateModel(paintStateModel);
+		toolMenuController.setInfoCanvasModel(infoCanvasModel);
 
 		utilityController.setCurrentWorkspaceModel(workspaceHandler);
 		utilityController.setNotificationsHandler(notificationsHandler);
@@ -109,7 +111,6 @@ public class Main extends Application {
 		utilityController.setHelpAboutModel(helpAboutModel);
 		utilityController.setCanvasModel(canvasModel);
 		utilityController.setWebServerHandler(webServerHandler);
-		toolMenuController.setPaintStateModel(paintStateModel);
 
 		// Set the FXMLLoader for the Font tool menu
 		FXMLLoader fontToolBarLoader = new FXMLLoader(getClass().getResource("/view/FontToolBar.fxml"));

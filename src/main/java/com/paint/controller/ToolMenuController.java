@@ -1,6 +1,7 @@
 package com.paint.controller;
 
 import com.paint.handler.WorkspaceHandler;
+import com.paint.model.InfoCanvasModel;
 import com.paint.model.PaintStateModel;
 import com.paint.resource.ResizeableCanvas;
 import com.paint.resource.TransformableNode;
@@ -62,6 +63,7 @@ public class ToolMenuController {
     public ToggleButton selection;
 
     private PaintStateModel paintStateModel;
+    private InfoCanvasModel infoCanvasModel;
 
     private LineWidthController lineWidthController;
 
@@ -81,42 +83,7 @@ public class ToolMenuController {
     @FXML
     private ComboBox<String> toolMenuShapeLineWidthCB;
 
-    public FXMLLoader getFontToolBarLoader() {
-        return fontToolBarLoader;
-    }
 
-    public void setFontToolBarLoader(FXMLLoader fontToolBarLoader) {
-        this.fontToolBarLoader = fontToolBarLoader;
-    }
-
-    // Set models
-    public void setPaintStateModel(PaintStateModel paintStateModel) {
-        this.paintStateModel = paintStateModel;
-    }
-
-    public WorkspaceHandler getCurrentWorkspaceModel() {
-        return workspaceHandler;
-    }
-
-    public void setCurrentWorkspaceModel(WorkspaceHandler workspaceHandler) {
-        this.workspaceHandler = workspaceHandler;
-    }
-
-    public void setLineWidthController(LineWidthController lineWidthController) {
-        this.lineWidthController = lineWidthController;
-    }
-
-    public LineWidthController getLineWidthController() {
-        return this.lineWidthController;
-    }
-
-    public void setLwView(HBox hBox) {
-        this.lwView = hBox;
-    }
-
-    public HBox getLwView() {
-        return lwView;
-    }
 
     @FXML
     public void updateShapeToolState(MouseEvent mouseEvent) {
@@ -305,14 +272,17 @@ public class ToolMenuController {
         currentNode.rotate180();
     }
 
+    // rotate canvas if no object is selected
     private void rotateCanvas(String direction) {
         StackPane stackPane = (StackPane) this.workspaceHandler.getCurrentWorkspace().getCanvasModel().getCanvasGroup().getChildren().get(0);
         ResizeableCanvas resizeableCanvas = (ResizeableCanvas) stackPane.getChildren().get(0);
         
         if (direction.contains("right")) {
             resizeableCanvas.rotate90Right();
+            infoCanvasModel.setResolutionLblText(resizeableCanvas.getWidth(),resizeableCanvas.getHeight());
         } else if (direction.contains("left")) {
             resizeableCanvas.rotate90Left();
+            infoCanvasModel.setResolutionLblText(resizeableCanvas.getWidth(),resizeableCanvas.getHeight());
         } else if (direction.contains("180")){
             resizeableCanvas.rotate180();
         }
@@ -351,5 +321,48 @@ public class ToolMenuController {
         return (ResizeableCanvas) stackPane.getChildren().get(0);
     }
 
+    public FXMLLoader getFontToolBarLoader() {
+        return fontToolBarLoader;
+    }
 
+    public void setFontToolBarLoader(FXMLLoader fontToolBarLoader) {
+        this.fontToolBarLoader = fontToolBarLoader;
+    }
+
+    // Set models
+    public void setPaintStateModel(PaintStateModel paintStateModel) {
+        this.paintStateModel = paintStateModel;
+    }
+
+    public WorkspaceHandler getCurrentWorkspaceModel() {
+        return workspaceHandler;
+    }
+
+    public void setCurrentWorkspaceModel(WorkspaceHandler workspaceHandler) {
+        this.workspaceHandler = workspaceHandler;
+    }
+
+    public void setLineWidthController(LineWidthController lineWidthController) {
+        this.lineWidthController = lineWidthController;
+    }
+
+    public LineWidthController getLineWidthController() {
+        return this.lineWidthController;
+    }
+
+    public void setLwView(HBox hBox) {
+        this.lwView = hBox;
+    }
+
+    public HBox getLwView() {
+        return lwView;
+    }
+
+    public InfoCanvasModel getInfoCanvasModel() {
+        return infoCanvasModel;
+    }
+
+    public void setInfoCanvasModel(InfoCanvasModel infoCanvasModel) {
+        this.infoCanvasModel = infoCanvasModel;
+    }
 }
