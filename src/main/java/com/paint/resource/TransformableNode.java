@@ -138,7 +138,6 @@ public class TransformableNode extends Group {
 			case ("selection"), ("paste"):
 				this.canvasController.applySelectionToCanvas((ImageView) this.originalNode);
 				break;
-
 		}
 
 		selectionRect.heightProperty().unbind();

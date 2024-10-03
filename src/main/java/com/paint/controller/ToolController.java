@@ -124,11 +124,8 @@ public class ToolController {
         // Create input fields
         TextField sidesField = new TextField();
         sidesField.setPromptText("Number of points");
-        TextField innerRadiusField = new TextField();
-        innerRadiusField.setPromptText("Inner Radius");
-
-        TextField outerRadiusField = new TextField();
-        innerRadiusField.setPromptText("Outer Radius");
+        TextField radiusField = new TextField();
+        radiusField.setPromptText("Radius");
 
         TextField centerXField = new TextField();
         centerXField.setPromptText("Center X");
@@ -139,10 +136,8 @@ public class ToolController {
         grid.add(sidesField, 1, 0);
 
         grid.add(new Label("Inner Radius:"), 0, 1);
-        grid.add(innerRadiusField, 1, 1);
+        grid.add(radiusField, 1, 1);
 
-        grid.add(new Label("Outer Radius:"), 0, 2);
-        grid.add(outerRadiusField, 1, 2);
 
         grid.add(new Label("Center X:"), 0, 3);
         grid.add(centerXField, 1, 3);
@@ -161,11 +156,10 @@ public class ToolController {
             if (dialogButton == submitButtonType) {
                 try {
                     int numberOfSides = Integer.parseInt(sidesField.getText());
-                    double innerRadius = Double.parseDouble(innerRadiusField.getText());
-                    double outerRadius = Double.parseDouble(outerRadiusField.getText());
+                    double radius = Double.parseDouble(radiusField.getText());
                     double centerX = Double.parseDouble(centerXField.getText());
                     double centerY = Double.parseDouble(centerYField.getText());
-                    star[0] = (new Star(numberOfSides, centerX, centerY, innerRadius, outerRadius));
+                    star[0] = (new Star(numberOfSides, centerX, centerY, radius));
                 } catch (NumberFormatException e) {
                     showAlert("Invalid input", "Please enter valid numbers.");
                 }

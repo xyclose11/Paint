@@ -213,8 +213,9 @@ public class CanvasController {
                 break;
             case "Star":
                 Star star = toolController.showStarInputDialog(drawingPane);
-                currentShape = new TransformableNode(star, this.workspaceHandler);
-                // TODO make it so that the star gets applied to the canvas
+                if (star != null) {
+                    currentShape = new TransformableNode(star, this.workspaceHandler);
+                }
                 break;
             case "Curve":
                 timesAdjusted = 0;
@@ -468,6 +469,7 @@ public class CanvasController {
 
     private int timesAdjusted = 0; // Cubic curve
     private void handleToolShapeReleased(TransformableNode currentShape) {
+        System.out.println(currentShape);
         if (currentShape == null) {
             return;
         }

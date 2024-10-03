@@ -14,29 +14,28 @@ import javafx.scene.shape.Polygon;
  * @since 1.2
  * */
 public class Star extends Polygon {
-    public Star(int numPoints, double centerX, double centerY, double innerRadius, double outerRadius) {
+    public Star(int numPoints, double centerX, double centerY, double radius) {
         super();
-        updateStar(numPoints, centerX, centerY, innerRadius, outerRadius);
+        updateStar(numPoints, centerX, centerY, radius);
     }
 
-    public void updateStar(int numPoints, double centerX, double centerY, double innerRadius, double outerRadius) {
+    // Used https://math.stackexchange.com/questions/2135982/math-behind-creating-a-perfect-star for math background
+    public void updateStar(int numPoints, double centerX, double centerY, double radius) {
         getPoints().clear();
 
-        double angleStep = 2 * Math.PI / (numPoints * 2);
+        double outerRadius = radius;
+        double innerRadius = radius * 0.5;
 
-        // Loop through twice the number of points (alternating inner and outer vertices)
+        double angleStep = Math.PI / numPoints;
+
         for (int i = 0; i < numPoints * 2; i++) {
-            // Calculate the angle for this vertex
+            double currentRadius = (i % 2 == 0) ? outerRadius : innerRadius;
+
             double angle = i * angleStep;
 
-            // Alternate between outer and inner radius
-            double r = (i % 2 == 0) ? outerRadius : innerRadius;
+            double x = centerX + currentRadius * Math.cos(angle);
+            double y = centerY + currentRadius * Math.sin(angle);
 
-            // Calculate the x and y coordinates for this vertex
-            double x = centerX + r * Math.cos(angle);
-            double y = centerY + r * Math.sin(angle);
-
-            // Add the vertex to the polygon
             getPoints().addAll(x, y);
         }
     }
