@@ -215,6 +215,9 @@ public class CanvasController {
                 Star star = toolController.showStarInputDialog(drawingPane);
                 if (star != null) {
                     currentShape = new TransformableNode(star, this.workspaceHandler);
+                    currentShape.enableTransformations();
+                    this.paintStateModel.setCurrentShape(currentShape);
+                    handleToolShapeReleased(currentShape);
                 }
                 break;
             case "Curve":
@@ -468,7 +471,7 @@ public class CanvasController {
     }
 
     private int timesAdjusted = 0; // Cubic curve
-    private void handleToolShapeReleased(TransformableNode currentShape) {
+    public void handleToolShapeReleased(TransformableNode currentShape) {
         System.out.println(currentShape);
         if (currentShape == null) {
             return;
@@ -630,7 +633,6 @@ public class CanvasController {
                         yPoints[i / 2] = polygon.getPoints().get(i);
                     }
                 }
-                // TODO fix issue where if regular poly is moved it won't be applied to the canvas
                 graphicsContext.strokePolygon(xPoints, yPoints, xPoints.length);
                 break;
         }

@@ -160,6 +160,7 @@ public class ToolController {
                     double centerX = Double.parseDouble(centerXField.getText());
                     double centerY = Double.parseDouble(centerYField.getText());
                     star[0] = (new Star(numberOfSides, centerX, centerY, radius));
+//                    handleStar(star[0]);
                 } catch (NumberFormatException e) {
                     showAlert("Invalid input", "Please enter valid numbers.");
                 }
@@ -248,6 +249,14 @@ public class ToolController {
             double y = centerY + radius * Math.sin(angle);
             polygon.getPoints().addAll(x, y);
         }
+    }
+
+    private void handleStar(Star star) {
+        graphicsContext.strokePolygon(
+                star.getPoints().stream().filter(p -> star.getPoints().indexOf(p) % 2 == 0).mapToDouble(p -> p).toArray(),
+                star.getPoints().stream().filter(p -> star.getPoints().indexOf(p) % 2 == 1).mapToDouble(p -> p).toArray(),
+                star.getPoints().size() / 2
+        );
     }
 
     public GraphicsContext getGraphicsContext() {
