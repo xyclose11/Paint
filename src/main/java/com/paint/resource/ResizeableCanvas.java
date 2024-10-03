@@ -63,24 +63,49 @@ public class ResizeableCanvas extends Canvas {
 	}
 
 	public void rotate90Right() {
-		double rotateAmount = (this.getRotate() + 90) % 360;
-		this.setRotate(rotateAmount);
+		WritableImage writableImage = new WritableImage((int) this.getWidth(), (int) this.getHeight());
+		this.snapshot(null, writableImage);
+		adjustResolutionOnRotation();
 
-		//		adjustResolutionOnRotation();
+		this.getGraphicsContext2D().clearRect(0, 0, this.getWidth(), this.getHeight());
+		this.getGraphicsContext2D().save();
+
+		this.getGraphicsContext2D().translate(this.getWidth(), 0);
+		this.getGraphicsContext2D().rotate(90);
+		this.getGraphicsContext2D().drawImage(writableImage, 0, 0);
+
+		this.getGraphicsContext2D().restore();
+
 	}
 
 	public void rotate90Left() {
-		double rotateAmount = (this.getRotate() - 90) % 360;
-		if (rotateAmount < 0) {
-			rotateAmount += 360;
-		}
-		this.setRotate(rotateAmount);
-//		adjustResolutionOnRotation();
+		WritableImage writableImage = new WritableImage((int) this.getWidth(), (int) this.getHeight());
+		this.snapshot(null, writableImage);
+		adjustResolutionOnRotation();
+
+		this.getGraphicsContext2D().clearRect(0, 0, this.getWidth(), this.getHeight());
+		this.getGraphicsContext2D().save();
+
+		this.getGraphicsContext2D().translate(0, this.getHeight());
+		this.getGraphicsContext2D().rotate(-90);
+		this.getGraphicsContext2D().drawImage(writableImage, 0, 0);
+
+		this.getGraphicsContext2D().restore();
+
 	}
 
 	public void rotate180() {
-		double rotateAmount = this.getRotate() + 180;
-		this.setRotate(rotateAmount);
+		WritableImage writableImage = new WritableImage((int) this.getWidth(), (int) this.getHeight());
+		this.snapshot(null, writableImage);
+
+		this.getGraphicsContext2D().clearRect(0, 0, this.getWidth(), this.getHeight());
+		this.getGraphicsContext2D().save();
+
+		this.getGraphicsContext2D().translate(this.getWidth(), this.getHeight());
+		this.getGraphicsContext2D().rotate(180);
+		this.getGraphicsContext2D().drawImage(writableImage, 0, 0);
+
+		this.getGraphicsContext2D().restore();
 	}
 
 	private void adjustResolutionOnRotation() {
