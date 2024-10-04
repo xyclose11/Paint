@@ -190,17 +190,41 @@ public class TransformableNode extends Group {
 		});
 	}
 
+	/**
+	 * <p>
+	 * This method rotates the node 90 degrees to the right.
+	 *
+	 * <p>
+	 * NOTE: This utilizes JavaFX 22 Shape class's. Not GraphicsContext from Canvas
+	 *
+	 * */
 	public void rotate90Right() {
 		// get previous rotation
 		double prevRotation = this.getRotate();
 		this.setRotate(prevRotation + 90);
 	}
 
+	/**
+	 * <p>
+	 * This method rotates the node 90 degrees to the left.
+	 *
+	 * <p>
+	 * NOTE: This utilizes JavaFX 22 Shape class's. Not GraphicsContext from Canvas
+	 *
+	 * */
 	public void rotate90Left() {
 		double prevRotation = this.getRotate();
 		this.setRotate(prevRotation - 90);
 	}
 
+	/**
+	 * <p>
+	 * This method rotates the node 180 degrees from its current location.
+	 *
+	 * <p>
+	 * NOTE: This utilizes JavaFX 22 Shape class's. Not GraphicsContext from Canvas
+	 *
+	 * */
 	public void rotate180() {
 		if (this.getRotate() == 180) {
 			this.setRotate(0);

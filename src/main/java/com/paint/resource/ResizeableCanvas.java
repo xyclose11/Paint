@@ -61,7 +61,42 @@ public class ResizeableCanvas extends Canvas {
 			this.setHeight(newHeight);
 		}
 	}
-
+	/**
+	 *
+	 * <p>
+	 *     This method rotates the canvas by 90 degrees to the right.*
+	 * <p>
+	 * General Process:
+	 * <ul>
+	 *     <li>
+	 *         <h4>
+	 *             1.
+	 *         </h4>
+	 *         Create a new writable image of the current canvas
+	 *     </li>
+	 *     <li>
+	 *         <h4>
+	 *             2.
+	 *         </h4>
+	 *         call {@code adjustResolutionOnRotation()} to adjust the canvas resolution before applying rotation
+	 *     </li>
+	 *     <li>
+	 *         <h4>
+	 *             3.
+	 *         </h4>
+	 *         Save the graphics context apply translations, rotate and apply the writable image from step 1
+	 *     </li>
+	 *     <li>
+	 *         <h4>
+	 *             4.
+	 *         </h4>
+	 *         Restore graphics context
+	 *     </li>
+	 * </ul>
+	 *
+	 * NOTE: This process does involve the usage of 'canvas.snapshot' to ensure that when rotated if the user were to draw \n
+	 * it wouldn't rotate the drawing.
+    * */
 	public void rotate90Right() {
 		WritableImage writableImage = new WritableImage((int) this.getWidth(), (int) this.getHeight());
 		this.snapshot(null, writableImage);
@@ -77,7 +112,43 @@ public class ResizeableCanvas extends Canvas {
 		this.getGraphicsContext2D().restore();
 
 	}
-
+	/**
+	 *
+	 * <p>
+	 *     This method rotates the canvas by 90 degrees to the left.
+	 *
+	 * <p>
+	 * General Process:
+	 * <ul>
+	 *     <li>
+	 *         <h4>
+	 *             1.
+	 *         </h4>
+	 *         Create a new writable image of the current canvas
+	 *     </li>
+	 *     <li>
+	 *         <h4>
+	 *             2.
+	 *         </h4>
+	 *         call {@code adjustResolutionOnRotation()} to adjust the canvas resolution before applying rotation
+	 *     </li>
+	 *     <li>
+	 *         <h4>
+	 *             3.
+	 *         </h4>
+	 *         Save the graphics context apply translations, rotate and apply the writable image from step 1
+	 *     </li>
+	 *     <li>
+	 *         <h4>
+	 *             4.
+	 *         </h4>
+	 *         Restore graphics context
+	 *     </li>
+	 * </ul>
+	 *
+	 * NOTE: This process does involve the usage of 'canvas.snapshot' to ensure that when rotated if the user were to draw \n
+	 * it wouldn't rotate the drawing.
+	 * */
 	public void rotate90Left() {
 		WritableImage writableImage = new WritableImage((int) this.getWidth(), (int) this.getHeight());
 		this.snapshot(null, writableImage);
@@ -94,6 +165,43 @@ public class ResizeableCanvas extends Canvas {
 
 	}
 
+	/**
+	 *
+	 * <p>
+	 *     This method rotates the canvas by 180 degrees.
+	 *
+	 * <p>
+	 * General Process:
+	 * <ul>
+	 *     <li>
+	 *         <h4>
+	 *             1.
+	 *         </h4>
+	 *         Create a new writable image of the current canvas
+	 *     </li>
+	 *     <li>
+	 *         <h4>
+	 *             2.
+	 *         </h4>
+	 *         call {@code adjustResolutionOnRotation()} to adjust the canvas resolution before applying rotation
+	 *     </li>
+	 *     <li>
+	 *         <h4>
+	 *             3.
+	 *         </h4>
+	 *         Save the graphics context apply translations, rotate and apply the writable image from step 1
+	 *     </li>
+	 *     <li>
+	 *         <h4>
+	 *             4.
+	 *         </h4>
+	 *         Restore graphics context
+	 *     </li>
+	 * </ul>
+	 *
+	 * NOTE: This process does involve the usage of 'canvas.snapshot' to ensure that when rotated if the user were to draw \n
+	 * it wouldn't rotate the drawing.
+	 * */
 	public void rotate180() {
 		WritableImage writableImage = new WritableImage((int) this.getWidth(), (int) this.getHeight());
 		this.snapshot(null, writableImage);
