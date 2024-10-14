@@ -70,7 +70,9 @@ public class TabController {
 		newTab.setOnCloseRequest(closeEvent -> {
 			this.workspaceHandler.getWorkspaceList().remove(tabPane.getTabs().size() - 1);
 			// on tab close exit current node from transformation mode
-			this.workspaceHandler.getPaintStateModel().getCurrentNode().exitTransformMode();
+			if (this.workspaceHandler.getPaintStateModel().getCurrentNode() != null) {
+				this.workspaceHandler.getPaintStateModel().getCurrentNode().exitTransformMode();
+			}
 		});
 
 		HBox canvasView = this.canvasModel.getCanvasView();
