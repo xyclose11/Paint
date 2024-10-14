@@ -51,7 +51,6 @@ public class WebServerHandler {
 	 * @throws IOException
 	 * */
 	public void createNewServer() throws IOException {
-		System.out.println(InetAddress.getLocalHost());
 		this.server = HttpServer.create(WEB_ADDRESS, 0);
 		fileHandler = new FileHandler();
 		fileHandler.setCurrentFile(null);

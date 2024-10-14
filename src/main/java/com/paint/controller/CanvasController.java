@@ -211,7 +211,7 @@ public class CanvasController {
         switch (this.paintStateModel.getCurrentBrush()) {
             case "regular":
                 LOGGER.info("Brush Pressed");
-                GraphicsContext gc = mainCanvas.getGraphicsContext2D(); // TODO move graphicsContext, setStroke, setLineWidth -> PaintStateModel
+                GraphicsContext gc = mainCanvas.getGraphicsContext2D();
                 gc.setStroke(this.paintStateModel.getCurrentPaintColor());
                 gc.setLineWidth(this.paintStateModel.getCurrentLineWidth());
                 gc.setLineCap(this.paintStateModel.getCurrentStrokeLineCap()); // Sets the line cap so that the brush appears 'circular' instead of 'square'
@@ -324,7 +324,7 @@ public class CanvasController {
         }
 
         if (shape instanceof RightTriangle rightTriangle) {
-            rightTriangle.setVertices(startX, curY, curX, startY, curX, curY); // TODO Update ToolMenu UI Icon with right triangle icon
+            rightTriangle.setVertices(startX, curY, curX, startY, curX, curY);
         }
 
         if (shape instanceof Rectangle rect) {
@@ -417,7 +417,6 @@ public class CanvasController {
 
     private int timesAdjusted = 0; // Cubic curve
     public void handleToolShapeReleased(TransformableNode currentNode) {
-        System.out.println(currentNode);
         if (currentNode == null) {
             return;
         }

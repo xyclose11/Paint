@@ -65,8 +65,6 @@ public class TabController {
 		TabPane tabPane = this.tabModel.getTabPane();
 		Tab newTab = new Tab("New File");
 
-		// TODO split this up into multiple methods i.e. 1.) Create new Tab 2. set events 3. tabPane stuff etc.
-
 		newTab.setOnCloseRequest(closeEvent -> {
 			this.workspaceHandler.getWorkspaceList().remove(tabPane.getTabs().size() - 1);
 			// on tab close exit current node from transformation mode

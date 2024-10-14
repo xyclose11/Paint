@@ -84,7 +84,7 @@ public class SelectionHandler {
 
 
 		// Check if cursor is going in Quadrant 4 (Meaning that it doesn't require any calculation swaps)
-		if (curX >= startX && curY >= startY) { // TODO replace this when you integrate with a shapeManager
+		if (curX >= startX && curY >= startY) {
 			selectionRect.setWidth((curX - startX));
 			selectionRect.setHeight((curY - startY));
 			return;
