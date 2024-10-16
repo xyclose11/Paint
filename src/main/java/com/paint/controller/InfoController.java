@@ -52,8 +52,6 @@ public class InfoController {
 	@FXML
 	private Label resolutionLbl;
 
-	@FXML
-	private Label selectionResLbl;
 
 	@FXML
 	private Label mousePosLbl;
@@ -115,7 +113,6 @@ public class InfoController {
 		// Bind text props for resolution, mouse POS, & selection resolution
 		this.mousePosLbl.textProperty().bind(this.infoCanvasModel.getMousePosLbl().textProperty());
 		this.resolutionLbl.textProperty().bind(this.infoCanvasModel.getResolutionLbl().textProperty());
-		this.selectionResLbl.textProperty().bind(this.infoCanvasModel.getSelectionResLbl().textProperty());
 		this.lineWidthLbl.textProperty().bind(this.infoCanvasModel.getCurrentLineWidthLbl().textProperty());
 	}
 

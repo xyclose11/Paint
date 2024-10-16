@@ -11,7 +11,7 @@
     <header>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="51.0" prefWidth="880.0">
             <children>
-                <Label layoutX="180.0" layoutY="16.0" text="Help with Pain(t) V 1.1.0">
+                <Label layoutX="180.0" layoutY="16.0" text="Help with Pain(t) V 1.6.0">
                     <font>
                         <Font name="System Bold" size="14.0" />
                     </font></Label>

@@ -23,12 +23,6 @@
             </tooltip>
         </Label>
         <Separator orientation="VERTICAL" />
-        <Label fx:id="selectionResLbl" text="Selection POS">
-            <tooltip>
-                <Tooltip text="Current XY Dimensions of selection being made" />
-            </tooltip>
-        </Label>
-        <Separator orientation="VERTICAL" />
         <Label fx:id="resolutionLbl" text="Resolution">
             <tooltip>
                 <Tooltip text="Current Resolution of Canvas" />
