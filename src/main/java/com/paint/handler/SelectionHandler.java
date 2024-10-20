@@ -122,7 +122,6 @@ public class SelectionHandler {
 		int selectX = (int) selectionRect.getX();
 		int selectY = (int) selectionRect.getY();
 
-		// TODO handle negative img dimensions
 		WritableImage selectImg = new WritableImage(pixelReader, selectX, selectY, (int) selectionRect.getWidth(), (int) selectionRect.getHeight());
 
 		ImageView imageView = new ImageView(selectImg);

@@ -186,7 +186,6 @@ public class ToolMenuController {
         try {
             String tempV = this.toolMenuShapeLineWidthCB.getValue();
 
-            // TODO implement more thorough validation since you can input any other string and it will pass this test
             if (tempV.lastIndexOf("px") != -1) { // Meaning that there is a 'px' string pair somewhere in the String
                 tempV = tempV.substring(0, tempV.length() - 2);
             }

@@ -9,6 +9,7 @@
 <?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.*?>
 <?import java.lang.*?>
+<?import javafx.scene.shape.SVGPath?>
 <HBox id="toolbarMainWrapper" minHeight="60.0" prefHeight="80.0" prefWidth="1007.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.ToolMenuController">
    <VBox id="SelectionVBoxTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
       <children>
@@ -198,6 +199,7 @@
                                  <Tooltip text="Square" />
                               </tooltip>
                               <graphic>
+
                                  <FontIcon fontSmoothingType="LCD" iconLiteral="mdi2s-square-outline" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                               </graphic>
                            </ToggleButton>
@@ -230,7 +232,7 @@
                                     <Tooltip text="Right Triangle" />
                                 </tooltip>
                                 <graphic>
-                                    <FontIcon fontSmoothingType="LCD" iconLiteral="mdi2t-triangle-outline" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                                    <SVGPath content="M 14 14 L 0 14 L 14 0 Z" fill="transparent" stroke="black"></SVGPath>
                                 </graphic>
                             </ToggleButton>
                            <ToggleButton fx:id="Star" ellipsisString="" layoutX="119.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#updateShapeToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="2" GridPane.rowIndex="1">
@@ -246,7 +248,7 @@
                                  <Tooltip text="Regular Sided Polygon" />
                               </tooltip>
                               <graphic>
-                                 <FontIcon fontSmoothingType="LCD" iconLiteral="mdi2s-star-outline" iconSize="18" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                                  <SVGPath content="M 7 1 L 13 4 L 13 10 L 7 13 L 1 10 L 1 4 Z" fill="transparent" stroke="black"></SVGPath>
                               </graphic>
                            </ToggleButton>
                         </children>
