@@ -14,6 +14,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -251,6 +252,10 @@ public class Main extends Application {
 
 			}
 		});
+
+		// Set application Icon
+		Image appIcon = new Image(Main.class.getResourceAsStream("/PaintIcon.png"));
+		primaryStage.getIcons().add(appIcon);
 
 		primaryStage.setScene(scene);
 		primaryStage.show();

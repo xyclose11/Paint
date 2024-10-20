@@ -39,11 +39,6 @@
                      </accelerator></MenuItem>
               </items>
             </Menu>
-            <Menu disable="true" mnemonicParsing="false" text="View">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-              </items>
-            </Menu>
             <cursor>
                <Cursor fx:constant="HAND" />
             </cursor>
