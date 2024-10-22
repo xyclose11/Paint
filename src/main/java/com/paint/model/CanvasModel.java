@@ -22,14 +22,27 @@ public class CanvasModel {
     private boolean changesMade;
     private HBox canvasView;
 
+    /**
+     * Gets canvas view.
+     *
+     * @return the canvas view
+     */
     public HBox getCanvasView() {
         return canvasView;
     }
 
+    /**
+     * Sets canvas view.
+     *
+     * @param canvasView the canvas view
+     */
     public void setCanvasView(HBox canvasView) {
         this.canvasView = canvasView;
     }
 
+    /**
+     * Clear canvas.
+     */
     public void clearCanvas() {
         // Show alert
         Alert clearCanvasAlert = new Alert(Alert.AlertType.WARNING, """
@@ -50,30 +63,65 @@ public class CanvasModel {
     private double maxScale = 8.0;
     private double minScale = 0.10;
 
+    /**
+     * Gets max scale.
+     *
+     * @return the max scale
+     */
     public double getMaxScale() {
         return maxScale;
     }
 
+    /**
+     * Gets min scale.
+     *
+     * @return the min scale
+     */
     public double getMinScale() {
         return minScale;
     }
 
+    /**
+     * Sets max scale.
+     *
+     * @param maxScale the max scale
+     */
     public void setMaxScale(double maxScale) {
         this.maxScale = maxScale;
     }
 
+    /**
+     * Sets min scale.
+     *
+     * @param minScale the min scale
+     */
     public void setMinScale(double minScale) {
         this.minScale = minScale;
     }
 
+    /**
+     * Zoom scale property double property.
+     *
+     * @return the double property
+     */
     public DoubleProperty zoomScaleProperty() {
         return zoomScale;
     }
 
+    /**
+     * Gets zoom scale.
+     *
+     * @return the zoom scale
+     */
     public double getZoomScale() {
         return zoomScale.getValue();
     }
 
+    /**
+     * Sets zoom scale.
+     *
+     * @param zoomScale the zoom scale
+     */
     public void setZoomScale(double zoomScale) {
         if (zoomScale > maxScale) {
             this.zoomScale.setValue(maxScale);
@@ -85,50 +133,110 @@ public class CanvasModel {
         this.zoomScale.setValue(zoomScale);
     }
 
+    /**
+     * Is changes made boolean.
+     *
+     * @return the boolean
+     */
     public boolean isChangesMade() {
         return changesMade;
     }
 
+    /**
+     * Sets changes made.
+     *
+     * @param changesMade the changes made
+     */
     public void setChangesMade(boolean changesMade) {
         this.changesMade = changesMade;
     }
 
+    /**
+     * Is file blank boolean.
+     *
+     * @return the boolean
+     */
     public boolean isFileBlank() {
         return isFileBlank;
     }
 
+    /**
+     * Sets file blank.
+     *
+     * @param fileBlank the file blank
+     */
     public void setFileBlank(boolean fileBlank) {
         isFileBlank = fileBlank;
     }
 
+    /**
+     * Gets canvas group.
+     *
+     * @return the canvas group
+     */
     public Group getCanvasGroup() {
         return canvasGroup;
     }
 
+    /**
+     * Sets canvas group.
+     *
+     * @param canvasGroup the canvas group
+     */
     public void setCanvasGroup(Group canvasGroup) {
         this.canvasGroup = canvasGroup;
     }
 
+    /**
+     * Canvas width property double property.
+     *
+     * @return the double property
+     */
     public DoubleProperty canvasWidthProperty() {
         return canvasWidth;
     }
 
+    /**
+     * Canvas height property double property.
+     *
+     * @return the double property
+     */
     public DoubleProperty canvasHeightProperty() {
         return canvasHeight;
     }
 
+    /**
+     * Gets canvas width.
+     *
+     * @return the canvas width
+     */
     public double getCanvasWidth() {
         return canvasWidth.get();
     }
 
+    /**
+     * Sets canvas width.
+     *
+     * @param width the width
+     */
     public void setCanvasWidth(double width) {
         canvasWidth.set(width);
     }
 
+    /**
+     * Gets canvas height.
+     *
+     * @return the canvas height
+     */
     public double getCanvasHeight() {
         return canvasHeight.get();
     }
 
+    /**
+     * Sets canvas height.
+     *
+     * @param height the height
+     */
     public void setCanvasHeight(double height) {
         canvasHeight.set(height);
     }

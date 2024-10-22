@@ -41,13 +41,22 @@ public class UtilityController {
 	private final String DEFAULT_ROOT_NAME = "user.home";
 	private static final Logger LOGGER = LogManager.getLogger();
 
+	/**
+	 * The Undo btn.
+	 */
 	@FXML
 	public Button undoBtn;
 
+	/**
+	 * The Redo btn.
+	 */
 	@FXML
 	public Button redoBtn;
 
 
+	/**
+	 * The Timer label.
+	 */
 	@FXML
 	public Label timerLabel;
 
@@ -267,6 +276,12 @@ public class UtilityController {
 	}
 
 
+	/**
+	 * Gets file ext.
+	 *
+	 * @param file the file
+	 * @return the file ext
+	 */
 	public String getFileExt(File file) {
 		LOGGER.info("INFO HERE");
 		LOGGER.warn("WARN HERE");
@@ -278,7 +293,14 @@ public class UtilityController {
 		return filePath.substring(filePath.lastIndexOf(".") + 1); // Get string val after the last '.'
 	}
 
-	// if no root name or directory name specified use default values
+	/**
+	 * Create file chooser dir file.
+	 *
+	 * @param rootName the root name
+	 * @param dirName  the dir name
+	 * @return the file
+	 */
+// if no root name or directory name specified use default values
 	public File createFileChooserDir(String rootName, String dirName) {
 		if (rootName == null) {
 			rootName = DEFAULT_ROOT_NAME;
@@ -297,7 +319,13 @@ public class UtilityController {
 	}
 
 
-	// create a temp file when user creates a 'blank' project rather than opening a pre-existing file
+	/**
+	 * Handle new file.
+	 *
+	 * @param actionEvent the action event
+	 * @throws IOException the io exception
+	 */
+// create a temp file when user creates a 'blank' project rather than opening a pre-existing file
 	public void handleNewFile(ActionEvent actionEvent) throws IOException {
 		Path tempFile = Files.createTempFile(Files.createTempDirectory("temp-dir"), "testData-", ".txt");
 
@@ -305,6 +333,9 @@ public class UtilityController {
 		this.workspaceHandler.setCurrentFile(newFile);
 	}
 
+	/**
+	 * Initialize.
+	 */
 	@FXML
 	public void initialize() {
 		// event handlers for autosave
@@ -371,6 +402,11 @@ public class UtilityController {
 		return minutes + ":" + seconds;
 	}
 
+	/**
+	 * Hide auto save timer.
+	 *
+	 * @param showTimer the show timer
+	 */
 	public void hideAutoSaveTimer(boolean showTimer) {
 		if (!showTimer) {
 			isTimerHidden = true;
@@ -384,11 +420,17 @@ public class UtilityController {
 		}
 	}
 
+	/**
+	 * Restart auto save timer.
+	 */
 	public void restartAutoSaveTimer() {
 		timer.stop();
 		timer.playFromStart();
 	}
 
+	/**
+	 * Start auto save timer.
+	 */
 	public void startAutoSaveTimer() {
 		int autoSaveInterval = (int) this.workspaceHandler.getSettingStateModel().getAutoSaveInterval() * 60;
 		handleRunningTimer(autoSaveInterval);
@@ -424,71 +466,163 @@ public class UtilityController {
 		this.workspaceHandler.getCurrentWorkspace().handleRedoAction();
 	}
 
+	/**
+	 * On key pressed undo btn.
+	 *
+	 * @param keyEvent the key event
+	 */
 	public void onKeyPressedUndoBtn(KeyEvent keyEvent) {
 		this.workspaceHandler.getCurrentWorkspace().handleUndoAction();
 	}
 
+	/**
+	 * On key pressed redo btn.
+	 *
+	 * @param keyEvent the key event
+	 */
 	public void onKeyPressedRedoBtn(KeyEvent keyEvent) {
 		this.workspaceHandler.getCurrentWorkspace().handleRedoAction();
 	}
 
+	/**
+	 * Gets default dirname.
+	 *
+	 * @return the default dirname
+	 */
 	public String getDEFAULT_DIRNAME() { return DEFAULT_DIRNAME; }
 
+	/**
+	 * Gets default root name.
+	 *
+	 * @return the default root name
+	 */
 	public String getDEFAULT_ROOT_NAME() { return DEFAULT_ROOT_NAME; }
 
 
+	/**
+	 * Gets load help dialog.
+	 *
+	 * @param actionEvent the action event
+	 * @throws IOException the io exception
+	 */
 	public void getLoadHelpDialog(ActionEvent actionEvent) throws IOException {
 		this.helpAboutModel.loadHelpMenu();
 	}
 
+	/**
+	 * Gets load about dialog.
+	 *
+	 * @param actionEvent the action event
+	 * @throws IOException the io exception
+	 */
 	public void getLoadAboutDialog(ActionEvent actionEvent) throws IOException {
 		this.helpAboutModel.loadAboutMenu();
 	}
 
+	/**
+	 * Gets web server handler.
+	 *
+	 * @return the web server handler
+	 */
 	public WebServerHandler getWebServerHandler() {
 		return webServerHandler;
 	}
 
+	/**
+	 * Sets web server handler.
+	 *
+	 * @param webServerHandler the web server handler
+	 */
 	public void setWebServerHandler(WebServerHandler webServerHandler) {
 		this.webServerHandler = webServerHandler;
 	}
 
+	/**
+	 * Gets auto save controller.
+	 *
+	 * @return the auto save controller
+	 */
 	public AutoSaveController getAutoSaveController() {
 		return autoSaveController;
 	}
 
+	/**
+	 * Sets auto save controller.
+	 *
+	 * @param autoSaveController the auto save controller
+	 */
 	public void setAutoSaveController(AutoSaveController autoSaveController) {
 		this.autoSaveController = autoSaveController;
 	}
 
+	/**
+	 * Gets auto save.
+	 *
+	 * @return the auto save
+	 */
 	public AutoSave getAutoSave() {
 		return autoSave;
 	}
 
+	/**
+	 * Sets auto save.
+	 *
+	 * @param autoSave the auto save
+	 */
 	public void setAutoSave(AutoSave autoSave) {
 		this.autoSave = autoSave;
 	}
 
+	/**
+	 * Gets canvas model.
+	 *
+	 * @return the canvas model
+	 */
 	public CanvasModel getCanvasModel() {
 		return canvasModel;
 	}
 
+	/**
+	 * Sets canvas model.
+	 *
+	 * @param canvasModel the canvas model
+	 */
 	public void setCanvasModel(CanvasModel canvasModel) {
 		this.canvasModel = canvasModel;
 	}
 
+	/**
+	 * Sets help about model.
+	 *
+	 * @param helpAboutModel the help about model
+	 */
 	public void setHelpAboutModel(HelpAboutModel helpAboutModel) {
 		this.helpAboutModel = helpAboutModel;
 	}
 
+	/**
+	 * Sets current workspace model.
+	 *
+	 * @param workspaceHandler the workspace handler
+	 */
 	public void setCurrentWorkspaceModel(WorkspaceHandler workspaceHandler) {
 		this.workspaceHandler = workspaceHandler;
 	}
 
+	/**
+	 * Gets notifications handler.
+	 *
+	 * @return the notifications handler
+	 */
 	public NotificationsHandler getNotificationsHandler() {
 		return notificationsHandler;
 	}
 
+	/**
+	 * Sets notifications handler.
+	 *
+	 * @param notificationsHandler the notifications handler
+	 */
 	public void setNotificationsHandler(NotificationsHandler notificationsHandler) {
 		this.notificationsHandler = notificationsHandler;
 	}

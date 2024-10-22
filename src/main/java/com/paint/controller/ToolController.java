@@ -31,10 +31,20 @@ public class ToolController {
     private GraphicsContext graphicsContext;
     private CanvasController canvasController;
 
+    /**
+     * Gets canvas controller.
+     *
+     * @return the canvas controller
+     */
     public CanvasController getCanvasController() {
         return canvasController;
     }
 
+    /**
+     * Sets canvas controller.
+     *
+     * @param canvasController the canvas controller
+     */
     public void setCanvasController(CanvasController canvasController) {
         this.canvasController = canvasController;
     }
@@ -42,6 +52,14 @@ public class ToolController {
     private double startX = 0;
     private double startY = 0;
 
+    /**
+     * Handle tool general on press.
+     *
+     * @param currentShape the current shape
+     * @param currentTool  the current tool
+     * @param mouseEvent   the mouse event
+     * @param drawingPane  the drawing pane
+     */
     public void handleToolGeneralOnPress(TransformableNode currentShape, String currentTool, MouseEvent mouseEvent, Pane drawingPane) {
         switch (currentTool){
             case "Eraser":
@@ -104,11 +122,22 @@ public class ToolController {
         // Set current shape in model
     }
 
+    /**
+     * Apply text to canvas.
+     *
+     * @param text the text
+     */
     public void applyTextToCanvas(String text) {
         TransformableNode transformableNode = this.paintStateModel.getCurrentNode();
         graphicsContext.strokeText(text, transformableNode.getTranslatedX(), transformableNode.getTranslatedY());
     }
 
+    /**
+     * Show star input dialog star.
+     *
+     * @param drawingPane the drawing pane
+     * @return the star
+     */
     public Star showStarInputDialog(Pane drawingPane) {
         // Create a dialog
         Dialog<Void> dialog = new Dialog<>();
@@ -173,6 +202,12 @@ public class ToolController {
         return star[0];
     }
 
+    /**
+     * Show input dialog polygon.
+     *
+     * @param drawingPane the drawing pane
+     * @return the polygon
+     */
     public Polygon showInputDialog(Pane drawingPane) {
         // Create a dialog
         Dialog<Void> dialog = new Dialog<>();
@@ -240,6 +275,16 @@ public class ToolController {
         alert.showAndWait();
     }
 
+    /**
+     * Create polygon polygon.
+     *
+     * @param numberOfSides the number of sides
+     * @param radius        the radius
+     * @param centerX       the center x
+     * @param centerY       the center y
+     * @param drawingPane   the drawing pane
+     * @return the polygon
+     */
     public Polygon createPolygon(int numberOfSides, double radius, double centerX, double centerY, Pane drawingPane) {
         Polygon polygon = new Polygon();
         double angleStep = 360.0 / numberOfSides;
@@ -256,18 +301,38 @@ public class ToolController {
         return polygon;
     }
 
+    /**
+     * Gets graphics context.
+     *
+     * @return the graphics context
+     */
     public GraphicsContext getGraphicsContext() {
         return graphicsContext;
     }
 
+    /**
+     * Sets graphics context.
+     *
+     * @param graphicsContext the graphics context
+     */
     public void setGraphicsContext(GraphicsContext graphicsContext) {
         this.graphicsContext = graphicsContext;
     }
 
+    /**
+     * Gets paint state model.
+     *
+     * @return the paint state model
+     */
     public PaintStateModel getPaintStateModel() {
         return paintStateModel;
     }
 
+    /**
+     * Sets paint state model.
+     *
+     * @param paintStateModel the paint state model
+     */
     public void setPaintStateModel(PaintStateModel paintStateModel) {
         this.paintStateModel = paintStateModel;
     }

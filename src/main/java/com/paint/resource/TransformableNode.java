@@ -244,18 +244,38 @@ public class TransformableNode extends Group {
         return originalNode instanceof Shape;
 	}
 
+	/**
+	 * Gets original node.
+	 *
+	 * @return the original node
+	 */
 	public Node getOriginalNode() {
 		return originalNode;
 	}
 
+	/**
+	 * Sets original node.
+	 *
+	 * @param originalNode the original node
+	 */
 	public void setOriginalNode(Node originalNode) {
 		this.originalNode = originalNode;
 	}
 
+	/**
+	 * Is transformable boolean.
+	 *
+	 * @return the boolean
+	 */
 	public boolean isTransformable() {
 		return isTransformable;
 	}
 
+	/**
+	 * Sets transformable.
+	 *
+	 * @param transformable the transformable
+	 */
 	public void setTransformable(boolean transformable) {
 		isTransformable = transformable;
 	}

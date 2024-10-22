@@ -33,16 +33,31 @@ public class SelectionHandler {
 	private ImageView selectionImage;
 	private WorkspaceHandler workspaceHandler;
 
+	/**
+	 * Gets current workspace model.
+	 *
+	 * @return the current workspace model
+	 */
 	public WorkspaceHandler getCurrentWorkspaceModel() {
 		return workspaceHandler;
 	}
 
+	/**
+	 * Sets current workspace model.
+	 *
+	 * @param workspaceHandler the workspace handler
+	 */
 	public void setCurrentWorkspaceModel(WorkspaceHandler workspaceHandler) {
 		this.workspaceHandler = workspaceHandler;
 	}
 
 	private PaintStateModel paintStateModel;
 
+	/**
+	 * Sets paint state model.
+	 *
+	 * @param paintStateModel the paint state model
+	 */
 	public void setPaintStateModel(PaintStateModel paintStateModel) {
 		this.paintStateModel = paintStateModel;
 	}
@@ -151,6 +166,9 @@ public class SelectionHandler {
 	}
 
 
+	/**
+	 * Copy selection content.
+	 */
 	public void copySelectionContent() {
 		// Check if there is a selection made
 		if (this.paintStateModel.getImageView() == null) {
@@ -168,6 +186,9 @@ public class SelectionHandler {
 		}
 	}
 
+	/**
+	 * Paste clipboard image.
+	 */
 	public void pasteClipboardImage() {
 		// System clipboard IMG -> canvas selection
 		Image image = Clipboard.getSystemClipboard().getImage();
@@ -201,10 +222,20 @@ public class SelectionHandler {
 		}
 	}
 
+	/**
+	 * Gets canvas group.
+	 *
+	 * @return the canvas group
+	 */
 	public Group getCanvasGroup() {
 		return canvasGroup;
 	}
 
+	/**
+	 * Sets canvas group.
+	 *
+	 * @param canvasGroup the canvas group
+	 */
 	public void setCanvasGroup(Group canvasGroup) {
 		this.canvasGroup = canvasGroup;
 
@@ -215,6 +246,9 @@ public class SelectionHandler {
 		this.drawingPane = (Pane) drawingContainer.getChildren().get(1);
 	}
 
+	/**
+	 * Remove selection rectangle.
+	 */
 	public void removeSelectionRectangle() {
 		this.drawingPane.getChildren().clear();
 	}

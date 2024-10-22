@@ -6,6 +6,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.controlsfx.control.Notifications;
 
+/**
+ * The type Notifications handler.
+ */
 public final class NotificationsHandler {
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -13,6 +16,12 @@ public final class NotificationsHandler {
     private boolean notificationsActive = true;
 
 
+    /**
+     * Show file opened notification.
+     *
+     * @param fileName   the file name
+     * @param mainWindow the main window
+     */
     public void showFileOpenedNotification(String fileName, Window mainWindow) {
         if (!notificationsActive) {
 	        LOGGER.info("Attempted to show file opened notification, but is disabled");
@@ -28,6 +37,12 @@ public final class NotificationsHandler {
         LOGGER.info("File {} Opened Notification", fileName);
     }
 
+    /**
+     * Show file saved notification.
+     *
+     * @param fileName   the file name
+     * @param mainWindow the main window
+     */
     public void showFileSavedNotification(String fileName, Window mainWindow) {
         if (!notificationsActive) {
 	        LOGGER.info("Attempted to show file saved notification, but is disabled");
@@ -41,6 +56,13 @@ public final class NotificationsHandler {
                 .showInformation();
     }
 
+    /**
+     * Show file hosted notification.
+     *
+     * @param fileName   the file name
+     * @param mainWindow the main window
+     * @param webAddr    the web addr
+     */
     public void showFileHostedNotification(String fileName, Window mainWindow, String webAddr) {
         if (!notificationsActive) {
             return;
@@ -53,10 +75,20 @@ public final class NotificationsHandler {
                 .showInformation();
     }
 
+    /**
+     * Is notifications active boolean.
+     *
+     * @return the boolean
+     */
     public boolean isNotificationsActive() {
         return notificationsActive;
     }
 
+    /**
+     * Sets notifications active.
+     *
+     * @param notificationsActive the notifications active
+     */
     public void setNotificationsActive(boolean notificationsActive) {
         this.notificationsActive = notificationsActive;
     }

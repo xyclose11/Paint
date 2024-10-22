@@ -14,12 +14,28 @@ import javafx.scene.shape.Polygon;
  * @since 1.2
  * */
 public class Star extends Polygon {
+    /**
+     * Instantiates a new Star.
+     *
+     * @param numPoints the num points
+     * @param centerX   the center x
+     * @param centerY   the center y
+     * @param radius    the radius
+     */
     public Star(int numPoints, double centerX, double centerY, double radius) {
         super();
         updateStar(numPoints, centerX, centerY, radius);
     }
 
-    // Used https://math.stackexchange.com/questions/2135982/math-behind-creating-a-perfect-star for math background
+    /**
+     * Update star.
+     *
+     * @param numPoints the num points
+     * @param centerX   the center x
+     * @param centerY   the center y
+     * @param radius    the radius
+     */
+// Used https://math.stackexchange.com/questions/2135982/math-behind-creating-a-perfect-star for math background
     public void updateStar(int numPoints, double centerX, double centerY, double radius) {
         getPoints().clear();
 
@@ -40,6 +56,12 @@ public class Star extends Polygon {
         }
     }
 
+    /**
+     * Apply translation.
+     *
+     * @param xT the x t
+     * @param yT the y t
+     */
     public void applyTranslation(double xT, double yT) {
         for (int i = 0; i < getPoints().size(); i += 2) {
             double x = getPoints().get(i);

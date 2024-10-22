@@ -17,6 +17,11 @@ public class LineWidthController {
 	@FXML
 	private Slider lineWidthSlider;
 
+	/**
+	 * Sets paint state model.
+	 *
+	 * @param paintStateModel the paint state model
+	 */
 	public void setPaintStateModel(PaintStateModel paintStateModel) {
 		this.paintStateModel = paintStateModel;
 	}

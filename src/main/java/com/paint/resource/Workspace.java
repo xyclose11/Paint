@@ -32,6 +32,17 @@ public class Workspace {
 	private boolean isActive = false; // A new workspace is not viewable
 	private HBox canvasView;
 
+	/**
+	 * Instantiates a new Workspace.
+	 *
+	 * @param canvasView        the canvas view
+	 * @param isActive          the is active
+	 * @param paintStateModel   the paint state model
+	 * @param infoCanvasModel   the info canvas model
+	 * @param settingStateModel the setting state model
+	 * @param tabModel          the tab model
+	 * @throws IOException the io exception
+	 */
 	public Workspace(HBox canvasView, boolean isActive, PaintStateModel paintStateModel, InfoCanvasModel infoCanvasModel, SettingStateModel settingStateModel, TabModel tabModel) throws IOException {
 		FXMLLoader canvasLoader = new FXMLLoader(getClass().getResource("/view/CanvasView.fxml"));
 		this.canvasView = canvasLoader.load();
@@ -89,50 +100,110 @@ public class Workspace {
 	}
 
 
+	/**
+	 * Gets undo stack.
+	 *
+	 * @return the undo stack
+	 */
 	public Stack<WritableImage> getUndoStack() {
 		return this.undoStack;
 	}
 
+	/**
+	 * Gets redo stack.
+	 *
+	 * @return the redo stack
+	 */
 	public Stack<WritableImage> getRedoStack() {
 		return this.redoStack;
 	}
 
+	/**
+	 * Gets canvas view.
+	 *
+	 * @return the canvas view
+	 */
 	public HBox getCanvasView() {
 		return canvasView;
 	}
 
+	/**
+	 * Sets canvas view.
+	 *
+	 * @param canvasView the canvas view
+	 */
 	public void setCanvasView(HBox canvasView) {
 		this.canvasView = canvasView;
 	}
 
+	/**
+	 * Is active boolean.
+	 *
+	 * @return the boolean
+	 */
 	public boolean isActive() {
 		return isActive;
 	}
 
+	/**
+	 * Sets active.
+	 *
+	 * @param active the active
+	 */
 	public void setActive(boolean active) {
 		isActive = active;
 	}
 
+	/**
+	 * Gets canvas controller.
+	 *
+	 * @return the canvas controller
+	 */
 	public CanvasController getCanvasController() {
 		return canvasController;
 	}
 
+	/**
+	 * Sets canvas controller.
+	 *
+	 * @param canvasController the canvas controller
+	 */
 	public void setCanvasController(CanvasController canvasController) {
 		this.canvasController = canvasController;
 	}
 
+	/**
+	 * Gets canvas model.
+	 *
+	 * @return the canvas model
+	 */
 	public CanvasModel getCanvasModel() {
 		return canvasModel;
 	}
 
+	/**
+	 * Sets canvas model.
+	 *
+	 * @param canvasModel the canvas model
+	 */
 	public void setCanvasModel(CanvasModel canvasModel) {
 		this.canvasModel = canvasModel;
 	}
 
+	/**
+	 * Gets workspace file.
+	 *
+	 * @return the workspace file
+	 */
 	public File getWorkspaceFile() {
 		return workspaceFile;
 	}
 
+	/**
+	 * Sets workspace file.
+	 *
+	 * @param workspaceFile the workspace file
+	 */
 	public void setWorkspaceFile(File workspaceFile) {
 		this.workspaceFile = workspaceFile;
 	}

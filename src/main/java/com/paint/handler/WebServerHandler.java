@@ -16,6 +16,9 @@ import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.nio.file.Files;
 
+/**
+ * The type Web server handler.
+ */
 public class WebServerHandler {
 	private static final Logger LOGGER = LogManager.getLogger();
 
@@ -35,6 +38,11 @@ public class WebServerHandler {
 	private final String DISMISS_ICON = "fltfal-dismiss-16";
 
 
+	/**
+	 * Instantiates a new Web server handler.
+	 *
+	 * @throws UnknownHostException the unknown host exception
+	 */
 	public WebServerHandler() throws UnknownHostException {
 		LOGGER.info("Web Server Handler Created");
 	}
@@ -112,18 +120,40 @@ public class WebServerHandler {
 		}
 	}
 
+	/**
+	 * Format url string.
+	 *
+	 * @param protocol the protocol
+	 * @param port     the port
+	 * @return the string
+	 */
 	public String formatURL (String protocol, String port) {
 		return protocol + "://" + DEVICE_IP_ADDR.getHostAddress() + ":" + port;
 	}
 
+	/**
+	 * Gets default server url.
+	 *
+	 * @return the default server url
+	 */
 	public String getDefaultServerURL() {
 		return formatURL(DEFAULT_PROTOCOL, DEFAULT_PORT);
 	}
 
+	/**
+	 * Gets info controller.
+	 *
+	 * @return the info controller
+	 */
 	public InfoController getInfoController() {
 		return infoController;
 	}
 
+	/**
+	 * Sets info controller.
+	 *
+	 * @param infoController the info controller
+	 */
 	public void setInfoController(InfoController infoController) {
 		this.infoController = infoController;
 	}
@@ -139,6 +169,11 @@ class FileHandler implements HttpHandler {
 	private static final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(FileHandler.class);
 	private File currentFile;
 
+	/**
+	 * Sets current file.
+	 *
+	 * @param currentFile the current file
+	 */
 	public void setCurrentFile(File currentFile) {
 		LOGGER.info("New File Hosted: {}", currentFile);
 		this.currentFile = currentFile;

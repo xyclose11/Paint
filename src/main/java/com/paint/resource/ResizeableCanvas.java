@@ -15,10 +15,19 @@ public class ResizeableCanvas extends Canvas {
 	private double currentRotationAngle = 0; // Track the cumulative rotation
 
 
+	/**
+	 * Instantiates a new Resizeable canvas.
+	 */
 	public ResizeableCanvas() {
 		super();
 	}
 
+	/**
+	 * Instantiates a new Resizeable canvas.
+	 *
+	 * @param width  the width
+	 * @param height the height
+	 */
 	public ResizeableCanvas(double width, double height) {
 		super(width, height);
 	}
@@ -34,6 +43,11 @@ public class ResizeableCanvas extends Canvas {
 		super.setHeight(height);
 	}
 
+	/**
+	 * Expand w.
+	 *
+	 * @param newWidth the new width
+	 */
 	public void expandW(double newWidth) {
 		// Ensure the new width is positive
 		if (newWidth > 0) {
@@ -41,6 +55,11 @@ public class ResizeableCanvas extends Canvas {
 		}
 	}
 
+	/**
+	 * Expand e.
+	 *
+	 * @param newWidth the new width
+	 */
 	public void expandE(double newWidth) {
 		// Ensure the new width is positive
 		if (newWidth > 0) {
@@ -48,6 +67,11 @@ public class ResizeableCanvas extends Canvas {
 		}
 	}
 
+	/**
+	 * Expand n.
+	 *
+	 * @param newHeight the new height
+	 */
 	public void expandN(double newHeight) {
 		// Ensure the new width is positive
 		if (newHeight > 0) {
@@ -55,6 +79,11 @@ public class ResizeableCanvas extends Canvas {
 		}
 	}
 
+	/**
+	 * Expand s.
+	 *
+	 * @param newHeight the new height
+	 */
 	public void expandS(double newHeight) {
 		// Ensure the new width is positive
 		if (newHeight > 0) {
@@ -223,6 +252,9 @@ public class ResizeableCanvas extends Canvas {
 			this.setHeight(originalWidth);
 	}
 
+	/**
+	 * Vertical flip.
+	 */
 	public void verticalFlip() {
 		WritableImage writableImage = new WritableImage((int)(this.getWidth()), (int) (this.getHeight()));
 		this.snapshot(null, writableImage);
@@ -230,6 +262,9 @@ public class ResizeableCanvas extends Canvas {
 		this.getGraphicsContext2D().drawImage(writableImage, 0, 0, writableImage.getWidth(), writableImage.getHeight(), writableImage.getWidth(), 0, -writableImage.getWidth(), writableImage.getHeight());
 	}
 
+	/**
+	 * Horizontal flip.
+	 */
 	public void horizontalFlip() {
 		WritableImage writableImage = new WritableImage((int)(this.getWidth()), (int) (this.getHeight()));
 		this.snapshot(null, writableImage);

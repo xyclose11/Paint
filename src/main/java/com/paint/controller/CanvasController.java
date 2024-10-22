@@ -41,6 +41,9 @@ import java.util.Objects;
 public class CanvasController {
     private static final Logger LOGGER = LogManager.getLogger();
 
+    /**
+     * The Canvas container.
+     */
     @FXML
     public HBox canvasContainer;
 
@@ -75,9 +78,15 @@ public class CanvasController {
         }
     }
 
-    // DRAWING EVENT HANDLERS SECTION START
+    /**
+     * The Start x.
+     */
+// DRAWING EVENT HANDLERS SECTION START
     // stores the mouse starting POS
     double startX = 0;
+    /**
+     * The Start y.
+     */
     double startY = 0;
 
     @FXML
@@ -416,6 +425,12 @@ public class CanvasController {
     }
 
     private int timesAdjusted = 0; // Cubic curve
+
+    /**
+     * Handle tool shape released.
+     *
+     * @param currentNode the current node
+     */
     public void handleToolShapeReleased(TransformableNode currentNode) {
         if (currentNode == null) {
             return;
@@ -456,6 +471,11 @@ public class CanvasController {
         }
     }
 
+    /**
+     * Apply pane shape to canvas.
+     *
+     * @param currentNode the current node
+     */
     public void applyPaneShapeToCanvas(Shape currentNode) {
         graphicsContext.setStroke(this.paintStateModel.getCurrentPaintColor()); // Responsible for the color of shapes
         TransformableNode transformableNode = this.paintStateModel.getCurrentNode();
@@ -592,6 +612,11 @@ public class CanvasController {
 
     }
 
+    /**
+     * Apply selection to canvas.
+     *
+     * @param selection the selection
+     */
     public void applySelectionToCanvas(ImageView selection) {
         Image image = selection.getImage();
 
@@ -659,6 +684,11 @@ public class CanvasController {
         return selectionGroup.getTranslateX() != 0.0 || selectionGroup.getTranslateY() != 0.0;
     }
 
+    /**
+     * Sets canvas drawing stack pane handler state.
+     *
+     * @param bool the bool
+     */
     public void setCanvasDrawingStackPaneHandlerState(boolean bool) {
         if (bool) {
             this.canvasDrawingStackPane.setOnMousePressed(this::handleMousePressed);
@@ -680,6 +710,9 @@ public class CanvasController {
     // TRANSLATION SECTION START
     // TRANSLATION SECTION END
 
+    /**
+     * The Ctrl pressed.
+     */
     boolean ctrlPressed = false;
 
     @FXML
@@ -804,6 +837,11 @@ public class CanvasController {
         });
     }
 
+    /**
+     * Sets canvas.
+     *
+     * @param image the image
+     */
     public void setCanvas(Image image) {
         double x = image.getWidth();
         double y = image.getHeight();
@@ -825,7 +863,13 @@ public class CanvasController {
         this.canvasModel.setChangesMade(true);
     }
 
-    // Takes a snapshot of the canvas & saves it to the designated file
+    /**
+     * Save image from canvas.
+     *
+     * @param file          the file
+     * @param fileExtension the file extension
+     */
+// Takes a snapshot of the canvas & saves it to the designated file
     public void saveImageFromCanvas(File file, String fileExtension) {
         WritableImage writableImage = new WritableImage((int)(mainCanvas.getWidth()), (int) (mainCanvas.getHeight()));
         // Take a snapshot of the current canvas and save it to the writableImage
@@ -861,6 +905,12 @@ public class CanvasController {
 
     }
 
+    /**
+     * Is file saved recently boolean.
+     *
+     * @return the boolean
+     * @throws IOException the io exception
+     */
     public boolean isFileSavedRecently() throws IOException {
         return !this.canvasModel.isChangesMade();
     }
@@ -903,6 +953,11 @@ public class CanvasController {
         this.infoCanvasModel.setMousePosLbl(mouseEvent);
     }
 
+    /**
+     * Gets current canvas snapshot.
+     *
+     * @return the current canvas snapshot
+     */
     public WritableImage getCurrentCanvasSnapshot() {
         try {
             WritableImage image = new WritableImage((int) mainCanvas.getWidth(), (int) mainCanvas.getHeight());
@@ -917,47 +972,102 @@ public class CanvasController {
     }
 
 
+    /**
+     * Gets current workspace model.
+     *
+     * @return the current workspace model
+     */
     public WorkspaceHandler getCurrentWorkspaceModel() {
         return workspaceHandler;
     }
 
+    /**
+     * Sets current workspace model.
+     *
+     * @param workspaceHandler the workspace handler
+     */
     public void setCurrentWorkspaceModel(WorkspaceHandler workspaceHandler) {
         this.workspaceHandler = workspaceHandler;
     }
 
+    /**
+     * Gets selection handler.
+     *
+     * @return the selection handler
+     */
     public SelectionHandler getSelectionHandler() {
         return selectionHandler;
     }
 
+    /**
+     * Sets selection handler.
+     *
+     * @param selectionHandler the selection handler
+     */
     public void setSelectionHandler(SelectionHandler selectionHandler) {
         this.selectionHandler = selectionHandler;
         this.selectionHandler.setCanvasGroup(canvasGroup);
     }
 
+    /**
+     * Sets tab model.
+     *
+     * @param tabModel the tab model
+     */
     public void setTabModel(TabModel tabModel) {
         this.tabModel = tabModel;
     }
 
+    /**
+     * Gets tab model.
+     *
+     * @return the tab model
+     */
     public TabModel getTabModel() {
         return tabModel;
     }
 
+    /**
+     * Sets tool controller.
+     *
+     * @param toolController the tool controller
+     */
     public void setToolController(ToolController toolController) {
         this.toolController = toolController;
     }
 
+    /**
+     * Gets tool controller.
+     *
+     * @return the tool controller
+     */
     public ToolController getToolController() {
         return toolController;
     }
 
+    /**
+     * Gets drawing pane.
+     *
+     * @return the drawing pane
+     */
     public Pane getDrawingPane() { return this.drawingPane; }
 
+    /**
+     * Sets info canvas model.
+     *
+     * @param infoCanvasModel the info canvas model
+     */
     public void setInfoCanvasModel(InfoCanvasModel infoCanvasModel) {
         this.infoCanvasModel = infoCanvasModel;
         // Initialize resolution label
         this.infoCanvasModel.setResolutionLblText(canvasModel.getCanvasWidth(), canvasModel.getCanvasHeight());
     }
 
+    /**
+     * Gets graphics context.
+     *
+     * @return the graphics context
+     */
     public GraphicsContext getGraphicsContext() {
         return graphicsContext;
     }
@@ -965,12 +1075,22 @@ public class CanvasController {
     // Handles zoom state
     private double scaleFactor = 1;
 
+    /**
+     * Sets canvas model.
+     *
+     * @param canvasModel the canvas model
+     */
     public void setCanvasModel(CanvasModel canvasModel) {
         this.canvasModel = canvasModel;
         this.canvasModel.setCanvasGroup(canvasGroup);
         updateCanvasSize();
     }
 
+    /**
+     * Sets paint state model.
+     *
+     * @param paintStateModel the paint state model
+     */
     public void setPaintStateModel(PaintStateModel paintStateModel) {
         this.paintStateModel = paintStateModel;
         // Update ToolController

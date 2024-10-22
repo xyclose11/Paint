@@ -21,9 +21,15 @@ import java.io.IOException;
  * */
 public class HelpMenuController {
 
+    /**
+     * The Java pun.
+     */
     @FXML
     public Label javaPun;
 
+    /**
+     * The Java pun answer.
+     */
     @FXML
     public Label javaPunAnswer;
 
@@ -32,10 +38,20 @@ public class HelpMenuController {
     private Dialog<String> aboutDialog;
     private SettingStateModel settingStateModel;
 
+    /**
+     * Gets setting state model.
+     *
+     * @return the setting state model
+     */
     public SettingStateModel getSettingStateModel() {
         return settingStateModel;
     }
 
+    /**
+     * Sets setting state model.
+     *
+     * @param settingStateModel the setting state model
+     */
     public void setSettingStateModel(SettingStateModel settingStateModel) {
         this.settingStateModel = settingStateModel;
     }

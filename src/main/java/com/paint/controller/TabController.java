@@ -31,15 +31,27 @@ public class TabController {
 	private WebServerHandler webServerHandler;
 	private static final Logger LOGGER = LogManager.getLogger();
 
+	/**
+	 * The File tab pane.
+	 */
 	@FXML
 	public TabPane fileTabPane;
 
+	/**
+	 * The Add new file tab.
+	 */
 	@FXML
 	public Tab addNewFileTab;
 
+	/**
+	 * The Current file tab.
+	 */
 	@FXML
 	public Tab currentFileTab;
 
+	/**
+	 * The Add new file tab btn.
+	 */
 	@FXML
 	public Button addNewFileTabBtn;
 
@@ -52,6 +64,12 @@ public class TabController {
 		LOGGER.info("Mouse Click New File Tab: X:{}Y:{}", event.getX(), event.getY());
 	}
 
+	/**
+	 * On key pressed new file tab.
+	 *
+	 * @param keyEvent the key event
+	 * @throws IOException the io exception
+	 */
 	public void onKeyPressedNewFileTab(KeyEvent keyEvent) throws IOException {
 		createNewTab();
 	}
@@ -109,48 +127,108 @@ public class TabController {
 	// TAB Handler SECTION END
 
 
+	/**
+	 * Sets current workspace model.
+	 *
+	 * @param workspaceHandler the workspace handler
+	 */
 	public void setCurrentWorkspaceModel(WorkspaceHandler workspaceHandler) {
 		this.workspaceHandler = workspaceHandler;
 	}
 
+	/**
+	 * Sets tab model.
+	 *
+	 * @param tabModel the tab model
+	 */
 	public void setTabModel(TabModel tabModel) {
 		this.tabModel = tabModel;
 	}
 
+	/**
+	 * Sets canvas model.
+	 *
+	 * @param canvasModel the canvas model
+	 */
 	public void setCanvasModel(CanvasModel canvasModel) {
 		this.canvasModel = canvasModel;
 	}
 
+	/**
+	 * Gets canvas model.
+	 *
+	 * @return the canvas model
+	 */
 	public CanvasModel getCanvasModel() {
 		return this.canvasModel;
 	}
 
+	/**
+	 * Gets tab model.
+	 *
+	 * @return the tab model
+	 */
 	public TabModel getTabModel() {
 		return this.tabModel;
 	}
 
+	/**
+	 * Gets info canvas model.
+	 *
+	 * @return the info canvas model
+	 */
 	public InfoCanvasModel getInfoCanvasModel() {
 		return infoCanvasModel;
 	}
 
+	/**
+	 * Sets info canvas model.
+	 *
+	 * @param infoCanvasModel the info canvas model
+	 */
 	public void setInfoCanvasModel(InfoCanvasModel infoCanvasModel) {
 		this.infoCanvasModel = infoCanvasModel;
 	}
 
+	/**
+	 * Sets setting state model.
+	 *
+	 * @param settingStateModel the setting state model
+	 */
 	public void setSettingStateModel(SettingStateModel settingStateModel) {
 		this.settingStateModel = settingStateModel;
 	}
 
+	/**
+	 * Sets paint state model.
+	 *
+	 * @param paintStateModel the paint state model
+	 */
 	public void setPaintStateModel(PaintStateModel paintStateModel) {
 		this.paintStateModel = paintStateModel;
 	}
 
+	/**
+	 * Gets add new file tab btn.
+	 *
+	 * @return the add new file tab btn
+	 */
 	public Button getAddNewFileTabBtn() { return this.addNewFileTabBtn; }
 
+	/**
+	 * Gets web server handler.
+	 *
+	 * @return the web server handler
+	 */
 	public WebServerHandler getWebServerHandler() {
 		return webServerHandler;
 	}
 
+	/**
+	 * Sets web server handler.
+	 *
+	 * @param webServerHandler the web server handler
+	 */
 	public void setWebServerHandler(WebServerHandler webServerHandler) {
 		this.webServerHandler = webServerHandler;
 	}

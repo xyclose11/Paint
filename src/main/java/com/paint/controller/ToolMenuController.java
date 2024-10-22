@@ -28,37 +28,70 @@ import java.text.DecimalFormat;
 public class ToolMenuController {
     private static final Logger LOGGER = LogManager.getLogger();
 
+    /**
+     * The Toggle eraser.
+     */
     @FXML
     public ToggleButton toggleEraser;
 
+    /**
+     * The Tool menu color lbl.
+     */
     @FXML
     public Label toolMenuColorLbl;
 
+    /**
+     * The Dash checkbox.
+     */
     @FXML
     public CheckBox dashCheckbox;
 
+    /**
+     * The Mirror menu tool menu.
+     */
     @FXML
 	public MenuButton mirrorMenuToolMenu;
 
+    /**
+     * The Rotate menu item right.
+     */
     @FXML
     public MenuItem rotateMenuItemRight;
 
+    /**
+     * The Rotate menu.
+     */
     @FXML
     public MenuButton rotateMenu;
 
+    /**
+     * The Rotate menu item left.
+     */
     @FXML
     public MenuItem rotateMenuItemLeft;
 
+    /**
+     * The Rotate menu item 180.
+     */
     @FXML
     public MenuItem rotateMenuItem180;
 
+    /**
+     * The Horizontal flip.
+     */
     @FXML
     public MenuItem horizontalFlip;
 
+    /**
+     * The Vertical flip.
+     */
     @FXML
     public MenuItem verticalFlip;
 
     private WorkspaceHandler workspaceHandler;
+    /**
+     * The Selection.
+     */
     @FXML
     public ToggleButton selection;
 
@@ -84,7 +117,11 @@ public class ToolMenuController {
     private ComboBox<String> toolMenuShapeLineWidthCB;
 
 
-
+    /**
+     * Update shape tool state.
+     *
+     * @param mouseEvent the mouse event
+     */
     @FXML
     public void updateShapeToolState(MouseEvent mouseEvent) {
         String sourceId = ((Control)mouseEvent.getSource()).getId();
@@ -97,7 +134,13 @@ public class ToolMenuController {
         this.paintStateModel.setCurrentToolType("shape");
     }
 
-    // Handle event if RadioMenuItem is selected (Used in Brush dropdown menu)
+    /**
+     * Update menu item tool state.
+     *
+     * @param actionEvent the action event
+     * @throws IOException the io exception
+     */
+// Handle event if RadioMenuItem is selected (Used in Brush dropdown menu)
     @FXML
     public void updateMenuItemToolState(ActionEvent actionEvent) throws IOException {
         String sourceId = ((RadioMenuItem)actionEvent.getSource()).getId();
@@ -113,7 +156,13 @@ public class ToolMenuController {
         currentBrushSelectedDisplay.setSelected(true);
     }
 
-    // General tool event handler
+    /**
+     * Update general tool state.
+     *
+     * @param mouseEvent the mouse event
+     * @throws IOException the io exception
+     */
+// General tool event handler
     @FXML
     public void updateGeneralToolState(MouseEvent mouseEvent) throws IOException {
         String sourceId = ((Control)mouseEvent.getSource()).getId();
@@ -136,6 +185,11 @@ public class ToolMenuController {
         noToolSelectedAlert.showAndWait();
     }
 
+    /**
+     * Show lw slider.
+     *
+     * @throws IOException the io exception
+     */
     public void showLWSlider() throws IOException {
         // Check if LW Slider has been initialized previously
         if (this.lineWidthController == null || this.lwView == null) {
@@ -163,6 +217,11 @@ public class ToolMenuController {
         bp.setLeft(null);
     }
 
+    /**
+     * Sets color picker.
+     *
+     * @param color the color
+     */
     public void setColorPicker(Color color) {
         this.colorPicker.setValue(color);
     }
@@ -205,6 +264,9 @@ public class ToolMenuController {
         this.paintStateModel.setCurrentShapeLineStrokeWidth(cbVal);
     }
 
+    /**
+     * Initialize.
+     */
     @FXML
     public void initialize() {
         // flip events
@@ -292,6 +354,11 @@ public class ToolMenuController {
         this.paintStateModel.setDashed(dashCheckbox.isSelected());
     }
 
+    /**
+     * Update selection tool state.
+     *
+     * @param mouseEvent the mouse event
+     */
     public void updateSelectionToolState(MouseEvent mouseEvent) {
         String sourceId = ((Control)mouseEvent.getSource()).getId();
 
@@ -320,47 +387,102 @@ public class ToolMenuController {
         return (ResizeableCanvas) stackPane.getChildren().get(0);
     }
 
+    /**
+     * Gets font tool bar loader.
+     *
+     * @return the font tool bar loader
+     */
     public FXMLLoader getFontToolBarLoader() {
         return fontToolBarLoader;
     }
 
+    /**
+     * Sets font tool bar loader.
+     *
+     * @param fontToolBarLoader the font tool bar loader
+     */
     public void setFontToolBarLoader(FXMLLoader fontToolBarLoader) {
         this.fontToolBarLoader = fontToolBarLoader;
     }
 
-    // Set models
+    /**
+     * Sets paint state model.
+     *
+     * @param paintStateModel the paint state model
+     */
+// Set models
     public void setPaintStateModel(PaintStateModel paintStateModel) {
         this.paintStateModel = paintStateModel;
     }
 
+    /**
+     * Gets current workspace model.
+     *
+     * @return the current workspace model
+     */
     public WorkspaceHandler getCurrentWorkspaceModel() {
         return workspaceHandler;
     }
 
+    /**
+     * Sets current workspace model.
+     *
+     * @param workspaceHandler the workspace handler
+     */
     public void setCurrentWorkspaceModel(WorkspaceHandler workspaceHandler) {
         this.workspaceHandler = workspaceHandler;
     }
 
+    /**
+     * Sets line width controller.
+     *
+     * @param lineWidthController the line width controller
+     */
     public void setLineWidthController(LineWidthController lineWidthController) {
         this.lineWidthController = lineWidthController;
     }
 
+    /**
+     * Gets line width controller.
+     *
+     * @return the line width controller
+     */
     public LineWidthController getLineWidthController() {
         return this.lineWidthController;
     }
 
+    /**
+     * Sets lw view.
+     *
+     * @param hBox the h box
+     */
     public void setLwView(HBox hBox) {
         this.lwView = hBox;
     }
 
+    /**
+     * Gets lw view.
+     *
+     * @return the lw view
+     */
     public HBox getLwView() {
         return lwView;
     }
 
+    /**
+     * Gets info canvas model.
+     *
+     * @return the info canvas model
+     */
     public InfoCanvasModel getInfoCanvasModel() {
         return infoCanvasModel;
     }
 
+    /**
+     * Sets info canvas model.
+     *
+     * @param infoCanvasModel the info canvas model
+     */
     public void setInfoCanvasModel(InfoCanvasModel infoCanvasModel) {
         this.infoCanvasModel = infoCanvasModel;
     }
