@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="console">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] %-5level %logger{36} - %msg%n" />
+        </Console>
+        <File name="MAIN" fileName="logs/main.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %m - %p %c | [%t] %n"/>
+        </File>
+        <File name="USER_ACTIVITY_LOG" fileName="logs/user_activity.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss} %m | %p %c | [%t] %n"/>
+        </File>
+    </Appenders>
+
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="console" level="WARN" />
+            <AppenderRef ref="MAIN" />
+        </Root>
+        <Logger name="com.paint.controller.UtilityController" level="DEBUG">
+            <AppenderRef ref="USER_ACTIVITY_LOG"></AppenderRef>
+        </Logger>
+        <Logger name="com.paint.controller.CanvasController" level="DEBUG">
+            <AppenderRef ref="USER_ACTIVITY_LOG"></AppenderRef>
+        </Logger>
+        <Logger name="com.paint.controller.AutoSaveController" level="DEBUG">
+            <AppenderRef ref="USER_ACTIVITY_LOG"></AppenderRef>
+        </Logger>
+        <Logger name="com.paint.controller.ToolController" level="DEBUG">
+            <AppenderRef ref="USER_ACTIVITY_LOG"></AppenderRef>
+        </Logger>
+        <Logger name="com.paint.controller.ToolMenuController" level="DEBUG">
+            <AppenderRef ref="USER_ACTIVITY_LOG"></AppenderRef>
+        </Logger>
+        <Logger name="com.paint.controller.TabController" level="DEBUG">
+            <AppenderRef ref="USER_ACTIVITY_LOG"></AppenderRef>
+        </Logger>
+        <Logger name="com.paint.handler.NotificationsHandler" level="DEBUG">
+            <AppenderRef ref="USER_ACTIVITY_LOG"></AppenderRef>
+        </Logger>
+        <Logger name="com.paint.handler.FileHandler" level="DEBUG">
+            <AppenderRef ref="USER_ACTIVITY_LOG"></AppenderRef>
+        </Logger>
+        <Logger name="com.paint.handler.SelectionHandler" level="DEBUG">
+            <AppenderRef ref="USER_ACTIVITY_LOG"></AppenderRef>
+        </Logger>
+        <Logger name="com.paint.handler.WebServerHandler" level="DEBUG">
+            <AppenderRef ref="USER_ACTIVITY_LOG"></AppenderRef>
+        </Logger>
+        <Logger name="com.paint.handler.WorkspaceHandler" level="DEBUG">
+            <AppenderRef ref="USER_ACTIVITY_LOG"></AppenderRef>
+        </Logger>
+        <Logger name="com.paint.model.PaintStateModel" level="DEBUG">
+            <AppenderRef ref="USER_ACTIVITY_LOG"></AppenderRef>
+        </Logger>
+    </Loggers>
+</Configuration>

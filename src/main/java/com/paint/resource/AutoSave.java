@@ -15,6 +15,9 @@ public class AutoSave {
 
     private ScheduledService<Void> scheduledService;
 
+    /**
+     * Instantiates a new Auto save.
+     */
     public AutoSave() {
         timerLenInMinutes = Duration.minutes(10);
     }
@@ -32,7 +35,7 @@ public class AutoSave {
                     @Override
                     protected Void call() throws Exception {
                         utilityController.startAutoSaveTimer();
-                        utilityController.handleFileSave(null);
+                        utilityController.saveCurrentWorkspaceToFile(null);
                         return null;
                     }
                 };
@@ -105,10 +108,20 @@ public class AutoSave {
         startTimer();
     }
 
+    /**
+     * Gets utility controller.
+     *
+     * @return the utility controller
+     */
     public UtilityController getUtilityController() {
         return utilityController;
     }
 
+    /**
+     * Sets utility controller.
+     *
+     * @param utilityController the utility controller
+     */
     public void setUtilityController(UtilityController utilityController) {
         this.utilityController = utilityController;
     }

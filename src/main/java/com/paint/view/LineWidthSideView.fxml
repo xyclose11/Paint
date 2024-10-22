@@ -5,6 +5,8 @@
 
 <HBox xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.LineWidthController">
     <Slider fx:id="lineWidthSlider" onMouseClicked="#onSliderValueChanged" onMouseDragged="#onSliderValueChanged" orientation="VERTICAL">
-
+        <tooltip>
+            <Tooltip text="Adjust brush/eraser line width"></Tooltip>
+        </tooltip>
     </Slider>
 </HBox>

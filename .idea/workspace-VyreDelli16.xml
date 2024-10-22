@@ -1,0 +1,658 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9e702f2c-8e74-44d3-ba0e-43303a2e7222" name="Changes" comment="resolved issue with undo &amp; redo being switched" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaFXApplication" />
+        <option value="Enum" />
+        <option value="FxmlFile" />
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="Harris Gustafson &lt;harrisgus1@hotmail.com&gt;" />
+      </list>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;xyclose11&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/xyclose11/Paint.git&quot;,
+    &quot;accountId&quot;: &quot;f21d4101-eb2c-4dd0-9386-f3143350df5e&quot;
+  }
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2lFMARcdWfrPprAASKJVqBttp0E" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Paint.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "extract.method.default.visibility": "private",
+    "git-widget-placeholder": "sprintThreeRefact",
+    "ignore.virus.scanning.warn.message": "true",
+    "jdk.selected.JAVA_MODULE": "22",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/harri/AppData/Local/SceneBuilder/SceneBuilder.exe",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.17",
+    "project.structure.side.proportion": "0.37338045",
+    "settings.editor.selected.configurable": "reference.settings.ide.settings.uml",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\harri\OneDrive\Documents\Valparaiso University\CS250\paint\Paint\src\main\java\com\paint\styles" />
+      <recent name="C:\Users\harri\OneDrive\Documents\Valparaiso University\CS250\paint\Paint\src\main\java\com\paint" />
+      <recent name="C:\Users\harri\OneDrive\Documents\Valparaiso University\CS250\paint\Paint\src\main\java\com\paint\view" />
+      <recent name="C:\Users\harri\OneDrive\Documents\Valparaiso University\CS250\paint\Paint\src" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Paint" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.paint.Main" />
+      <module name="Paint" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
+        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9e702f2c-8e74-44d3-ba0e-43303a2e7222" name="Changes" comment="" />
+      <created>1724771228817</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1724771228817</updated>
+      <workItem from="1725026297497" duration="611000" />
+      <workItem from="1725039083188" duration="2751000" />
+      <workItem from="1725041965973" duration="368000" />
+      <workItem from="1725044972481" duration="4282000" />
+      <workItem from="1725049563005" duration="294000" />
+      <workItem from="1725050021943" duration="14000" />
+      <workItem from="1725050056226" duration="1129000" />
+      <workItem from="1725051495802" duration="4206000" />
+      <workItem from="1725061166709" duration="336000" />
+      <workItem from="1725061876410" duration="5474000" />
+      <workItem from="1725114341408" duration="6404000" />
+      <workItem from="1725121773530" duration="25164000" />
+      <workItem from="1725152767479" duration="8567000" />
+      <workItem from="1725216231368" duration="11408000" />
+      <workItem from="1725227974165" duration="23237000" />
+      <workItem from="1725308468416" duration="1480000" />
+      <workItem from="1725309954707" duration="942000" />
+      <workItem from="1725310902849" duration="107000" />
+      <workItem from="1725311014703" duration="42000" />
+      <workItem from="1725311061691" duration="1270000" />
+      <workItem from="1725312337933" duration="79000" />
+      <workItem from="1725312422135" duration="1827000" />
+      <workItem from="1725314255268" duration="3530000" />
+      <workItem from="1725376222966" duration="3199000" />
+      <workItem from="1725382622968" duration="624000" />
+      <workItem from="1725395881417" duration="526000" />
+      <workItem from="1725396417824" duration="11081000" />
+      <workItem from="1725411727087" duration="2801000" />
+      <workItem from="1725466879634" duration="1765000" />
+      <workItem from="1725471494449" duration="909000" />
+      <workItem from="1725478993624" duration="4766000" />
+      <workItem from="1725489506480" duration="11430000" />
+      <workItem from="1725502205709" duration="2077000" />
+      <workItem from="1725540089700" duration="310000" />
+      <workItem from="1725549046960" duration="1719000" />
+      <workItem from="1725554928330" duration="749000" />
+      <workItem from="1725562303317" duration="4346000" />
+      <workItem from="1725571103153" duration="1731000" />
+      <workItem from="1725641111315" duration="6137000" />
+      <workItem from="1725649142797" duration="953000" />
+      <workItem from="1725651404216" duration="623000" />
+      <workItem from="1725658317359" duration="8029000" />
+      <workItem from="1725723054930" duration="35433000" />
+      <workItem from="1725761538051" duration="5925000" />
+      <workItem from="1725810574248" duration="25235000" />
+      <workItem from="1725848349050" duration="128000" />
+      <workItem from="1725912424607" duration="11234000" />
+      <workItem from="1725935250405" duration="1981000" />
+      <workItem from="1725980766475" duration="4300000" />
+      <workItem from="1725986321721" duration="1536000" />
+      <workItem from="1725994887493" duration="12099000" />
+      <workItem from="1726014809524" duration="7933000" />
+      <workItem from="1726085856065" duration="16791000" />
+      <workItem from="1726104788958" duration="213000" />
+      <workItem from="1726105212601" duration="6653000" />
+      <workItem from="1726153780550" duration="3940000" />
+      <workItem from="1726167416545" duration="16177000" />
+      <workItem from="1726249093677" duration="975000" />
+      <workItem from="1726253389495" duration="5236000" />
+      <workItem from="1726268757184" duration="35124000" />
+      <workItem from="1726415474889" duration="595000" />
+      <workItem from="1726422926457" duration="10504000" />
+      <workItem from="1726435698660" duration="3851000" />
+      <workItem from="1726440461493" duration="253000" />
+      <workItem from="1726500274701" duration="809000" />
+      <workItem from="1726506197652" duration="5628000" />
+      <workItem from="1726514291699" duration="12104000" />
+    </task>
+    <task id="LOCAL-00118" summary="File name replace tab name on save">
+      <option name="closed" value="true" />
+      <created>1726155500281</created>
+      <option name="number" value="00118" />
+      <option name="presentableId" value="LOCAL-00118" />
+      <option name="project" value="LOCAL" />
+      <updated>1726155500281</updated>
+    </task>
+    <task id="LOCAL-00119" summary="Add '*' symbol to unsaved modified files">
+      <option name="closed" value="true" />
+      <created>1726159531121</created>
+      <option name="number" value="00119" />
+      <option name="presentableId" value="LOCAL-00119" />
+      <option name="project" value="LOCAL" />
+      <updated>1726159531121</updated>
+    </task>
+    <task id="LOCAL-00120" summary="Initial Workspace class definition">
+      <option name="closed" value="true" />
+      <created>1726168295154</created>
+      <option name="number" value="00120" />
+      <option name="presentableId" value="LOCAL-00120" />
+      <option name="project" value="LOCAL" />
+      <updated>1726168295155</updated>
+    </task>
+    <task id="LOCAL-00121" summary="Very crude impl of multiple tabbed workspaces">
+      <option name="closed" value="true" />
+      <created>1726169069335</created>
+      <option name="number" value="00121" />
+      <option name="presentableId" value="LOCAL-00121" />
+      <option name="project" value="LOCAL" />
+      <updated>1726169069335</updated>
+    </task>
+    <task id="LOCAL-00122" summary="Condense Progress">
+      <option name="closed" value="true" />
+      <created>1726170183251</created>
+      <option name="number" value="00122" />
+      <option name="presentableId" value="LOCAL-00122" />
+      <option name="project" value="LOCAL" />
+      <updated>1726170183251</updated>
+    </task>
+    <task id="LOCAL-00123" summary="Fixed issue with inability to go to a previous canvas to alter it">
+      <option name="closed" value="true" />
+      <created>1726171044129</created>
+      <option name="number" value="00123" />
+      <option name="presentableId" value="LOCAL-00123" />
+      <option name="project" value="LOCAL" />
+      <updated>1726171044129</updated>
+    </task>
+    <task id="LOCAL-00124" summary="Fixed issue with inability to go to a previous canvas to alter it">
+      <option name="closed" value="true" />
+      <created>1726171059053</created>
+      <option name="number" value="00124" />
+      <option name="presentableId" value="LOCAL-00124" />
+      <option name="project" value="LOCAL" />
+      <updated>1726171059053</updated>
+    </task>
+    <task id="LOCAL-00125" summary="Fixed issue with inability to save canvas">
+      <option name="closed" value="true" />
+      <created>1726177155792</created>
+      <option name="number" value="00125" />
+      <option name="presentableId" value="LOCAL-00125" />
+      <option name="project" value="LOCAL" />
+      <updated>1726177155792</updated>
+    </task>
+    <task id="LOCAL-00126" summary="Fixed issue with seperate workspace saving">
+      <option name="closed" value="true" />
+      <created>1726178944682</created>
+      <option name="number" value="00126" />
+      <option name="presentableId" value="LOCAL-00126" />
+      <option name="project" value="LOCAL" />
+      <updated>1726178944682</updated>
+    </task>
+    <task id="LOCAL-00127" summary="Fixed issue with drawing w/diff tools on diff workspaces">
+      <option name="closed" value="true" />
+      <created>1726180379377</created>
+      <option name="number" value="00127" />
+      <option name="presentableId" value="LOCAL-00127" />
+      <option name="project" value="LOCAL" />
+      <updated>1726180379377</updated>
+    </task>
+    <task id="LOCAL-00128" summary="Fixed tab naming issue renaming last tab">
+      <option name="closed" value="true" />
+      <created>1726180802693</created>
+      <option name="number" value="00128" />
+      <option name="presentableId" value="LOCAL-00128" />
+      <option name="project" value="LOCAL" />
+      <updated>1726180802693</updated>
+    </task>
+    <task id="LOCAL-00129" summary="Removed initial file tab">
+      <option name="closed" value="true" />
+      <created>1726182761221</created>
+      <option name="number" value="00129" />
+      <option name="presentableId" value="LOCAL-00129" />
+      <option name="project" value="LOCAL" />
+      <updated>1726182761221</updated>
+    </task>
+    <task id="LOCAL-00130" summary="Removed initial file tab">
+      <option name="closed" value="true" />
+      <created>1726182915847</created>
+      <option name="number" value="00130" />
+      <option name="presentableId" value="LOCAL-00130" />
+      <option name="project" value="LOCAL" />
+      <updated>1726182915847</updated>
+    </task>
+    <task id="LOCAL-00131" summary="Cleanup">
+      <option name="closed" value="true" />
+      <created>1726183601331</created>
+      <option name="number" value="00131" />
+      <option name="presentableId" value="LOCAL-00131" />
+      <option name="project" value="LOCAL" />
+      <updated>1726183601331</updated>
+    </task>
+    <task id="LOCAL-00132" summary="Cleanup">
+      <option name="closed" value="true" />
+      <created>1726183641195</created>
+      <option name="number" value="00132" />
+      <option name="presentableId" value="LOCAL-00132" />
+      <option name="project" value="LOCAL" />
+      <updated>1726183641195</updated>
+    </task>
+    <task id="LOCAL-00133" summary="Resolved issue with multiple tab file saving overlap">
+      <option name="closed" value="true" />
+      <created>1726254784183</created>
+      <option name="number" value="00133" />
+      <option name="presentableId" value="LOCAL-00133" />
+      <option name="project" value="LOCAL" />
+      <updated>1726254784184</updated>
+    </task>
+    <task id="LOCAL-00134" summary="Updated 'addNewFileTabBtn' style to prevent user from clicking tab">
+      <option name="closed" value="true" />
+      <created>1726257355507</created>
+      <option name="number" value="00134" />
+      <option name="presentableId" value="LOCAL-00134" />
+      <option name="project" value="LOCAL" />
+      <updated>1726257355507</updated>
+    </task>
+    <task id="LOCAL-00135" summary="Initial text progress">
+      <option name="closed" value="true" />
+      <created>1726336557951</created>
+      <option name="number" value="00135" />
+      <option name="presentableId" value="LOCAL-00135" />
+      <option name="project" value="LOCAL" />
+      <updated>1726336557952</updated>
+    </task>
+    <task id="LOCAL-00136" summary="Setup CTRL + N keybind">
+      <option name="closed" value="true" />
+      <created>1726337151887</created>
+      <option name="number" value="00136" />
+      <option name="presentableId" value="LOCAL-00136" />
+      <option name="project" value="LOCAL" />
+      <updated>1726337151887</updated>
+    </task>
+    <task id="LOCAL-00137" summary="Fixed issue with ShapeSelectionGroup being null">
+      <option name="closed" value="true" />
+      <created>1726341274538</created>
+      <option name="number" value="00137" />
+      <option name="presentableId" value="LOCAL-00137" />
+      <option name="project" value="LOCAL" />
+      <updated>1726341274538</updated>
+    </task>
+    <task id="LOCAL-00138" summary="Added CTRL + N -&gt; new canvas keybind">
+      <option name="closed" value="true" />
+      <created>1726341337414</created>
+      <option name="number" value="00138" />
+      <option name="presentableId" value="LOCAL-00138" />
+      <option name="project" value="LOCAL" />
+      <updated>1726341337414</updated>
+    </task>
+    <task id="LOCAL-00139" summary="Added CTRL + Z/Y undo/redo keybinds">
+      <option name="closed" value="true" />
+      <created>1726342274823</created>
+      <option name="number" value="00139" />
+      <option name="presentableId" value="LOCAL-00139" />
+      <option name="project" value="LOCAL" />
+      <updated>1726342274824</updated>
+    </task>
+    <task id="LOCAL-00140" summary="Undo/Redo progress">
+      <option name="closed" value="true" />
+      <created>1726423923202</created>
+      <option name="number" value="00140" />
+      <option name="presentableId" value="LOCAL-00140" />
+      <option name="project" value="LOCAL" />
+      <updated>1726423923203</updated>
+    </task>
+    <task id="LOCAL-00141" summary="Undo/Redo progress">
+      <option name="closed" value="true" />
+      <created>1726425057626</created>
+      <option name="number" value="00141" />
+      <option name="presentableId" value="LOCAL-00141" />
+      <option name="project" value="LOCAL" />
+      <updated>1726425057627</updated>
+    </task>
+    <task id="LOCAL-00142" summary="Added a pun on Java">
+      <option name="closed" value="true" />
+      <created>1726425954005</created>
+      <option name="number" value="00142" />
+      <option name="presentableId" value="LOCAL-00142" />
+      <option name="project" value="LOCAL" />
+      <updated>1726425954005</updated>
+    </task>
+    <task id="LOCAL-00143" summary="Updated release-notes.txt">
+      <option name="closed" value="true" />
+      <created>1726426330007</created>
+      <option name="number" value="00143" />
+      <option name="presentableId" value="LOCAL-00143" />
+      <option name="project" value="LOCAL" />
+      <updated>1726426330007</updated>
+    </task>
+    <task id="LOCAL-00144" summary="Undo/Redo progress">
+      <option name="closed" value="true" />
+      <created>1726430642017</created>
+      <option name="number" value="00144" />
+      <option name="presentableId" value="LOCAL-00144" />
+      <option name="project" value="LOCAL" />
+      <updated>1726430642018</updated>
+    </task>
+    <task id="LOCAL-00145" summary="Basic selection movement &amp; imageview">
+      <option name="closed" value="true" />
+      <created>1726438045371</created>
+      <option name="number" value="00145" />
+      <option name="presentableId" value="LOCAL-00145" />
+      <option name="project" value="LOCAL" />
+      <updated>1726438045371</updated>
+    </task>
+    <task id="LOCAL-00146" summary="Fixed issue with mouse handlers being stuck">
+      <option name="closed" value="true" />
+      <created>1726439307841</created>
+      <option name="number" value="00146" />
+      <option name="presentableId" value="LOCAL-00146" />
+      <option name="project" value="LOCAL" />
+      <updated>1726439307841</updated>
+    </task>
+    <task id="LOCAL-00147" summary="major good progress on select &amp; move">
+      <option name="closed" value="true" />
+      <created>1726439561124</created>
+      <option name="number" value="00147" />
+      <option name="presentableId" value="LOCAL-00147" />
+      <option name="project" value="LOCAL" />
+      <updated>1726439561124</updated>
+    </task>
+    <task id="LOCAL-00148" summary="Adjusted color picker label">
+      <option name="closed" value="true" />
+      <created>1726507109461</created>
+      <option name="number" value="00148" />
+      <option name="presentableId" value="LOCAL-00148" />
+      <option name="project" value="LOCAL" />
+      <updated>1726507109461</updated>
+    </task>
+    <task id="LOCAL-00149" summary="Fixed issue with files always prompting to 'save as'">
+      <option name="closed" value="true" />
+      <created>1726507655775</created>
+      <option name="number" value="00149" />
+      <option name="presentableId" value="LOCAL-00149" />
+      <option name="project" value="LOCAL" />
+      <updated>1726507655775</updated>
+    </task>
+    <task id="LOCAL-00150" summary="Added dashed shape support">
+      <option name="closed" value="true" />
+      <created>1726509158909</created>
+      <option name="number" value="00150" />
+      <option name="presentableId" value="LOCAL-00150" />
+      <option name="project" value="LOCAL" />
+      <updated>1726509158909</updated>
+    </task>
+    <task id="LOCAL-00151" summary="Added dashed shape support">
+      <option name="closed" value="true" />
+      <created>1726509197031</created>
+      <option name="number" value="00151" />
+      <option name="presentableId" value="LOCAL-00151" />
+      <option name="project" value="LOCAL" />
+      <updated>1726509197031</updated>
+    </task>
+    <task id="LOCAL-00152" summary="Updated undo/redo logic">
+      <option name="closed" value="true" />
+      <created>1726515503493</created>
+      <option name="number" value="00152" />
+      <option name="presentableId" value="LOCAL-00152" />
+      <option name="project" value="LOCAL" />
+      <updated>1726515503494</updated>
+    </task>
+    <task id="LOCAL-00153" summary="Updated undo/redo logic">
+      <option name="closed" value="true" />
+      <created>1726515568528</created>
+      <option name="number" value="00153" />
+      <option name="presentableId" value="LOCAL-00153" />
+      <option name="project" value="LOCAL" />
+      <updated>1726515568528</updated>
+    </task>
+    <task id="LOCAL-00154" summary="Refactored undo/redo logic (again)">
+      <option name="closed" value="true" />
+      <created>1726516377508</created>
+      <option name="number" value="00154" />
+      <option name="presentableId" value="LOCAL-00154" />
+      <option name="project" value="LOCAL" />
+      <updated>1726516377508</updated>
+    </task>
+    <task id="LOCAL-00155" summary="Setup constant default vals for Paint State Model">
+      <option name="closed" value="true" />
+      <created>1726519481050</created>
+      <option name="number" value="00155" />
+      <option name="presentableId" value="LOCAL-00155" />
+      <option name="project" value="LOCAL" />
+      <updated>1726519481050</updated>
+    </task>
+    <task id="LOCAL-00156" summary="Fixed issue where setting dash line doesn't have immediate effect">
+      <option name="closed" value="true" />
+      <created>1726520857307</created>
+      <option name="number" value="00156" />
+      <option name="presentableId" value="LOCAL-00156" />
+      <option name="project" value="LOCAL" />
+      <updated>1726520857308</updated>
+    </task>
+    <task id="LOCAL-00157" summary="Fixed issue where setting dash line doesn't have immediate effect">
+      <option name="closed" value="true" />
+      <created>1726521004791</created>
+      <option name="number" value="00157" />
+      <option name="presentableId" value="LOCAL-00157" />
+      <option name="project" value="LOCAL" />
+      <updated>1726521004791</updated>
+    </task>
+    <task id="LOCAL-00158" summary="Fixed issue where setting dash line doesn't have immediate effect">
+      <option name="closed" value="true" />
+      <created>1726521073820</created>
+      <option name="number" value="00158" />
+      <option name="presentableId" value="LOCAL-00158" />
+      <option name="project" value="LOCAL" />
+      <updated>1726521073820</updated>
+    </task>
+    <task id="LOCAL-00159" summary="Fixed issue with shapes 'shrinking' after placement">
+      <option name="closed" value="true" />
+      <created>1726521320675</created>
+      <option name="number" value="00159" />
+      <option name="presentableId" value="LOCAL-00159" />
+      <option name="project" value="LOCAL" />
+      <updated>1726521320675</updated>
+    </task>
+    <task id="LOCAL-00160" summary="Resolved 'eraser' undo/redo event not firing">
+      <option name="closed" value="true" />
+      <created>1726521542736</created>
+      <option name="number" value="00160" />
+      <option name="presentableId" value="LOCAL-00160" />
+      <option name="project" value="LOCAL" />
+      <updated>1726521542736</updated>
+    </task>
+    <task id="LOCAL-00161" summary="Disabled image smoothing on snapshot">
+      <option name="closed" value="true" />
+      <created>1726523672937</created>
+      <option name="number" value="00161" />
+      <option name="presentableId" value="LOCAL-00161" />
+      <option name="project" value="LOCAL" />
+      <updated>1726523672937</updated>
+    </task>
+    <task id="LOCAL-00162" summary="allow app to close with 0 tabs active">
+      <option name="closed" value="true" />
+      <created>1726524757407</created>
+      <option name="number" value="00162" />
+      <option name="presentableId" value="LOCAL-00162" />
+      <option name="project" value="LOCAL" />
+      <updated>1726524757407</updated>
+    </task>
+    <task id="LOCAL-00163" summary="able to save files again">
+      <option name="closed" value="true" />
+      <created>1726525254106</created>
+      <option name="number" value="00163" />
+      <option name="presentableId" value="LOCAL-00163" />
+      <option name="project" value="LOCAL" />
+      <updated>1726525254106</updated>
+    </task>
+    <task id="LOCAL-00164" summary="eraser triggers 'smart-save'">
+      <option name="closed" value="true" />
+      <created>1726525422024</created>
+      <option name="number" value="00164" />
+      <option name="presentableId" value="LOCAL-00164" />
+      <option name="project" value="LOCAL" />
+      <updated>1726525422024</updated>
+    </task>
+    <task id="LOCAL-00165" summary="resolved issue with 'smart-save' no longer working">
+      <option name="closed" value="true" />
+      <created>1726527345600</created>
+      <option name="number" value="00165" />
+      <option name="presentableId" value="LOCAL-00165" />
+      <option name="project" value="LOCAL" />
+      <updated>1726527345600</updated>
+    </task>
+    <task id="LOCAL-00166" summary="resolved issue with undo &amp; redo being switched">
+      <option name="closed" value="true" />
+      <created>1726528390629</created>
+      <option name="number" value="00166" />
+      <option name="presentableId" value="LOCAL-00166" />
+      <option name="project" value="LOCAL" />
+      <updated>1726528390629</updated>
+    </task>
+    <option name="localTasksCounter" value="167" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="shapeTransformationAdjust" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Setup CTRL + N keybind" />
+    <MESSAGE value="Fixed issue with ShapeSelectionGroup being null" />
+    <MESSAGE value="Added CTRL + N -&gt; new canvas keybind" />
+    <MESSAGE value="Added CTRL + Z/Y undo/redo keybinds" />
+    <MESSAGE value="Added a pun on Java" />
+    <MESSAGE value="Updated release-notes.txt" />
+    <MESSAGE value="Undo/Redo progress" />
+    <MESSAGE value="Basic selection movement &amp; imageview" />
+    <MESSAGE value="Fixed issue with mouse handlers being stuck" />
+    <MESSAGE value="major good progress on select &amp; move" />
+    <MESSAGE value="Adjusted color picker label" />
+    <MESSAGE value="Fixed issue with files always prompting to 'save as'" />
+    <MESSAGE value="Added dashed shape support" />
+    <MESSAGE value="Updated undo/redo logic" />
+    <MESSAGE value="Refactored undo/redo logic (again)" />
+    <MESSAGE value="Setup constant default vals for Paint State Model" />
+    <MESSAGE value="Fixed issue where setting dash line doesn't have immediate effect" />
+    <MESSAGE value="Fixed issue with shapes 'shrinking' after placement" />
+    <MESSAGE value="Resolved 'eraser' undo/redo event not firing" />
+    <MESSAGE value="Disabled image smoothing on snapshot" />
+    <MESSAGE value="allow app to close with 0 tabs active" />
+    <MESSAGE value="able to save files again" />
+    <MESSAGE value="eraser triggers 'smart-save'" />
+    <MESSAGE value="resolved issue with 'smart-save' no longer working" />
+    <MESSAGE value="resolved issue with undo &amp; redo being switched" />
+    <option name="LAST_COMMIT_MESSAGE" value="resolved issue with undo &amp; redo being switched" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

@@ -17,6 +17,11 @@ public class LineWidthController {
 	@FXML
 	private Slider lineWidthSlider;
 
+	/**
+	 * Sets paint state model.
+	 *
+	 * @param paintStateModel the paint state model
+	 */
 	public void setPaintStateModel(PaintStateModel paintStateModel) {
 		this.paintStateModel = paintStateModel;
 	}
@@ -27,7 +32,7 @@ public class LineWidthController {
 		this.paintStateModel.setCurrentLineWidth(lineWidthSlider.getValue());
 	}
 
-	@FXML // TODO save the state of the FXML so it doesn't reset the Val here
+	@FXML
 	private void initialize() {
 		// Default slider settings
 		this.lineWidthSlider.setMajorTickUnit(8.0f);
@@ -35,7 +40,7 @@ public class LineWidthController {
 		this.lineWidthSlider.setMax(120);
 		this.lineWidthSlider.setValue(12.0f); // Default LW
 		this.lineWidthSlider.setMin(1);
-		this.lineWidthSlider.setShowTickLabels(true); // TODO create popup in canvas to show size of line
+		this.lineWidthSlider.setShowTickLabels(true);
 
 	}
 }

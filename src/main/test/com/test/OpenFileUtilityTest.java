@@ -26,10 +26,9 @@ public class OpenFileUtilityTest {
 
 	@Test
 	void getFileExtBaseCases() {
-		String testFile1 = "testFile1.exe";
-		String testFile2 = "9218409nt_.png";
-		String testFile3 = "_as23.jpg.png";
-
+		File testFile1 = new File("testFile1.exe");
+		File testFile2 = new File("9218409nt_.png");
+		File testFile3 = new File("_as23.jpg.png");
 
 		assertEquals("exe", utilityController.getFileExt(testFile1));
 		assertEquals("png", utilityController.getFileExt(testFile2));
@@ -38,9 +37,9 @@ public class OpenFileUtilityTest {
 
 	@Test
 	void getFileExtEdgeCases() {
-		String testFile4 = "fileWithoutAnExtension";
-		String testFile5 = "this.file.has.many.dots";
-		String testFile6 = "thisFileEndsWithA.";
+		File testFile4 = new File("fileWithoutAnExtension");
+		File testFile5 = new File("this.file.has.many.dots");
+		File testFile6 = new File("thisFileEndsWithA.");
 
 		assertEquals("", utilityController.getFileExt(testFile4));
 		assertEquals("dots", utilityController.getFileExt(testFile5));

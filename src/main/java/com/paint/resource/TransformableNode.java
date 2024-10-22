@@ -57,7 +57,6 @@ public class TransformableNode extends Group {
 	/**
 	 * This method enables Transformations on a TransformableNode, which allows the user to interact with the Node via
 	 * transformations.
-	 *
 	 * NOTE: This method does setup multiple Events, which get removed at the end of the TransformableNodes'
 	 * lifecycle
 	 * */
@@ -81,7 +80,7 @@ public class TransformableNode extends Group {
 			this.setTranslateY((dragEvent.getSceneY() - startY));
 		});
 
-		this.workspaceHandler.getPaintStateModel().setCurrentShape(this);
+		this.workspaceHandler.getPaintStateModel().setCurrentNode(this);
 		// Translation handler (XY Movement) SECTION END
 	}
 
@@ -110,7 +109,6 @@ public class TransformableNode extends Group {
 	 * This removes all event listeners and handlers that were added in the 'enableTransformations' method.
 	 * Also removes the Selection-Rectangle (Dashed outline), unbinds properties, and calls appropriate
 	 * methods to apply the Node to the canvas based on its original node type
-	 *
 	 * NOTE: This method enables the event listeners in the current workspaces' canvasController instance
 	 * */
 	public void exitTransformMode() {
@@ -127,9 +125,8 @@ public class TransformableNode extends Group {
 			parentPane.getScene().setOnKeyPressed(null);
 		}
 		// Remove selectionRectangle
-		if (this.getChildren().contains(selectionRect)) {
-			this.getChildren().remove(selectionRect);
-		}
+        this.getChildren().remove(selectionRect);
+
 		// Convert shape -> canvas
 		// Check if current object is a shape
 
@@ -141,7 +138,6 @@ public class TransformableNode extends Group {
 			case ("selection"), ("paste"):
 				this.canvasController.applySelectionToCanvas((ImageView) this.originalNode);
 				break;
-
 		}
 
 		selectionRect.heightProperty().unbind();
@@ -152,6 +148,8 @@ public class TransformableNode extends Group {
 
 		// Enable CanvasController handlers
 		canvasController.setCanvasDrawingStackPaneHandlerState(true);
+
+		this.workspaceHandler.getPaintStateModel().setCurrentNode(null);
 	}
 
 
@@ -185,33 +183,54 @@ public class TransformableNode extends Group {
 		selectionRect.setStrokeType(StrokeType.OUTSIDE);
 		selectionRect.toFront();
 
-		// TEST for the impl of other transformations (scale/resize, rotate, etc) | need to work out the event handlers
-//        Rectangle middleBox = new Rectangle();
-//        middleBox.xProperty().bind(selectionRect.xProperty().add(selectionRect.widthProperty().subtract(middleBox.widthProperty()).divide(2)));
-//        middleBox.yProperty().bind(selectionRect.yProperty());
-//        middleBox.setWidth(10);
-//        middleBox.setHeight(10);
-//
-//        middleBox.xProperty().addListener(((observable, oldValue, newValue) -> updateSelection(selectionRect, middleBox)));
-//        middleBox.yProperty().addListener(((observable, oldValue, newValue) -> updateSelection(selectionRect, middleBox)));
-//        middleBox.heightProperty().addListener(((observable, oldValue, newValue) -> updateSelection(selectionRect, middleBox)));
-//
-//        middleBox.setFill(Color.ORANGE);
-//        middleBox.setStroke(Color.ORANGE);
-//
-//        middleBox.setPickOnBounds(true);
-		// END TEST
-
-		// Setup mouse event handlers
-//        selectionRect.setOnMouseEntered(mouseEvent -> {
-//            selectionRect.setCursor(Cursor.H_RESIZE);
-//        });
-
 		this.getChildren().add(selectionRect);
 
 		this.setOnMouseEntered(mouseE -> {
 			this.setCursor(Cursor.MOVE);
 		});
+	}
+
+	/**
+	 * <p>
+	 * This method rotates the node 90 degrees to the right.
+	 *
+	 * <p>
+	 * NOTE: This utilizes JavaFX 22 Shape class's. Not GraphicsContext from Canvas
+	 *
+	 * */
+	public void rotate90Right() {
+		// get previous rotation
+		double prevRotation = this.getRotate();
+		this.setRotate(prevRotation + 90);
+	}
+
+	/**
+	 * <p>
+	 * This method rotates the node 90 degrees to the left.
+	 *
+	 * <p>
+	 * NOTE: This utilizes JavaFX 22 Shape class's. Not GraphicsContext from Canvas
+	 *
+	 * */
+	public void rotate90Left() {
+		double prevRotation = this.getRotate();
+		this.setRotate(prevRotation - 90);
+	}
+
+	/**
+	 * <p>
+	 * This method rotates the node 180 degrees from its current location.
+	 *
+	 * <p>
+	 * NOTE: This utilizes JavaFX 22 Shape class's. Not GraphicsContext from Canvas
+	 *
+	 * */
+	public void rotate180() {
+		if (this.getRotate() == 180) {
+			this.setRotate(0);
+		} else {
+			this.setRotate(180);
+		}
 	}
 
 	/**
@@ -225,18 +244,38 @@ public class TransformableNode extends Group {
         return originalNode instanceof Shape;
 	}
 
+	/**
+	 * Gets original node.
+	 *
+	 * @return the original node
+	 */
 	public Node getOriginalNode() {
 		return originalNode;
 	}
 
+	/**
+	 * Sets original node.
+	 *
+	 * @param originalNode the original node
+	 */
 	public void setOriginalNode(Node originalNode) {
 		this.originalNode = originalNode;
 	}
 
+	/**
+	 * Is transformable boolean.
+	 *
+	 * @return the boolean
+	 */
 	public boolean isTransformable() {
 		return isTransformable;
 	}
 
+	/**
+	 * Sets transformable.
+	 *
+	 * @param transformable the transformable
+	 */
 	public void setTransformable(boolean transformable) {
 		isTransformable = transformable;
 	}

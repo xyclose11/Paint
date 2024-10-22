@@ -23,7 +23,7 @@
                      <KeyCodeCombination alt="UP" code="O" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                   </accelerator>
                </MenuItem>
-                  <MenuItem fx:id="SaveUtilityMenu" onAction="#handleFileSave" text="Save">
+                  <MenuItem fx:id="SaveUtilityMenu" onAction="#saveCurrentWorkspaceToFile" text="Save">
                   <accelerator>
                      <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                   </accelerator>
@@ -39,11 +39,6 @@
                      </accelerator></MenuItem>
               </items>
             </Menu>
-            <Menu disable="true" mnemonicParsing="false" text="View">
-              <items>
-                <MenuItem mnemonicParsing="false" text="Action 1" />
-              </items>
-            </Menu>
             <cursor>
                <Cursor fx:constant="HAND" />
             </cursor>
@@ -53,11 +48,14 @@
             <HBox.margin>
                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
             </HBox.margin>
+              <tooltip>
+                  <Tooltip text="Access Utility Related options for the entire application"></Tooltip>
+              </tooltip>
           </MenuBar>
          <HBox prefHeight="32.0" prefWidth="155.0" HBox.hgrow="SOMETIMES">
             <children>
                <Separator orientation="VERTICAL" prefHeight="32.0" prefWidth="16.0" />
-                <Button id="utilityBarIconBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#handleFileSave">
+                <Button id="utilityBarIconBtn" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#saveCurrentWorkspaceToFile">
                     <graphic>
                         <FontIcon id="utilityBarIconBtn" fontSmoothingType="LCD" iconLiteral="fltrmz-save-20" iconSize="22" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                     </graphic>
@@ -69,6 +67,9 @@
                         <font>
                            <Font size="12.0" />
                         </font>
+                         <tooltip>
+                             <Tooltip text="Timer for Auto Save. Format: MM:SS"></Tooltip>
+                         </tooltip>
                      </Label>
                   </children>
                </HBox>
@@ -82,11 +83,17 @@
                     <graphic>
                         <FontIcon id="utilityBarIconBtn" fontSmoothingType="LCD" iconLiteral="fltral-arrow-undo-20" iconSize="22" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                     </graphic>
+                    <tooltip>
+                        <Tooltip text="Undo CTRL + Z"></Tooltip>
+                    </tooltip>
                 </Button>
                 <Button fx:id="redoBtn" mnemonicParsing="false" onMouseClicked="#onKeyPressedRedoBtn">
                     <graphic>
                         <FontIcon id="utilityBarIconBtn" fontSmoothingType="LCD" iconLiteral="fltral-arrow-redo-20" iconSize="22" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                     </graphic>
+                    <tooltip>
+                        <Tooltip text="Redo CTRL + Y"></Tooltip>
+                    </tooltip>
                 </Button>
             </children>
          </HBox>
@@ -94,11 +101,17 @@
          <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0">
             <children>
                 <Button contentDisplay="RIGHT" mnemonicParsing="false" onAction="#getLoadAboutDialog" prefWidth="82.0" text="About">
+                    <tooltip>
+                        <Tooltip text="Opens an About Dialog"></Tooltip>
+                    </tooltip>
                 </Button>
                 <Button contentDisplay="RIGHT" mnemonicParsing="false" onAction="#getLoadHelpDialog" prefWidth="82.0" text="Help">
                     <graphic>
                         <FontIcon id="aboutBtnQuestionMark" fontSmoothingType="LCD" iconLiteral="fltrmz-question-circle-20" iconSize="20" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                     </graphic>
+                    <tooltip>
+                        <Tooltip text="Opens a Help Dialog for assistance"></Tooltip>
+                    </tooltip>
                 </Button>
                 <!-- Separate view to separate utilityMenu's concern -->
                 <fx:include source="OptionsPartialMenu.fxml" />

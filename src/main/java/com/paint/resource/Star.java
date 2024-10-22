@@ -14,29 +14,54 @@ import javafx.scene.shape.Polygon;
  * @since 1.2
  * */
 public class Star extends Polygon {
-    public Star(double centerX, double centerY, double radius) {
+    /**
+     * Instantiates a new Star.
+     *
+     * @param numPoints the num points
+     * @param centerX   the center x
+     * @param centerY   the center y
+     * @param radius    the radius
+     */
+    public Star(int numPoints, double centerX, double centerY, double radius) {
         super();
-        updateStar(centerX, centerY, radius);
+        updateStar(numPoints, centerX, centerY, radius);
     }
 
-    public void updateStar(double centerX, double centerY, double radius) {
+    /**
+     * Update star.
+     *
+     * @param numPoints the num points
+     * @param centerX   the center x
+     * @param centerY   the center y
+     * @param radius    the radius
+     */
+// Used https://math.stackexchange.com/questions/2135982/math-behind-creating-a-perfect-star for math background
+    public void updateStar(int numPoints, double centerX, double centerY, double radius) {
         getPoints().clear();
 
-        double[] xPoints = new double[10];
-        double[] yPoints = new double[10];
+        double outerRadius = radius;
+        double innerRadius = radius * 0.5;
 
-        for (int i = 0; i < 10; i++) {
-            double angle = i * Math.PI / 5;
-            double r = (i % 2 == 0) ? radius : radius / 2;
-            xPoints[i] = centerX + r * Math.cos(angle);
-            yPoints[i] = centerY - r * Math.sin(angle);
-        }
+        double angleStep = Math.PI / numPoints;
 
-        for (int i = 0; i < 10; i++) {
-            getPoints().addAll(xPoints[i], yPoints[i]);
+        for (int i = 0; i < numPoints * 2; i++) {
+            double currentRadius = (i % 2 == 0) ? outerRadius : innerRadius;
+
+            double angle = i * angleStep;
+
+            double x = centerX + currentRadius * Math.cos(angle);
+            double y = centerY + currentRadius * Math.sin(angle);
+
+            getPoints().addAll(x, y);
         }
     }
 
+    /**
+     * Apply translation.
+     *
+     * @param xT the x t
+     * @param yT the y t
+     */
     public void applyTranslation(double xT, double yT) {
         for (int i = 0; i < getPoints().size(); i += 2) {
             double x = getPoints().get(i);

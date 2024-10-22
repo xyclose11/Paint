@@ -1,40 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import javafx.collections.*?>
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
-<?import javafx.scene.input.*?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Font?>
 <?import org.kordamp.ikonli.javafx.*?>
-
-<HBox id="toolbarMainWrapper" minHeight="60.0" prefHeight="80.0" prefWidth="1007.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.ToolMenuController">
+<?import java.lang.*?>
+<?import javafx.scene.shape.SVGPath?>
+<HBox id="toolbarMainWrapper" minHeight="60.0" prefHeight="80.0" prefWidth="1007.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.ToolMenuController">
    <VBox id="SelectionVBoxTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
       <children>
-         <VBox prefHeight="200.0" prefWidth="100.0">
+         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
             <children>
-                <ToggleButton fx:id="selection" id="selection" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateSelectionToolState">
+                <ToggleButton id="selection" fx:id="selection" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateSelectionToolState">
                     <graphic>
                         <FontIcon id="toolBarSelectionRadio" fontSmoothingType="LCD" iconLiteral="mdi2s-selection" iconSize="22" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                     </graphic>
                   <toggleGroup>
                      <ToggleGroup fx:id="ToolSelect" />
                   </toggleGroup>
+                    <tooltip>
+                        <Tooltip text="Selection" />
+                    </tooltip>
                 </ToggleButton>
-               <MenuButton id="menuButtonSelector" alignment="CENTER" contentDisplay="RIGHT" ellipsisString="" mnemonicParsing="false" prefHeight="9.0" prefWidth="40.0" VBox.vgrow="ALWAYS">
-                 <items>
-                   <MenuItem mnemonicParsing="false" text="Action 1" />
-                   <MenuItem mnemonicParsing="false" text="Action 2" />
-                 </items>
-                  <VBox.margin>
-                     <Insets top="1.0" />
-                  </VBox.margin>
-                  <padding>
-                     <Insets bottom="-4.0" top="-4.0" />
-                  </padding>
-               </MenuButton>
             </children>
             <padding>
                <Insets left="5.0" right="5.0" />
@@ -46,9 +37,27 @@
    <HBox prefHeight="80.0" prefWidth="136.0">
       <children>
          <Separator orientation="VERTICAL" prefHeight="200.0" />
-         <VBox id="ImageSectionTB" alignment="CENTER" prefHeight="200.0" prefWidth="50.0">
+         <VBox id="ImageSectionTB" alignment="CENTER" prefHeight="80.0" prefWidth="123.0" spacing="10.0">
             <children>
-               <Label text="Image" />
+               <MenuButton fx:id="rotateMenu" mnemonicParsing="false" text="Rotate">
+                 <items>
+                   <MenuItem fx:id="rotateMenuItemRight" mnemonicParsing="false" text="90° Right" />
+                   <MenuItem fx:id="rotateMenuItemLeft" mnemonicParsing="false" text="90° Left" />
+                   <MenuItem fx:id="rotateMenuItem180" mnemonicParsing="false" text="180°" />
+                 </items>
+                   <tooltip>
+                       <Tooltip text="Adjust Rotation for canvas when no shape is selected" />
+                   </tooltip>
+               </MenuButton>
+               <MenuButton fx:id="mirrorMenuToolMenu" prefWidth="80.0" text="Mirror">
+                   <items>
+                       <MenuItem fx:id="horizontalFlip" text="Horizontal Flip" />
+                       <MenuItem fx:id="verticalFlip" text="Vertical Flip" />
+                   </items>
+                   <tooltip>
+                       <Tooltip text="Flips the current canvas either horizontally or vertically" />
+                   </tooltip>
+               </MenuButton>
             </children>
          </VBox>
       </children>
@@ -66,12 +75,9 @@
                  </columnConstraints>
                  <rowConstraints>
                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                  </rowConstraints>
                   <children>
-                     <ToggleButton contentDisplay="CENTER" disable="true" mnemonicParsing="false" text="ToggleButton" toggleGroup="$ToolSelect" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                     <ToggleButton contentDisplay="CENTER" disable="true" layoutX="7.0" layoutY="8.0" mnemonicParsing="false" text="ToggleButton" toggleGroup="$ToolSelect" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                      <ToggleButton id="TextTool" contentDisplay="CENTER" layoutX="27.0" layoutY="8.0" mnemonicParsing="false" toggleGroup="$ToolSelect" onMouseClicked="#updateGeneralToolState" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                      <ToggleButton id="TextTool" contentDisplay="CENTER" layoutX="27.0" layoutY="8.0" mnemonicParsing="false" onMouseClicked="#updateGeneralToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                           <tooltip>
                               <Tooltip text="Text (T)" />
                           </tooltip>
@@ -79,7 +85,7 @@
                               <FontIcon fontSmoothingType="LCD" iconLiteral="mdi2c-cursor-text" iconSize="18" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                           </graphic>
                       </ToggleButton>
-                      <ToggleButton id="colorGrabber" fx:id="colorGrabber" contentDisplay="CENTER" ellipsisString="" layoutX="21.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#updateGeneralToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                      <ToggleButton id="colorGrabber" fx:id="colorGrabber" contentDisplay="CENTER" ellipsisString="" layoutX="21.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#updateGeneralToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                           <graphic>
                               <FontIcon id="toolbarColorGrabberIcon" fontSmoothingType="LCD" iconLiteral="mdi2s-select-color" iconSize="20" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                           </graphic>
@@ -87,8 +93,7 @@
                               <Tooltip text="Color Grabber" />
                           </tooltip>
                       </ToggleButton>
-                     <ToggleButton contentDisplay="CENTER" disable="true" layoutX="33.0" layoutY="14.0" mnemonicParsing="false" text="ToggleButton" toggleGroup="$ToolSelect" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
-                     <ToggleButton id="eraser" fx:id="toggleEraser" contentDisplay="CENTER" ellipsisString="" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#updateGeneralToolState" toggleGroup="$ToolSelect" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                     <ToggleButton id="eraser" fx:id="toggleEraser" contentDisplay="CENTER" ellipsisString="" layoutX="10.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#updateGeneralToolState" toggleGroup="$ToolSelect" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
                          <graphic>
                              <FontIcon id="toolbarGeneralEraserIcon" fontSmoothingType="LCD" iconLiteral="fltfal-eraser-20" iconSize="20" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                          </graphic>
@@ -106,7 +111,7 @@
    <HBox prefHeight="80.0" prefWidth="116.0">
       <children>
          <Separator orientation="VERTICAL" prefHeight="200.0" />
-         <VBox id="BrushesSectionTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+         <VBox id="BrushesSectionTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
             <children>
                 <ToggleButton fx:id="currentBrushSelectedDisplay" mnemonicParsing="false">
                     <graphic>
@@ -120,15 +125,18 @@
                              <KeyCodeCombination alt="DOWN" code="B" control="UP" meta="UP" shift="UP" shortcut="UP" />
                          </accelerator>
                      </RadioMenuItem>
-                     <MenuItem mnemonicParsing="false" text="Calligraphy Brush" />
-                     <MenuItem mnemonicParsing="false" text="Calligraphy Pen" />
-                   <MenuItem mnemonicParsing="false" text="Airbrush" />
-                   <MenuItem mnemonicParsing="false" text="Oil Brush" />
-                     <MenuItem mnemonicParsing="false" text="Crayon" />
-                     <MenuItem mnemonicParsing="false" text="Marker" />
-                     <MenuItem mnemonicParsing="false" text="Natural Pencil" />
-                     <MenuItem mnemonicParsing="false" text="Watercolor Brush" />
+<!--                     <MenuItem mnemonicParsing="false" text="Calligraphy Brush" />-->
+<!--                     <MenuItem mnemonicParsing="false" text="Calligraphy Pen" />-->
+<!--                   <MenuItem mnemonicParsing="false" text="Airbrush" />-->
+<!--                   <MenuItem mnemonicParsing="false" text="Oil Brush" />-->
+<!--                     <MenuItem mnemonicParsing="false" text="Crayon" />-->
+<!--                     <MenuItem mnemonicParsing="false" text="Marker" />-->
+<!--                     <MenuItem mnemonicParsing="false" text="Natural Pencil" />-->
+<!--                     <MenuItem mnemonicParsing="false" text="Watercolor Brush" />-->
                  </items>
+                   <tooltip>
+                       <Tooltip text="Brush ALT+B" />
+                   </tooltip>
                </MenuButton>
                <Label fx:id="BrushSectionId" text="Brushes" />
             </children>
@@ -154,10 +162,9 @@
                        <rowConstraints>
                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                        </rowConstraints>
                         <VBox.margin>
-                           <Insets left="5.0" right="5.0" top="5.0" />
+                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                         </VBox.margin>
                         <children>
                             <ToggleButton fx:id="StLine" ellipsisString="" mnemonicParsing="false" onMouseClicked="#updateShapeToolState" prefHeight="14.0" prefWidth="16.0" selected="true" style="-fx-background-radius: 3;" toggleGroup="$ToolSelect" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
@@ -192,6 +199,7 @@
                                  <Tooltip text="Square" />
                               </tooltip>
                               <graphic>
+
                                  <FontIcon fontSmoothingType="LCD" iconLiteral="mdi2s-square-outline" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
                               </graphic>
                            </ToggleButton>
@@ -224,7 +232,7 @@
                                     <Tooltip text="Right Triangle" />
                                 </tooltip>
                                 <graphic>
-                                    <FontIcon fontSmoothingType="LCD" iconLiteral="mdi2t-triangle-outline" iconSize="16" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                                    <SVGPath content="M 14 14 L 0 14 L 14 0 Z" fill="transparent" stroke="black"></SVGPath>
                                 </graphic>
                             </ToggleButton>
                            <ToggleButton fx:id="Star" ellipsisString="" layoutX="119.0" layoutY="14.0" mnemonicParsing="false" onMouseClicked="#updateShapeToolState" toggleGroup="$ToolSelect" GridPane.columnIndex="2" GridPane.rowIndex="1">
@@ -237,15 +245,15 @@
                            </ToggleButton>
                            <ToggleButton fx:id="regularPolygon" ellipsisString="" layoutX="59.0" layoutY="39.0" mnemonicParsing="false" onMouseClicked="#updateShapeToolState" textFill="#c63131" toggleGroup="$ToolSelect" GridPane.columnIndex="3" GridPane.rowIndex="1">
                               <tooltip>
-                                 <Tooltip text="Star" />
+                                 <Tooltip text="Regular Sided Polygon" />
                               </tooltip>
                               <graphic>
-                                 <FontIcon fontSmoothingType="LCD" iconLiteral="mdi2s-star-outline" iconSize="18" selectionEnd="1" selectionFill="BLACK" stroke="BLACK" strokeWidth="0.01" />
+                                  <SVGPath content="M 7 1 L 13 4 L 13 10 L 7 13 L 1 10 L 1 4 Z" fill="transparent" stroke="black"></SVGPath>
                               </graphic>
                            </ToggleButton>
                         </children>
                         <padding>
-                           <Insets left="8.0" right="8.0" top="8.0" />
+                           <Insets bottom="6.0" left="6.0" right="6.0" top="6.0" />
                         </padding>
 
                      </GridPane>
@@ -256,7 +264,7 @@
 <!--         <HBox prefHeight="100.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />-->
          <HBox prefHeight="80.0" prefWidth="41.0">
             <children>
-               <VBox alignment="CENTER_RIGHT" prefHeight="200.0" prefWidth="100.0">
+               <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="5.0">
                   <children>
                       <ComboBox fx:id="toolMenuShapeLineWidthCB" onAction="#onShapeLineWidthChange" prefHeight="25.0" prefWidth="50.0" value="1px" VBox.vgrow="ALWAYS">
                           <items>
@@ -271,11 +279,17 @@
                           <tooltip>
                               <Tooltip text="Choose Shape Line Width" />
                           </tooltip>
+                        <VBox.margin>
+                           <Insets bottom="3.0" left="3.0" right="3.0" top="3.0" />
+                        </VBox.margin>
                       </ComboBox>
                      <CheckBox id="dashed" fx:id="dashCheckbox" alignment="BOTTOM_LEFT" contentDisplay="BOTTOM" mnemonicParsing="false" onMouseClicked="#onMouseClickedDash" text="Dash?">
                         <font>
                            <Font size="10.0" />
                         </font>
+                         <tooltip>
+                             <Tooltip text="If enabled the outline of the shape will be dashed" />
+                         </tooltip>
                      </CheckBox>
                   </children>
                </VBox>
@@ -283,41 +297,38 @@
          </HBox>
       </children>
    </HBox>
-   <HBox prefHeight="100.0" prefWidth="200.0">
+   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
       <children>
          <Separator orientation="VERTICAL" prefHeight="200.0" />
-         <VBox id="ColorsSectionTB" alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+         <VBox id="ColorsSectionTB" alignment="CENTER" prefHeight="80.0" prefWidth="193.0" spacing="5.0">
             <children>
-               <Label text="Colors" />
-               <Label fx:id="toolMenuColorLbl" alignment="BOTTOM_CENTER" ellipsisString="" prefHeight="52.0" prefWidth="94.0" text="hex/rgb/name" textAlignment="CENTER" wrapText="true">
-                  <font>
-                     <Font size="12.0" />
-                  </font>
-               </Label>
-            </children>
-         </VBox>
-         <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
-            <children>
-                <ColorPicker fx:id="colorPicker" onAction="#onActionSetColorPicker">
+                <ColorPicker fx:id="colorPicker" onAction="#onActionSetColorPicker" prefHeight="27.0" prefWidth="133.0">
                     <tooltip>
                         <Tooltip text="Change Current Color" />
                     </tooltip>
                   <value>
                      <Color />
                   </value>
+                  <VBox.margin>
+                     <Insets left="55.0" />
+                  </VBox.margin>
                 </ColorPicker>
+               <Label fx:id="toolMenuColorLbl" alignment="CENTER" ellipsisString="" prefHeight="16.0" prefWidth="190.0" text="hex/rgb/name" textAlignment="CENTER" wrapText="true">
+                  <font>
+                     <Font size="12.0" />
+                  </font>
+               </Label>
             </children>
+            <HBox.margin>
+               <Insets bottom="5.0" />
+            </HBox.margin>
          </VBox>
       </children>
    </HBox>
    <HBox prefHeight="80.0" prefWidth="134.0">
       <children>
          <Separator orientation="VERTICAL" prefHeight="200.0" />
-         <VBox id="LayersSectionTB" prefHeight="200.0" prefWidth="100.0">
-            <children>
-               <Label text="Layers" />
-            </children>
-         </VBox>
+         <VBox id="LayersSectionTB" prefHeight="200.0" prefWidth="100.0" />
       </children>
    </HBox>
 

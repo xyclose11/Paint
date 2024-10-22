@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
-
 <TabPane fx:id="fileTabPane" prefHeight="597.0" prefWidth="797.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.paint.controller.TabController">
     <Tab fx:id="addNewFileTab" closable="false">
         <graphic>
@@ -37,5 +32,8 @@
             </children>
          </AnchorPane>
       </content>
+        <tooltip>
+            <Tooltip text="Click to 'Add'/create a new workspace (file)"></Tooltip>
+        </tooltip>
     </Tab>
 </TabPane>

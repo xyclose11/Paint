@@ -23,6 +23,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -37,6 +39,11 @@ import java.util.Objects;
  * @since 1.0
  * */
 public class CanvasController {
+    private static final Logger LOGGER = LogManager.getLogger();
+
+    /**
+     * The Canvas container.
+     */
     @FXML
     public HBox canvasContainer;
 
@@ -57,86 +64,35 @@ public class CanvasController {
     private PaintStateModel paintStateModel;
     private CanvasModel canvasModel;
     private InfoCanvasModel infoCanvasModel;
-    private SettingStateModel settingStateModel;
     private ToolController toolController;
     private SelectionHandler selectionHandler;
     private TabModel tabModel;
     private WorkspaceHandler workspaceHandler;
 
-    public WorkspaceHandler getCurrentWorkspaceModel() {
-        return workspaceHandler;
-    }
-
-    public void setCurrentWorkspaceModel(WorkspaceHandler workspaceHandler) {
-        this.workspaceHandler = workspaceHandler;
-    }
-
-    public SelectionHandler getSelectionHandler() {
-        return selectionHandler;
-    }
-
-    public void setSelectionHandler(SelectionHandler selectionHandler) {
-        this.selectionHandler = selectionHandler;
-        this.selectionHandler.setCanvasGroup(canvasGroup);
-    }
-
-    public void setTabModel(TabModel tabModel) {
-        this.tabModel = tabModel;
-    }
-
-    public TabModel getTabModel() {
-        return tabModel;
-    }
-
-    public void setToolController(ToolController toolController) {
-        this.toolController = toolController;
-    }
-
-    public ToolController getToolController() {
-        return toolController;
-    }
-
-    public Pane getDrawingPane() { return this.drawingPane; }
-
-    public void setInfoCanvasModel(InfoCanvasModel infoCanvasModel) {
-        this.infoCanvasModel = infoCanvasModel;
-        // Initialize resolution label
-        this.infoCanvasModel.setResolutionLblText(canvasModel.getCanvasWidth(), canvasModel.getCanvasHeight());
-    }
-
-    public GraphicsContext getGraphicsContext() {
-        return graphicsContext;
-    }
-
-    // Handles zoom state
-    private double scaleFactor = 1;
-
-    public void setCanvasModel(CanvasModel canvasModel) {
-        this.canvasModel = canvasModel;
-        this.canvasModel.setCanvasGroup(canvasGroup);
-        updateCanvasSize();
-    }
-
-    public void setPaintStateModel(PaintStateModel paintStateModel) {
-        this.paintStateModel = paintStateModel;
-        // Update ToolController
-        this.toolController.setPaintStateModel(paintStateModel);
-    }
-
+    
     private void updateCanvasSize() {
         if (canvasModel != null) {
             canvasModel.setCanvasWidth(mainCanvas.getWidth());
             canvasModel.setCanvasHeight(mainCanvas.getHeight());
+            LOGGER.info("Canvas Size Updated: New Height: {} | New Width: {}", mainCanvas.getHeight(), mainCanvas.getWidth());
         }
     }
 
-    // DRAWING EVENT HANDLERS SECTION START
+    /**
+     * The Start x.
+     */
+// DRAWING EVENT HANDLERS SECTION START
     // stores the mouse starting POS
     double startX = 0;
+    /**
+     * The Start y.
+     */
     double startY = 0;
 
     @FXML
     private void handleMousePressed(MouseEvent mouseEvent) {
+        LOGGER.info("Mouse Pressed on Canvas @ POS: X:{},Y:{}", mouseEvent.getX(), mouseEvent.getY());
+
         startX = mouseEvent.getX();
         startY = mouseEvent.getY();
 
@@ -147,8 +103,8 @@ public class CanvasController {
         this.workspaceHandler.getCurrentWorkspace().getRedoStack().clear();
 
         boolean isNotTransformable = true;
-        if (this.paintStateModel.getCurrentShape() != null) {
-            if (this.paintStateModel.getCurrentShape().isTransformable()) {
+        if (this.paintStateModel.getCurrentNode() != null) {
+            if (this.paintStateModel.getCurrentNode().isTransformable()) {
                 isNotTransformable = false;
             }
         }
@@ -172,61 +128,71 @@ public class CanvasController {
 
     }
 
-    private void handleToolShapeOnPress(TransformableNode currentShape, String currentTool) {
+    private void handleToolShapeOnPress(TransformableNode currentNode, String currentTool) {
         switch (currentTool) {
             case "StLine":
                 Line line = new Line(startX, startY, startX + 1, startY + 1);
-                currentShape = new TransformableNode(line, this.workspaceHandler);
+                currentNode = new TransformableNode(line, this.workspaceHandler);
                 break;
             case "Rectangle":
                 // x, y, width, height, Paint fill
                 Rectangle rectangle = new Rectangle(startX, startY, 1, 2);
-                currentShape = new TransformableNode(rectangle, this.workspaceHandler);
+                currentNode = new TransformableNode(rectangle, this.workspaceHandler);
                 break;
             case "Circle":
                 Circle circle = new Circle(startX, startY, 1);
-                currentShape = new TransformableNode(circle, this.workspaceHandler);
+                currentNode = new TransformableNode(circle, this.workspaceHandler);
                 break;
             case "Square":
                 Rectangle square = new Rectangle(startX, startY, 1, 1);
-                currentShape = new TransformableNode(square, this.workspaceHandler);
+                currentNode = new TransformableNode(square, this.workspaceHandler);
                 break;
             case "Ellipse":
                 // Center X Center Y | Radius X Radius Y
                 Ellipse ellipse = new Ellipse(startX, startY, 1, 1);
-                currentShape = new TransformableNode(ellipse, this.workspaceHandler);
+                currentNode = new TransformableNode(ellipse, this.workspaceHandler);
                 break;
             case "Triangle":
                 Triangle triangle = new Triangle(startX, startX, startX, startY, startY, startY);
-                currentShape = new TransformableNode(triangle, this.workspaceHandler);
+                currentNode = new TransformableNode(triangle, this.workspaceHandler);
                 break;
             case "RightTriangle":
                 RightTriangle rightTriangle = new RightTriangle(startX, startX, startX, startY, startY, startY);
-                currentShape = new TransformableNode(rightTriangle, this.workspaceHandler);
+                currentNode = new TransformableNode(rightTriangle, this.workspaceHandler);
                 break;
             case "Star":
-                Star star = new Star(startX, startY, 1);
-                currentShape = new TransformableNode(star, this.workspaceHandler);
+                Star star = toolController.showStarInputDialog(drawingPane);
+                if (star != null) {
+                    currentNode = new TransformableNode(star, this.workspaceHandler);
+                    currentNode.enableTransformations();
+                    this.paintStateModel.setCurrentNode(currentNode);
+                    handleToolShapeReleased(currentNode);
+                }
                 break;
             case "Curve":
                 timesAdjusted = 0;
                 CubicCurve curve = new CubicCurve(startX, startY, startX, startY, startX + 1, startY + 1, startX + 1, startY + 1);
-                currentShape = new TransformableNode(curve, this.workspaceHandler);
+                currentNode = new TransformableNode(curve, this.workspaceHandler);
                 break;
             case "regularPolygon":
-                currentShape = new TransformableNode(new Polygon(), this.workspaceHandler);
-                toolController.showInputDialog(this.drawingPane);
+                Polygon regularPoly = toolController.showInputDialog(this.drawingPane);
+                if (regularPoly != null) {
+                    currentNode = new TransformableNode(regularPoly, this.workspaceHandler);
+                    currentNode.enableTransformations();
+                    this.paintStateModel.setCurrentNode(currentNode);
+                    handleToolShapeReleased(currentNode);
+                }
                 break;
         }
 
-        if (currentShape != null) {
-            loadDefaultShapeAttributes(currentShape);
-            this.drawingPane.getChildren().add(currentShape);
+        if (currentNode != null) {
+            loadDefaultShapeAttributes(currentNode);
+            this.drawingPane.getChildren().add(currentNode);
 
             // Set current shape in model
-            this.paintStateModel.setCurrentShape(currentShape);
+            this.paintStateModel.setCurrentNode(currentNode);
         } else {
-            // Error for if the currentShape is null (Ideally there should always be a tool selected)
+            // Error for if the currentNode is null (Ideally there should always be a tool selected)
             Alert noToolSelectedAlert = new Alert(Alert.AlertType.ERROR, "NO TOOL SELECTED. Please select a tool in the tool bar above. FROM SHAPE HANDLER");
             noToolSelectedAlert.setTitle("No Tool Selected");
             noToolSelectedAlert.setHeaderText("");
@@ -234,8 +200,8 @@ public class CanvasController {
         }
     }
 
-    private void loadDefaultShapeAttributes(TransformableNode currentShape) {
-        Shape shape = (Shape) currentShape.getOriginalNode();
+    private void loadDefaultShapeAttributes(TransformableNode currentNode) {
+        Shape shape = (Shape) currentNode.getOriginalNode();
 
         shape.setStroke(this.paintStateModel.getCurrentPaintColor()); // This controls the outline color
         shape.setStrokeWidth(this.paintStateModel.getCurrentShapeLineStrokeWidth());
@@ -247,15 +213,14 @@ public class CanvasController {
             // Setup dashed lines for shapes
             shape.getStrokeDashArray().addAll(9.5);
         }
-
-        // Set current shape in model
-//        this.paintStateModel.setCurrentShape(currentShape.getOri);
+        LOGGER.info("Loaded Default Shape Attributes for Node: {}", currentNode);
     }
 
     private void handleToolBrushOnPress() {
         switch (this.paintStateModel.getCurrentBrush()) {
             case "regular":
-                GraphicsContext gc = mainCanvas.getGraphicsContext2D(); // TODO move graphicsContext, setStroke, setLineWidth -> PaintStateModel
+                LOGGER.info("Brush Pressed");
+                GraphicsContext gc = mainCanvas.getGraphicsContext2D();
                 gc.setStroke(this.paintStateModel.getCurrentPaintColor());
                 gc.setLineWidth(this.paintStateModel.getCurrentLineWidth());
                 gc.setLineCap(this.paintStateModel.getCurrentStrokeLineCap()); // Sets the line cap so that the brush appears 'circular' instead of 'square'
@@ -269,12 +234,12 @@ public class CanvasController {
     private void handleMouseDragged(MouseEvent mouseEvent) {
         // Update mouse POS lbl
         this.infoCanvasModel.setMousePosLbl(mouseEvent);
-        TransformableNode currentShape = this.paintStateModel.getCurrentShape();
+        TransformableNode currentNode = this.paintStateModel.getCurrentNode();
         String currentToolType = this.paintStateModel.getCurrentToolType();
 
         // Verify mode
-        if (this.paintStateModel.getCurrentShape() != null) {
-            if (this.paintStateModel.getCurrentShape().isTransformable()) {
+        if (this.paintStateModel.getCurrentNode() != null) {
+            if (this.paintStateModel.getCurrentNode().isTransformable()) {
                 // If in transform mode, ignore drag events
                 return;
             }
@@ -286,7 +251,7 @@ public class CanvasController {
 
         switch (currentToolType) {
             case "shape":
-                handleToolShapeOnDragged(currentShape, curX, curY);
+                handleToolShapeOnDragged(currentNode, curX, curY);
                 break;
             case "brush":
                 handleToolBrushOnDragged(curX, curY);
@@ -299,13 +264,13 @@ public class CanvasController {
                 break;
         }
 
-        // Set currentShape in model
-        this.paintStateModel.setCurrentShape(currentShape);
+        // Set currentNode in model
+        this.paintStateModel.setCurrentNode(currentNode);
     }
 
     private void handleToolGeneralOnDragged(double curX, double curY) {
         if (paintStateModel.getCurrentTool() == null) {
-            // Error for if the currentShape is null (Ideally there should always be a tool selected)
+            // Error for if the currentNode is null (Ideally there should always be a tool selected)
             Alert noToolSelectedAlert = new Alert(Alert.AlertType.ERROR, "NO TOOL SELECTED. Please select a tool in the tool bar above.");
             noToolSelectedAlert.setTitle("No Tool Selected: GENERAL DRAGGED");
             noToolSelectedAlert.setHeaderText("");
@@ -324,13 +289,13 @@ public class CanvasController {
         graphicsContext.clearRect(eraserX, eraserY, eraserStrokeWidth, eraserStrokeWidth);
     }
 
-    private void handleToolShapeOnDragged(TransformableNode currentShape, double curX, double curY) {
-        if (this.paintStateModel.getCurrentShape().isTransformable()) {
+    private void handleToolShapeOnDragged(TransformableNode currentNode, double curX, double curY) {
+        if (this.paintStateModel.getCurrentNode().isTransformable()) {
             return;
         }
 
-        if (currentShape == null) {
-            // Error for if the currentShape is null (Ideally there should always be a tool selected)
+        if (currentNode == null) {
+            // Error for if the currentNode is null (Ideally there should always be a tool selected)
             Alert noToolSelectedAlert = new Alert(Alert.AlertType.ERROR, "NO TOOL SELECTED. Please select a tool in the tool bar above.");
             noToolSelectedAlert.setTitle("No Tool Selected: DRAGGED");
             noToolSelectedAlert.setHeaderText("");
@@ -339,8 +304,8 @@ public class CanvasController {
         }
 
         Shape shape = null;
-        if (currentShape.isShape()) {
-            shape = (Shape) currentShape.getOriginalNode();
+        if (currentNode.isShape()) {
+            shape = (Shape) currentNode.getOriginalNode();
         }
 
 
@@ -368,7 +333,7 @@ public class CanvasController {
         }
 
         if (shape instanceof RightTriangle rightTriangle) {
-            rightTriangle.setVertices(startX, curY, curX, startY, curX, curY); // TODO Update ToolMenu UI Icon with right triangle icon
+            rightTriangle.setVertices(startX, curY, curX, startY, curX, curY);
         }
 
         if (shape instanceof Rectangle rect) {
@@ -421,10 +386,6 @@ public class CanvasController {
             ellipse.setRadiusY(Math.abs(curY - startY));
         }
 
-        if (shape instanceof Star star) {
-            double r = (curX + curY) / 7.6;
-            star.updateStar(startX, startY, r);
-        }
 
     }
 
@@ -438,12 +399,13 @@ public class CanvasController {
     private void handleMouseReleased(MouseEvent mouseEvent) {
         // Add previous canvas snapshot to undo stack
         String currentToolType = this.paintStateModel.getCurrentToolType();
+        LOGGER.info("Mouse Released at X:{},Y:{}", mouseEvent.getX(), mouseEvent.getY());
 
         switch (currentToolType) {
             case ("shape"):
                 // Disable StackPane Mouse Event Handlers
                 setCanvasDrawingStackPaneHandlerState(false);
-                handleToolShapeReleased(this.paintStateModel.getCurrentShape());
+                handleToolShapeReleased(this.paintStateModel.getCurrentNode());
                 break;
             case ("brush"), ("general"):
                 this.workspaceHandler.getCurrentWorkspace().getUndoStack().push(getCurrentCanvasSnapshot());
@@ -463,17 +425,23 @@ public class CanvasController {
     }
 
     private int timesAdjusted = 0; // Cubic curve
-    private void handleToolShapeReleased(TransformableNode currentShape) {
-        if (currentShape == null) {
+
+    /**
+     * Handle tool shape released.
+     *
+     * @param currentNode the current node
+     */
+    public void handleToolShapeReleased(TransformableNode currentNode) {
+        if (currentNode == null) {
             return;
         }
 
         Shape shape = null;
-        if (currentShape.isShape()) {
-            shape = (Shape) currentShape.getOriginalNode();
+        if (currentNode.isShape()) {
+            shape = (Shape) currentNode.getOriginalNode();
         }
 
-        // Check if currentShape is a curve
+        // Check if currentNode is a curve
         if (shape instanceof CubicCurve curve) {
             // Enable mouse click handler for control XY location
             this.canvasGroup.setOnMouseClicked(event -> {
@@ -482,10 +450,10 @@ public class CanvasController {
                     curve.setControlY2(event.getY());
 
                     // Enable transformations
-                    currentShape.setPickOnBounds(true);
-                    this.paintStateModel.getCurrentShape().setTransformable(true);
-                    currentShape.enableTransformations();
-                    this.paintStateModel.setCurrentShape(currentShape);
+                    currentNode.setPickOnBounds(true);
+                    this.paintStateModel.getCurrentNode().setTransformable(true);
+                    currentNode.enableTransformations();
+                    this.paintStateModel.setCurrentNode(currentNode);
                     this.canvasGroup.setOnMouseClicked(null);
                 } else {
                     curve.setControlX1(event.getX());
@@ -493,29 +461,31 @@ public class CanvasController {
                     timesAdjusted++;
                 }
             });
-        } else if (this.paintStateModel.getCurrentTool() == "regularPolygon") {
-
         } else {
             // Allow shape to be selected via mouse select
-            currentShape.setPickOnBounds(true);
+            currentNode.setPickOnBounds(true);
             // Enable transformations
-            this.paintStateModel.getCurrentShape().setTransformable(true);
-            currentShape.enableTransformations();
-            this.paintStateModel.setCurrentShape(currentShape);
+            this.paintStateModel.getCurrentNode().setTransformable(true);
+            currentNode.enableTransformations();
+            this.paintStateModel.setCurrentNode(currentNode);
         }
     }
 
-    public void applyPaneShapeToCanvas(Shape currentShape) {
+    /**
+     * Apply pane shape to canvas.
+     *
+     * @param currentNode the current node
+     */
+    public void applyPaneShapeToCanvas(Shape currentNode) {
         graphicsContext.setStroke(this.paintStateModel.getCurrentPaintColor()); // Responsible for the color of shapes
-        TransformableNode transformableNode = this.paintStateModel.getCurrentShape();
-        Shape shape = currentShape;
+        TransformableNode transformableNode = this.paintStateModel.getCurrentNode();
 
-        double minX;
+	    double minX;
         double minY;
         double maxX;
         double maxY;
-        double w = shape.getBoundsInParent().getWidth();
-        double h = shape.getBoundsInParent().getHeight();
+        double w = currentNode.getBoundsInParent().getWidth();
+        double h = currentNode.getBoundsInParent().getHeight();
 
         // Check for dashed lines
         if (this.paintStateModel.getDashed()) {
@@ -535,28 +505,37 @@ public class CanvasController {
             xT = transformableNode.getTranslateX();
             yT = transformableNode.getTranslateY();
 
-            minX = shape.getBoundsInParent().getMinX() + xT;
-            maxX = shape.getBoundsInParent().getMaxX() + xT;
+            minX = currentNode.getBoundsInParent().getMinX() + xT;
+            maxX = currentNode.getBoundsInParent().getMaxX() + xT;
 
-            minY = shape.getBoundsInParent().getMinY() + yT;
-            maxY = shape.getBoundsInParent().getMaxY() + yT;
+            minY = currentNode.getBoundsInParent().getMinY() + yT;
+            maxY = currentNode.getBoundsInParent().getMaxY() + yT;
         } else {
             xT = 0;
             yT = 0;
 
-            minX = shape.getBoundsInParent().getMinX();
-            maxX = shape.getBoundsInParent().getMaxX();
+            minX = currentNode.getBoundsInParent().getMinX();
+            maxX = currentNode.getBoundsInParent().getMaxX();
 
-            minY = shape.getBoundsInParent().getMinY();
-            maxY = shape.getBoundsInParent().getMaxY();
+            minY = currentNode.getBoundsInParent().getMinY();
+            maxY = currentNode.getBoundsInParent().getMaxY();
         }
+
+        double rotation = transformableNode.getRotate();
+        double centerX = (minX + maxX) / 2;
+        double centerY = (minY + maxY) / 2;
+
+        graphicsContext.save(); // Save the current state
+        graphicsContext.translate(centerX, centerY); // Move to the rotation center
+        graphicsContext.rotate(rotation); // Rotate around the center
+        graphicsContext.translate(-centerX, -centerY); // Move back to original position
 
         String currentTool = this.paintStateModel.getCurrentTool();
 
         switch (currentTool) {
             case "StLine":
                 // You don't need to use the bounded XY since that will only indicate the bounding box & translations
-                Line line = (Line) shape;
+                Line line = (Line) currentNode;
                 double lX = line.getStartX() + xT;
                 double lY = line.getStartY() + yT;
                 double eX = line.getEndX() + xT;
@@ -566,7 +545,7 @@ public class CanvasController {
                 break;
             case "Curve":
                 // control point XY 2x -> end XY
-                CubicCurve curve = (CubicCurve) shape;
+                CubicCurve curve = (CubicCurve) currentNode;
 
                 double px1 = curve.getControlX1() + xT;
                 double py1 = curve.getControlY1() + yT;
@@ -589,11 +568,11 @@ public class CanvasController {
                 break;
             case "Triangle":
                 // X1 stays same | Y1 changes | X2 changes | Y2 stays same | X3 & Y3 are the cursor
-                Triangle triangle = (Triangle) shape;
+                Triangle triangle = (Triangle) currentNode;
                 handleTriangles(xT, yT, triangle);
                 break;
             case "RightTriangle":
-                RightTriangle rightTriangle = (RightTriangle) currentShape;
+                RightTriangle rightTriangle = (RightTriangle) currentNode;
                 handleTriangles(xT, yT, rightTriangle);
                 break;
             case "Circle", "Ellipse":
@@ -603,22 +582,23 @@ public class CanvasController {
                 Star star = (Star) transformableNode.getChildren().get(0);
                 handleStar(xT, yT, star);
                 break;
-            case "RegularPolygon":
+            case "regularPolygon":
                 Polygon polygon = (Polygon) transformableNode.getChildren().get(0);
                 double[] xPoints = new double[polygon.getPoints().size() / 2];
                 double[] yPoints = new double[polygon.getPoints().size() / 2];
 
                 for (int i = 0; i < polygon.getPoints().size(); i++) {
                     if (i % 2 == 0) {
-                        xPoints[i / 2] = polygon.getPoints().get(i);
+                        xPoints[i / 2] = polygon.getPoints().get(i) + xT;
                     } else {
-                        yPoints[i / 2] = polygon.getPoints().get(i);
+                        yPoints[i / 2] = polygon.getPoints().get(i) + yT;
                     }
                 }
-                // TODO fix issue where if regular poly is moved it won't be applied to the canvas
                 graphicsContext.strokePolygon(xPoints, yPoints, xPoints.length);
                 break;
         }
+
+        graphicsContext.restore();
 
         // Add shape creation to the undo stack on applied 2 canvas
         WritableImage writableImage = new WritableImage((int)(mainCanvas.getWidth()), (int) (mainCanvas.getHeight()));
@@ -628,24 +608,51 @@ public class CanvasController {
         // Reinitialize drawingPane to remove shape
         drawingPane.getChildren().clear();
 
+        LOGGER.info("Applied Shape: {} to canvas", currentNode);
+
     }
 
+    /**
+     * Apply selection to canvas.
+     *
+     * @param selection the selection
+     */
     public void applySelectionToCanvas(ImageView selection) {
         Image image = selection.getImage();
+
+        double minX = selection.getBoundsInParent().getMinX();
+        double maxX = selection.getBoundsInParent().getMaxX();
+
+        double minY = selection.getBoundsInParent().getMinY();
+        double maxY = selection.getBoundsInParent().getMaxY();
 
         double x = selection.getX() + selection.getTranslateX();
         double y = selection.getY() + selection.getTranslateY();
 
+        double rotation = selection.getParent().getRotate();
+        double centerX = (minX + maxX) / 2;
+        double centerY = (minY + maxY) / 2;
+
+        graphicsContext.save(); // Save the current state
+        graphicsContext.translate(centerX, centerY); // Move to the rotation center
+        graphicsContext.rotate(rotation); // Rotate around the center
+        graphicsContext.translate(-centerX, -centerY); // Move back to original position
+
         // Reset GC settings
         this.selectionHandler.removeSelectionRectangle();
+
+        // Set canvas to the image
+        graphicsContext.drawImage(image, x, y);
+
+        graphicsContext.restore();
+
         graphicsContext.setLineDashes(0);
         graphicsContext.setStroke(Color.TRANSPARENT);
         graphicsContext.setFill(Color.TRANSPARENT);
 
-        // Set canvas to the image
-        mainCanvas.getGraphicsContext2D().drawImage(image, x, y);
-
         this.canvasModel.setChangesMade(true);
+
+        LOGGER.info("Applied Selection: {} to canvas", selection);
     }
 
     private void handleStar(double xT, double yT, Star star) {
@@ -677,6 +684,11 @@ public class CanvasController {
         return selectionGroup.getTranslateX() != 0.0 || selectionGroup.getTranslateY() != 0.0;
     }
 
+    /**
+     * Sets canvas drawing stack pane handler state.
+     *
+     * @param bool the bool
+     */
     public void setCanvasDrawingStackPaneHandlerState(boolean bool) {
         if (bool) {
             this.canvasDrawingStackPane.setOnMousePressed(this::handleMousePressed);
@@ -698,10 +710,15 @@ public class CanvasController {
     // TRANSLATION SECTION START
     // TRANSLATION SECTION END
 
+    /**
+     * The Ctrl pressed.
+     */
     boolean ctrlPressed = false;
 
     @FXML
     private void initialize() {
+        mainCanvas.setWidth(900);
+        mainCanvas.setHeight(600);
         // Initialize canvas sizing
         mainCanvas.widthProperty().addListener((obs, oldVal, newVal) -> updateCanvasSize());
         mainCanvas.heightProperty().addListener((obs, oldVal, newVal) -> updateCanvasSize());
@@ -735,6 +752,8 @@ public class CanvasController {
                 scaleCanvasOnScroll(event);
             }
         });
+
+        LOGGER.info("Canvas Controller Initialized");
     }
 
     @FXML
@@ -818,6 +837,11 @@ public class CanvasController {
         });
     }
 
+    /**
+     * Sets canvas.
+     *
+     * @param image the image
+     */
     public void setCanvas(Image image) {
         double x = image.getWidth();
         double y = image.getHeight();
@@ -839,7 +863,13 @@ public class CanvasController {
         this.canvasModel.setChangesMade(true);
     }
 
-    // Takes a snapshot of the canvas & saves it to the designated file
+    /**
+     * Save image from canvas.
+     *
+     * @param file          the file
+     * @param fileExtension the file extension
+     */
+// Takes a snapshot of the canvas & saves it to the designated file
     public void saveImageFromCanvas(File file, String fileExtension) {
         WritableImage writableImage = new WritableImage((int)(mainCanvas.getWidth()), (int) (mainCanvas.getHeight()));
         // Take a snapshot of the current canvas and save it to the writableImage
@@ -865,18 +895,24 @@ public class CanvasController {
             // Set tab name
             this.tabModel.setTabName(file.getName());
             this.tabModel.handleFileSavedTitle();
+
+            LOGGER.info("File: {} | Saved from canvas", file);
         } catch (IOException e) {
             new Alert(Alert.AlertType.ERROR, "Unable to save the image at this time. Stack Trace: " + e.getMessage() );
             e.printStackTrace();
+            LOGGER.error("UNABLE TO SAVE IMAGE FROM CANVAS: File {}", file);
         }
 
     }
 
+    /**
+     * Is file saved recently boolean.
+     *
+     * @return the boolean
+     * @throws IOException the io exception
+     */
     public boolean isFileSavedRecently() throws IOException {
-        if (!this.canvasModel.isChangesMade()) {
-            return true;
-        }
-        return false;
+        return !this.canvasModel.isChangesMade();
     }
 
 
@@ -910,10 +946,6 @@ public class CanvasController {
         cm.getCanvasGroup().setScaleY(scaleFactor);
     }
 
-    public void setSettingStateModel(SettingStateModel settingStateModel) {
-        this.settingStateModel = settingStateModel;
-    }
-
     // Mouse POS Handler
     @FXML
     private void onMouseOverCanvas(MouseEvent mouseEvent) {
@@ -921,11 +953,149 @@ public class CanvasController {
         this.infoCanvasModel.setMousePosLbl(mouseEvent);
     }
 
+    /**
+     * Gets current canvas snapshot.
+     *
+     * @return the current canvas snapshot
+     */
     public WritableImage getCurrentCanvasSnapshot() {
-        WritableImage image = new WritableImage((int) mainCanvas.getWidth(), (int) mainCanvas.getHeight());
-        SnapshotParameters snapshotParameters = new SnapshotParameters();
-        mainCanvas.getGraphicsContext2D().setImageSmoothing(false);
-        return mainCanvas.snapshot(snapshotParameters, image);
+        try {
+            WritableImage image = new WritableImage((int) mainCanvas.getWidth(), (int) mainCanvas.getHeight());
+            SnapshotParameters snapshotParameters = new SnapshotParameters();
+            mainCanvas.getGraphicsContext2D().setImageSmoothing(false);
+            return mainCanvas.snapshot(snapshotParameters, image);
+        } catch (Exception e) {
+            LOGGER.error("Unable to snapshot current canvas. Exception: {}", e);
+        }
+
+        return null;
     }
 
+
+    /**
+     * Gets current workspace model.
+     *
+     * @return the current workspace model
+     */
+    public WorkspaceHandler getCurrentWorkspaceModel() {
+        return workspaceHandler;
+    }
+
+    /**
+     * Sets current workspace model.
+     *
+     * @param workspaceHandler the workspace handler
+     */
+    public void setCurrentWorkspaceModel(WorkspaceHandler workspaceHandler) {
+        this.workspaceHandler = workspaceHandler;
+    }
+
+    /**
+     * Gets selection handler.
+     *
+     * @return the selection handler
+     */
+    public SelectionHandler getSelectionHandler() {
+        return selectionHandler;
+    }
+
+    /**
+     * Sets selection handler.
+     *
+     * @param selectionHandler the selection handler
+     */
+    public void setSelectionHandler(SelectionHandler selectionHandler) {
+        this.selectionHandler = selectionHandler;
+        this.selectionHandler.setCanvasGroup(canvasGroup);
+    }
+
+    /**
+     * Sets tab model.
+     *
+     * @param tabModel the tab model
+     */
+    public void setTabModel(TabModel tabModel) {
+        this.tabModel = tabModel;
+    }
+
+    /**
+     * Gets tab model.
+     *
+     * @return the tab model
+     */
+    public TabModel getTabModel() {
+        return tabModel;
+    }
+
+    /**
+     * Sets tool controller.
+     *
+     * @param toolController the tool controller
+     */
+    public void setToolController(ToolController toolController) {
+        this.toolController = toolController;
+    }
+
+    /**
+     * Gets tool controller.
+     *
+     * @return the tool controller
+     */
+    public ToolController getToolController() {
+        return toolController;
+    }
+
+    /**
+     * Gets drawing pane.
+     *
+     * @return the drawing pane
+     */
+    public Pane getDrawingPane() { return this.drawingPane; }
+
+    /**
+     * Sets info canvas model.
+     *
+     * @param infoCanvasModel the info canvas model
+     */
+    public void setInfoCanvasModel(InfoCanvasModel infoCanvasModel) {
+        this.infoCanvasModel = infoCanvasModel;
+        // Initialize resolution label
+        this.infoCanvasModel.setResolutionLblText(canvasModel.getCanvasWidth(), canvasModel.getCanvasHeight());
+    }
+
+    /**
+     * Gets graphics context.
+     *
+     * @return the graphics context
+     */
+    public GraphicsContext getGraphicsContext() {
+        return graphicsContext;
+    }
+
+    // Handles zoom state
+    private double scaleFactor = 1;
+
+    /**
+     * Sets canvas model.
+     *
+     * @param canvasModel the canvas model
+     */
+    public void setCanvasModel(CanvasModel canvasModel) {
+        this.canvasModel = canvasModel;
+        this.canvasModel.setCanvasGroup(canvasGroup);
+        updateCanvasSize();
+    }
+
+    /**
+     * Sets paint state model.
+     *
+     * @param paintStateModel the paint state model
+     */
+    public void setPaintStateModel(PaintStateModel paintStateModel) {
+        this.paintStateModel = paintStateModel;
+        // Update ToolController
+        this.toolController.setPaintStateModel(paintStateModel);
+    }
+
+    
 }

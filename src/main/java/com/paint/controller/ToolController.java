@@ -1,6 +1,7 @@
 package com.paint.controller;
 
 import com.paint.model.PaintStateModel;
+import com.paint.resource.Star;
 import com.paint.resource.TransformableNode;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -30,10 +31,20 @@ public class ToolController {
     private GraphicsContext graphicsContext;
     private CanvasController canvasController;
 
+    /**
+     * Gets canvas controller.
+     *
+     * @return the canvas controller
+     */
     public CanvasController getCanvasController() {
         return canvasController;
     }
 
+    /**
+     * Sets canvas controller.
+     *
+     * @param canvasController the canvas controller
+     */
     public void setCanvasController(CanvasController canvasController) {
         this.canvasController = canvasController;
     }
@@ -41,6 +52,14 @@ public class ToolController {
     private double startX = 0;
     private double startY = 0;
 
+    /**
+     * Handle tool general on press.
+     *
+     * @param currentShape the current shape
+     * @param currentTool  the current tool
+     * @param mouseEvent   the mouse event
+     * @param drawingPane  the drawing pane
+     */
     public void handleToolGeneralOnPress(TransformableNode currentShape, String currentTool, MouseEvent mouseEvent, Pane drawingPane) {
         switch (currentTool){
             case "Eraser":
@@ -64,7 +83,7 @@ public class ToolController {
                 currentShape = new TransformableNode(textArea, this.paintStateModel.getCurrentWorkspaceModel());
                 currentShape.setTransformable(true);
                 currentShape.enableTransformations();
-                this.paintStateModel.setCurrentShape(currentShape);
+                this.paintStateModel.setCurrentNode(currentShape);
                 textArea.positionCaret(0);
 
 
@@ -103,12 +122,93 @@ public class ToolController {
         // Set current shape in model
     }
 
+    /**
+     * Apply text to canvas.
+     *
+     * @param text the text
+     */
     public void applyTextToCanvas(String text) {
-        TransformableNode transformableNode = this.paintStateModel.getCurrentShape();
+        TransformableNode transformableNode = this.paintStateModel.getCurrentNode();
         graphicsContext.strokeText(text, transformableNode.getTranslatedX(), transformableNode.getTranslatedY());
     }
 
-    public void showInputDialog(Pane drawingPane) {
+    /**
+     * Show star input dialog star.
+     *
+     * @param drawingPane the drawing pane
+     * @return the star
+     */
+    public Star showStarInputDialog(Pane drawingPane) {
+        // Create a dialog
+        Dialog<Void> dialog = new Dialog<>();
+        dialog.setTitle("Star Input");
+        dialog.setHeaderText("Enter the Star parameters");
+
+        // Grid pane for the dialog content
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
+        grid.setPadding(new Insets(20, 150, 10, 10));
+
+        // Create input fields
+        TextField sidesField = new TextField();
+        sidesField.setPromptText("Number of points");
+        TextField radiusField = new TextField();
+        radiusField.setPromptText("Radius");
+
+        TextField centerXField = new TextField();
+        centerXField.setPromptText("Center X");
+        TextField centerYField = new TextField();
+        centerYField.setPromptText("Center Y");
+
+        grid.add(new Label("Number of points:"), 0, 0);
+        grid.add(sidesField, 1, 0);
+
+        grid.add(new Label("Inner Radius:"), 0, 1);
+        grid.add(radiusField, 1, 1);
+
+
+        grid.add(new Label("Center X:"), 0, 3);
+        grid.add(centerXField, 1, 3);
+
+        grid.add(new Label("Center Y:"), 0, 4);
+        grid.add(centerYField, 1, 4);
+
+        // Add buttons to the dialog
+        ButtonType submitButtonType = new ButtonType("Submit", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(submitButtonType, ButtonType.CANCEL);
+        dialog.getDialogPane().setContent(grid);
+
+        // Convert the result to a polygon and draw it
+        final Star[] star = {null};
+        dialog.setResultConverter(dialogButton -> {
+            if (dialogButton == submitButtonType) {
+                try {
+                    int numberOfSides = Integer.parseInt(sidesField.getText());
+                    double radius = Double.parseDouble(radiusField.getText());
+                    double centerX = Double.parseDouble(centerXField.getText());
+                    double centerY = Double.parseDouble(centerYField.getText());
+                    star[0] = (new Star(numberOfSides, centerX, centerY, radius));
+//                    handleStar(star[0]);
+                } catch (NumberFormatException e) {
+                    showAlert("Invalid input", "Please enter valid numbers.");
+                }
+            }
+            return null;
+        });
+
+        dialog.initModality(Modality.APPLICATION_MODAL);
+        dialog.showAndWait();
+        return star[0];
+    }
+
+    /**
+     * Show input dialog polygon.
+     *
+     * @param drawingPane the drawing pane
+     * @return the polygon
+     */
+    public Polygon showInputDialog(Pane drawingPane) {
         // Create a dialog
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle("Polygon Input");
@@ -145,6 +245,7 @@ public class ToolController {
         dialog.getDialogPane().setContent(grid);
 
         // Convert the result to a polygon and draw it
+        final Polygon[] regularPolygon = {null};
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == submitButtonType) {
                 try {
@@ -152,7 +253,7 @@ public class ToolController {
                     double radius = Double.parseDouble(radiusField.getText());
                     double centerX = Double.parseDouble(centerXField.getText());
                     double centerY = Double.parseDouble(centerYField.getText());
-                    createPolygon(numberOfSides, radius, centerX, centerY, drawingPane);
+                    regularPolygon[0] = createPolygon(numberOfSides, radius, centerX, centerY, drawingPane);
                 } catch (NumberFormatException e) {
                     showAlert("Invalid input", "Please enter valid numbers.");
                 }
@@ -162,6 +263,8 @@ public class ToolController {
 
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.showAndWait();
+
+        return regularPolygon[0];
     }
 
     private void showAlert(String title, String message) {
@@ -172,7 +275,17 @@ public class ToolController {
         alert.showAndWait();
     }
 
-    public void createPolygon(int numberOfSides, double radius, double centerX, double centerY, Pane drawingPane) {
+    /**
+     * Create polygon polygon.
+     *
+     * @param numberOfSides the number of sides
+     * @param radius        the radius
+     * @param centerX       the center x
+     * @param centerY       the center y
+     * @param drawingPane   the drawing pane
+     * @return the polygon
+     */
+    public Polygon createPolygon(int numberOfSides, double radius, double centerX, double centerY, Pane drawingPane) {
         Polygon polygon = new Polygon();
         double angleStep = 360.0 / numberOfSides;
         loadDefaultShapeAttributes(polygon);
@@ -184,22 +297,42 @@ public class ToolController {
             double y = centerY + radius * Math.sin(angle);
             polygon.getPoints().addAll(x, y);
         }
-//        this.paintStateModel.setCurrentShape(polygon);
-//        this.paintStateModel.enableTransformations(true, drawingPane);
+
+        return polygon;
     }
 
+    /**
+     * Gets graphics context.
+     *
+     * @return the graphics context
+     */
     public GraphicsContext getGraphicsContext() {
         return graphicsContext;
     }
 
+    /**
+     * Sets graphics context.
+     *
+     * @param graphicsContext the graphics context
+     */
     public void setGraphicsContext(GraphicsContext graphicsContext) {
         this.graphicsContext = graphicsContext;
     }
 
+    /**
+     * Gets paint state model.
+     *
+     * @return the paint state model
+     */
     public PaintStateModel getPaintStateModel() {
         return paintStateModel;
     }
 
+    /**
+     * Sets paint state model.
+     *
+     * @param paintStateModel the paint state model
+     */
     public void setPaintStateModel(PaintStateModel paintStateModel) {
         this.paintStateModel = paintStateModel;
     }

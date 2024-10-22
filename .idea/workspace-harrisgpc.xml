@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="9e702f2c-8e74-44d3-ba0e-43303a2e7222" name="Changes" comment="Adjusted styling for ToolBar &amp; background" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CodeInsightWorkspaceSettings">
+    <option name="optimizeImportsOnTheFly" value="true" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaFXApplication" />
+        <option value="FxmlFile" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="fxmlConversion" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;xyclose11&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/xyclose11/Paint.git&quot;,
+    &quot;accountId&quot;: &quot;8b6e0c2f-65a5-470d-8c26-401569b3026c&quot;
+  }
+}</component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHomeTypeForPersistence" value="WRAPPER" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2lFMARcdWfrPprAASKJVqBttp0E" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Paint.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;22&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/harri/OneDrive/Documents/Valparaiso University/CS250/paint/Paint&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.37338045&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propCompiler&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\harri\OneDrive\Documents\Valparaiso University\CS250\paint\Paint\src\main\java\com\paint\styles" />
+      <recent name="C:\Users\harri\OneDrive\Documents\Valparaiso University\CS250\paint\Paint\src\main\java\com\paint" />
+      <recent name="C:\Users\harri\OneDrive\Documents\Valparaiso University\CS250\paint\Paint\src\main\java\com\paint\view" />
+      <recent name="C:\Users\harri\OneDrive\Documents\Valparaiso University\CS250\paint\Paint\src" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Paint" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.paint.Main" />
+      <module name="Paint" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9e702f2c-8e74-44d3-ba0e-43303a2e7222" name="Changes" comment="" />
+      <created>1724771228817</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1724771228817</updated>
+      <workItem from="1725026297497" duration="611000" />
+      <workItem from="1725039083188" duration="2751000" />
+      <workItem from="1725041965973" duration="368000" />
+      <workItem from="1725044972481" duration="4282000" />
+      <workItem from="1725049563005" duration="294000" />
+      <workItem from="1725050021943" duration="14000" />
+      <workItem from="1725050056226" duration="1129000" />
+      <workItem from="1725051495802" duration="4206000" />
+      <workItem from="1725061166709" duration="336000" />
+      <workItem from="1725061876410" duration="5474000" />
+      <workItem from="1725114341408" duration="6404000" />
+      <workItem from="1725121773530" duration="25164000" />
+      <workItem from="1725152767479" duration="8567000" />
+      <workItem from="1725216231368" duration="11408000" />
+      <workItem from="1725227974165" duration="23237000" />
+      <workItem from="1725308468416" duration="1480000" />
+      <workItem from="1725309954707" duration="942000" />
+      <workItem from="1725310902849" duration="107000" />
+      <workItem from="1725311014703" duration="42000" />
+      <workItem from="1725311061691" duration="1270000" />
+      <workItem from="1725312337933" duration="79000" />
+      <workItem from="1725312422135" duration="1827000" />
+      <workItem from="1725314255268" duration="3530000" />
+      <workItem from="1725411123243" duration="47000" />
+      <workItem from="1725411175007" duration="11000" />
+    </task>
+    <task id="LOCAL-00001" summary="Batman">
+      <option name="closed" value="true" />
+      <created>1724791481996</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1724791481996</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Added image upload capabilities">
+      <option name="closed" value="true" />
+      <created>1724800793171</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1724800793171</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Added image upload capabilities">
+      <option name="closed" value="true" />
+      <created>1724801138719</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1724801138719</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Added BorderPane parent layout">
+      <option name="closed" value="true" />
+      <created>1724863422511</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1724863422511</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Fixed issue with swing library">
+      <option name="closed" value="true" />
+      <created>1724875904261</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1724875904261</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Added &quot;save&quot; feature">
+      <option name="closed" value="true" />
+      <created>1724881368238</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1724881368238</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Adjusted image display method">
+      <option name="closed" value="true" />
+      <created>1724964470818</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1724964470818</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Adjusted image display method">
+      <option name="closed" value="true" />
+      <created>1724964795027</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1724964795027</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Implemented refactored save &amp; saveAs methods">
+      <option name="closed" value="true" />
+      <created>1724968206102</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1724968206102</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Fixed issue with canvas adjusting size after image loaded">
+      <option name="closed" value="true" />
+      <created>1724968712432</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1724968712432</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Fixed issue with canvas adjusting size after image loaded">
+      <option name="closed" value="true" />
+      <created>1724970948882</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1724970948882</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Added informational &amp; error alerts">
+      <option name="closed" value="true" />
+      <created>1724971650693</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1724971650693</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Refactored openFile Method to split up responsibility">
+      <option name="closed" value="true" />
+      <created>1724971902157</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1724971902157</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Updated documentation">
+      <option name="closed" value="true" />
+      <created>1724973568841</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1724973568841</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Clean up">
+      <option name="closed" value="true" />
+      <created>1724974849941</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1724974849941</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Fixed issue with JPG file saving">
+      <option name="closed" value="true" />
+      <created>1725021606906</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1725021606906</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Fixed issue with JPG file saving">
+      <option name="closed" value="true" />
+      <created>1725021864143</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1725021864143</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Clean up">
+      <option name="closed" value="true" />
+      <created>1725042091042</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1725042091042</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Added basic BMP support">
+      <option name="closed" value="true" />
+      <created>1725048848631</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1725048848631</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Added basic FXML support">
+      <option name="closed" value="true" />
+      <created>1725125472756</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1725125472756</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Added basic FXML support">
+      <option name="closed" value="true" />
+      <created>1725127412614</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1725127412614</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Added basic layout &amp; shape selection functionality">
+      <option name="closed" value="true" />
+      <created>1725131579161</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1725131579161</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Added very basic line drawing capabilities">
+      <option name="closed" value="true" />
+      <created>1725142231241</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1725142231241</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Improved line drawing function">
+      <option name="closed" value="true" />
+      <created>1725152241247</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1725152241247</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Polished line draw functionality">
+      <option name="closed" value="true" />
+      <created>1725152974266</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1725152974266</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Added rectangle creation">
+      <option name="closed" value="true" />
+      <created>1725154006204</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1725154006204</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Improved rectangle drawing capabilities">
+      <option name="closed" value="true" />
+      <created>1725156641582</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1725156641582</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Improved rectangle drawing capabilities">
+      <option name="closed" value="true" />
+      <created>1725215798518</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1725215798518</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Fixed issue with CSS loader">
+      <option name="closed" value="true" />
+      <created>1725216847530</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1725216847530</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Fixed issue with inability to draw shapes on image">
+      <option name="closed" value="true" />
+      <created>1725218327289</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1725218327289</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Added error handling for user save cancellation">
+      <option name="closed" value="true" />
+      <created>1725219244461</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1725219244461</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Added error handling for user save cancellation">
+      <option name="closed" value="true" />
+      <created>1725219598116</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1725219598116</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Basic scene switcher impl">
+      <option name="closed" value="true" />
+      <created>1725226694450</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1725226694450</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Updated styling for UtilityMenu.fxml">
+      <option name="closed" value="true" />
+      <created>1725295748445</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1725295748445</updated>
+    </task>
+    <task id="LOCAL-00035" summary="Added Icon Support &amp; menu item styling">
+      <option name="closed" value="true" />
+      <created>1725303269847</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1725303269847</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Basic about section dialog impl">
+      <option name="closed" value="true" />
+      <created>1725311287736</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1725311287736</updated>
+    </task>
+    <task id="LOCAL-00037" summary="Added settings placeholder">
+      <option name="closed" value="true" />
+      <created>1725312763750</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1725312763750</updated>
+    </task>
+    <task id="LOCAL-00038" summary="Adjusted styling for ToolBar &amp; background">
+      <option name="closed" value="true" />
+      <created>1725315872752</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1725315872752</updated>
+    </task>
+    <option name="localTasksCounter" value="39" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Adjusted image display method" />
+    <MESSAGE value="Implemented refactored save &amp; saveAs methods" />
+    <MESSAGE value="Fixed issue with canvas adjusting size after image loaded" />
+    <MESSAGE value="Added informational &amp; error alerts" />
+    <MESSAGE value="Refactored openFile Method to split up responsibility" />
+    <MESSAGE value="Updated documentation" />
+    <MESSAGE value="Fixed issue with JPG file saving" />
+    <MESSAGE value="Clean up" />
+    <MESSAGE value="Added basic BMP support" />
+    <MESSAGE value="Added basic FXML support" />
+    <MESSAGE value="Added basic layout &amp; shape selection functionality" />
+    <MESSAGE value="Added very basic line drawing capabilities" />
+    <MESSAGE value="Improved line drawing function" />
+    <MESSAGE value="Polished line draw functionality" />
+    <MESSAGE value="Added rectangle creation" />
+    <MESSAGE value="Improved rectangle drawing capabilities" />
+    <MESSAGE value="Fixed issue with CSS loader" />
+    <MESSAGE value="Fixed issue with inability to draw shapes on image" />
+    <MESSAGE value="Added error handling for user save cancellation" />
+    <MESSAGE value="Basic scene switcher impl" />
+    <MESSAGE value="Updated styling for UtilityMenu.fxml" />
+    <MESSAGE value="Added Icon Support &amp; menu item styling" />
+    <MESSAGE value="Basic about section dialog impl" />
+    <MESSAGE value="Added settings placeholder" />
+    <MESSAGE value="Adjusted styling for ToolBar &amp; background" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adjusted styling for ToolBar &amp; background" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.NullPointerException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>
